@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Contentstack {
+
   /* This is the contentstack class used to instantiate stack*/
   static Stack stack({String apiKey, String accessToken, String environment}) {
     if (apiKey == null || apiKey.isEmpty) {
@@ -32,6 +33,9 @@ class Config {
 
   Config(this._apiKey, this._accessToken, this._environment);
 
+  /*
+  Sets region for the 
+   */
   Config setRegion({String region}) {
     this._region = region;
     if (this._region != 'us') {
@@ -41,7 +45,7 @@ class Config {
   }
 
   Config setHost({String host}) {
-    if (host != null || host.isEmpty) {
+    if (host != null && host.isNotEmpty) {
       this.host = host;
     }
     return this;
