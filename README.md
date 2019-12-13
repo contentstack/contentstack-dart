@@ -63,9 +63,7 @@ To retrieve a single entry from a content type use the code snippet given below:
   
 To retrieve multiple entries of a particular content type, use the code snippet given below:  
   
-	Entry entry = stack.contentType('content_type_uid').entry();
-	//provide Query parameters of Map type.  
-    result = query.find({});  
+	var response = = stack.contentType('content_type_uid').entry.find({'key':'value'});  
   
   
 ### Advanced Queries  
