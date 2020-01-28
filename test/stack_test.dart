@@ -1,0 +1,55 @@
+import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:test/test.dart';
+
+void main() {
+  test('Stack initialization', () {
+    var stack = new contentstack.Stack("apiKey", "accessToken", "environment");
+    expect(stack.apiKey, equals("apiKey"));
+    expect(stack.deliveryToken, equals("accessToken"));
+    expect(stack.environment, equals("environment"));
+    expect(stack.host, equals("cdn.contentstack.io"));
+  });
+
+  test('Stack initialization with Host', () {
+    var stack = new contentstack.Stack("apiKey", "accessToken", "environment", host: "com.contentstack.com");
+    expect(stack.host, equals("com.contentstack.com"));
+  });
+
+  test('Stack initialization with EU Region', () {
+    var stack = new contentstack.Stack("apiKey", "accessToken", "environment", region: contentstack.Region.EU);
+    expect(stack.region, equals(contentstack.Region.EU));
+    expect(stack.host, equals("eu-cdn.contentstack.com"));
+  });
+
+  test('Stack initialization with EU Region and Host', () {
+    var stack = new contentstack.Stack("apiKey", "accessToken", "environment", region: contentstack.Region.EU, host: 'com.contentstack.com');
+    expect(stack.host, equals("eu-com.contentstack.com"));
+  });
+
+  test('Stack initialization without API Key', () {
+    try {
+      var stack = new contentstack.Stack(" !", "accessToken", "environment");
+      expect(stack, equals(null));
+    }catch (e){
+      expect(e.message, equals("Invalid argument API key can not be null."));
+    }
+  });
+
+  test('Stack initialization without Delivery Token', () {
+    try {
+      var stack = new contentstack.Stack("apiKey", " +", "environment");
+      expect(stack, equals(null));
+    }catch (e){
+      expect(e.message, equals("Invalid argument Delivery Token can not be null."));
+    }
+  });
+
+  test('Stack initialization without Environment name', () {
+    try {
+      var stack = new contentstack.Stack("apiKey", "apiKey", "} ");
+      expect(stack, equals(null));
+    }catch (e){
+      expect(e.message, equals("Invalid argument Environment Name can not be null."));
+    }
+  });
+}
