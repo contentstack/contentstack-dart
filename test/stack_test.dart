@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:json_serializable/builder.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -52,4 +55,23 @@ void main() {
       expect(e.message, equals("Invalid argument Environment Name can not be null."));
     }
   });
+
+  test('Stack Fetch', () {
+    var stack = new contentstack.Stack("blt02532e5510d39dec", "csba4e1dd89e42c2007c004319", "development");
+    return stack.contentType('airbnb_jan_19').fetch()
+    // return stack.fetch("/content_types", fromJson: contentstack.ContentTypeCollection.fromJson)
+    .then((response) {
+      // response.items.forEach((contentType) => print(contentType.title));
+      print(response.title);
+      expect(true, true);
+    })
+    .catchError((error) {
+      print('dsfdaf $error');
+    });
+  });
+}
+ 
+
+class ContentType {
+
 }
