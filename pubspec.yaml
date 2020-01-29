@@ -16,7 +16,10 @@ environment:
 dependencies:
   http: '>=0.11.3 <0.13.0'
   http_parser: ^3.0.0
+  json_annotation: ^3.0.1
 dev_dependencies:
   test: '>=0.6.0 <1.11.0'
   test_coverage: ^0.4.1
-  package_info: ^0.4.0+13
+  build_runner: ^1.7.3
+  json_serializable: ^3.0.1
+  linter: ^0.1.110
