@@ -3,7 +3,13 @@ export 'src/stack.dart';
 export 'src/error/apiexception.dart';
 export 'src/models/model.dart';
 
-// Note: 
+// What Documentation Says:
+// For the best performance when developing with dartdevc, 
+// put implementation files under /lib/src, 
+// instead of elsewhere under /lib. Also, 
+// avoid imports of package:package_name/src/....
+
+// Note:
 // Code under lib/src is considered private; 
 // other packages should never need to import src/.... 
 // To make APIs under lib/src public, 
