@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:contentstack/contentstack.dart';
-import 'package:contentstack/src/Error/apiexception.dart';
+import 'package:contentstack/src/error/apiexception.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,6 +24,7 @@ class HttpClient extends http.BaseClient {
 
 }
 class Stack {
+  
   /// Stack API Key
   final String apiKey;
   /// Stack Delivery Token
@@ -33,7 +34,7 @@ class Stack {
   /// The domain host to perform requests against. Defaults to `Host.delivery` i.e. `"cdn.contentstack.com"`.
   final String host;
   ///  The region 
-  final  Region region;
+  final Region region;
   final String apiVersion;
   final HttpClient _client;
 

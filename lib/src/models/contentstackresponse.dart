@@ -11,5 +11,4 @@ class ContentstackResponse {
   ContentstackResponse({this.content_types});
 
   static ContentstackResponse fromJson(Map<String, dynamic> json) => _$ContentstackResponseFromJson(json);
-   
 }
