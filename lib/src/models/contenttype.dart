@@ -1,18 +1,18 @@
-
 import 'package:json_annotation/json_annotation.dart';
-
 import '../stack.dart';
-
 part 'contenttype.g.dart';
+
+
 @JsonSerializable(createFactory: true)
 class ContentType {
-  ContentType(this.uid);
-  
+
   Stack _stack;
-  final String uid;
+  String uid;
   String title;
   String description;
   List<Map<String, dynamic>> schema;
+
+  ContentType(this.uid);  
 
   @JsonKey(name:'created_at')
   String createdAt;
@@ -20,6 +20,7 @@ class ContentType {
   String updatedAt;
   
   void set stack(Stack stack) => _stack = stack;
+  
   Stack get stack => _stack;
 
   static ContentType fromJson(Map<String, dynamic> json) => _$ContentTypeFromJson(json);
@@ -27,6 +28,9 @@ class ContentType {
   Future<ContentType> fetch() {
     return this.stack.fetch('/content_types/${this.uid}', fromJson: ContentType.fromJson);
   }
+
+
+
 }
 
 @JsonSerializable(createFactory: true)

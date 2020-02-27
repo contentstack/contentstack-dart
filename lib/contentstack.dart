@@ -1,6 +1,6 @@
 library contentstack;
 export 'src/stack.dart';
-export 'src/error/apiexception.dart';
+export 'src/error/csexception.dart';
 export 'src/models/model.dart';
 
 // What Documentation Says:

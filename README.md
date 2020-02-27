@@ -49,7 +49,7 @@ A publishing environment corresponds to one or more deployment servers or a cont
   
 To initialize the SDK, specify application  API key, access token, and environment name of the stack as shown in the snippet given below (config is optional):  
 
-    Stack stack = Contentstack.stack(apiKey: 'api_key', accessToken: 'access_token', environment: 'environment');
+    var stack = Contentstack.stack(apiKey: 'api_key', accessToken: 'access_token', environment: 'environment');
  
 To get the API credentials mentioned above, log in to your Contentstack account and then in your top panel navigation, go to Settings & Stack to view the API Key and Access Token.  
   
@@ -57,7 +57,7 @@ To get the API credentials mentioned above, log in to your Contentstack account 
   
 To retrieve a single entry from a content type use the code snippet given below:  
   
-    Entry entry = stack.contentType('content_type_uid').entry(uid: 'entry_uid');  
+    var entry = stack.contentType('content_type_uid').entry(uid: 'entry_uid');  
     result = entry.fetch();
 ##### Get Multiple Entries  
   

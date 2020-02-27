@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:json_serializable/builder.dart';
 import 'package:test/test.dart';
@@ -7,6 +6,7 @@ import 'package:test/test.dart';
 void main() {
   test('Stack initialization', () {
     var stack = new contentstack.Stack("apiKey", "accessToken", "environment");
+    stack.contentType().fetch();
     expect(stack.apiKey, equals("apiKey"));
     expect(stack.deliveryToken, equals("accessToken"));
     expect(stack.environment, equals("environment"));
@@ -58,7 +58,7 @@ void main() {
 
   test('Stack Fetch', () {
     var stack = new contentstack.Stack("blt02532e5510d39dec", "csba4e1dd89e42c2007c004319", "development");
-    return stack.contentType('airbnb_jan_19').fetch()
+    return stack.contentType(uid : 'airbnb_jan_19').fetch()
     // return stack.fetch("/content_types", fromJson: contentstack.ContentTypeCollection.fromJson)
     .then((response) {
       // response.items.forEach((contentType) => print(contentType.title));
@@ -73,5 +73,6 @@ void main() {
  
 
 class ContentType {
+
 
 }
