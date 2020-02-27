@@ -1,43 +1,49 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:contentstack/src/stack.dart';
 import 'package:http/http.dart';
 
 
 class ContentstackClient {
 
   /// Auth credential.
-  final String credential;
+  // final String credential;
+  final Stack _stack;
   final BaseClient _client;
-  var queryParams = [];
-  var stackHeaders = [];
+  String encodedPath;
+  var queryParameters;
 
   /// Creates a new ContentstackClient with [credential] and optional [client].
-  ///
-  /// For credential you can either use Firebase app's secret or
-  /// an authentication token.
-  /// See: <https://firebase.google.com/docs/reference/rest/database/user-auth>.
-  ContentstackClient(this.credential, {BaseClient client}) : _client = client ?? Client();
+  ContentstackClient.stack(this._stack, {BaseClient client}) : _client = client ?? Client();
 
   /// Creates a new anonymous ContentstackClient with optional [client].
-  ContentstackClient.anonymous({BaseClient client}) : credential = null, _client = client ?? Client();
+  ContentstackClient.anonymous({BaseClient client}) : _stack = null, _client = client ?? Client();
+  
 
 
   /// Creates a request with a HTTP [method], [url] and optional data.
   /// The [url] can be either a `String` or `Uri`.
-  Future<dynamic> send(url, {json}) async {
+  Future<dynamic> send(encodedPath, queryParameter) async {
+    /// In case url is type of string => convert it to Uri
+    var url = ''; // construct full url using host, uriPath and queryParams 
     Uri uri = url is String ? Uri.parse(url) : url;
 
+    //Uri newuri = Uri.https(_stack.host, encodedPath, queryParameters);
+
     var request = Request('GET', uri);
-    if (credential != null) {
-      request.headers['Authorization'] = 'Bearer $credential';
+    if (_stack != null) {
+      throw StackException('Stack can not be null, Please provide Stack Instance');
     }
 
-    if (json != null) {
-      request.headers['Content-Type'] = 'application/json';
-      request.headers['Content-Type'] = 'application/json';
-      request.headers['Content-Type'] = 'application/json';
-      request.body = jsonEncode(json);
-    }
+    // Get & append all the headers to the stackInstance.
+    request.headers['Content-Type'] = 'application/json';
+
+    // if (json != null) {
+    //   request.headers['Content-Type'] = 'application/json';
+    //   request.headers['Content-Type'] = 'application/json';
+    //   request.headers['Content-Type'] = 'application/json';
+    //   request.body = jsonEncode(json);
+    // }
 
     var streamedResponse = await _client.send(request);
     var response = await Response.fromStream(streamedResponse);
@@ -54,6 +60,7 @@ class ContentstackClient {
       rethrow;
     }
 
+    // or checkk by (statusCode < 200 || statusCode > 400)
     if (response.statusCode != 200) {
       if (bodyJson is Map) {
         var error = bodyJson['error'];
@@ -64,6 +71,9 @@ class ContentstackClient {
 
       throw ContentstackClientException(response.statusCode, bodyJson.toString());
     }
+
+    /// convert body map to the respective models.
+    /// Or Just return bodyJson at it is.
 
     return bodyJson;
   }
@@ -80,4 +90,15 @@ class ContentstackClientException implements Exception {
 
   @override
   String toString() => '$message ($statusCode)';
+}
+
+
+class StackException implements Exception {
+  
+  final String message;
+
+  StackException(this.message);
+
+  @override
+  String toString() => '$message';
 }
