@@ -96,15 +96,10 @@ class Stack extends ContentstackClient{
       return contentType;
     }
 
-  @override
-  Future send(encodedPath, queryParameter) {
-    
-    return super.send(encodedPath, queryParameter);
-  }
 
 
   Future fetch(){
-    return send('stack', queryParameter);
+    return super.send('stack', queryParameter);
   }
 
     /* Future<T> fetch<T>(String endpoint, { @required T Function(Map<String, dynamic>) fromJson,  Map paramerter }) async{
