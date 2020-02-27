@@ -1,16 +1,17 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'apiexception.g.dart';
+part 'csexception.g.dart';
+
 @JsonSerializable(createFactory: true)
-class APIException implements Exception {
+class CSException implements Exception {
   @JsonKey(name: "error_message")
   final String errorMessage;
   @JsonKey(name: "error_code")
   final int errorCode;
   int statusCode;
 
-  APIException(this.errorMessage, this.errorCode);
+  CSException(this.errorMessage, this.errorCode);
 
-  factory APIException.fromJson(Map<String, dynamic> json) => _$APIExceptionFromJson(json);
+  factory CSException.fromJson(Map<String, dynamic> json) => _$CSExceptionFromJson(json);
 
   @override
   String toString() {
@@ -27,9 +28,9 @@ class APIException implements Exception {
     return debugDescription; 
   }
 
-  static APIException error(Object data, int statusCode) {
+  static CSException error(Object data, int statusCode) {
     try {
-      var apiexception = APIException.fromJson(data);
+      var apiexception = CSException.fromJson(data);
       apiexception.statusCode = statusCode;
       return apiexception;
     } catch (e) {

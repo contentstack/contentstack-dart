@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'apiexception.dart';
+part of 'csexception.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-APIException _$APIExceptionFromJson(Map<String, dynamic> json) {
-  return APIException(
+CSException _$CSExceptionFromJson(Map<String, dynamic> json) {
+  return CSException(
     json['error_message'] as String,
     json['error_code'] as int,
   )..statusCode = json['statusCode'] as int;
 }
 
-Map<String, dynamic> _$APIExceptionToJson(APIException instance) =>
+Map<String, dynamic> _$CSExceptionToJson(CSException instance) =>
     <String, dynamic>{
       'error_message': instance.errorMessage,
       'error_code': instance.errorCode,
