@@ -1,25 +1,29 @@
 name: contentstack
-version: 0.0.1
-
 description: >-
-    Contentstack is a headless CMS with an API-first approach that puts content at the centre. It is designed to simplify the process of publication by separating code from content. 
-    In a world where content is consumed via countless channels and form factors across mobile, web and IoT. Contentstack reimagines content management by decoupling code from content. 
-    Business users manage content – no training or development required. 
-    Developers can create cross-platform apps and take advantage of a headless CMS that delivers content through APIs. 
-    With an architecture that’s extensible – but without the bloat of legacy CMS – Contentstack cuts down on infrastructure, maintenance, cost and complexity.
-
+  Contentstack is a headless CMS with an API-first approach that puts content at the centre. It is designed to simplify the process of publication by separating code from content.
+  In a world where content is consumed via countless channels and form factors across mobile, web and IoT. Contentstack reimagines content management by decoupling code from content.
+  Business users manage content – no training or development required. Developers can create cross-platform apps and take advantage of a headless CMS that delivers content through APIs.
+  With an architecture that’s extensible – but without the bloat of legacy CMS – Contentstack cuts down on infrastructure, maintenance, cost and complexity.
+version: 0.0.1
 homepage: https://github.com/contentstack/contentstack-dart
 documentation: https://www.contentstack.com/docs/platforms/dart/api-reference/
 
 environment:
   sdk: '>=2.0.0 <3.0.0'
+
 dependencies:
   http: '>=0.11.3 <0.13.0'
   http_parser: ^3.0.0
   json_annotation: ^3.0.1
+  dartdoc: ^0.30.1
+
 dev_dependencies:
   test: '>=0.6.0 <1.11.0'
   test_coverage: ^0.4.1
   build_runner:
   json_serializable:
-  linter: ^0.1.110
+  linter: ^0.1.112
+  lint: ^1.1.1
+
+  build_test: ^0.10.0
+  build_web_compilers: '>=1.2.0 <3.0.0'

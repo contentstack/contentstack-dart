@@ -1,7 +1,7 @@
 library contentstack;
-export 'src/stack.dart';
 export 'src/error/csexception.dart';
 export 'src/models/model.dart';
+export 'src/stack.dart';
 
 // What Documentation Says:
 // For the best performance when developing with dartdevc, 
