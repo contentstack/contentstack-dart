@@ -1,124 +1,76 @@
-import 'dart:async';
-import 'dart:convert';
+import 'dart:io';
+import 'package:contentstack/client.dart';
+import 'package:http/http.dart';
 import 'package:contentstack/contentstack.dart';
-import 'package:contentstack/contentstackclient.dart';
-import 'package:contentstack/src/error/csexception.dart';
-import 'package:meta/meta.dart';
-import 'package:http/http.dart' as http;
+
 
 enum Region {
   US,
   EU
 }
 
-/// https://stackoverflow.com/a/57143088/622931
-class HttpClient extends http.BaseClient {
-  
-  HttpClient(this._client);
 
-  final http.Client _client;
 
-  @override
-  Future<http.StreamedResponse> send(http.BaseRequest request) {
-    request.headers['X-User-Agent'] = 'Dart/';
-    return _client.send(request);
-  }
-
-}
-
-class Stack extends ContentstackClient{
+class Stack {
   
   /// Stack API Key
-  final String apiKey;
+  final String _apiKey;
   /// Stack Delivery Token
-  final String deliveryToken;
+  final String _deliveryToken;
   /// Stack API Key
-  final String environment;
-  /// The domain host to perform requests against. Defaults to `Host.delivery` i.e. `"cdn.contentstack.com"`.
-  final String host;
+  final String _environment;
+  /// The domain host to perform requests against. 
+  /// Defaults to `Host.delivery` i.e. `"cdn.contentstack.com"`.
+  final String _host;
   ///  The region 
   final Region region;
   /// The Api Version
   final String apiVersion;
-  /// The HttpClient
-  final HttpClient _client;
-  /// Stack Headers
-  var stackHeader = new Map<String, dynamic>();
-  // Stack Query
-  var queryParameter = new Map<String, dynamic>();
+  /// The BaseClient
+  HttpClient _client;
 
-   
-  /// Create a new Stack instance with stack's apikey, token, environment name and config.
-  /// 
-  /// Throws an [ArgumentError] if [apiKey], [deliveryToken] and [environment] is not passed. 
-  /// ```dart
+  /// stack headers
+  // ignore: prefer_collection_literals
+  var stackHeader = <String,String>{};
+  // ignore: prefer_collection_literals
+  var queryParameter = <String,String>{};
+
+
+  /// Create a new Stack instance with stack's apikey, token, environment name and Optional parameters like.
+  /// Throws an [ArgumentError] if [apiKey], [deliveryToken] and [environment] is not passed.
   /// import 'package:contentstack/contentstack.dart' as contentstack;
-  /// 
   /// var stack = contentstack.Stack('api_key', 'delivery_token', environment)
-  /// 
-  /// ```
-  Stack(this.apiKey, this.deliveryToken, this.environment, { this.apiVersion = "v3", Region region = Region.US, String host = "cdn.contentstack.io", http.BaseClient client}) 
-  : this.region = region,
-    this.host = (region == Region.US ? (host) : ((host == "cdn.contentstack.io" ? 'eu-cdn.contentstack.com': "eu-${host}"))),
-    this._client = client != null ? HttpClient(client) : HttpClient(http.Client()), super.stack(null) {
-      
-      // final blank = s == null || s.trim() == '';
-      if (this.apiKey.replaceAll(RegExp("\\W"), "").isEmpty ?? true) {
-        throw new ArgumentError("Invalid argument API key can not be null.");
-      }
+  Stack(this._apiKey, this._deliveryToken, this._environment, { this.apiVersion = "v3",
+    this.region = Region.US, String host = "cdn.contentstack.io", BaseClient client}):
+        _host = (region == Region.US) ? host : (host == "cdn.contentstack.io" ? 'eu-cdn.contentstack.com': "eu-$host"){
 
-      if (this.deliveryToken.replaceAll(RegExp("\\W"), "").isEmpty ?? true) {
-        throw new ArgumentError("Invalid argument Delivery Token can not be null.");
-      }
-
-      if (this.environment.replaceAll(RegExp("\\W"), "").isEmpty ?? true) {
-        throw new ArgumentError("Invalid argument Environment Name can not be null.");
-      }
-
-      this.stackHeader = {
-        "api_key": this.apiKey,
-        "access_token": this.deliveryToken,
-        "environment" : this.environment,
-        "api_version" : this.apiVersion,
-        "host" : this.host,
-      };
+    // final blank = s == null || s.trim() == '';
+    if (_apiKey.replaceAll(RegExp("\\W"), "").isEmpty ?? true) {
+      throw ArgumentError.notNull('APIkey');
     }
-  
-    // Future<dynamic> fetch() async {
-    //   var response = this._client.get('${this.host}/stack', headers: stackHeader);
-    //   return;
-    // }
 
-    /// Keep contenttype uid optional, In case of Query fetching uid is not needed.
-    ContentType contentType({String uid}) {
-      ContentType contentType = ContentType(uid);
-      contentType.stack = this;
-      return contentType;
+    if (_deliveryToken.replaceAll(RegExp("\\W"), "").isEmpty ?? true) {
+      throw ArgumentError.notNull('deliveryToken');
+    }
+
+    if (_environment.replaceAll(RegExp("\\W"), "").isEmpty ?? true) {
+      throw ArgumentError.notNull('environment');
     }
 
 
+    stackHeader = {
+      "api_key": _apiKey,
+      "access_token": _deliveryToken,
+      "environment" : _environment,
+      "api_version" : apiVersion,
+      "host" : host,
+    };
 
-  Future fetch(){
-    return super.send('stack', queryParameter);
+    _client = HttpClient(stackHeader, client: client);
   }
-
-    /* Future<T> fetch<T>(String endpoint, { @required T Function(Map<String, dynamic>) fromJson,  Map paramerter }) async{
-        Uri uri = Uri.http(this.host, '/${this.apiVersion}${endpoint}', paramerter);
-        var response = await this._fetchURL(uri);
-        Map<String, dynamic> jsonString =json.decode(utf8.decode(response.bodyBytes));
-        
-        if (response.statusCode != 200) {
-          var apiExeption = CSException.error(jsonString, response.statusCode);
-          if (apiExeption != null) {
-            throw apiExeption;
-          }
-        }
-        return fromJson(jsonString['content_type'] ?? jsonString ?? {});
+    ContentType contentType(String uid) {
+      return ContentType(uid, client: _client);
     }
 
-    // @visibleForTesting
-    Future<http.Response> _fetchURL(Uri uri) async {
-      var response = await this._client.get(uri, headers: this.stackHeader);
-      return response;
-    } */
+
 }
