@@ -6,7 +6,7 @@ class ContentType{
 
   final String uid;
   final HttpClient client;
-  var queryParameter = <String,String>{};
+  Map<String, String> queryParameter = <String,String>{};
 
   ContentType(this.uid, {this.client});
 
