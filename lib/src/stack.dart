@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/src/asset.dart';
+import 'package:contentstack/src/image_transform.dart';
 import 'package:http/http.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:logging/logging.dart';
@@ -33,6 +34,8 @@ class Stack {
   Map<String, String> stackHeader = <String,String>{};
   /// stack Query parameters
   Map<String, String> queryParameter = <String,String>{};
+  /// sync parameters
+  Map<String, String> syncParameter = <String,String>{};
 
   /// Create a new Stack instance with stack's apikey, token, environment name and Optional parameters like.
   /// Throws an [ArgumentError] if [apiKey], [deliveryToken] and [environment] is not passed.
@@ -73,9 +76,13 @@ class Stack {
       return ContentType(contentTypeId, client: _client);
     }
 
-
-  /// Asset  accepts [uid]  of asset in  as the parameter
-  /// Returns instance of [Asset].
+  ///Assets refer to all the media files (images, videos, PDFs, audio files, and so on)
+  ///uploaded in your Contentstack repository for future use. These files can be
+  ///attached and used in multiple entries. Learn more about Assets.
+  /// Keep uid None to fetch list of all assets
+  /// API Reference : https://www.contentstack.com/docs/content-managers/work-with-assets
+  /// Asset  accepts [uid] of the asset [Optional]
+  /// Returns class object of asset so we can chain the [Asset] functions.
   Asset asset({String uid}) {
     return Asset(uid, client: _client);
   }
@@ -84,11 +91,13 @@ class Stack {
   /// It requires header key to delete the header
   ///  returns [Stack] Instance
   Stack removeHeader(String headerKey){
-    if(headerKey == null){
-      throw ArgumentError.notNull("headerKey ");
+    if(headerKey != null ){
+      if(stackHeader.containsKey(headerKey)){
+        stackHeader.remove(headerKey);
+      }
+      return this;
     }
-    stackHeader.remove(headerKey);
-    return this;
+    throw ArgumentError.notNull("headerKey ");
   }
 
   Stack setHeader (String key, String value){
@@ -129,36 +138,115 @@ class Stack {
     return this;
   }
 
-  String imageTransform(String imageUrl, Map queryParameters){
-    final bool _validURL = Uri.parse(imageUrl).isAbsolute;
-    if (!_validURL){
-      throw Exception('Invalid url requested');
-    }
-    final uri =  Uri.https(imageUrl, queryParameters.toString());
-    final String imageLink = uri.toString();
-    return imageLink;
+  ///The Image Delivery API is used to retrieve, manipulate and/or convert image
+  ///files of your Contentstack account and deliver it to your web or mobile properties.
+  /// [Supported input formats]:  JPEG, PNG, WEBP, GIF
+  /// [Supported output formats]: JPEG (baseline & progressive), PNG, WEBP (lossy & lossless), GIF
+  /// Read documentation for more details:
+  ///https://www.contentstack.com/docs/developers/apis/image-delivery-api/#limitations-with-optimizing-image
+  ImageTransformation imageTransform(String imageUrl){
+//    final bool _validURL = Uri.parse(imageUrl).isAbsolute;
+//    if (!_validURL){
+//      throw Exception('Invalid url requested');
+//    }
+//    final uri =  Uri.https(imageUrl, queryParameters.toString());
+//    final String imageLink = uri.toString();
+    return ImageTransformation( imageUrl);
   }
 
-  ///This call returns comprehensive information of all the content types available in a particular stack in your account
-  ///[queryParameter] is query parameters of type [Map]
+  ///Fetches all Content Types from the Stack. This call returns comprehensive information
+  ///of all the content types available in a particular stack in your account.
+  ///API Reference: https://www.contentstack.com/docs/apis/content-delivery-api/#content-types
+  ///[queryParameters] is query parameters for the content_types of type [Map]
+  /// returns list of content_types
   Future<dynamic> getContentTypes(Map queryParameters) {
-//    final uri =  Uri.https('$endpoint/content_types', queryParameters.toString());
-//    final response = await _client.get('$endpoint/content_types');
-//    if(response.statusCode == 200){
-//      return response;
-//    }
-//    log.fine('Got the response: $response');
+    // create complete url to make request.
     return _client.sendRequest('$endpoint/content_types');
   }
 
-  Future<String> fetch() async{
-    final response = await _client.get('$endpoint/stack');
-    log.log(Level.FINE, response);
+
+  Future<dynamic> fetch() {
+    return _client.sendRequest('$endpoint/stack');
   }
 
-  void sync(){
-
+  ///[content_type_uid] -- You can also initialize sync with entries of
+  ///only specific content_type. To do this, use syncContentType and specify
+  ///the content type uid as its value. However, if you do this,
+  ///the subsequent syncs will only include the entries of the specified [content_type].
+  ///
+  ///[from_date] -- You can also initialize sync with entries published
+  ///after a specific date. To do this, use from_date
+  ///and specify the start date as its value.
+  ///
+  ///[locale] -- You can also initialize sync with entries of only specific locales.
+  ///To do this, use syncLocale and specify the locale code as its value.
+  ///However, if you do this, the subsequent syncs will only include
+  ///the entries of the specified locales.
+  ///
+  ///[publish_type] -- Use the type parameter to get a specific type of content.
+  /// You can pass one of the following values:
+  ///[asset_published], [entry_published], [asset_unpublished],
+  /// [asset_deleted], [entry_unpublished], [entry_deleted],
+  ///[content_type_deleted].
+  /// If you do not specify any value, it will bring all published entries and published assets.
+  ///
+  ///Returns:
+  ///List[SyncResult] -- returns list of SyncResult
+  void sync({String contentTypeUid,  String fromDate, String locale, PublishType publishType}){
+    syncParameter['init'] = 'true';
+    if(contentTypeUid !=null){
+      syncParameter['content_type_uid'] = contentTypeUid;
+    }
+    if(fromDate !=null){
+      syncParameter['from_date'] = fromDate;
+    }
+    if(locale !=null){
+      syncParameter['locale'] = locale;
+    }
+    if(publishType !=null){
+      syncParameter['publish_type'] = publishType as String;
+    }
+   // return _client.sendRequest('$endpoint/stack');
   }
 
 
+  /// If the result of the initial sync (or subsequent sync) contains more than 100 records, the response would be
+  ///paginated. It provides pagination token in the response. However, you do not have to use the pagination token
+  /// manually to get the next batch, the SDK does that automatically until the sync is complete. Pagination token
+  ///can be used in case you want to fetch only selected batches. It is especially useful if the sync process is
+  ///interrupted midway (due to network issues, etc.). In such cases, this token can be used to restart the sync
+  ///process from where it was interrupted.
+  ///
+  void pagination(String paginationToken){
+    if(paginationToken==null){
+      throw ArgumentError.notNull('paginationToken');
+    }
+    syncParameter['pagination_token'] = paginationToken;
+  }
+
+
+  /// You can use the sync token (that you receive after initial sync)
+  /// to get the updated content next time.
+  /// The sync token fetches only the content that was added after your last sync,
+  ///and the details of the content that was deleted or updated.
+  ///
+  void syncToken(String syncToken){
+    if(syncToken == null){
+      throw ArgumentError.notNull('Sync Token');
+    }
+    syncParameter['sync_token'] = syncToken;
+  }
+
+}
+
+
+
+class PublishType {
+  static const assetPublished = 'asset_published';
+  static const entryPublished = 'entry_published';
+  static const assetUnpublished = 'asset_unpublished';
+  static const assetDeleted = 'asset_deleted';
+  static const entryUnpublished = 'entry_unpublished';
+  static const entryDeleted = 'entry_deleted';
+  static const contentTypeDeleted = 'content_type_deleted';
 }

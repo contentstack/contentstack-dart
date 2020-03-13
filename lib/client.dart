@@ -25,8 +25,8 @@ class HttpClient extends http.BaseClient {
   }
 
 
-  /// Creates a request with a HTTP [method], [url] and optional data.
-  /// The [url] can be either a `String` or `Uri`.
+  /// Creates a request with a HTTP [method] that is by defalut [GET],.
+  /// The [url] can be either a `String` `.
   Future<dynamic> sendRequest(String url) async {
     final  response = await http.get(Uri.encodeFull(url), headers: stackHeaders);
     Object bodyJson;
@@ -48,7 +48,6 @@ class HttpClient extends http.BaseClient {
           throw ContentstackClientException(response.statusCode, error.toString());
         }
       }
-
       throw ContentstackClientException(response.statusCode, bodyJson.toString());
     }
 
@@ -68,7 +67,6 @@ class ContentstackClientException implements Exception {
 
   @override
   String toString() => '$message ($statusCode)';
-
 
 }
 
