@@ -204,7 +204,7 @@ class Stack {
       syncParameter['locale'] = locale;
     }
     if(publishType !=null){
-      syncParameter['publish_type'] = publishType as String;
+      syncParameter['publish_type'] = publishType.toString();
     }
    // return _client.sendRequest('$endpoint/stack');
   }
@@ -218,9 +218,6 @@ class Stack {
   ///process from where it was interrupted.
   ///
   void pagination(String paginationToken){
-    if(paginationToken==null){
-      throw ArgumentError.notNull('paginationToken');
-    }
     syncParameter['pagination_token'] = paginationToken;
   }
 
@@ -231,9 +228,6 @@ class Stack {
   ///and the details of the content that was deleted or updated.
   ///
   void syncToken(String syncToken){
-    if(syncToken == null){
-      throw ArgumentError.notNull('Sync Token');
-    }
     syncParameter['sync_token'] = syncToken;
   }
 

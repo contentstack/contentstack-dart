@@ -99,12 +99,12 @@ class ImageTransformation{
     return this;
   }
 
-  ///The trim parameter lets you trim an image from the edges.
-  ///This is especially useful for removing border or white spaces
-  ///that the downloaded images usually come with.
-  ///The value for this parameter can be given in pixels or percentage.
-  ///You can specify values for top, right, bottom, and left edges of an image.
-  ///For example, to trim the top edge by 25px, right edge by 50px, bottom edge by 75px and left edge by 100
+///The trim parameter lets you trim an image from the edges.
+///This is especially useful for removing border or white spaces
+///that the downloaded images usually come with.
+///The value for this parameter can be given in pixels or percentage.
+///You can specify values for top, right, bottom, and left edges of an image.
+///For example, to trim the top edge by 25px, right edge by 50px, bottom edge by 75px and left edge by 100
 /// provide [trim] as comma separated value like, 25,50,75,100
   ImageTransformation trim(String trim){
     queryParameter["trim"] = trim;
@@ -116,7 +116,7 @@ class ImageTransformation{
 ///or vertically or both, and do a lot more. It can automatically correct the
 ///orientation of the image if the source image contains orientation details
 ///within its EXIF data (Exchangeable Image File Format).
-
+  ///
   ///[orient] parameter should be enum type of  [Orientation]
   ImageTransformation orientation({Orientation orient }){
     if(orient !=null ){
