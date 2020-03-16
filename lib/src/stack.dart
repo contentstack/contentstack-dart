@@ -144,6 +144,7 @@ class Stack {
   /// [Supported output formats]: JPEG (baseline & progressive), PNG, WEBP (lossy & lossless), GIF
   /// Read documentation for more details:
   ///https://www.contentstack.com/docs/developers/apis/image-delivery-api/#limitations-with-optimizing-image
+  ///[imageUrl] is the required parameter
   ImageTransformation imageTransform(String imageUrl){
 //    final bool _validURL = Uri.parse(imageUrl).isAbsolute;
 //    if (!_validURL){
@@ -151,7 +152,7 @@ class Stack {
 //    }
 //    final uri =  Uri.https(imageUrl, queryParameters.toString());
 //    final String imageLink = uri.toString();
-    return ImageTransformation( imageUrl);
+    return ImageTransformation( imageUrl, _client);
   }
 
   ///Fetches all Content Types from the Stack. This call returns comprehensive information
