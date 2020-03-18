@@ -1,261 +1,323 @@
+import 'dart:math';
+
 import 'package:contentstack/src/image_transform.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:contentstack/contentstack.dart' as contentstack;
 
 void main() {
-
   group('ImageTransformation testcases', () {
     final Logger log = Logger('ImageTransformation testcases');
     const imageUrl =
         "https://images.contentstack.io/v3/assets/blteae40eb499811073/bltc5064f36b5855343/59e0c41ac0eddd140d5a8e3e/download";
     ImageTransformation imageTransformation;
 
-    setUp((){
+    setUp(() {
       const apiKey = 'blteae40eb499811073';
       const deliveryToken = 'bltc5064f36b5855343';
       const environment = 'development';
       final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-        imageTransformation = stack.imageTransform(imageUrl);
+      imageTransformation = stack.imageTransform(imageUrl);
     });
 
-    test('initialise ImageTransformation functional', () {
-      final checkUrl = imageTransformation.imageUrl;
-      expect(imageUrl, checkUrl);
+    test('auto in ImageTransformation', () {
+      final response = imageTransformation.auto(auto: 'webp').getUrl();
+      log.finest(response);
+      expect(true, response.contains('?auto=webp'));
     });
 
-    test('auto in ImageTransformation', () async {
-      final response = imageTransformation.auto(auto: 'webp');
-      expect(true, response.queryParameter.containsKey('auto'));
-      expect(true, response.queryParameter.containsValue('webp'));
+    test('formate in ImageTransformation', () {
+      final response = imageTransformation.auto(format: 'pjpg').getUrl();
+      log.finest(response);
+      expect(true, response.contains('?formate=pjpg'));
     });
 
-    test('formate in ImageTransformation', () async {
-      final response = imageTransformation.auto(format: 'pjpg');
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('auto and formate in ImageTransformation', () async {
-      final response = imageTransformation.auto(auto: 'webp', format: 'pjpg');
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('quality in ImageTransformation', () async {
-      final response = imageTransformation.quality(2);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('convert to gif in ImageTransformation', () async {
-      final response = imageTransformation.convert(Format.gif);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('convert to png in ImageTransformation', () async {
-      final response = imageTransformation.convert(Format.png);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('convert to jpeg in ImageTransformation', () async {
-      final response = imageTransformation.convert(Format.pjpg);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('width resize image in ImageTransformation', () async {
-      final response = imageTransformation.resize(width: 100);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('height resize image in ImageTransformation', () async {
-      final response = imageTransformation.resize(height: 100);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('width and height resize image in ImageTransformation', () async {
-      final response = imageTransformation.resize(width: 100, height: 100);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('disable resize image in ImageTransformation', () async {
-      final response = imageTransformation.resize(width: 100, disable: true);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('crop by width and height in ImageTransformation', () async {
-      final response = imageTransformation.cropBy(width: 150, height: 100);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('crop with aspect ratio in ImageTransformation', () async {
+    test('auto and formate in ImageTransformation', () {
       final response =
-          imageTransformation.cropBy(width: 150, height: 100, cropValue: '1:3');
-      expect(true, response.queryParameter.containsKey('auto'));
+          imageTransformation.auto(auto: 'webp', format: 'pjpg').getUrl();
+      log.finest(response);
+      final split = response.split('?');
+      expect('auto=webp&formate=pjpg', split[1]);
+      expect(true, response.contains('?auto=webp&formate=pjpg'));
     });
 
-    test('crop subregion  in ImageTransformation', () async {
+    test('quality in ImageTransformation', () {
+      final response = imageTransformation.quality(2).getUrl();
+      final split = response.split('?');
+      expect('quality=2', split[1]);
+    });
+
+    test('convert to gif in ImageTransformation', () {
+      final response = imageTransformation.convert(Format.GIF).getUrl();
+      final split = response.split('?');
+      expect('format=gif', split[1]);
+    });
+
+    test('convert to png in ImageTransformation', () {
+      final response = imageTransformation.convert(Format.PNG).getUrl();
+      final split = response.split('?');
+      expect('format=png', split[1]);
+    });
+
+    test('convert to jpeg in ImageTransformation', () {
+      final response = imageTransformation.convert(Format.PJPG).getUrl();
+      final split = response.split('?');
+      expect('format=pjpg', split[1]);
+    });
+
+    test('width resize image in ImageTransformation', () {
+      final response = imageTransformation.resize(width: 100).getUrl();
+      final split = response.split('?');
+      expect('width=100', split[1]);
+    });
+
+    test('height resize image in ImageTransformation', () {
+      final response = imageTransformation.resize(height: 100).getUrl();
+      final split = response.split('?');
+      expect('height=100', split[1]);
+    });
+
+    test('width and height resize image in ImageTransformation', () {
       final response =
-          imageTransformation.cropBy(cropValue: "50,75,x0.10,y0.20");
-      expect(true, response.queryParameter.containsKey('auto'));
+          imageTransformation.resize(width: 100, height: 100).getUrl();
+      final split = response.split('?');
+      expect('width=100&height=100', split[1]);
     });
 
-    test('Crop in fail-safe mode  in ImageTransformation', () async {
+    test('disable resize image in ImageTransformation', () {
       final response =
-          imageTransformation.cropBy(cropValue: "300,400,x50,y50,safe");
-      expect(true, response.queryParameter.containsKey('auto'));
+          imageTransformation.resize(width: 100, disable: true).getUrl();
+      final split = response.split('?');
+      expect('width=100&disable=upscale', split[1]);
     });
 
-    test('Smart Crop  in ImageTransformation', () async {
-      final response = imageTransformation.cropBy(
-          width: 300, height: 400, cropValue: "2:5,smart");
-      expect(true, response.queryParameter.containsKey('auto'));
+    test('crop by width and height in ImageTransformation', () {
+      final response = imageTransformation.cropBy(150, 100).getUrl();
+      final split = response.split('?');
+      expect('crop=150%2C+100', split[1]);
     });
 
-    test('Fit To Bound  in ImageTransformation', () async {
-      final response = imageTransformation.fitBy(250, 250, Fit.bounds);
-      expect(true, response.queryParameter.containsKey('auto'));
+    test('crop with aspect ratio in ImageTransformation', () {
+      final response = imageTransformation.crop('1:3').getUrl();
+      final split = response.split('?');
+      expect('crop=1%3A3', split[1]);
     });
 
-    test('Fit By Cropping  in ImageTransformation', () async {
-      final response = imageTransformation.fitBy(250, 250, Fit.crop);
-      expect(true, response.queryParameter.containsKey('auto'));
+    test('crop subregion  in ImageTransformation', () {
+      final response = imageTransformation.crop("50,75,x0.10,y0.20").getUrl();
+      final split = response.split('?');
+      expect('crop=50%2C75%2Cx0.10%2Cy0.20', split[1]);
     });
 
-    test('trim  in ImageTransformation with all params', () async {
-      final response = imageTransformation.trim(25, 50, 75, 100);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('trim  in ImageTransformation with 3 params', () async {
-      final response = imageTransformation.trim(25, 50, 75);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('trim  in ImageTransformation with 2 params', () async {
-      final response = imageTransformation.trim(25, 50);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('trim  in ImageTransformation with 1 params', () async {
-      final response = imageTransformation.trim(25);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('orientation  in ImageTransformation check params', () async {
-      final response = imageTransformation.orientation(Orientation.vertically);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('overlay  overlayAlign in ImageTransformation', () async {
+    test('Crop in fail-safe mode  in ImageTransformation', () {
       final response =
-          imageTransformation.overlay('overlayUrl', overlayAlign: '');
-      expect(true, response.queryParameter.containsKey('auto'));
+          imageTransformation.crop("300,400,x50,y50,safe").getUrl();
+      final split = response.split('?');
+      expect('crop=300%2C400%2Cx50%2Cy50%2Csafe', split[1]);
     });
 
-    test('overlay  overlayHeight in ImageTransformation', () async {
+    test('Smart Crop  in ImageTransformation', () {
+      final response = imageTransformation.crop("2:5,smart").getUrl();
+      final split = response.split('?');
+      expect('crop=2%3A5%2Csmart', split[1]);
+    });
+
+    test('Fit To Bound  in ImageTransformation', () {
+      final response = imageTransformation.fit(0.50, 0.50, Fit.bounds).getUrl();
+      final split = response.split('?');
+      expect('width=0.5&height=0.5&fit=bounds', split[1]);
+    });
+
+    test('Fit By Cropping  in ImageTransformation', () {
+      final response = imageTransformation.fit(0.50, 0.50, Fit.crop).getUrl();
+      final split = response.split('?');
+      expect('width=0.5&height=0.5&fit=crop', split[1]);
+    });
+
+    test('trim  in ImageTransformation with all params', () {
+      final response = imageTransformation.trim(25, 50, 75, 100).getUrl();
+      final split = response.split('?');
+      expect('trim=25%2C+25%2C+75%2C+100', split[1]);
+    });
+
+    test('trim  in ImageTransformation with 3 params', () {
+      final response = imageTransformation.trim(25, 50, 75).getUrl();
+      final split = response.split('?');
+      expect('trim=25%2C+25%2C+75', split[1]);
+    });
+
+    test('trim  in ImageTransformation with 2 params', () {
+      final response = imageTransformation.trim(25, 50).getUrl();
+      final split = response.split('?');
+      expect('trim=25%2C+25', split[1]);
+    });
+
+    test('trim  in ImageTransformation with 1 params', () {
+      final response = imageTransformation.trim(25).getUrl();
+      final split = response.split('?');
+      expect('trim=25', split[1]);
+    });
+
+    test('orientation  in ImageTransformation check params', () {
       final response =
-          imageTransformation.overlay('overlayUrl', overlayHeight: '');
-      expect(true, response.queryParameter.containsKey('auto'));
+          imageTransformation.orientation(Orientation.vertically).getUrl();
+      final split = response.split('?');
+      expect('orient=4', split[1]);
     });
 
-    test('overlay  overlayRepeat in ImageTransformation', () async {
+    test('overlay  overlayAlign in ImageTransformation', () {
+      final response = imageTransformation
+          .overlay(
+              '/v3/assets/blteae40eb499811073/bltb21dacdd20d0e24c/59e0c401462a293417405f34/download',
+              overlayAlign: 'left,bottom')
+          .getUrl();
+      final split = response.split('?');
+      const String expectedResult =
+          "overlay=%2Fv3%2Fassets%2Fblteae40eb499811073%2Fbltb21dacdd20d0e24c%2F59e0c401462a293417405f34%2Fdownload&overlay-align=left%2Cbottom";
+      expect(expectedResult, split[1]);
+    });
+
+    test('overlay  overlayHeight in ImageTransformation', () {
+      final response = imageTransformation
+          .overlay('overlayUrl', overlayHeight: 150)
+          .getUrl();
+      final split = response.split('?');
+      expect('overlay=overlayUrl&overlay-height=150', split[1]);
+    });
+
+    test('overlay  overlayRepeat in ImageTransformation', () {
+      final response = imageTransformation
+          .overlay('overlayUrl', overlayRepeat: 'y')
+          .getUrl();
+      final split = response.split('?');
+      expect('overlay=overlayUrl&overlay-repeat=y', split[1]);
+    });
+
+    test('overlay  overlayWidth in ImageTransformation', () {
       final response =
-          imageTransformation.overlay('overlayUrl', overlayRepeat: '');
-      expect(true, response.queryParameter.containsKey('auto'));
+          imageTransformation.overlay('overlayUrl', overlayWidth: 100).getUrl();
+      final split = response.split('?');
+      expect('overlay=overlayUrl&overlay-width=100', split[1]);
     });
 
-    test('overlay  overlayWidth in ImageTransformation', () async {
+    test('padding   in ImageTransformation result of Padding', () {
+      final response = imageTransformation.padding("25,50,75,100").getUrl();
+      final split = response.split('?');
+      expect('pad=25%2C50%2C75%2C100', split[1]);
+    });
+
+    test('overlay-padding  in ImageTransformation result of Padding', () {
       final response =
-          imageTransformation.overlay('overlayUrl', overlayWidth: '');
-      expect(true, response.queryParameter.containsKey('auto'));
+          imageTransformation.overlayPadding("25,50,75,100").getUrl();
+      final split = response.split('?');
+      expect('overlay-pad=25%2C50%2C75%2C100', split[1]);
     });
 
-    test('padding   in ImageTransformation result of Padding', () async {
-      final response = imageTransformation.addPadding("25,50,75,100");
-      expect(true, response.queryParameter.containsKey('auto'));
+    test('bg-color  in ImageTransformation', () {
+      final response = imageTransformation.bgColor('cccccc').getUrl();
+      final split = response.split('?');
+      expect('bg-color=cccccc', split[1]);
     });
 
-    test('bg-color  in ImageTransformation', () async {
-      final response = imageTransformation.bgColor('bgColor');
-      expect(true, response.queryParameter.containsKey('auto'));
+    test('dpr  in ImageTransformation', () {
+      final response = imageTransformation.dpr(4).getUrl();
+      final split = response.split('?');
+      expect('dpr=4', split[1]);
     });
 
-    test('dpr  in ImageTransformation', () async {
-      final response = imageTransformation.dpr(20, 30, 4);
-      expect(true, response.queryParameter.containsKey('auto'));
+    test('blur  in ImageTransformation', () {
+      final response = imageTransformation.blur(40).getUrl();
+      final split = response.split('?');
+      expect('blur=40', split[1]);
     });
 
-    test('blur  in ImageTransformation', () async {
-      final response = imageTransformation.blur(4);
-      expect(true, response.queryParameter.containsKey('auto'));
+    test('frame  in ImageTransformation', () {
+      final response = imageTransformation.frame(1).getUrl();
+      final split = response.split('?');
+      expect('frame=1', split[1]);
     });
 
-    test('frame  in ImageTransformation', () async {
-      final response = imageTransformation.frame(4);
-      expect(true, response.queryParameter.containsKey('auto'));
+    test('increase sharpen  in ImageTransformation', () {
+      final response = imageTransformation.sharpen(5, 1000, 2).getUrl();
+      final split = response.split('?');
+      expect('sharpen=a5%2Cr1000%2Ct2', split[1]);
     });
 
-    test('increase sharpen  in ImageTransformation', () async {
-      final response = imageTransformation.increaseSharpen('sharpen');
-      expect(true, response.queryParameter.containsKey('auto'));
+    test('saturation  in ImageTransformation', () {
+      final response = imageTransformation.saturation(20).getUrl();
+      final split = response.split('?');
+      expect('saturation=20', split[1]);
     });
 
-    test('saturation  in ImageTransformation', () async {
-      final response = imageTransformation.saturation(20);
-      expect(true, response.queryParameter.containsKey('auto'));
+    test('contrast  in ImageTransformation', () {
+      final response = imageTransformation.contrast(20).getUrl();
+      final split = response.split('?');
+      expect('contrast=20', split[1]);
     });
 
-    test('contrast  in ImageTransformation', () async {
-      final response = imageTransformation.contrast(20);
-      expect(true, response.queryParameter.containsKey('auto'));
-    });
-
-    test('brightness  in ImageTransformation', () async {
-      final response = imageTransformation.brightness(20);
-      expect(true, response.queryParameter.containsKey('auto'));
+    test('brightness  in ImageTransformation', () {
+      final response = imageTransformation.brightness(20).getUrl();
+      final split = response.split('?');
+      expect('brightness=20', split[1]);
     });
 
     test('resize-filter  type nearest in ImageTransformation', () {
-      final response = imageTransformation.resizeFilter(
-          width: 20, height: 40, filter: Filter.nearest);
-      expect(true, response.queryParameter.containsKey('auto'));
+      final response = imageTransformation
+          .resizeFilter(width: 20, height: 40, filter: Filter.nearest)
+          .getUrl();
+      final split = response.split('?');
+      expect('width=20&height=40&resize-filter=nearest', split[1]);
     });
 
     test('resize-filter  type Filter.bicubic in ImageTransformation', () {
-      final response = imageTransformation.resizeFilter(
-          width: 20, height: 40, filter: Filter.bicubic);
-      expect(true, response.queryParameter.containsKey('auto'));
+      final response = imageTransformation
+          .resizeFilter(width: 20, height: 40, filter: Filter.bicubic)
+          .getUrl();
+      final split = response.split('?');
+      expect('width=20&height=40&resize-filter=bicubic', split[1]);
     });
 
     test('resize-filter type Filter.bilinear  in ImageTransformation', () {
-      final response = imageTransformation.resizeFilter(
-          width: 20, height: 40, filter: Filter.bilinear);
-      expect(true, response.queryParameter.containsKey('auto'));
+      final response = imageTransformation
+          .resizeFilter(width: 20, height: 40, filter: Filter.bilinear)
+          .getUrl();
+      final split = response.split('?');
+      expect('width=20&height=40&resize-filter=bilinear', split[1]);
     });
 
     test('resize-filter  type lanczos in ImageTransformation', () {
-      final response = imageTransformation.resizeFilter(
-          width: 20, height: 40, filter: Filter.lanczos);
-      expect(true, response.queryParameter.containsKey('auto'));
+      final response = imageTransformation
+          .resizeFilter(width: 20, height: 40, filter: Filter.lanczos)
+          .getUrl();
+      final split = response.split('?');
+      expect('width=20&height=40&resize-filter=lanczos3', split[1]);
     });
 
     test('canvas by width and height in ImageTransformation', () {
-      final response = imageTransformation.canvas('700,800');
-      expect(true, response.queryParameter.containsKey('auto'));
+      final response = imageTransformation.canvas('700,800').getUrl();
+      final split = response.split('?');
+      expect('canvas=700%2C800', split[1]);
     });
 
     test('canvas by ratio in ImageTransformation', () {
-      final response = imageTransformation.canvas('2:3');
-      expect(true, response.queryParameter.containsKey('auto'));
+      final response = imageTransformation.canvas('2:3').getUrl();
+      final split = response.split('?');
+      expect('canvas=2%3A3', split[1]);
     });
 
     test('canvas by sub-region in ImageTransformation', () {
-      final response = imageTransformation.canvas("700,800,x0.50,y0.60");
-      expect(true, response.queryParameter.containsKey('auto'));
+      final response =
+          imageTransformation.canvas("700,800,x0.50,y0.60").getUrl();
+      final split = response.split('?');
+      expect('canvas=700%2C800%2Cx0.50%2Cy0.60', split[1]);
     });
 
     test('canvas by Offset in ImageTransformation', () {
-      final response =
-          imageTransformation.canvas("700,800,offset-x0.65,offset-y0.80");
-      expect(true, response.queryParameter.containsKey('auto'));
+      final response = imageTransformation
+          .canvas("700,800,offset-x0.65,offset-y0.80")
+          .getUrl();
+      final split = response.split('?');
+      expect('canvas=700%2C800%2Coffset-x0.65%2Coffset-y0.80', split[1]);
     });
   });
 }
