@@ -3,18 +3,15 @@
 
 import 'dart:async';
 import 'package:contentstack/client.dart';
+import 'package:contentstack/src/query_params.dart';
 import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
-
 
 class ImageTransformation {
-  final Logger log = Logger('ImageTransformation');
-  @visibleForTesting
   final String _imageUrl;
-  @visibleForTesting
-  String get imageUrl => _imageUrl;
   final HttpClient client;
+  final Logger log = Logger('ImageTransformation');
   final Map<String, String> queryParameter = <String, String>{};
+  final URLQueryParams query = URLQueryParams();
   ImageTransformation(this._imageUrl, this.client);
 
   /// The auto function lets you enable the functionality that automates certain image optimization features.
@@ -24,18 +21,16 @@ class ImageTransformation {
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#automate-optimization
   ///
-  /*
-   Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  await imageTransformation.auto(auto: 'webp', format: 'pjpg').fetch();
-   */
+  ///Example:
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  await imageTransformation.auto(auto: 'webp', format: 'pjpg').fetch();
   ImageTransformation auto({String auto, String format}) {
     if (auto != null) {
-      queryParameter["auto"] = auto;
+      query.append('auto', auto);
     }
     if (format != null) {
-      queryParameter["formate"] = format;
+      query.append("formate", format);
     }
     return this;
   }
@@ -48,14 +43,13 @@ class ImageTransformation {
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#quality
   ///
-  /*
-   Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.quality(2).fetch();
-   */
+  /// Example:
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.quality(2).fetch();
+  ///
   ImageTransformation quality(int quality) {
-    queryParameter["quality"] = quality.toString();
+    query.append("quality", quality.toString());
     return this;
   }
 
@@ -67,14 +61,12 @@ class ImageTransformation {
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#convert-formats
   ///
-  /*
-  Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.convert(Format.pjpg).fetch();
-   */
+  ///  Example:
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.convert(Format.pjpg).fetch();
   ImageTransformation convert(Format format) {
-    queryParameter['format'] = format.toString();
+    query.append("format", _formatToString(format));
     return this;
   }
 
@@ -90,22 +82,28 @@ class ImageTransformation {
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#resize-images
   ///
-  /*
-  Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.resize(width: 100, disable: true ).fetch();
-   */
+  /// Example:
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.resize(width: 100, disable: true ).fetch();
   ImageTransformation resize({int width, int height, bool disable}) {
     if (width != null) {
-      queryParameter['width'] = width.toString();
+      //queryParameter['width'] = width.toString();
+      query.append("width", width.toString());
     }
     if (height != null) {
-      queryParameter['height'] = height.toString();
+      query.append("height", height.toString());
     }
     if (disable != null && disable) {
-      queryParameter["disable"] = "upscale";
+      query.append("disable", "upscale");
     }
+    return this;
+  }
+
+  ImageTransformation crop(String cropValue) {
+    // checks if cropRatio is not null then takes height, width and cropRatio as prams
+    // else it takes crop params and comas separated width & height
+    query.append("crop", cropValue);
     return this;
   }
 
@@ -116,7 +114,6 @@ class ImageTransformation {
   /// before cropping the image, or you can offset the image on its
   /// X and Y axis (i.e., define the centre point of the crop) before cropping the image.
 
-  ///[cropRatio]
   ///You can set the X-axis and Y-axis position of the top left corner of the crop by
   ///using the query ?crop={width_value},{height_value},x{value},y{value}.
   ///This lets you define the starting point of the crop region.
@@ -124,58 +121,67 @@ class ImageTransformation {
   ///
   ///An example of this would be ?crop=300,400,x150,y75 or ?crop=300,400,x0.50,y0.60.
   ///Compulsory parameters [width] and [height]
-  ///Optional parameters: [cropRatio]
+  ///Optional parameters: [region]
+  ///Optional parameters: [offset]
   /// For more details, Read documentation:
   /// For more details read the doc: https://www.contentstack.com/docs/developers/apis/image-delivery-api/#crop-images
-  /*
-      Example: With Aspect Ratio:
-      final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-      final imageTransformation = stack.imageTransform(imageUrl);
-      final response = await imageTransformation.cropBy(150, 100, cropRatio: '1:3').fetch();
-     log.fine(response);
-
-      Example: Without aspect Ratio:
-      final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-      final imageTransformation = stack.imageTransform(imageUrl);
-      final response = await imageTransformation.cropBy(150, 100).fetch();
-      log.fine(response);
-   */
-  ImageTransformation cropBy({int width, int height, String cropValue}) {
+  ///
+  /// Example: With Aspect Ratio:
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.cropBy(150, 100, cropRatio: '1:3').fetch();
+  ///  log.fine(response);
+  ///
+  ///  Example: Without aspect Ratio:
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.cropBy(150, 100).fetch();
+  ///  log.fine(response);
+  ImageTransformation cropBy(int width, int height,
+      {String region, String offset}) {
     // checks if cropRatio is not null then takes height, width and cropRatio as prams
     // else it takes crop params and comas separated width & height
-    if (width != null && height != null) {
-      // example: width=300&height=400&crop=1:3
-      queryParameter['width'] = width.toString();
-      queryParameter['height'] = height.toString();
-      queryParameter['crop'] = cropValue.toString();
-    } else {
-      queryParameter['crop'] = cropValue.toString();
+    final cropLRBL = [];
+    if (width != null) {
+      cropLRBL.add(width);
     }
+    if (height != null) {
+      cropLRBL.add(height);
+    }
+    if (region != null) {
+      cropLRBL.add(region);
+    }
+    if (offset != null) {
+      cropLRBL.add(offset);
+    }
+    final commaSeparated = cropLRBL.join(', ');
+    query.append("crop", commaSeparated);
     return this;
   }
 
   ///This parameter enables you to fit the given image properly within the specified height and width.
   ///You need to provide values for the height, width and fit parameters.
   ///The two available values for the fit parameter are bounds and crop.
-  ///fit accepts optional parameters [width], [height]  of type [int] and fir of type [FIt]
+  ///fit accepts optional parameters [width], [height]  of type [int] and fir of type [Fit]
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#fit-mode
-  /*
-  Example:
-   final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-   final imageTransformation = stack.imageTransform(imageUrl);
-   final response = await imageTransformation.fitBy(  250,  250, Fit.crop).fetch();
-   */
-  ImageTransformation fitBy(int width, int height, Fit fit) {
+  ///
+  ///  Example:
+  ///   final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///   final imageTransformation = stack.imageTransform(imageUrl);
+  ///   final response = await imageTransformation.fitBy(  250,  250, Fit.crop).fetch();
+  ///
+
+  ImageTransformation fit(double width, double height, Fit fit) {
     if (width != null) {
-      queryParameter["width"] = width.toString();
+      query.append("width", width.toString());
     }
     if (height != null) {
-      queryParameter["height"] = height.toString();
+      query.append("height", height.toString());
     }
     if (fit != null) {
-      queryParameter["fit"] = fit.toString();
+      query.append("fit", _fitToString(fit));
     }
     return this;
   }
@@ -190,11 +196,11 @@ class ImageTransformation {
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#trim-images
-  /*
-   final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-   final imageTransformation = stack.imageTransform(imageUrl);
-   final response = await imageTransformation.trim(25).fetch();
-   */
+  ///
+  /// Example:
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///   final imageTransformation = stack.imageTransform(imageUrl);
+  ///   final response = await imageTransformation.trim(25).fetch();
   ImageTransformation trim([int top, int right, int bottom, int left]) {
     final trimLRBL = [];
     if (top != null) {
@@ -210,7 +216,7 @@ class ImageTransformation {
       trimLRBL.add(left);
     }
     final joinedValue = trimLRBL.join(', ');
-    queryParameter["trim"] = joinedValue;
+    query.append("trim", joinedValue);
     return this;
   }
 
@@ -224,12 +230,11 @@ class ImageTransformation {
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#reorient-images
-  /*
-  Example:
-   final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.orientation(Orientation.vertically).fetch();
-   */
+  ///
+  ///  Example:
+  ///   final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.orientation(Orientation.vertically).fetch();
   ImageTransformation orientation(Orientation orient) {
     // toDefault = '1';
     //  horizontally = '2';
@@ -240,7 +245,7 @@ class ImageTransformation {
     //  horizontallyAndRotate90DegreesRight = '7';
     //  rotate90DegreesLeft = '8';
     if (orient != null) {
-      queryParameter["orient"] = _orientToString(orient) as String;
+      query.append("orient", _orientToString(orient));
     }
     return this;
   }
@@ -255,27 +260,30 @@ class ImageTransformation {
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#overlay-pad
-  /*
-  Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.overlay('overlayUrl', overlayWidth: '').fetch();
-   */
+  ///
+  /// Example
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.overlay('overlayUrl', overlayWidth: '').fetch();
+  ///
   ImageTransformation overlay(String overlayUrl,
       {String overlayAlign,
       String overlayRepeat,
-      String overlayWidth,
-      String overlayHeight}) {
-    if (overlayUrl != null) {
-      queryParameter['overlay'] = overlayUrl;
-    } else if (overlayAlign != null) {
-      queryParameter['overlay-align'] = overlayAlign;
-    } else if (overlayRepeat != null) {
-      queryParameter['overlay-align'] = overlayRepeat;
-    } else if (overlayWidth != null) {
-      queryParameter['overlay-align'] = overlayWidth;
-    } else if (overlayHeight != null) {
-      queryParameter['overlay-align'] = overlayHeight;
+      int overlayWidth,
+      int overlayHeight}) {
+    query.append('overlay', overlayUrl);
+
+    if (overlayAlign != null) {
+      query.append('overlay-align', overlayAlign);
+    }
+    if (overlayRepeat != null) {
+      query.append("overlay-repeat", overlayRepeat);
+    }
+    if (overlayWidth != null) {
+      query.append("overlay-width", overlayWidth);
+    }
+    if (overlayHeight != null) {
+      query.append("overlay-height", overlayHeight);
     }
     return this;
   }
@@ -289,14 +297,26 @@ class ImageTransformation {
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#pad
-  /*
-  Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.addPadding("25,50,75,100").fetch();
-   */
-  ImageTransformation addPadding(String padding) {
-    queryParameter["pad"] = padding;
+  ///
+  ///Example:
+  ///final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///final imageTransformation = stack.imageTransform(imageUrl);
+  ///final response = await imageTransformation.padding("25,50,75,100").fetch();
+  ///
+  ImageTransformation padding(String padding) {
+    query.append("pad", padding);
+    return this;
+  }
+
+  ///You can either specify all the four padding values (top, right, bottom, and left)
+  ///or combine two or more values
+  //top, right, bottom, left
+  ///Example:
+  ///final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///final imageTransformation = stack.imageTransform(imageUrl);
+  ///final response = await imageTransformation.addPadding("25,50,75,100").fetch();
+  ImageTransformation overlayPadding(String overlayPadding) {
+    query.append("overlay-pad", overlayPadding);
     return this;
   }
 
@@ -307,14 +327,12 @@ class ImageTransformation {
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#background-color
-  /*
-  Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.bgColor('cccccc').fetch();
-   */
+  ///  Example:
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.bgColor('cccccc').fetch();
   ImageTransformation bgColor(String bgColor) {
-    queryParameter["bg-color"] = bgColor;
+    query.append("bg-color", bgColor);
     return this;
   }
 
@@ -324,16 +342,14 @@ class ImageTransformation {
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#dpr
-  /*
-  Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.dpr(30, 60, 12).fetch();
-   */
-  ImageTransformation dpr(int width, int height, int dpr) {
-    queryParameter["width"] = width.toString();
-    queryParameter["height"] = height.toString();
-    queryParameter["dpr"] = dpr.toString();
+  ///
+  /// Example
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.dpr(30, 60, 12).fetch();
+  ///
+  ImageTransformation dpr(int dpr) {
+    query.append("dpr", dpr.toString());
     return this;
   }
 
@@ -344,14 +360,14 @@ class ImageTransformation {
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#blur
-  /*
-  Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.blur(3).fetch();
-   */
+  ///
+  /// Example:
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.blur(3).fetch();
+
   ImageTransformation blur(int blur) {
-    queryParameter["blur"] = blur.toString();
+    query.append("blur", blur.toString());
     return this;
   }
 
@@ -359,14 +375,14 @@ class ImageTransformation {
   ///(Graphics Interchange Format) file that comprises a sequence of moving images.
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#frame
-  /*
-  Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.frame(30).fetch();
-   */
+  ///
+  /// Example:
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.frame(30).fetch();
+  ///
   ImageTransformation frame(int frame) {
-    queryParameter["frame"] = frame.toString();
+    query.append("frame", frame.toString());
     return this;
   }
 
@@ -375,14 +391,14 @@ class ImageTransformation {
   ///Increase the sharpness of a given image by amount, radius and threshold
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#sharpen
-  /*
-  Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.increaseSharpen('sharpen').fetch();
-   */
-  ImageTransformation increaseSharpen(String sharpen) {
-    queryParameter["sharpen"] = sharpen.toString();
+  ///
+  ///  Example:
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.sharpen(5, 1000, 2').fetch();
+  ///
+  ImageTransformation sharpen(int amount, int radius, int threshold) {
+    query.append("sharpen", "a$amount,r$radius,t$threshold");
     return this;
   }
 
@@ -392,14 +408,13 @@ class ImageTransformation {
   /// You can also define saturation using any decimal number between -100.00 and 100.00
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#saturation
-  /*
-      Example:
-      final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-      final imageTransformation = stack.imageTransform(imageUrl);
-      final response = await imageTransformation.saturation(20);
-   */
+  ///    Example:
+  ///    final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///    final imageTransformation = stack.imageTransform(imageUrl);
+  ///    final response = await imageTransformation.saturation(20);
+
   ImageTransformation saturation(int saturation) {
-    queryParameter["saturation"] = saturation.toString();
+    query.append("saturation", saturation.toString());
     return this;
   }
 
@@ -411,13 +426,14 @@ class ImageTransformation {
   /// To increase the value of the contrast parameter of an image, pass a positive value or negative value
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#contrast
-  /*
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response = await imageTransformation.contrast(20);
-   */
+  ///
+  /// Example
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response = await imageTransformation.contrast(20);
+
   ImageTransformation contrast(int contrast) {
-    queryParameter["contrast"] = contrast.toString();
+    query.append("contrast", contrast.toString());
     return this;
   }
 
@@ -429,14 +445,13 @@ class ImageTransformation {
   /// To increase the value of the brightness parameter of an image, pass a positive value or negative value
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#brightness
-  /*
-  Example:
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response =  imageTransformation.brightness(20);
-   */
+  ///
+  /// Example:
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response =  imageTransformation.brightness(20);
   ImageTransformation brightness(int brightness) {
-    queryParameter["brightness"] = brightness.toString();
+    query.append("brightness", brightness.toString());
     return this;
   }
 
@@ -455,16 +470,13 @@ class ImageTransformation {
    */
   ImageTransformation resizeFilter({int width, int height, Filter filter}) {
     if (width != null) {
-      queryParameter['width'] = width.toString();
+      query.append("width", width.toString());
     }
     if (height != null) {
-      queryParameter['height'] = height.toString();
+      query.append('height', height.toString());
     }
     if (filter != null) {
-      queryParameter['resize-filter'] = filter.toString();
-      if (filter.toString() == 'lanczos') {
-        queryParameter['resize-filter'] = 'lanczos3';
-      }
+      query.append('resize-filter', _resizeFilterToString(filter));
     }
     return this;
   }
@@ -479,30 +491,29 @@ class ImageTransformation {
   /// ratio: 2:3 , sub-region: [700,800,x0.50,y0.60],  or offset :[ 700,800,offset-x0.65,offset-y0.80]
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#canvas
-  /*
-  /// [Example:  Canvas by width & Height]
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response =  imageTransformation.canvas('700,800');
-
-  /// [Example:  Canvas by ratio]
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response =  imageTransformation.canvas('2:3');
-
-  /// [Example:  Canvas  Sub-region]
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response =  imageTransformation.canvas('700,800,x0.50,y0.60');
-
-  /// [Example:  Canvas and offset ]
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  final imageTransformation = stack.imageTransform(imageUrl);
-  final response =  imageTransformation.canvas('700,800,offset-x0.65,offset-y0.80');
-   */
+  ///
+  /// /// [Example:  Canvas by width & Height]
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response =  imageTransformation.canvas('700,800');
+  ///
+  ///  /// [Example:  Canvas by ratio]
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response =  imageTransformation.canvas('2:3');
+  ///
+  ///  /// [Example:  Canvas  Sub-region]
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response =  imageTransformation.canvas('700,800,x0.50,y0.60');
+  ///
+  ///  /// [Example:  Canvas and offset ]
+  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  ///  final imageTransformation = stack.imageTransform(imageUrl);
+  ///  final response =  imageTransformation.canvas('700,800,offset-x0.65,offset-y0.80');
 
   ImageTransformation canvas(String canvasValue) {
-    queryParameter['canvas'] = canvasValue;
+    query.append("canvas", canvasValue);
     return this;
   }
 
@@ -512,15 +523,16 @@ class ImageTransformation {
     if (!_validURL) {
       throw Exception('Invalid url requested');
     }
-    final uri = Uri.https(_imageUrl, '', queryParameter);
-    //final String imageLink = uri.toString();
-    final response = await client.sendRequest(uri.toString());
+    final response = await client.sendRequest(getUrl());
     if (response.statusCode != 200) {
       throw Exception('getEntry failed');
     }
     return null;
   }
 
+  String getUrl() {
+    return query.toUrl(_imageUrl);
+  }
   int _orientToString(Orientation orient) {
     switch (orient) {
       case Orientation.toDefault:
@@ -543,6 +555,47 @@ class ImageTransformation {
         return 1;
     }
   }
+  String _formatToString(Format format) {
+    //supports gif, png, jpg, pjpg, webp, webply, webpll
+    switch (format) {
+      case Format.GIF:
+        return 'gif';
+      case Format.PNG:
+        return 'png';
+      case Format.JPG:
+        return 'jpg';
+      case Format.PJPG:
+        return 'pjpg';
+      case Format.WEBP:
+        return 'webp';
+      case Format.WEBPLossy:
+        return 'webply';
+      case Format.WEBPLossless:
+        return 'webpll';
+    }
+  }
+  String _fitToString(Fit fit) {
+    //supports bounds, crop
+    switch (fit) {
+      case Fit.bounds:
+        return 'bounds';
+      case Fit.crop:
+        return 'crop';
+    }
+  }
+  String _resizeFilterToString(Filter filter) {
+    //supports bounds, crop
+    switch (filter) {
+      case Filter.nearest:
+        return 'nearest';
+      case Filter.bilinear:
+        return 'bilinear';
+      case Filter.bicubic:
+        return 'bicubic';
+      case Filter.lanczos:
+        return 'lanczos3';
+    }
+  }
 }
 
 enum Filter { nearest, bilinear, bicubic, lanczos }
@@ -556,5 +609,5 @@ enum Orientation {
   horizontallyAndRotate90DegreesRight,
   rotate90DegreesLeft
 }
-enum Format { gif, png, jpg, pjpg, webp, webply, webpll }
+enum Format { GIF, PNG, JPG, PJPG, WEBP, WEBPLossy, WEBPLossless }
 enum Fit { bounds, crop }

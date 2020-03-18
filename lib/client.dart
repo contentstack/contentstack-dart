@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:http/http.dart' as http;
-// ignore: directives_ordering
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class HttpClient extends http.BaseClient {
+
   final http.Client _client;
   final Map<String, String> stackHeaders;
 

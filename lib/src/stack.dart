@@ -14,7 +14,6 @@ enum Region {
 
 class Stack {
 
-  static const String https = 'https://';
   final Logger log = Logger('Stack');
   /// Stack API Key
   final String _apiKey;
@@ -81,7 +80,7 @@ class Stack {
   ///attached and used in multiple entries. Learn more about Assets.
   /// Keep uid None to fetch list of all assets
   /// API Reference : https://www.contentstack.com/docs/content-managers/work-with-assets
-  /// Asset  accepts [uid] of the asset [Optional]
+  /// Asset  accepts [uid] of the asset Optional
   /// Returns class object of asset so we can chain the [Asset] functions.
   Asset asset({String uid}) {
     return Asset(uid, client: _client);
@@ -121,7 +120,7 @@ class Stack {
   String get host => _host;
 
   /// It returns endpoint of the Stack
-  String get endpoint => "$https$host/$apiVersion";
+  String get endpoint => host;
 
   Stack  includeStackVariables(){
     queryParameter['include_stack_variables'] = 'true';
@@ -155,6 +154,7 @@ class Stack {
     return ImageTransformation( imageUrl, _client);
   }
 
+
   ///Fetches all Content Types from the Stack. This call returns comprehensive information
   ///of all the content types available in a particular stack in your account.
   ///API Reference: https://www.contentstack.com/docs/apis/content-delivery-api/#content-types
@@ -162,7 +162,8 @@ class Stack {
   /// returns list of content_types
   Future<dynamic> getContentTypes(Map queryParameters) {
     // create complete url to make request.
-    return _client.sendRequest('$endpoint/content_types');
+    Uri uri = Uri.https(endpoint, '$apiVersion/content_types');
+    return _client.sendRequest(uri.toString());
   }
 
 
@@ -193,7 +194,7 @@ class Stack {
   ///
   ///Returns:
   ///List[SyncResult] -- returns list of SyncResult
-  void sync({String contentTypeUid,  String fromDate, String locale, PublishType publishType}){
+  Future sync({String contentTypeUid,  String fromDate, String locale, PublishType publishType}) async{
     syncParameter['init'] = 'true';
     if(contentTypeUid !=null){
       syncParameter['content_type_uid'] = contentTypeUid;
@@ -207,7 +208,8 @@ class Stack {
     if(publishType !=null){
       syncParameter['publish_type'] = publishType.toString();
     }
-   // return _client.sendRequest('$endpoint/stack');
+    final Uri uri = Uri.https(endpoint, '$apiVersion/sync', syncParameter);
+   return await _client.sendRequest(uri.toString());
   }
 
 
@@ -218,8 +220,10 @@ class Stack {
   ///interrupted midway (due to network issues, etc.). In such cases, this token can be used to restart the sync
   ///process from where it was interrupted.
   ///
-  void pagination(String paginationToken){
+  Future pagination(String paginationToken) async{
     syncParameter['pagination_token'] = paginationToken;
+    final Uri uri = Uri.https(endpoint, '$apiVersion/sync', syncParameter);
+    return await _client.sendRequest(uri.toString());
   }
 
 

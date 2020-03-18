@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:contentstack/client.dart';
+import 'package:contentstack/src/image_transform.dart';
 
 class Entry{
 
@@ -18,7 +19,6 @@ class Entry{
   }
 
   Entry version(int version){
-
     if (version == null) {
       throw ArgumentError.notNull('version could not be null');
     }
