@@ -1,18 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:contentstack/src/stack.dart';
 import 'package:http/http.dart' as http;
 
 class HttpClient extends http.BaseClient {
 
   final http.Client _client;
+  Stack stack;
   final Map<String, String> stackHeaders;
 
-  factory HttpClient(Map<String, String> headers, {http.Client client})  {
+  factory HttpClient(Map<String, String> headers, {http.Client client, Stack stack})  {
     final stackClient = client ?? http.Client();
-    return HttpClient._internal(stackClient, headers);
+    return HttpClient._internal(stackClient, headers, stack);
   }
 
-  HttpClient._internal(this._client, this.stackHeaders);
+  HttpClient._internal(this._client, this.stackHeaders, this.stack);
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
@@ -25,8 +27,8 @@ class HttpClient extends http.BaseClient {
   }
 
 
-  /// Creates a request with a HTTP [method] that is by defalut [GET],.
-  /// The [url] can be either a `String` `.
+  /// Creates a request with a HTTP method that is by default [get]
+  /// The [url] is string type
   Future<dynamic> sendRequest(String url) async {
     final  response = await http.get(Uri.encodeFull(url), headers: stackHeaders);
     Object bodyJson;
@@ -62,11 +64,8 @@ class HttpClient extends http.BaseClient {
 class ContentstackClientException implements Exception {
   final int statusCode;
   final String message;
-
   ContentstackClientException(this.statusCode, this.message);
-
   @override
   String toString() => '$message ($statusCode)';
-
 }
 

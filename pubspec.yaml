@@ -20,11 +20,12 @@ dependencies:
 
 dev_dependencies:
   test: '>=0.6.0 <1.11.0'
+  # A simple command-line tool to collect test coverage information from Dart VM tests.
+  # It is useful if you need to generate coverage reports locally during development
   test_coverage: ^0.4.1
   build_runner:
   json_serializable:
   linter: ^0.1.112
   lint: ^1.1.1
-
   build_test: ^0.10.0
   build_web_compilers: '>=1.2.0 <3.0.0'
