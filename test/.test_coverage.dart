@@ -2,5 +2,18 @@
 // Consider adding this file to your .gitignore.
 
 
-void main() {
+import 'test_assets.dart' as asset;
+import 'test_contenttype.dart' as content_type;
+import 'test_entry.dart' as entry;
+import 'test_image_transform.dart' as image_transform;
+import 'test_query.dart' as query;
+import 'test_stack.dart' as stack;
+
+void main(){
+  asset.main();
+  content_type.main();
+  entry.main();
+  query.main();
+  stack.main();
+  image_transform.main();
 }

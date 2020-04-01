@@ -1,7 +1,9 @@
 ![Contentstack](https://www.contentstack.com/docs/static/images/contentstack.png)
 
-## Dart SDK for Contentstack  
-  
+## Dart SDK for Contentstack 
+
+![Coverage](https://github.com/contentstack/contentstack-dart/master/coverage_badge.svg?sanitize=true)
+
 Contentstack is a headless CMS with an API-first approach. It is a CMS that developers can use to build powerful cross-platform applications in their favorite languages. Build your application frontend, and Contentstack will take care of the rest. [Read More](https://www.contentstack.com/).  
   
 Contentstack provides Dart SDK to build application on top of Dart. Given below is the detailed guide and helpful resources to get started with our Dart SDK.  
@@ -14,10 +16,8 @@ You will need Dart installed on your machine. You can install it from [here](htt
   
 To use the Contentstack Dart SDK to your existing project, perform the steps given below:  
   
-**Install Dart Package**  
-														
-    contentstack 0.1.0
-  
+**Install Dart Package** 
+contentstack 0.1.0
   
 ### Key Concepts for using Contentstack  
   

@@ -28,15 +28,27 @@ class CSException implements Exception {
     return debugDescription; 
   }
 
-  static CSException error(Map<String, dynamic> data, int statusCode) {
+  CSException.error(Map<String, dynamic> data, int statusCode, this.errorMessage, this.errorCode){
+
     try {
       final apiexception = CSException.fromJson(Map<String, dynamic>.of(data));
       apiexception.statusCode = statusCode;
-      return apiexception;
+      //return apiexception;
     } catch (e) {
-      return null;
+      //return null;
     }
+
   }
+
+  // static CSException error(Map<String, dynamic> data, int statusCode) {
+  //   try {
+  //     final apiexception = CSException.fromJson(Map<String, dynamic>.of(data));
+  //     apiexception.statusCode = statusCode;
+  //     return apiexception;
+  //   } catch (e) {
+  //     return null;
+  //   }
+  // }
 }
 
 

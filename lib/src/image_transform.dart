@@ -558,21 +558,23 @@ class ImageTransformation {
   String _formatToString(Format format) {
     //supports gif, png, jpg, pjpg, webp, webply, webpll
     switch (format) {
-      case Format.GIF:
+      case Format.gif:
         return 'gif';
-      case Format.PNG:
+      case Format.png:
         return 'png';
-      case Format.JPG:
+      case Format.jpg:
         return 'jpg';
-      case Format.PJPG:
+      case Format.pjpg:
         return 'pjpg';
-      case Format.WEBP:
+      case Format.webp:
         return 'webp';
-      case Format.WEBPLossy:
+      case Format.webplossy:
         return 'webply';
-      case Format.WEBPLossless:
-        return 'webpll';
+      case Format.webplossless:
+        return 'webpll';      
     }
+
+    return null;
   }
   String _fitToString(Fit fit) {
     //supports bounds, crop
@@ -582,6 +584,8 @@ class ImageTransformation {
       case Fit.crop:
         return 'crop';
     }
+
+    return null;
   }
   String _resizeFilterToString(Filter filter) {
     //supports bounds, crop
@@ -595,6 +599,8 @@ class ImageTransformation {
       case Filter.lanczos:
         return 'lanczos3';
     }
+
+    return null;
   }
 }
 
@@ -609,5 +615,5 @@ enum Orientation {
   horizontallyAndRotate90DegreesRight,
   rotate90DegreesLeft
 }
-enum Format { GIF, PNG, JPG, PJPG, WEBP, WEBPLossy, WEBPLossless }
+enum Format { gif, png, jpg, pjpg, webp, webplossy, webplossless }
 enum Fit { bounds, crop }

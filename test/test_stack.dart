@@ -5,11 +5,14 @@ import 'package:test/test.dart';
 void main() {
 
   final Logger log = Logger('Stack');
-
+  contentstack.Stack  stack;
   const apiKey = 'blt12c8ad610ff4ddc2';
   const deliveryToken = 'blt43359585f471685188b2e1ba';
   const environment = 'env1';
-  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+
+  setUp(() {
+    stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  });
 
   test('check stack credentials', () {
     expect(stack.apiKey, apiKey);
@@ -77,16 +80,7 @@ void main() {
 
   test('stack get single content type', () {
     final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-    return stack.contentType('airbnb_jan_19').fetch();
-// return stack.fetch("/content_types", fromJson: contentstack.ContentTypeCollection.fromJson)
-//    .then((response) {
-//      // response.items.forEach((contentType) => print(contentType.title));
-//      //print(response.title);
-//      expect(true, true);
-//    })
-//    .catchError((error) {
-//      log('dsfdaf $error');
-//    });
+    return stack.contentType('content_type').fetch();
   });
 
 
@@ -94,25 +88,67 @@ void main() {
   //ContentType//
   //-------------------------------------------------------------------------
 
-  test('Returns instance of the  contentstack', () {
-    bool isTypeOfContentType = false;
-    final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-    final contentType = stack.contentType('contentTypeId');
-    if (contentType is contentstack.ContentType) {
-      isTypeOfContentType = true;
-    }
-    expect(true, isTypeOfContentType);
-  });
-
   group('Group of testcases for ContentType', () {
+
+    const apiKey = 'blt12c8ad610ff4ddc2';
+    const deliveryToken = 'blt43359585f471685188b2e1ba';
+    const environment = 'env1';
+
+    setUp(() {
+    });
+
     test('test client', () {
       final stack = contentstack.Stack(apiKey, deliveryToken, environment);
       final contentType = stack.contentType('news');
       log.fine(contentType.toString());
     });
+
+    test('Returns instance of the  contentstack', () {
+      bool isTypeOfContentType = false;
+      final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+      final contentType = stack.contentType('contentTypeId');
+      if (contentType is contentstack.ContentType) {
+        isTypeOfContentType = true;
+      }
+      expect(true, isTypeOfContentType);
+    });
+
   });
 
 
+
+  group('Group of testcases for Synchronization', () {
+
+    contentstack.Stack  stack;
+    const apiKey = 'blt477ba55f9a67bcdf';
+    const deliveryToken = 'cs7731f03a2feef7713546fde5';
+    const environment = 'web';
+
+    setUp(() {
+      stack = contentstack.Stack(apiKey, deliveryToken, environment);
+    });
+
+    test('sync initialisation response', () {
+      final syncResult = stack.sync(contentTypeUid: '', fromDate: "");
+      expect('actual', syncResult);
+    });
+
+    test('sync token response', () {
+      final syncResult = stack.syncToken('syncToken');
+      expect('actual', syncResult);
+    });
+
+    test('pagination token response', () {
+      final syncResult = stack.paginationToken('paginationToken');
+      expect('actual', syncResult);
+    });
+
+    test('sync with multiple params', () async {
+      final syncResult = await stack.sync();
+      expect('actual', syncResult);
+    });
+
+  });
 
 
 }

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:contentstack/src/image_transform.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
@@ -48,19 +46,19 @@ void main() {
     });
 
     test('convert to gif in ImageTransformation', () {
-      final response = imageTransformation.convert(Format.GIF).getUrl();
+      final response = imageTransformation.convert(Format.gif).getUrl();
       final split = response.split('?');
       expect('format=gif', split[1]);
     });
 
     test('convert to png in ImageTransformation', () {
-      final response = imageTransformation.convert(Format.PNG).getUrl();
+      final response = imageTransformation.convert(Format.png).getUrl();
       final split = response.split('?');
       expect('format=png', split[1]);
     });
 
     test('convert to jpeg in ImageTransformation', () {
-      final response = imageTransformation.convert(Format.PJPG).getUrl();
+      final response = imageTransformation.convert(Format.pjpg).getUrl();
       final split = response.split('?');
       expect('format=pjpg', split[1]);
     });
