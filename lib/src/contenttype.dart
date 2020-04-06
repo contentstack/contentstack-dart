@@ -10,7 +10,9 @@ import 'package:contentstack/src/contenttype_query.dart';
 /// and then create entries using the content type.
 /// Read more about Content Types.
 /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#content-types
+/// 
 class ContentType {
+
   final String _contentTypeUid;
   final HttpClient _client;
   String _urlPath;
@@ -23,27 +25,38 @@ class ContentType {
     }
   }
 
+  /// 
   /// This function provide option to  get single entry as well as all the entries.
-  ///  [uid] is Optional
-  /// If [uid]  Provided, Get a single entry request fetches a particular entry of a content type
+  /// [entryUid] is Optional, If [entryUid]  Provided it fetches related entry of a respected content type
   /// Read more about single entry:
   /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#single-entry
 
-  /// if [uid] not provided ,Get all entries call fetches the list of all the entries of a particular content type.
+  /// if [entryUid] not provided ,Get all entries call fetches the list of all the entries of a particular content type.
   /// It also returns the content of each entry in JSON format. You can also specify the environment
   /// and locale of which you wish to get the entries.
   /// /// Read more about entries:
   /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#all-entries
-  Entry entry([String uid]) {
-    if (uid != null && uid.isNotEmpty) {
-      return Entry(uid, _client, _contentTypeUid);
+  /// 
+  /// final entry = stack.contentType('content_type_uid').entry(entryUid: 'entry_uid');
+  /// print(entry);
+  /// 
+  Entry entry({String entryUid}) {
+    if (entryUid != null && entryUid.isNotEmpty) {
+      return Entry(entryUid, _client, _contentTypeUid);
     }
     return Entry();
   }
 
+  ///
   /// Query on ContentType
   /// This call returns comprehensive information of all the content types
   /// available in a particular stack in your account
+  /// 
+  /// Example:
+  /// final contentTypeQuery = stack.contentType().query();
+  /// final response = contentTypeQuery.find();
+  /// print(response);
+  ///
   ContentTypeQuery query() {
     return ContentTypeQuery(_client);
   }
@@ -54,13 +67,14 @@ class ContentType {
   /// [queryParams] query parameters
   ///
   /// Example:
-  /// var contentType = stack.contentType("content_type_uid");
+  /// final contentType = stack.contentType("content_type_uid");
   /// final Map<String, dynamic> queryParameter = <String,dynamic>{};
   /// queryParameter["include_snippet_schema"] = true;
   /// queryParameter["limit"] = 3;
-  /// var response = contentType.fetch(queryParameter);
+  /// final response = contentType.fetch(queryParameter);
+  /// print(response);
   ///
-  Future fetch([Map queryParams]) async{
+  Future fetch([Map queryParams]){
     if(_urlPath == null){
       throw Exception('content_type_uid is missing');
     }

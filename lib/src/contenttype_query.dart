@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/src/base_query.dart';
 
-///This call returns comprehensive information of all the content types
-///available in a particular stack in your account.
+/// 
+/// This call facilitate to apply query on the contenttype.
 ///
 class ContentTypeQuery extends BaseQuery{
 
@@ -15,14 +15,29 @@ class ContentTypeQuery extends BaseQuery{
     _urlPath = "/${_client.stack.apiVersion}/content_types";
   }
 
-  ///include in response the total count of content types available in your stack
+  /// 
+  /// includeCount method facilitate to find the total count of 
+  /// content types available in your stack
+  /// 
+  /// Example:
+  /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  /// final contentTypeQuery = stack.contentType().query()
+  /// final response = contentTypeQuery.includeCount().find();
+  /// print(response);
+  /// 
   ContentTypeQuery includeCount(){
     queryParameter['include_count'] = 'true';
     return this;
   }
 
-  ///This call returns comprehensive information of all the content types
-  ///available in a particular stack in your account.
+  /// This call returns comprehensive information of all the content types
+  /// available in a particular stack in your account.
+  /// 
+  /// Example:
+  /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  /// final contentTypeQuery = stack.contentType().query()
+  /// final response = contentTypeQuery.includeCount().find();
+  /// print(response);
   Future find([Map queryParams]) async{
     if (queryParams != null && queryParams.isNotEmpty) {
       queryParameter.addAll(queryParams);

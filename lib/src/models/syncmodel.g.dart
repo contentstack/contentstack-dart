@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'syncresult.dart';
+part of 'syncmodel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SyncResult _$SyncResultFromJson(Map<String, dynamic> json) {
-  return SyncResult(
+SyncModel _$SyncModelFromJson(Map<String, dynamic> json) {
+  return SyncModel(
     json['items'] as List,
     json['skip'] as String,
     json['limit'] as String,
@@ -16,28 +16,27 @@ SyncResult _$SyncResultFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SyncResultToJson(SyncResult instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SyncModelToJson(SyncModel instance) => <String, dynamic>{
       'items': instance.items,
       'skip': instance.skip,
       'limit': instance.limit,
-      'total_count': instance.total_count,
-      'sync_token': instance.sync_token,
+      'total_count': instance.totalCount,
+      'sync_token': instance.syncToken,
     };
 
 Items _$ItemsFromJson(Map<String, dynamic> json) {
   return Items(
     json['type'] as String,
-    json['event_at'] as String,
-    json['content_type_uid'] as String,
+    json['eventAt'] as String,
+    json['contentTypeUid'] as String,
     json['data'] as List,
   );
 }
 
 Map<String, dynamic> _$ItemsToJson(Items instance) => <String, dynamic>{
       'type': instance.type,
-      'event_at': instance.event_at,
-      'content_type_uid': instance.content_type_uid,
+      'eventAt': instance.eventAt,
+      'contentTypeUid': instance.contentTypeUid,
       'data': instance.data,
     };
 

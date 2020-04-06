@@ -16,9 +16,9 @@ class HttpClient extends http.BaseClient {
 
   HttpClient._internal(this._client, this.stackHeaders, this.stack);
 
+  /// Helps to get request with all the available stack headeers
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    // Adding all the stack Headers
     request.headers.addAll(stackHeaders);
     request.headers['Content-Type'] = 'application/json';
     request.headers['sdk'] = 'contentstack-dart-v0.1.0';
@@ -59,7 +59,31 @@ class HttpClient extends http.BaseClient {
   /// Closes the client and cleans up any associated resources.
   @override
   void close() => _client.close();
+
+
+//  Uri _uri(String path, {Map<String, dynamic> params}) => Uri(
+//    scheme: 'https',
+//    host: "",
+//    path: 'v3/stack/$path',
+//    queryParameters: params,
+//  );
+
+//  Future<T> fetchEntry<T extends Entry>(
+//      String id,
+//      T Function(Map<String, dynamic>) fromJson, {
+//        Map<String, dynamic> params,
+//      }) async {
+//    final response = await _client.get(_uri('/entries/$id', params: params));
+//    if (response.statusCode != 200) {
+//      throw Exception('getEntry failed');
+//    }
+//    return null;
+//  }
+
 }
+
+
+
 
 class ContentstackClientException implements Exception {
   final int statusCode;
