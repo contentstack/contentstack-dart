@@ -3,16 +3,19 @@ import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/base_query.dart';
 
+/// 
+/// Assets refer to all the media files (images, videos, PDFs, audio files, and so on) 
+/// uploaded in your Contentstack repository for future use. These files can be 
+/// attached and used in multiple entries. Learn more about Assets.
+/// https://www.contentstack.com/docs/content-managers/work-with-assets
+///
+/// All Assets
+/// This call fetches the list of all the assets of a particular stack
+/// 
+/// Single Asset
 /// This call fetches the latest version of a specific asset of a particular stack.
-///
-/// Tip: If no version is mentioned, this request will retrieve the latest
-/// published version of the asset.To retrieve a specific version,
-/// make use of the version parameter and keep the environment parameter blank.
-///
-/// Example:
-///  var stack = contentstack.Stack('api_key', 'delivery_token', 'environment);
-///  var asset = stack.contentType("content_type_uid").asset('asset_uid');
-///  asset.fetch();
+/// 
+
 class Asset extends BaseQuery {
   final HttpClient _client;
   final String _uid;
@@ -25,31 +28,31 @@ class Asset extends BaseQuery {
     }
   }
 
-  ///Enter the name of the [environment] if you wish to retrieve
-  ///the assets published in a particular environment.
-  ///[environment] required
+  /// Enter the name of the [environment] if you wish to retrieve
+  /// the assets published in a particular environment.
+  /// [environment] required
   Asset environment(String environment) {
     queryParameter["environment"] = environment;
     return this;
   }
 
-  ///Specify the version number of the asset that you wish to retrieve.
-  ///If the version is not specified, the details of the latest version will be retrieved.
-  ///To retrieve a specific version, keep the environment parameter blank.
-  ///[version] required
+  /// Specify the version number of the asset that you wish to retrieve.
+  /// If the version is not specified, the details of the latest version will be retrieved.
+  /// To retrieve a specific version, keep the environment parameter blank.
+  /// [version] required
   Asset version(String version) {
     queryParameter["version"] = version;
     return this;
   }
 
-  ///include the dimensions (height and width) of the image in the response.
-  ///Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD.
+  /// include the dimensions (height and width) of the image in the response.
+  /// Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD.
   Asset includeDimension() {
     queryParameter["include_dimension"] = 'true';
     return this;
   }
 
-  ///include the relative URLs of the assets in the response.
+  /// include the relative URLs of the assets in the response.
   Asset relativeUrls() {
     queryParameter["relative_urls"] = 'true';
     return this;

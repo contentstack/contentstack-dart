@@ -481,10 +481,11 @@ class ImageTransformation {
     return this;
   }
 
-  ///The canvas parameter allows you to increase the size of the canvas that surrounds an image.
-  ///You can specify the height and width of the canvas area in pixels or percentage or define the
-  ///height and width of the aspect ratio of the canvas. You can also define the starting point for
-  ///the canvas area or offset the canvas on its X and Y axis.
+  /// 
+  /// The canvas parameter allows you to increase the size of the canvas that surrounds an image.
+  /// You can specify the height and width of the canvas area in pixels or percentage or define the
+  /// height and width of the aspect ratio of the canvas. You can also define the starting point for
+  /// the canvas area or offset the canvas on its X and Y axis.
   ///
   /// [canvasValue] could be in the type of  string, It could be in the format of
   /// dimension: [700,800],
@@ -492,26 +493,25 @@ class ImageTransformation {
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#canvas
   ///
-  /// /// [Example:  Canvas by width & Height]
-  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  ///  final imageTransformation = stack.imageTransform(imageUrl);
-  ///  final response =  imageTransformation.canvas('700,800');
+  /// Example:  Canvas by width & Height:
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// final imageTransformation = stack.imageTransform(imageUrl);
+  /// final response =  imageTransformation.canvas('700,800');
   ///
-  ///  /// [Example:  Canvas by ratio]
-  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  ///  final imageTransformation = stack.imageTransform(imageUrl);
-  ///  final response =  imageTransformation.canvas('2:3');
+  /// Example:  Canvas by ratio:
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// final imageTransformation = stack.imageTransform(imageUrl);
+  /// final response =  imageTransformation.canvas('2:3');
   ///
-  ///  /// [Example:  Canvas  Sub-region]
-  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  ///  final imageTransformation = stack.imageTransform(imageUrl);
-  ///  final response =  imageTransformation.canvas('700,800,x0.50,y0.60');
+  /// Example:  Canvas  Sub-region:
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// final imageTransformation = stack.imageTransform(imageUrl);
+  /// final response =  imageTransformation.canvas('700,800,x0.50,y0.60');
   ///
-  ///  /// [Example:  Canvas and offset ]
-  ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  ///  final imageTransformation = stack.imageTransform(imageUrl);
-  ///  final response =  imageTransformation.canvas('700,800,offset-x0.65,offset-y0.80');
-
+  /// Example:  Canvas and offset:
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// final imageTransformation = stack.imageTransform(imageUrl);
+  /// final response =  imageTransformation.canvas('700,800,offset-x0.65,offset-y0.80');
   ImageTransformation canvas(String canvasValue) {
     query.append("canvas", canvasValue);
     return this;
