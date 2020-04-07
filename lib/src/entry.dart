@@ -32,7 +32,7 @@ class Entry extends EntryQueryable {
   }
 
   Query query() {
-    return Query(_client);
+    return Query(_client, _contentTypeUid);
   }
 
   /// It fetch single entry data.

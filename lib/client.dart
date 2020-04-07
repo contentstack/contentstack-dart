@@ -4,12 +4,12 @@ import 'package:contentstack/src/stack.dart';
 import 'package:http/http.dart' as http;
 
 class HttpClient extends http.BaseClient {
-
   final http.Client _client;
   Stack stack;
   final Map<String, String> stackHeaders;
 
-  factory HttpClient(Map<String, String> headers, {http.Client client, Stack stack})  {
+  factory HttpClient(Map<String, String> headers,
+      {http.Client client, Stack stack}) {
     final stackClient = client ?? http.Client();
     return HttpClient._internal(stackClient, headers, stack);
   }
@@ -26,11 +26,10 @@ class HttpClient extends http.BaseClient {
     return _client.send(request);
   }
 
-
   /// Creates a request with a HTTP method that is by default [get]
   /// The [url] is string type
   Future<dynamic> sendRequest(String url) async {
-    final  response = await http.get(Uri.encodeFull(url), headers: stackHeaders);
+    final response = await http.get(Uri.encodeFull(url), headers: stackHeaders);
     Object bodyJson;
     try {
       bodyJson = jsonDecode(response.body);
@@ -47,10 +46,12 @@ class HttpClient extends http.BaseClient {
       if (bodyJson is Map) {
         final error = bodyJson['error_message'];
         if (error != null) {
-          return ContentstackClientException(response.statusCode, error.toString());
+          return Error(
+              response.statusCode, error.toString());
         }
       }
-      return ContentstackClientException(response.statusCode, bodyJson.toString());
+      return Error(
+          response.statusCode, bodyJson.toString());
     }
 
     return bodyJson;
@@ -59,7 +60,6 @@ class HttpClient extends http.BaseClient {
   /// Closes the client and cleans up any associated resources.
   @override
   void close() => _client.close();
-
 
 //  Uri _uri(String path, {Map<String, dynamic> params}) => Uri(
 //    scheme: 'https',
@@ -82,14 +82,10 @@ class HttpClient extends http.BaseClient {
 
 }
 
-
-
-
-class ContentstackClientException implements Exception {
+class Error implements Exception {
   final int statusCode;
   final String message;
-  ContentstackClientException(this.statusCode, this.message);
+  Error(this.statusCode, this.message);
   @override
   String toString() => '$message ($statusCode)';
 }
-

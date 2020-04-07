@@ -41,10 +41,7 @@ class ContentType {
   /// print(entry);
   /// 
   Entry entry({String entryUid}) {
-    if (entryUid != null && entryUid.isNotEmpty) {
-      return Entry(entryUid, _client, _contentTypeUid);
-    }
-    return Entry();
+    return Entry(entryUid, _client, _contentTypeUid);
   }
 
   ///
