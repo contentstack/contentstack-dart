@@ -187,7 +187,7 @@ void main() {
     test('test chaining few methods API call', () async {
       final Entry includeEntry = stack.contentType("user").entry(entryUid: 'blt3b0aaebf6f1c3762');
       // ignore: avoid_single_cascade_in_expression_statements
-      includeEntry.includeContentType()..includeReferenceContentTypeUID();
+      includeEntry..includeContentType()..includeReferenceContentTypeUID();
       final response = await includeEntry.fetch();
       final resp = response['entry']['cart'];
       expect('product', resp[0]['_content_type_uid']);

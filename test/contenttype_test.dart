@@ -4,9 +4,10 @@ import 'package:test/test.dart';
 import 'package:contentstack/contentstack.dart' as contentstack;
 
 void main() {
+  
   final Logger log = Logger('Stack');
 
-  group('test contenttype functions', () {
+  group('test functional testing', () {
     contentstack.ContentType contentType;
     setUp(() async {
       final stack = contentstack.Stack(
@@ -25,7 +26,12 @@ void main() {
     });
   });
 
-  group('test contentTypeQuery functions', () {
+
+
+
+
+  group('test contentTypeQuery API testing', () {
+    
     contentstack.ContentType ct;
 
     setUp(() {
@@ -46,4 +52,5 @@ void main() {
       expect(5, response['count']);
     });
   });
+
 }

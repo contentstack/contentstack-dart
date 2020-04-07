@@ -23,10 +23,11 @@ enum Where {
 /// final response = query.find();
 ///
 class BaseQuery {
-  
+
   final Map<String, String> queryParameter = <String, String>{};
   final _parameter = <String, String>{};
 
+  
   void where(Where type, String key, value) {
     if (type != null && key != null && key.isNotEmpty) {
       final operation = _operationKey(type);
@@ -45,7 +46,7 @@ class BaseQuery {
   /// [skipCount] No of objects to skip from returned objects
   /// you can chain this call using double dot.
   ///
-  /// The skip parameter can be used for pagination, 
+  /// The skip parameter can be used for pagination,
   /// skip specifies the number of objects to skip in the response.
   /// Example:
   ///
@@ -75,105 +76,105 @@ class BaseQuery {
     queryParameter['query'] = _parameter.toString();
   }
 
-  /// 
+  ///
   /// Sort the results in ascending order with the given key.
   /// Sort the returned entries in ascending order of the provided key.
   /// [key] The key to order by.
   /// you can chain this call by using double dot
-  /// 
+  ///
   /// Example:
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.orderByAscending('ascendingByKey');
-  /// 
+  ///
   void orderByAscending(String key) {
     _parameter["asc"] = key.toString();
     queryParameter['query'] = _parameter.toString();
   }
 
-  /// 
+  ///
   /// Sort the results in descending order with the given key.
   /// Sort the returned entries in descending order of the provided key.
   /// [key] The key to order by.
-  /// you can chain this call by using double dot 
-  /// 
+  /// you can chain this call by using double dot
+  ///
   /// Example:
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.orderByDecending('descendingByKey');
-  /// 
-  void orderByDecending(String key){
+  ///
+  void orderByDecending(String key) {
     _parameter["desc"] = key.toString();
     queryParameter['query'] = _parameter.toString();
   }
 
-  /// 
+  ///
   /// This method adds key and value to an Entry.
   /// [key] The key as string which needs to be added to the Query
   /// [value] The value as string which needs to be added to the Query
-  /// 
+  ///
   /// Example:
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.param('key', 'value');
-  ///  
-  void param(String key, String value){
-    if(key !=null && value != null && key.isNotEmpty && value.isNotEmpty){
+  ///
+  void param(String key, String value) {
+    if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
       _parameter[key] = value.toString();
     }
     queryParameter['query'] = _parameter.toString();
   }
 
-
-  /// 
+  ///
   /// This method adds key and value to an Entry.
   /// [parameters] The key and value pair that will be added to the Query
-  /// 
+  ///
   /// Example:
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.addParam({key: value, key1: value2});
-  /// 
-  void addParam(Map parameters){
-    if(parameters !=null && parameters.isNotEmpty){
-      _parameter.addAll(queryParameter);
+  ///
+  void addParam(Map parameters) {
+    if (parameters != null && parameters.isNotEmpty) {
+      parameters.forEach((key, value) {
+        _parameter[key] = value;
+      });
     }
     queryParameter['query'] = _parameter.toString();
   }
 
-  /// 
+  ///
   /// Add a custom query against specified key.
   /// [key] key for the query
   /// [value] value for the query
-  /// 
+  ///
   /// Example:
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
-  /// query.addQuery("query_param_key", "query_param_value"); 
-  /// 
-  void query(String key, String value){
-    if(key !=null && value != null && key.isNotEmpty && value.isNotEmpty){
+  /// query.addQuery("query_param_key", "query_param_value");
+  ///
+  void query(String key, String value) {
+    if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
       queryParameter[key] = value.toString();
     }
   }
 
-
-  /// 
+  ///
   /// Add a custom query against specified key.
   /// [parameters] The key and value pair that will be added to the Query
-  /// 
+  ///
   /// Example:
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
-  /// query.addQuery("query_param_key", "query_param_value"); 
-  /// 
-  void addQuery(Map parameters){
-    if(parameters !=null && parameters.isNotEmpty){
-      queryParameter.addAll(queryParameter);
+  /// query.addQuery("query_param_key", "query_param_value");
+  ///
+  void addQuery(Map parameters) {
+    if (parameters != null && parameters.isNotEmpty) {
+      parameters.forEach((key, value) {
+        queryParameter[key] = value;
+      });
     }
   }
-
-
 
   String _operationKey(Where whereType) {
     switch (whereType) {
