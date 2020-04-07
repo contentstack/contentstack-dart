@@ -11,9 +11,8 @@ class EntryQueryable {
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
   /// entry.locale('en-eu');
   ///
-  EntryQueryable locale(String locale) {
+  void locale(String locale) {
     parameter['locale'] = locale;
-    return this;
   }
 
   /// Specifies an array of only keys in BASE object that would be included in the response.
@@ -26,17 +25,14 @@ class EntryQueryable {
   /// fieldUid is String type of List
   /// entry.only(fieldUid);
   ///
-  EntryQueryable only(List<String> fieldUid) {
+  void only(List<String> fieldUid) {
     if (fieldUid != null && fieldUid.isNotEmpty) {
       final List referenceArray = [];
       for (final item in fieldUid) {
         referenceArray.add(item);
       }
-
       parameter["only[BASE][]"] = referenceArray.toString();
     }
-
-    return this;
   }
 
   ///
@@ -50,17 +46,14 @@ class EntryQueryable {
   /// fieldUid is String type of List
   /// entry.except(fieldUid);
   ///
-  EntryQueryable except(List<String> fieldUid) {
+  void except(List<String> fieldUid) {
     if (fieldUid != null && fieldUid.isNotEmpty) {
       final List referenceArray = [];
       for (final item in fieldUid) {
         referenceArray.add(item);
       }
-
       parameter["except[BASE][]"] = referenceArray.toString();
     }
-
-    return this;
   }
 
   ///
@@ -92,7 +85,7 @@ class EntryQueryable {
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
   /// entry.includeReference(includeType.except, "referenceFieldUid", fieldUid);
   ///
-  EntryQueryable includeReference(
+  void includeReference(
       IncludeType includeType, String referenceFieldUid,
       [List<String> fieldUid]) {
     
@@ -136,8 +129,6 @@ class EntryQueryable {
         parameter["except"] = referenceExceptParam.toString();
       }
     }
-
-    return this;
   }
 
   ///
@@ -149,10 +140,9 @@ class EntryQueryable {
   /// final entry  = stack.contentType("contentTypeUid").entry("entryUid");
   /// entry.includeContentType();
   ///
-  EntryQueryable includeContentType() {
+  void includeContentType() {
     parameter["include_content_type"] = 'true';
     parameter["include_global_field_schema"] = 'true';
-    return this;
   }
 
   /// This method also includes the content type UIDs of the referenced entries returned in the response
@@ -164,9 +154,8 @@ class EntryQueryable {
   /// final entry  = stack.contentType("contentTypeUid").entry("entryUid");
   /// entry.includeReferenceContentTypeUID();
   ///
-  EntryQueryable includeReferenceContentTypeUID() {
+  void includeReferenceContentTypeUID() {
     parameter['include_reference_content_type_uid'] = 'true';
-    return this;
   }
 
   ///
@@ -181,12 +170,10 @@ class EntryQueryable {
   /// final entry  = stack.contentType("contentTypeUid").entry("entryUid");
   /// entry.addParam(key, value);
   ///
-  EntryQueryable addParam(String key, String value) {
+  void addParam(String key, String value) {
     if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
       parameter[key] = value;
     }
-
-    return this;
   }
 
   String _includeTypeToString(IncludeType include) {

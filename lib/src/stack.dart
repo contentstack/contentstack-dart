@@ -163,19 +163,16 @@ class Stack {
   /// It returns endpoint of the Stack
   String get endpoint => host;
 
-  Stack includeStackVariables() {
+  void includeStackVariables() {
     queryParameter['include_stack_variables'] = 'true';
-    return this;
   }
 
-  Stack includeDiscreteVariables() {
+  void includeDiscreteVariables() {
     queryParameter['include_discrete_variables'] = 'true';
-    return this;
   }
 
-  Stack includeCount() {
+  void includeCount() {
     queryParameter['include_count'] = 'true';
-    return this;
   }
 
   ///
