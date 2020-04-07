@@ -107,7 +107,7 @@ void main() {
     test('find the entry response with locale', () async {
       entry.locale('en-us');
       final response = await entry.fetch();
-      if(response is ContentstackClientException){
+      if(response is Error){
         expect(422, response.statusCode);
       }
       expect('en-us', response['entry']['locale']);
@@ -117,7 +117,7 @@ void main() {
       entry.locale('en-us');
       entry.addParam('version', '4');
       final response = await entry.fetch();
-      if(response is ContentstackClientException){
+      if(response is Error){
         expect(422, response.statusCode);
       }else{
         // review the virsion and 

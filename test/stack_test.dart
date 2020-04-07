@@ -3,14 +3,11 @@ import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 void main() {
-
   final Logger log = Logger('Stack');
-  contentstack.Stack  stack;
+  contentstack.Stack stack;
   const apiKey = 'blt12c8ad610ff4ddc2';
   const deliveryToken = 'blt43359585f471685188b2e1ba';
   const environment = 'env1';
-
-
 
   setUp(() {
     stack = contentstack.Stack(apiKey, deliveryToken, environment);
@@ -24,22 +21,21 @@ void main() {
   });
 
   test('Stack initialization with Host', () {
-    final stack = contentstack.Stack(
-        "apiKey", "accessToken", "environment", host: "com.contentstack.com");
+    final stack = contentstack.Stack("apiKey", "accessToken", "environment",
+        host: "com.contentstack.com");
     expect(stack.host, equals("com.contentstack.com"));
   });
 
   test('Stack initialization with EU Region', () {
-    final stack = contentstack.Stack(
-        "apiKey", "accessToken", "environment", region: contentstack.Region.eu);
+    final stack = contentstack.Stack("apiKey", "accessToken", "environment",
+        region: contentstack.Region.eu);
     expect(stack.region, equals(contentstack.Region.eu));
     expect(stack.host, equals("eu-cdn.contentstack.com"));
   });
 
   test('Stack initialization with EU Region and Host', () {
-    final stack = contentstack.Stack(
-        "apiKey", "accessToken", "environment", region: contentstack.Region.eu,
-        host: 'com.contentstack.com');
+    final stack = contentstack.Stack("apiKey", "accessToken", "environment",
+        region: contentstack.Region.eu, host: 'com.contentstack.com');
     expect(stack.host, equals("eu-com.contentstack.com"));
   });
 
@@ -70,13 +66,13 @@ void main() {
     }
   });
 
-  test('stack fetch getContentTypes', () async{
+  test('stack fetch getContentTypes', () async {
     final stack = contentstack.Stack(apiKey, deliveryToken, environment);
     final queryParameters = {'include_count': 'true'};
-   final resp =  await stack.getContentTypes(queryParameters);
-   if( resp is Map){
-     expect(true, resp.containsKey('content_types'));
-   }
+    final resp = await stack.getContentTypes(queryParameters);
+    if (resp is Map) {
+      expect(true, resp.containsKey('content_types'));
+    }
     log.fine(resp);
   });
 
@@ -85,19 +81,16 @@ void main() {
 //    return stack.contentType('content_type').fetch();
 //  });
 
-
   //-------------------------------------------------------------------------
   //ContentType//
   //-------------------------------------------------------------------------
 
   group('Group of testcases for ContentType', () {
-
     const apiKey = 'blt12c8ad610ff4ddc2';
     const deliveryToken = 'blt43359585f471685188b2e1ba';
     const environment = 'env1';
 
-    setUp(() {
-    });
+    setUp(() {});
 
     test('test client', () {
       final stack = contentstack.Stack(apiKey, deliveryToken, environment);
@@ -114,14 +107,10 @@ void main() {
       }
       expect(true, isTypeOfContentType);
     });
-
   });
 
-
-
   group('Group of testcases for Synchronization', () {
-
-    contentstack.Stack  stack;
+    contentstack.Stack stack;
     const apiKey = 'blt477ba55f9a67bcdf';
     const deliveryToken = 'cs7731f03a2feef7713546fde5';
     const environment = 'web';
@@ -130,27 +119,58 @@ void main() {
       stack = contentstack.Stack(apiKey, deliveryToken, environment);
     });
 
-//    test('sync initialisation response', () {
-//      final syncResult = stack.sync(contentTypeUid: '', fromDate: "");
-//      expect('actual', syncResult);
-//    });
-//
-//    test('sync token response', () {
-//      final syncResult = stack.syncToken('syncToken');
-//      expect('actual', syncResult);
-//    });
-//
-//    test('pagination token response', () {
-//      final syncResult = stack.paginationToken('paginationToken');
-//      expect('actual', syncResult);
-//    });
-//
-//    test('sync with multiple params', () async {
-//      final syncResult = await stack.sync();
-//      expect('actual', syncResult);
-//    });
+    test('sync initialisation response', () async {
+      final response = stack.sync(locale: 'en-us');
+      await response.then((response) {
+        log.fine('Data set success $response');
+        expect(true, response['items'] is List);
+        expect(true, response['skip'] is int);
+        expect(true, response['limit'] is int);
+        expect(true, response['total_count'] is int);
+      }).catchError((error) {
+        log.fine('Data set Error!!! $error');
+        expect(422, error['error_code']);
+      });
+    });
 
+    test('sync token response', () async {
+      final response = stack.syncToken('bltbb61f31a70a572e6c9506a');
+      await response.then((response) {
+        log.fine('Data set success $response');
+        expect(12, response['total_count']);
+      }).catchError((error) {
+        log.fine('Data set Error!!! $error');
+        expect(422, error['error_code']);
+      });
+    });
+
+    test('pagination token response', () async {
+      final response = stack.paginationToken('blt7f35951d259183fba680e1');
+      await response.then((response) {
+        log.fine('Data set success $response');
+        if (response.statusCode != 200) {
+          expect(422, response.statusCode);
+        } else {
+          expect(12, response['total_count']);
+        }
+      }).catchError((error) {
+        log.fine('Data set Error!!! $error');
+        expect(422, error['error_code']);
+      });
+    });
+
+    test('sync with multiple params', () async {
+      final response = stack.sync(
+          fromDate: '12-01-2020',
+          locale: 'en-us',
+          publishType: contentstack.PublishType.assetPublished);
+      await response.then((response) {
+        log.fine('Data set success $response');
+        expect(100, response['items'].length);
+      }).catchError((error) {
+        log.fine('Data set Error!!! $error');
+        expect(422, error['error_code']);
+      });
+    });
   });
-
-
 }

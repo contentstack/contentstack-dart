@@ -11,7 +11,7 @@ class ContentTypeQuery extends BaseQuery{
   String _urlPath;
 
   ContentTypeQuery([this._client]){
-    parameter['environment'] = _client.stackHeaders['environment'];
+    queryParameter['environment'] = _client.stackHeaders['environment'];
     _urlPath = "/${_client.stack.apiVersion}/content_types";
   }
 
@@ -26,7 +26,7 @@ class ContentTypeQuery extends BaseQuery{
   /// print(response);
   /// 
   ContentTypeQuery includeCount(){
-    parameter['include_count'] = 'true';
+    queryParameter['include_count'] = 'true';
     return this;
   }
 
@@ -40,9 +40,9 @@ class ContentTypeQuery extends BaseQuery{
   /// print(response);
   Future find([Map queryParams]) async{
     if (queryParams != null && queryParams.isNotEmpty) {
-      parameter.addAll(queryParams);
+      queryParameter.addAll(queryParams);
     }
-    final uri = Uri.https(_client.stack.endpoint, _urlPath, parameter);
+    final uri = Uri.https(_client.stack.endpoint, _urlPath, queryParameter);
     return _client.sendRequest(uri.toString());
   }
 
