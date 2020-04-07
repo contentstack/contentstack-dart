@@ -47,10 +47,10 @@ class HttpClient extends http.BaseClient {
       if (bodyJson is Map) {
         final error = bodyJson['error_message'];
         if (error != null) {
-          throw ContentstackClientException(response.statusCode, error.toString());
+          return ContentstackClientException(response.statusCode, error.toString());
         }
       }
-      throw ContentstackClientException(response.statusCode, bodyJson.toString());
+      return ContentstackClientException(response.statusCode, bodyJson.toString());
     }
 
     return bodyJson;

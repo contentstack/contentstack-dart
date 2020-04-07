@@ -10,6 +10,8 @@ void main() {
   const deliveryToken = 'blt43359585f471685188b2e1ba';
   const environment = 'env1';
 
+
+
   setUp(() {
     stack = contentstack.Stack(apiKey, deliveryToken, environment);
   });
