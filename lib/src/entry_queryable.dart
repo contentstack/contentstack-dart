@@ -4,7 +4,7 @@ class EntryQueryable {
 
   ///
   /// [locale] is code of the language of which the entries needs to be included.
-  /// Only the entries published in this locale will be displayed.
+  /// Only the entries published in this locale will be fetched.
   ///
   /// Example:
   /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");

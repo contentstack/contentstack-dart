@@ -31,8 +31,8 @@ class Entry extends EntryQueryable {
     }
   }
 
-  Entry query() {
-    return this;
+  Query query() {
+    return Query(_client);
   }
 
   /// It fetch single entry data.
@@ -40,7 +40,6 @@ class Entry extends EntryQueryable {
     if (_uid == null) {
       throwException('Provide entry uid to fetch single entry');
     }
-    //https://cdn.contentstack.io/v3/content_types/product/entries/entry_uid?version=4&environment=production&locale=en-us
     final uri = Uri.https(_client.stack.endpoint, "$_path/$_uid", parameter);
     return _client.sendRequest(uri.toString());
   }
