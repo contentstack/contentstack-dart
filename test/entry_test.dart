@@ -1,8 +1,8 @@
 import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
+import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/src/entry_queryable.dart';
 import 'package:test/test.dart';
-import 'package:contentstack/contentstack.dart' as contentstack;
 
 void main() {
 
