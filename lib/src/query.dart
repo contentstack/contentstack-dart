@@ -17,6 +17,7 @@ class Query extends BaseQuery{
 
   /// find is applicable for querying the entry data.
   Future find() async {
+    queryParameter['query'] = parameter.toString();
     final uri = Uri.https(_client.stack.endpoint, "$_path", queryParameter);
     return _client.sendRequest(uri.toString());
   }

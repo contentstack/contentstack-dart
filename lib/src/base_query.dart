@@ -25,19 +25,19 @@ enum Where {
 class BaseQuery {
 
   final Map<String, String> queryParameter = <String, String>{};
-  final _parameter = <String, String>{};
+  final Map<String, String> parameter = <String, String>{};
 
   
   void where(Where type, String key, value) {
     if (type != null && key != null && key.isNotEmpty) {
       final operation = _operationKey(type);
       if (operation.isEmpty) {
-        _parameter[key] = value;
+        parameter[key] = value;
       } else {
         final query = {operation: value.toString()};
-        _parameter[key] = query.toString();
+        parameter[key] = query.toString();
       }
-      queryParameter['query'] = _parameter.toString();
+      //queryParameter['query'] = parameter.toString();
     }
   }
 
@@ -55,9 +55,9 @@ class BaseQuery {
   /// query.skip(2);
   ///
   void skip(int skipCount) {
-    _parameter["skip"] = skipCount.toString();
+    parameter["skip"] = skipCount.toString();
     // this will be removed and place at the common place where url is created
-    queryParameter['query'] = _parameter.toString();
+    // queryParameter['query'] = parameter.toString();
   }
 
   ///
@@ -72,8 +72,8 @@ class BaseQuery {
   /// query.limit(2);
   ///
   void limit(int limitCount) {
-    _parameter["limit"] = limitCount.toString();
-    queryParameter['query'] = _parameter.toString();
+    parameter["limit"] = limitCount.toString();
+    //queryParameter['query'] = parameter.toString();
   }
 
   ///
@@ -88,8 +88,8 @@ class BaseQuery {
   /// query.orderByAscending('ascendingByKey');
   ///
   void orderByAscending(String key) {
-    _parameter["asc"] = key.toString();
-    queryParameter['query'] = _parameter.toString();
+    parameter["asc"] = key.toString();
+    //queryParameter['query'] = parameter.toString();
   }
 
   ///
@@ -104,8 +104,8 @@ class BaseQuery {
   /// query.orderByDecending('descendingByKey');
   ///
   void orderByDecending(String key) {
-    _parameter["desc"] = key.toString();
-    queryParameter['query'] = _parameter.toString();
+    parameter["desc"] = key.toString();
+    //queryParameter['query'] = parameter.toString();
   }
 
   ///
@@ -120,9 +120,9 @@ class BaseQuery {
   ///
   void param(String key, String value) {
     if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
-      _parameter[key] = value.toString();
+      parameter[key] = value.toString();
     }
-    queryParameter['query'] = _parameter.toString();
+    //queryParameter['query'] = parameter.toString();
   }
 
   ///
@@ -137,10 +137,10 @@ class BaseQuery {
   void addParam(Map parameters) {
     if (parameters != null && parameters.isNotEmpty) {
       parameters.forEach((key, value) {
-        _parameter[key] = value;
+        parameter[key] = value;
       });
     }
-    queryParameter['query'] = _parameter.toString();
+    //queryParameter['query'] = parameter.toString();
   }
 
   ///
