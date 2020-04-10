@@ -17,6 +17,7 @@ dependencies:
   json_annotation: ^3.0.1
   dartdoc: ^0.30.1
   logging: ^0.11.4
+  package_info: ^0.4.0+16
 
 dev_dependencies:
   test: '>=0.6.0 <1.11.0'

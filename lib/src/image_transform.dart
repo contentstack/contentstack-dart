@@ -7,6 +7,7 @@ import 'package:contentstack/src/query_params.dart';
 import 'package:logging/logging.dart';
 
 class ImageTransformation {
+
   final String _imageUrl;
   final HttpClient client;
   final Logger log = Logger('ImageTransformation');

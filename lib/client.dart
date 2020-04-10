@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:contentstack/src/stack.dart';
 import 'package:http/http.dart' as http;
+//import 'package:package_info/package_info.dart';
+import 'package:contentstack/src/stack.dart';
 
 class HttpClient extends http.BaseClient {
   final http.Client _client;
@@ -22,9 +23,11 @@ class HttpClient extends http.BaseClient {
     request.headers.addAll(stackHeaders);
     request.headers['Content-Type'] = 'application/json';
     request.headers['sdk'] = 'contentstack-dart-v0.1.0';
-    request.headers['Content-Type'] = 'application/json';
+    //request.headers['Content-Type'] = 'application/json';
+
     return _client.send(request);
   }
+
 
   /// Creates a request with a HTTP method that is by default [get]
   /// The [url] is string type
@@ -57,28 +60,8 @@ class HttpClient extends http.BaseClient {
     return bodyJson;
   }
 
-  /// Closes the client and cleans up any associated resources.
   @override
   void close() => _client.close();
-
-//  Uri _uri(String path, {Map<String, dynamic> params}) => Uri(
-//    scheme: 'https',
-//    host: "",
-//    path: 'v3/stack/$path',
-//    queryParameters: params,
-//  );
-
-//  Future<T> fetchEntry<T extends Entry>(
-//      String id,
-//      T Function(Map<String, dynamic>) fromJson, {
-//        Map<String, dynamic> params,
-//      }) async {
-//    final response = await _client.get(_uri('/entries/$id', params: params));
-//    if (response.statusCode != 200) {
-//      throw Exception('getEntry failed');
-//    }
-//    return null;
-//  }
 
 }
 

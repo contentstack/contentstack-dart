@@ -17,12 +17,6 @@ import 'package:contentstack/src/entry_queryable.dart';
 /// The Get a single entry request fetches a particular entry of a content type
 ///
 class Entry extends EntryQueryable {
-  
-  final String _uid;
-  final String _contentTypeUid;
-  final HttpClient _client;
-  String _path;
-
   Entry([this._uid, this._client, this._contentTypeUid]) {
     parameter['environment'] = _client.stackHeaders['environment'];
     if (_contentTypeUid != null && _contentTypeUid.isNotEmpty) {
@@ -30,6 +24,11 @@ class Entry extends EntryQueryable {
           "/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries";
     }
   }
+
+  final HttpClient _client;
+  final String _contentTypeUid;
+  String _path;
+  final String _uid;
 
   Query query() {
     return Query(_client, _contentTypeUid);
