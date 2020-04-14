@@ -15,13 +15,13 @@ class ContentType {
 
   final String _contentTypeUid;
   final HttpClient _client;
-  String _urlPath;
+  String urlPath;
   final Map<String, String> _queryParameter = <String, String>{};
 
   ContentType([this._contentTypeUid, this._client]) {
     _queryParameter['environment'] = _client.stackHeaders['environment'];
     if (_contentTypeUid != null && _contentTypeUid.isNotEmpty) {
-      _urlPath = "/${_client.stack.apiVersion}/content_types/$_contentTypeUid";
+      urlPath = "/${_client.stack.apiVersion}/content_types/$_contentTypeUid";
     }
   }
 
@@ -72,13 +72,13 @@ class ContentType {
   /// print(response);
   ///
   Future fetch([Map queryParams]){
-    if(_urlPath == null){
+    if(urlPath == null){
       throw Exception('content_type_uid is missing');
     }
     if (queryParams != null && queryParams.isNotEmpty) {
       _queryParameter.addAll(queryParams);
     }
-    final uri = Uri.https(_client.stack.endpoint, _urlPath, _queryParameter);
+    final uri = Uri.https(_client.stack.endpoint, urlPath, _queryParameter);
     return _client.sendRequest(uri.toString());
   }
 }

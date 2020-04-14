@@ -37,7 +37,7 @@ class Entry extends EntryQueryable {
   /// It fetch single entry data.
   Future fetch() async {
     if (_uid == null) {
-      throwException('Provide entry uid to fetch single entry');
+      throw Exception("Provide entry uid to fetch single entry");
     }
     final uri = Uri.https(_client.stack.endpoint, "$_path/$_uid", parameter);
     return _client.sendRequest(uri.toString());

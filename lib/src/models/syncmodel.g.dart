@@ -9,8 +9,8 @@ part of 'syncmodel.dart';
 SyncModel _$SyncModelFromJson(Map<String, dynamic> json) {
   return SyncModel(
     json['items'] as List,
-    json['skip'] as String,
-    json['limit'] as String,
+    json['skip'] as int,
+    json['limit'] as int,
     json['total_count'] as String,
     json['sync_token'] as String,
   );

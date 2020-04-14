@@ -4,7 +4,7 @@ export 'src/asset.dart';
 export 'src/contenttype.dart';
 export 'src/contenttype_query.dart';
 export 'src/entry.dart';
-export 'src/error/csexception.dart';
+export 'src/error/error.dart';
 export 'src/image_transform.dart';
 export 'src/models/assetmodel.dart';
 export 'src/models/entrymodel.dart';
