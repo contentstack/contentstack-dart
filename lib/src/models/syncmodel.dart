@@ -3,10 +3,9 @@ part 'syncmodel.g.dart';
 
 @JsonSerializable(createFactory: true)
 class SyncModel {
-  
   final List items;
-  final String skip;
-  final String limit;
+  final int skip;
+  final int limit;
   @JsonKey(name: "total_count")
   final String totalCount;
   @JsonKey(name: "sync_token")
@@ -17,12 +16,8 @@ class SyncModel {
   Map<String, dynamic> toJson() => _$SyncModelToJson(this);
 }
 
-
-
-
 @JsonSerializable()
 class Items{
-
   final String type;
   final String eventAt;
   final String contentTypeUid;
@@ -37,7 +32,6 @@ class Items{
 
 @JsonSerializable()
 class Data{
-
   final String uid;
   final String locale;
   final String title;

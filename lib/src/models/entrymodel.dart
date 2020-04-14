@@ -23,10 +23,9 @@ class EntryModel{
   @JsonKey(name: "updated_at")
   String updatedAt;
   @JsonKey(name: "_version")
-  String version;
+  int version;
   @JsonKey(name: "_in_progress")
   String inProgress;
-
 
   EntryModel(this.locale, this.title, this.url, this.description, 
   this.categories, this.tags, this.uid, this.createdBy, this.updatedBy, 
@@ -35,5 +34,4 @@ class EntryModel{
 
   factory EntryModel.fromJson(Map<String, dynamic> json) => _$EntryModelFromJson(json);
   Map<String, dynamic> toJson() => _$EntryModelToJson(this);
-
 }

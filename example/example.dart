@@ -5,18 +5,22 @@ void main() {
 
   final Logger logger = Logger('Stack');
 
- // Get stack response 
+ /// Get stack response
  final stack = contentstack.Stack('apiKey','deliveryToken','environment');
- final response = stack.fetch();
- logger.fine(response);
+ final stackResponse = stack.fetch();
+ logger.fine(stackResponse);
 
 
- // Get Entry response
+ /// Get Entry response like below.
  final entry = stack.contentType('content_type_uid').entry(entryUid: 'entry_uid');
- logger.fine(entry);
+ final entryResponse = entry.fetch();
+ logger.fine(entryResponse);
 
 
- // Get asset response
- //final asset = stack.contentType('content_type_uid').asset()
- //logger.fine(asset);
+ /// Get asset response
+ final query = stack.contentType('content_type_uid').entry().query();
+ final queryResponse = query.find();
+ logger.fine(queryResponse);
+
+
 }

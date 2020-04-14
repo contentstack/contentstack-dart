@@ -12,7 +12,7 @@ void main() {
     setUp(() async {
       final stack = contentstack.Stack(
           'blt12c8ad610ff4ddc2', 'blt43359585f471685188b2e1ba', 'env1');
-      contentType = stack.contentType('product');
+      contentType = stack.contentType('a');
     });
 
     test('test network call for content type', () async {

@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - lcov.info - lib/src/models/assetmodel.dart</title>
+  <title>LCOV - lcov.info - lib/src/error/error.dart</title>
   <link rel="stylesheet" type="text/css" href="../../../gcov.css">
 </head>
 
@@ -19,7 +19,7 @@
         <table cellpadding=1 border=0 width="100%">
           <tr>
             <td width="10%" class="headerItem">Current view:</td>
-            <td width="35%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">lib/src/models</a> - assetmodel.dart<span style="font-size: 80%;"> (source / <a href="assetmodel.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="35%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">lib/src/error</a> - error.dart<span style="font-size: 80%;"> (source / <a href="error.dart.func-sort-c.html">functions</a>)</span></td>
             <td width="5%"></td>
             <td width="15%"></td>
             <td width="10%" class="headerCovTableHead">Hit</td>
@@ -31,9 +31,9 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">3</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
@@ -61,17 +61,22 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : import 'package:json_annotation/json_annotation.dart';</a>
-<a name="2"><span class="lineNum">       2 </span>            : part 'assetmodel.g.dart';</a>
+<a name="2"><span class="lineNum">       2 </span>            : part 'error.g.dart';</a>
 <a name="3"><span class="lineNum">       3 </span>            : </a>
 <a name="4"><span class="lineNum">       4 </span>            : @JsonSerializable(createFactory: true)</a>
-<a name="5"><span class="lineNum">       5 </span>            : class AssetModel{</a>
-<a name="6"><span class="lineNum">       6 </span>            :   String title;</a>
-<a name="7"><span class="lineNum">       7 </span>            :   String abcd;</a>
-<a name="8"><span class="lineNum">       8 </span>            : </a>
-<a name="9"><span class="lineNum">       9 </span><span class="lineNoCov">          0 :   AssetModel(this.title, this.abcd);</span></a>
-<a name="10"><span class="lineNum">      10 </span><span class="lineNoCov">          0 :   factory AssetModel.fromJson(Map&lt;String, dynamic&gt; json) =&gt; _$AssetModelFromJson(json);</span></a>
-<a name="11"><span class="lineNum">      11 </span><span class="lineNoCov">          0 :   Map&lt;String, dynamic&gt; toJson() =&gt; _$AssetModelToJson(this);</span></a>
-<a name="12"><span class="lineNum">      12 </span>            : }</a>
+<a name="5"><span class="lineNum">       5 </span>            : class Error implements Exception {</a>
+<a name="6"><span class="lineNum">       6 </span>            :   </a>
+<a name="7"><span class="lineNum">       7 </span>            :   @JsonKey(name: &quot;error_message&quot;)</a>
+<a name="8"><span class="lineNum">       8 </span>            :   final String errorMessage;</a>
+<a name="9"><span class="lineNum">       9 </span>            :   @JsonKey(name: &quot;error_code&quot;)</a>
+<a name="10"><span class="lineNum">      10 </span>            :   final int errorCode;</a>
+<a name="11"><span class="lineNum">      11 </span>            :   int statusCode;</a>
+<a name="12"><span class="lineNum">      12 </span>            : </a>
+<a name="13"><span class="lineNum">      13 </span><span class="lineCov">          1 :   Error({this.errorMessage, this.errorCode});</span></a>
+<a name="14"><span class="lineNum">      14 </span>            : </a>
+<a name="15"><span class="lineNum">      15 </span><span class="lineCov">          2 :   factory Error.fromJson(Map&lt;String, dynamic&gt; json) =&gt; _$ErrorFromJson(json);</span></a>
+<a name="16"><span class="lineNum">      16 </span><span class="lineCov">          2 :   Map&lt;String, dynamic&gt; toJson() =&gt; _$ErrorToJson(this);</span></a>
+<a name="17"><span class="lineNum">      17 </span>            : }</a>
 </pre>
       </td>
     </tr>

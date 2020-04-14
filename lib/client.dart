@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:contentstack/contentstack.dart';
+import 'package:contentstack/src/error/error.dart';
 import 'package:http/http.dart' as http;
-//import 'package:package_info/package_info.dart';
 import 'package:contentstack/src/stack.dart';
 
 class HttpClient extends http.BaseClient {
@@ -17,20 +18,14 @@ class HttpClient extends http.BaseClient {
 
   HttpClient._internal(this._client, this.stackHeaders, this.stack);
 
-  /// Helps to get request with all the available stack headeers
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
     request.headers.addAll(stackHeaders);
     request.headers['Content-Type'] = 'application/json';
     request.headers['sdk'] = 'contentstack-dart-v0.1.0';
-    //request.headers['Content-Type'] = 'application/json';
-
     return _client.send(request);
   }
 
-
-  /// Creates a request with a HTTP method that is by default [get]
-  /// The [url] is string type
   Future<dynamic> sendRequest(String url) async {
     final response = await http.get(Uri.encodeFull(url), headers: stackHeaders);
     Object bodyJson;
@@ -44,17 +39,8 @@ class HttpClient extends http.BaseClient {
       }
       rethrow;
     }
-
     if (response.statusCode != 200) {
-      if (bodyJson is Map) {
-        final error = bodyJson['error_message'];
-        if (error != null) {
-          return Error(
-              response.statusCode, error.toString());
-        }
-      }
-      return Error(
-          response.statusCode, bodyJson.toString());
+      return Error.fromJson(bodyJson);
     }
 
     return bodyJson;
@@ -62,13 +48,5 @@ class HttpClient extends http.BaseClient {
 
   @override
   void close() => _client.close();
-
 }
 
-class Error implements Exception {
-  final int statusCode;
-  final String message;
-  Error(this.statusCode, this.message);
-  @override
-  String toString() => '$message ($statusCode)';
-}

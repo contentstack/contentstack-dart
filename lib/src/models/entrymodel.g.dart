@@ -19,7 +19,7 @@ EntryModel _$EntryModelFromJson(Map<String, dynamic> json) {
     json['updated_by'] as String,
     json['created_at'] as String,
     json['updated_at'] as String,
-    json['_version'] as String,
+    json['_version'] as int,
     json['_in_progress'] as String,
   );
 }

@@ -1,15 +1,4 @@
-enum Where {
-  equals,
-  notEquals,
-  includes,
-  excludes,
-  isLessThan,
-  isLessThanOrEqual,
-  isGreaterThan,
-  isGreaterThanOrEqual,
-  exists,
-  matches
-}
+
 
 ///
 /// This is base Query class that contains common
@@ -23,16 +12,21 @@ enum Where {
 /// final response = query.find();
 ///
 class BaseQuery {
-
   final Map<String, String> queryParameter = <String, String>{};
   final Map<String, String> parameter = <String, String>{};
-
   
+
   void where(Where type, String key, value) {
     if (type != null && key != null && key.isNotEmpty) {
       final operation = _operationKey(type);
       if (operation.isEmpty) {
-        parameter[key] = value;
+        String key;
+        if(value is List){
+         key = value.elementAt(0);
+        }else{
+          key = value;
+        }
+        parameter[key] = key;
       } else {
         final query = {operation: value.toString()};
         parameter[key] = query.toString();
@@ -201,4 +195,19 @@ class BaseQuery {
     }
     return null;
   }
+}
+
+
+
+enum Where {
+  equals,
+  notEquals,
+  includes,
+  excludes,
+  isLessThan,
+  isLessThanOrEqual,
+  isGreaterThan,
+  isGreaterThanOrEqual,
+  exists,
+  matches
 }

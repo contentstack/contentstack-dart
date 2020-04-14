@@ -3,7 +3,10 @@ import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:contentstack/contentstack.dart' as contentstack;
 
+import 'credentials.dart';
+
 void main() {
+
   group('ImageTransformation testcases', () {
     final Logger log = Logger('ImageTransformation testcases');
     const imageUrl =
@@ -11,10 +14,7 @@ void main() {
     ImageTransformation imageTransformation;
 
     setUp(() {
-      const apiKey = 'blteae40eb499811073';
-      const deliveryToken = 'bltc5064f36b5855343';
-      const environment = 'development';
-      final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+      final contentstack.Stack stack = Credential.stack();
       imageTransformation = stack.imageTransform(imageUrl);
     });
 

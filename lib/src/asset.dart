@@ -1,21 +1,19 @@
 import 'dart:async';
 import 'package:contentstack/client.dart';
-import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/base_query.dart';
 
-/// 
-/// Assets refer to all the media files (images, videos, PDFs, audio files, and so on) 
-/// uploaded in your Contentstack repository for future use. These files can be 
+///
+/// Assets refer to all the media files (images, videos, PDFs, audio files, and so on)
+/// uploaded in your Contentstack repository for future use. These files can be
 /// attached and used in multiple entries. Learn more about Assets.
 /// https://www.contentstack.com/docs/content-managers/work-with-assets
 ///
 /// All Assets
 /// This call fetches the list of all the assets of a particular stack
-/// 
+///
 /// Single Asset
 /// This call fetches the latest version of a specific asset of a particular stack.
-/// 
-
+///
 class Asset extends BaseQuery {
   final HttpClient _client;
   final String _uid;
@@ -28,54 +26,54 @@ class Asset extends BaseQuery {
     }
   }
 
+  ///
   /// Enter the name of the [environment] if you wish to retrieve
   /// the assets published in a particular environment.
   /// [environment] required
-  Asset environment(String environment) {
+  ///
+  void environment(String environment) {
     queryParameter["environment"] = environment;
-    return this;
   }
 
+  ///
   /// Specify the version number of the asset that you wish to retrieve.
   /// If the version is not specified, the details of the latest version will be retrieved.
   /// To retrieve a specific version, keep the environment parameter blank.
   /// [version] required
-  Asset version(String version) {
-    queryParameter["version"] = version;
-    return this;
+  ///
+  void version(int version) {
+    queryParameter["version"] = version.toString();
   }
 
+  ///
   /// include the dimensions (height and width) of the image in the response.
   /// Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD.
-  Asset includeDimension() {
+  ///
+  void includeDimension() {
     queryParameter["include_dimension"] = 'true';
-    return this;
   }
 
+  ///
   /// include the relative URLs of the assets in the response.
-  Asset relativeUrls() {
+  ///
+  void relativeUrls() {
     queryParameter["relative_urls"] = 'true';
-    return this;
   }
 
-  /// It fetch single asset data.
+  /// It fetch single asset data on the basis of the asset uid.
   Future fetch() async {
     if (_uid == null) {
-      throwException('Provide asset uid to fetch single entry');
+      throw Exception('Provide asset uid to fetch single entry');
     }
-    //https://cdn.contentstack.io/v3/content_types/product/entries/entry_uid?version=4&environment=production&locale=en-us
     final uri =
-    Uri.https(_client.stack.endpoint, "$_urlPath/$_uid", queryParameter);
+        Uri.https(_client.stack.endpoint, "$_urlPath/$_uid", queryParameter);
     return _client.sendRequest(uri.toString());
   }
 
-  /// find is applicable for querying the asset data.
+  /// find is applicable for getting all the
+  /// available assets and apply query on the data.
   Future find() async {
-    //https://cdn.contentstack.io/v3/content_types/product/entries?environment=production&locale=en-us
-    final uri =
-    Uri.https(_client.stack.endpoint, "/$_urlPath", queryParameter);
+    final uri = Uri.https(_client.stack.endpoint, "$_urlPath", queryParameter);
     return _client.sendRequest(uri.toString());
   }
-
-
 }

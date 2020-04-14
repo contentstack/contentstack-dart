@@ -1,155 +1,130 @@
 import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/src/base_query.dart';
-//import 'package:logging/logging.dart';
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
+import 'credentials.dart';
 
-void main(){
+void main() {
+  final Logger logger = Logger('Query');
 
-  const String apiKey = "bltc12b8d966127fa01";
-  const String deliveryToken = "cse3ab6095485b70ab2713ed60";
-  const String environment = "env1";
-  contentstack.Query query;
-  //final Logger logger = Logger('Query');
-
-  group('testcases for functional queries', (){
-
+  group('testcases for functional queries', () {
+    contentstack.Query query;
     setUp(() {
-      final contentstack.Stack stack =
-          contentstack.Stack(apiKey, deliveryToken, environment);
+      final contentstack.Stack stack = Credential.stack();
       query = stack.contentType('product').entry().query();
     });
 
-
-    test('test environment is availabe to the url', (){
+    test('test environment is availabe to the url', () {
       final params = query.getQueryUrl();
       expect(true, params.containsKey('environment'));
       final key = params['environment'];
-      expect(environment, key);
+      logger.fine(key);
+      expect(Credential.environment, key);
     });
-
 
     test('test where function parameter contains key', () async {
       query.where(Where.equals, 'uid', 'blta3b58d6893d8935b');
-      final conatins = query.getQueryUrl().containsKey('query');
-      expect(true, conatins);
+      final contains = query.getQueryUrl().containsKey('query');
+      expect(true, contains);
     });
 
-
     test('test notContainedIn function parameter contains key', () async {
-      final List<String> arrayValue = ['Roti Maker','kids dress'];
+      final List<String> arrayValue = ['Roti Maker', 'kids dress'];
       query.where(Where.excludes, 'title', arrayValue);
       // final response = await query.find();
       // logger.fine(response);
-      final conatins = query.getQueryUrl()['query'];
-      expect('{title: {\$nin: [Roti Maker, kids dress]}}', conatins);
+      final contains = query.getQueryUrl()['query'];
+      expect('{title: {\$nin: [Roti Maker, kids dress]}}', contains);
     });
-
 
     test('test skip function parameter contains key', () async {
       query.skip(4);
-      final conatins = query.getQueryUrl()['query'];
-      expect('{skip: 4}', conatins);
+      final contains = query.getQueryUrl()['query'];
+      expect('{skip: 4}', contains);
     });
-
 
     test('test limit function parameter contains key', () async {
       query.limit(4);
-      final conatins = query.getQueryUrl()['query'];
-      expect('{limit: 4}', conatins);
+      final contains = query.getQueryUrl()['query'];
+      expect('{limit: 4}', contains);
     });
-
 
     test('test orderByAscending function parameter contains key', () async {
       query.orderByAscending('title');
-      final conatins = query.getQueryUrl()['query'];
-      expect('{asc: title}', conatins);
+      final contains = query.getQueryUrl()['query'];
+      expect('{asc: title}', contains);
     });
-
 
     test('test orderByDecending function parameter contains key', () async {
       query.orderByDecending('title');
-      final conatins = query.getQueryUrl()['query'];
-      expect('{desc: title}', conatins);
+      final contains = query.getQueryUrl()['query'];
+      expect('{desc: title}', contains);
     });
-
 
     test('test param function parameter contains key', () async {
       query.param('titleKey', 'titleValue');
-      final conatins = query.getQueryUrl()['query'];
-      expect('{titleKey: titleValue}', conatins);
+      final contains = query.getQueryUrl()['query'];
+      expect('{titleKey: titleValue}', contains);
     });
-
 
     test('test addParam function parameter contains key', () async {
-      query.addParam({'key':'value', 'love': 'drawing'});
-      final conatins = query.getQueryUrl()['query'];
-      expect('{key: value, love: drawing}', conatins);
+      query.addParam({'key': 'value', 'love': 'drawing'});
+      final contains = query.getQueryUrl()['query'];
+      expect('{key: value, love: drawing}', contains);
     });
-
 
     test('test query function parameter contains key', () async {
       query.query('queryKey', 'queryValue');
-      final conatins = query.getQueryUrl()['queryKey'];
-      expect('queryValue', conatins);
+      final contains = query.getQueryUrl()['queryKey'];
+      expect('queryValue', contains);
     });
 
     test('test add param function parameter contains key', () async {
-      query.addQuery({'queryKey':'queryValue', 'queryLove': 'queryDrawing'});
-      final conatins = query.getQueryUrl()['queryLove'];
-      expect('queryDrawing', conatins);
+      query.addQuery({'queryKey': 'queryValue', 'queryLove': 'queryDrawing'});
+      final contains = query.getQueryUrl()['queryLove'];
+      expect('queryDrawing', contains);
     });
-
 
     test('test chaining the functions', () async {
-      query..skip(4)..limit(3)..addQuery({'queryKey':'queryValue', 'queryLove': 'queryDrawing'});
-      final conatins = query.getQueryUrl()['queryLove'];
-      expect('queryDrawing', conatins);
+      query
+        ..skip(4)
+        ..limit(3)
+        ..addQuery({'queryKey': 'queryValue', 'queryLove': 'queryDrawing'});
+      final contains = query.getQueryUrl()['queryLove'];
+      expect('queryDrawing', contains);
     });
-
-
   });
 
-
-
-
-
-  group('testcases for API queries', (){
-
+  group('testcases for API queries', () {
+    // Note: Below testcase are not correct (Re-write required)
+    contentstack.Query query;
     setUp(() {
-      final contentstack.Stack stack =
-          contentstack.Stack(apiKey, deliveryToken, environment);
-      query = stack.contentType('product').entry().query();
+      final contentstack.Stack stack = Credential.stack();
+      query = stack.contentType('faq').entry().query();
     });
 
-//    test('test without any parameter', () async {
-//      final response = query.find();
-//      await response.then((response) {
-//        logger.fine('Data set success $response');
-//        expect(27, response['entries'].length);
-//      }).catchError((error) {
-//        logger.fine('Data set Error!!! $error');
-//        expect(422, error['error_code']);
-//      });
-//    });
-//
-//
-//    test('test notContainedIn function parameter contains key', () async {
-//      final List<String> arrayValue = ['Roti Maker','kids dress'];
-//      query.where(Where.excludes, 'title', arrayValue);
-//      final response = await query.find();
-//      logger.fine(response);
-//      expect('not completed yet', response['queries']);
-//    });
-//
-//
-//    test('test notContainedIn function parameter contains key', () async {
-//      final List<String> arrayValue = ['Roti Maker','kids dress'];
-//      query.where(Where.excludes, 'title', arrayValue);
-//      final response = await query.find();
-//      logger.fine(response);
-//      expect('not completed yet', response['queries']);
-//    });
+    test('test length of the entry of respected contentType', () async {
+      final response = query.find();
+      await response.then((response) {
+        logger.fine('query response: $response');
+        expect(3, response['entries'].length);
+      });
+    });
 
+    test('test notContainedIn function parameter contains key', () async {
+      final List<String> arrayValue = ['MEALS'];
+      query.where(Where.equals, 'title', arrayValue);
+      await query.find().then((response) {
+        final queryMap = response['entries'];
+        expect(3, queryMap.length);
+      });
+    });
+
+    test('test notContainedIn function parameter contains key', () async {
+      query.where(Where.equals, 'title', 'MEALS');
+      final response = await query.find();
+      logger.fine(response);
+      expect(3, response['entries'].length);
+    });
   });
-
 }

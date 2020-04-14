@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">12</td>
             <td class="headerCovTableEntry">15</td>
-            <td class="headerCovTableEntryMed">80.0 %</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-04-10 19:07:22</td>
+            <td class="headerValue">2020-04-13 22:57:24</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -77,13 +77,13 @@
 <a name="15"><span class="lineNum">      15 </span>            : </a>
 <a name="16"><span class="lineNum">      16 </span>            :   final String _contentTypeUid;</a>
 <a name="17"><span class="lineNum">      17 </span>            :   final HttpClient _client;</a>
-<a name="18"><span class="lineNum">      18 </span>            :   String _urlPath;</a>
+<a name="18"><span class="lineNum">      18 </span>            :   String urlPath;</a>
 <a name="19"><span class="lineNum">      19 </span>            :   final Map&lt;String, String&gt; _queryParameter = &lt;String, String&gt;{};</a>
 <a name="20"><span class="lineNum">      20 </span>            : </a>
 <a name="21"><span class="lineNum">      21 </span><span class="lineCov">          1 :   ContentType([this._contentTypeUid, this._client]) {</span></a>
 <a name="22"><span class="lineNum">      22 </span><span class="lineCov">          5 :     _queryParameter['environment'] = _client.stackHeaders['environment'];</span></a>
 <a name="23"><span class="lineNum">      23 </span><span class="lineCov">          3 :     if (_contentTypeUid != null &amp;&amp; _contentTypeUid.isNotEmpty) {</span></a>
-<a name="24"><span class="lineNum">      24 </span><span class="lineCov">          6 :       _urlPath = &quot;/${_client.stack.apiVersion}/content_types/$_contentTypeUid&quot;;</span></a>
+<a name="24"><span class="lineNum">      24 </span><span class="lineCov">          6 :       urlPath = &quot;/${_client.stack.apiVersion}/content_types/$_contentTypeUid&quot;;</span></a>
 <a name="25"><span class="lineNum">      25 </span>            :     }</a>
 <a name="26"><span class="lineNum">      26 </span>            :   }</a>
 <a name="27"><span class="lineNum">      27 </span>            : </a>
@@ -134,13 +134,13 @@
 <a name="72"><span class="lineNum">      72 </span>            :   /// print(response);</a>
 <a name="73"><span class="lineNum">      73 </span>            :   ///</a>
 <a name="74"><span class="lineNum">      74 </span><span class="lineCov">          1 :   Future fetch([Map queryParams]){</span></a>
-<a name="75"><span class="lineNum">      75 </span><span class="lineCov">          1 :     if(_urlPath == null){</span></a>
-<a name="76"><span class="lineNum">      76 </span><span class="lineNoCov">          0 :       throw Exception('content_type_uid is missing');</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">          1 :     if(urlPath == null){</span></a>
+<a name="76"><span class="lineNum">      76 </span><span class="lineCov">          1 :       throw Exception('content_type_uid is missing');</span></a>
 <a name="77"><span class="lineNum">      77 </span>            :     }</a>
-<a name="78"><span class="lineNum">      78 </span><span class="lineNoCov">          0 :     if (queryParams != null &amp;&amp; queryParams.isNotEmpty) {</span></a>
-<a name="79"><span class="lineNum">      79 </span><span class="lineNoCov">          0 :       _queryParameter.addAll(queryParams);</span></a>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">          1 :     if (queryParams != null &amp;&amp; queryParams.isNotEmpty) {</span></a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">          2 :       _queryParameter.addAll(queryParams);</span></a>
 <a name="80"><span class="lineNum">      80 </span>            :     }</a>
-<a name="81"><span class="lineNum">      81 </span><span class="lineCov">          6 :     final uri = Uri.https(_client.stack.endpoint, _urlPath, _queryParameter);</span></a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">          6 :     final uri = Uri.https(_client.stack.endpoint, urlPath, _queryParameter);</span></a>
 <a name="82"><span class="lineNum">      82 </span><span class="lineCov">          3 :     return _client.sendRequest(uri.toString());</span></a>
 <a name="83"><span class="lineNum">      83 </span>            :   }</a>
 <a name="84"><span class="lineNum">      84 </span>            : }</a>

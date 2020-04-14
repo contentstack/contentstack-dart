@@ -108,7 +108,7 @@ void main() {
       entry.locale('en-us');
       final response = await entry.fetch();
       if(response is Error){
-        expect(422, response.statusCode);
+        expect(422, Error().statusCode);
       }
       expect('en-us', response['entry']['locale']);
     });
@@ -118,9 +118,8 @@ void main() {
       entry.addParam('version', '4');
       final response = await entry.fetch();
       if(response is Error){
-        expect(422, response.statusCode);
+        expect(141, response.errorCode);
       }else{
-        // review the virsion and 
         expect('en-us', response['entry']['locale']);
       }
     });
@@ -140,7 +139,12 @@ void main() {
       const List<String> fieldUID = ["price", "orange", "mango"];
       entry.except(fieldUID);
       final response = await entry.fetch();
-      expect(786, response['entry']['price']);
+      if(response is Map){
+        final entryModel = EntryModel.fromJson(response['entry']);
+        expect(true, entryModel is EntryModel);
+        expect('laptop', entryModel.title);
+      }
+
     });
 
 
@@ -149,7 +153,11 @@ void main() {
       const List<String> fieldUID = ["price", "orange", "mango"];
       entry.includeReference(IncludeType.only, 'category', fieldUID);
       final response = await entry.fetch();
-      expect(422, response.statusCode);
+      if(response is Error){
+        expect(141, response.errorCode);
+        final isJson = Error().toJson();
+        expect(true, isJson is Map);
+      }
     });
 
 
@@ -167,7 +175,9 @@ void main() {
       const List<String> fieldUID = ["price", "orange", "mango"];
       entry.includeReference(IncludeType.except, 'category', fieldUID);
       final response = await entry.fetch();
-      expect(422, response.statusCode);
+      if(response is Error){
+        expect(141, response.errorCode);
+      }
     });
 
     test('find the includeContentType except API call', () async {
