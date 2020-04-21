@@ -182,10 +182,10 @@ void main() {
     test('sync token response', () async {
       final response = stack.syncToken('blta2662861c53ebf7cab51e7');
       await response.then((response) {
-        final syncResult = contentstack.SyncModel.fromJson(response);
-        expect(true, syncResult is contentstack.SyncModel);
+        final syncResult = contentstack.SyncResult.fromJson(response);
+        expect(true, syncResult is contentstack.SyncResult);
         expect(true, syncResult.toJson() is Map);
-        expect('blta2662861c53ebf7cab51e7', syncResult.syncToken);
+        expect('blt5af6b3fc67e6092a8a9410', syncResult.syncToken);
       }).catchError((error) {
         log.fine('Data set Error!!! $error');
         expect(422, error['error_code']);

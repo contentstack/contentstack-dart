@@ -1,19 +1,21 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'syncmodel.g.dart';
+part 'syncresult.g.dart';
 
 @JsonSerializable(createFactory: true)
-class SyncModel {
+class SyncResult {
   final List items;
   final int skip;
   final int limit;
   @JsonKey(name: "total_count")
-  final String totalCount;
+  final int totalCount;
   @JsonKey(name: "sync_token")
   final String syncToken;
+  @JsonKey(name: "pagination_token")
+  final String paginationToken;
 
-  SyncModel(this.items, this.skip, this.limit, this.totalCount, this.syncToken);
-  factory SyncModel.fromJson(Map<String, dynamic> json) => _$SyncModelFromJson(json);
-  Map<String, dynamic> toJson() => _$SyncModelToJson(this);
+  SyncResult(this.items, this.skip, this.limit, this.totalCount, this.syncToken, this.paginationToken);
+  factory SyncResult.fromJson(Map<String, dynamic> json) => _$SyncResultFromJson(json);
+  Map<String, dynamic> toJson() => _$SyncResultToJson(this);
 }
 
 @JsonSerializable()

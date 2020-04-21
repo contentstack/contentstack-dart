@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-04-16 17:10:56</td>
+            <td class="headerValue">2020-04-21 18:52:29</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -129,14 +129,14 @@
 <a name="67"><span class="lineNum">      67 </span>            :     }</a>
 <a name="68"><span class="lineNum">      68 </span>            :     final uri =</a>
 <a name="69"><span class="lineNum">      69 </span><span class="lineCov">          8 :         Uri.https(_client.stack.endpoint, &quot;$_urlPath/$_uid&quot;, queryParameter);</span></a>
-<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          3 :     return _client.sendRequest(uri.toString());</span></a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          2 :     return _client.sendRequest(uri);</span></a>
 <a name="71"><span class="lineNum">      71 </span>            :   }</a>
 <a name="72"><span class="lineNum">      72 </span>            : </a>
 <a name="73"><span class="lineNum">      73 </span>            :   /// find is applicable for getting all the</a>
 <a name="74"><span class="lineNum">      74 </span>            :   /// available assets and apply query on the data.</a>
 <a name="75"><span class="lineNum">      75 </span><span class="lineCov">          1 :   Future find() async {</span></a>
 <a name="76"><span class="lineNum">      76 </span><span class="lineCov">          7 :     final uri = Uri.https(_client.stack.endpoint, &quot;$_urlPath&quot;, queryParameter);</span></a>
-<a name="77"><span class="lineNum">      77 </span><span class="lineCov">          3 :     return _client.sendRequest(uri.toString());</span></a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">          2 :     return _client.sendRequest(uri);</span></a>
 <a name="78"><span class="lineNum">      78 </span>            :   }</a>
 <a name="79"><span class="lineNum">      79 </span>            : }</a>
 </pre>

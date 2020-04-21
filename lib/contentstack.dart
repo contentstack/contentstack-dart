@@ -8,6 +8,6 @@ export 'src/error/error.dart';
 export 'src/image_transform.dart';
 export 'src/models/assetmodel.dart';
 export 'src/models/entrymodel.dart';
-export 'src/models/syncmodel.dart';
+export 'src/models/syncresult.dart';
 export 'src/query.dart';
 export 'src/stack.dart';

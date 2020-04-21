@@ -1,5 +1,6 @@
-class EntryQueryable {
+import 'package:contentstack/src/include.dart';
 
+class EntryQueryable {
   final Map<String, String> parameter = <String, String>{};
 
   ///
@@ -57,76 +58,81 @@ class EntryQueryable {
   }
 
   ///
-  /// Add a constraint that requires a particular reference key details.
-  /// [includeType] provides three options, none, only and except
-  /// [referenceFieldUid] Key who has reference to some other class object.
-  /// [EntryQueryable] object, so you can chain this call.
-  /// [fieldUid] is compulsory when includeType for the only & except.
-  /// Array of the only reference keys to be included in response.
-  /// OR
-  /// Array of the except reference keys to be excluded in response.
+  /// * Include Reference
+  /// When you fetch an entry of a content type that has a reference field,
+  /// by default, the content of the referred entry is not fetched.
+  /// It only fetches the UID of the referred entry, along with the content of
+  /// the specified entry.
   ///
-  /// Example 1:
+  /// If you wish to fetch the content of the entry that is included in the reference field, you need to use the include[] parameter, and specify the UID of the reference field as value. This informs Contentstack that the request also includes fetching the entry used in the specified reference field.
+  /// Add a constraint that requires a particular reference key details.
+  /// [includeReference] provides three options, none, only and except
+  /// i.e accepts list of fieldUid
+  /// [referenceFieldUid] Key who has reference to some other class object.
+  /// Array of the only reference keys to be included in response.
+  ///
+  /// Example 1: Reference type None
   ///
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
-  /// entry.includeReference(includeType.none, "referenceFieldUid");
+  /// entry.includeReference("referenceFieldUid", IncludeReference.none(fieldUidList: null));
+  /// await entry.fetch();
   ///
-  /// Example 2:
+  /// Example 2: Reference type only
   ///
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
   /// final fieldUid = list of string type;
-  /// entry.includeReference(includeType.only, "referenceFieldUid", fieldUid);
+  /// entry.includeReference("referenceFieldUid", IncludeReference.only(fieldUidList: fieldUid));
   ///
-  /// Example 3:
+  /// Example 3: Reference type except
   ///
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
-  /// entry.includeReference(includeType.except, "referenceFieldUid", fieldUid);
+  /// entry.includeReference("referenceFieldUid", IncludeReference.except(fieldUidList: fieldUid));
   ///
-  void includeReference(
-      IncludeType includeType, String referenceFieldUid,
-      [List<String> fieldUid]) {
-    
-    final List referenceArray = [];
-
-    if (_includeTypeToString(includeType) == 'none') {
-      if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
-        referenceArray.add(referenceFieldUid);
-      }
-
-      if (fieldUid != null && fieldUid.isNotEmpty) {
-        for (final item in fieldUid) {
-          referenceArray.add(item);
-        }
-      }
-      parameter["include[]"] = referenceArray.toString();
-    }
-
-    if (_includeTypeToString(includeType) == 'only') {
-      final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
-      if (fieldUid != null && fieldUid.isNotEmpty) {
-        for (final item in fieldUid) {
-          referenceArray.add(item);
-        }
-
-        referenceOnlyParam[referenceFieldUid] = referenceArray;
-        includeReference(IncludeType.none, referenceFieldUid);
-        parameter["only"] = referenceOnlyParam.toString();
-      }
-    }
-
-    if (_includeTypeToString(includeType) == 'except') {
-      final Map<String, dynamic> referenceExceptParam = <String, dynamic>{};
-      if (fieldUid != null && fieldUid.isNotEmpty) {
-        for (final item in fieldUid) {
-          referenceArray.add(item);
-        }
-
-        referenceExceptParam[referenceFieldUid] = referenceArray;
-        includeReference(IncludeType.none, referenceFieldUid);
-        parameter["except"] = referenceExceptParam.toString();
+  void includeReference(String referenceFieldUid,
+  {Include includeReferenceField}) {
+    if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
+      final List referenceArray = [];
+      if (includeReferenceField != null) {
+        includeReferenceField.when(none: (fieldUid) {
+          referenceArray.add(referenceFieldUid);
+          if (fieldUid.fieldUidList != null &&
+              fieldUid.fieldUidList.isNotEmpty) {
+            for (final item in fieldUid.fieldUidList) {
+              referenceArray.add(item);
+            }
+          }
+          parameter["include[]"] = referenceArray.toString();
+        }, only: (fieldUid) {
+          final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
+          if (fieldUid.fieldUidList != null &&
+              fieldUid.fieldUidList.isNotEmpty) {
+            for (final item in fieldUid.fieldUidList) {
+              referenceArray.add(item);
+            }
+          }
+          referenceOnlyParam[referenceFieldUid] = referenceArray;
+          //_include(referenceFieldUid);
+          includeReference(referenceFieldUid);
+          parameter["only"] = referenceOnlyParam.toString();
+        }, except: (fieldUid) {
+          final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
+          if (fieldUid.fieldUidList != null &&
+              fieldUid.fieldUidList.isNotEmpty) {
+            for (final item in fieldUid.fieldUidList) {
+              referenceArray.add(item);
+            }
+          }
+          referenceOnlyParam[referenceFieldUid] = referenceArray;
+          //_include(referenceFieldUid);
+          includeReference(referenceFieldUid);
+          parameter["except"] = referenceOnlyParam.toString();
+        });
+      }else{
+        //referenceArray.add(referenceFieldUid);
+        parameter["include[]"] = referenceFieldUid;
       }
     }
   }
@@ -176,20 +182,11 @@ class EntryQueryable {
     }
   }
 
-  String _includeTypeToString(IncludeType include) {
-    switch (include) {
-      case IncludeType.none:
-        return 'none';
-      case IncludeType.only:
-        return 'only';
-      case IncludeType.except:
-        return 'except';
+  void _include(String referenceFieldUid) {
+    final List referenceArray = [];
+    if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
+      referenceArray.add(referenceFieldUid);
     }
-
-    return null;
+    parameter["include[]"] = referenceArray.toString();
   }
 }
-
-// can't take default as it is reserved keyword
-// consider none as default
-enum IncludeType { none, only, except }

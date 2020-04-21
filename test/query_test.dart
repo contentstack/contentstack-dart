@@ -26,64 +26,63 @@ void main() {
     test('test where equals Operation', () async {
       query.where('uid', QueryOperation.equals(value: 'blt8493859348'));
       final contains = query.getQueryUrl().toString();
-      expect(
-          "{environment: development, query: {uid: blt8493859348}}", contains);
+      expect('{environment: development, query: {"uid":"blt8493859348"}}', contains);
     });
 
     test('test where notEquals operation', () async {
       query.where('attendee', QueryOperation.notEquals(value: '40'));
       final contains = query.getQueryUrl()['query'];
-      expect("{attendee: {\$ne: 40}}", contains);
+      expect("{\"attendee\":{\"\$ne\":\"40\"}}", contains);
     });
 
     test('test where includes Operation', () async {
       const includeList = ['abc', 'def', 'uiweu'];
       query.where('uid', QueryOperation.includes(value: includeList));
       final contains = query.getQueryUrl()['query'];
-      expect("{uid: {\$in: [abc, def, uiweu]}}", contains);
+      expect("{\"uid\":{\"\$in\":[\"abc\",\"def\",\"uiweu\"]}}", contains);
     });
 
     test('test where excludes Operation', () async {
       const includeList = ['abc', 'def', 'uiweu'];
       query.where('uid', QueryOperation.excludes(value: includeList));
       final contains = query.getQueryUrl()['query'];
-      expect("{uid: {\$nin: [abc, def, uiweu]}}", contains);
+      expect("{\"uid\":{\"\$nin\":[\"abc\",\"def\",\"uiweu\"]}}", contains);
     });
 
     test('test where exists Operation', () async {
       query.where('uid', QueryOperation.exists(value: true));
       final contains = query.getQueryUrl()['query'];
-      expect("{uid: {\$exists: true}}", contains);
+      expect("{\"uid\":{\"\$exists\":true}}", contains);
     });
 
     test('test where isGreaterThan Operation', () async {
       query.where('uid', QueryOperation.isGreaterThan(value: 'price'));
       final contains = query.getQueryUrl()['query'];
-      expect("{uid: {\$gt: price}}", contains);
+      expect("{\"uid\":{\"\$gt\":\"price\"}}", contains);
     });
 
     test('test where isGreaterThanOrEqual Operation', () async {
       query.where('uid', QueryOperation.isGreaterThanOrEqual(value: 'price'));
       final contains = query.getQueryUrl()['query'];
-      expect("{uid: {\$gte: price}}", contains);
+      expect("{\"uid\":{\"\$gte\":\"price\"}}", contains);
     });
 
     test('test where isLessThan Operation', () async {
       query.where('uid', QueryOperation.isLessThan(value: 'price'));
       final contains = query.getQueryUrl()['query'];
-      expect("{uid: {\$lt: price}}", contains);
+      expect("{\"uid\":{\"\$lt\":\"price\"}}", contains);
     });
 
     test('test where isLessThanOrEqual Operation', () async {
       query.where('uid', QueryOperation.isLessThanOrEqual(value: 'price'));
       final contains = query.getQueryUrl()['query'];
-      expect("{uid: {\$lte: price}}", contains);
+      expect("{\"uid\":{\"\$lte\":\"price\"}}", contains);
     });
 
     test('test where matches Operation', () async {
       query.where('uid', QueryOperation.matches(regex: 'price'));
       final contains = query.getQueryUrl()['query'];
-      expect("{uid: {\$regex: price}}", contains);
+      expect("{\"uid\":{\"\$regex\":\"price\"}}", contains);
     });
 
     test('test limit function parameter contains key', () async {
@@ -120,14 +119,14 @@ void main() {
 
     test('test query function parameter contains key', () async {
       query.query('queryKey', 'queryValue');
-      final contains = query.getQueryUrl()['queryKey'];
-      expect('queryValue', contains);
+      final contains = query.getQueryUrl()['query'];
+      expect('{\"queryKey\":\"queryValue\"}', contains);
     });
 
     test('test add param function parameter contains key', () async {
       query.addQuery({'queryKey': 'queryValue', 'queryLove': 'queryDrawing'});
-      final contains = query.getQueryUrl()['queryLove'];
-      expect('queryDrawing', contains);
+      final contains = query.getQueryUrl()['query'];
+      expect('{\"queryKey\":\"queryValue\",\"queryLove\":\"queryDrawing\"}', contains);
     });
 
     test('functional cascade of skip and limit', () async {

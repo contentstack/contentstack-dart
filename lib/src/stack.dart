@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/src/asset.dart';
 import 'package:contentstack/src/image_transform.dart';
-import 'package:contentstack/src/models/syncmodel.dart';
+import 'package:contentstack/src/models/syncresult.dart';
 import 'package:http/http.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:logging/logging.dart';
