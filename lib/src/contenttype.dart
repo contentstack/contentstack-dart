@@ -79,6 +79,6 @@ class ContentType {
       _queryParameter.addAll(queryParams);
     }
     final uri = Uri.https(_client.stack.endpoint, urlPath, _queryParameter);
-    return _client.sendRequest(uri.toString());
+    return _client.sendRequest(uri);
   }
 }

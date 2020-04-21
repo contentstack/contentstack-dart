@@ -504,10 +504,10 @@ class ImageTransformation {
     if (!_validURL) {
       throw Exception('Invalid url requested');
     }
-    final response = await client.sendRequest(getUrl());
-    if (response.statusCode != 200) {
-      throw Exception('getEntry failed');
-    }
+//    final response = await client.sendRequest(getUrl());
+//    if (response.statusCode != 200) {
+//      throw Exception('getEntry failed');
+//    }
     return null;
   }
 

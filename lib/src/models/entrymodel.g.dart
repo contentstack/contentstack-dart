@@ -20,7 +20,6 @@ EntryModel _$EntryModelFromJson(Map<String, dynamic> json) {
     json['created_at'] as String,
     json['updated_at'] as String,
     json['_version'] as int,
-    json['_in_progress'] as String,
   );
 }
 
@@ -38,5 +37,4 @@ Map<String, dynamic> _$EntryModelToJson(EntryModel instance) =>
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
       '_version': instance.version,
-      '_in_progress': instance.inProgress,
     };

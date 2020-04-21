@@ -130,22 +130,19 @@ class Stack {
   ///  returns [Stack] Instance
   ///
 
-  Stack removeHeader(String headerKey) {
+  void removeHeader(String headerKey) {
     if (headerKey != null) {
       if (stackHeader.containsKey(headerKey)) {
         stackHeader.remove(headerKey);
       }
-      return this;
     }
-    throw ArgumentError.notNull("headerKey ");
   }
 
-  Stack setHeader(String key, String value) {
+  void setHeader(String key, String value) {
     if (key == null || value == null) {
       throw ArgumentError.notNull("key & value ");
     }
     stackHeader[key] = value;
-    return this;
   }
 
   /// It returns apiKey of the Stack
@@ -208,12 +205,13 @@ class Stack {
 
   Future<dynamic> getContentTypes(Map queryParameters) {
     final Uri uri = Uri.https(endpoint, '$apiVersion/content_types');
-    return _client.sendRequest(uri.toString());
+    return _client.sendRequest(uri);
   }
 
   /// gets stack Future response
   Future<dynamic> fetch() {
-    return _client.sendRequest('$endpoint/stack');
+    final Uri uri = Uri.https(endpoint, '$apiVersion/stack');
+    return _client.sendRequest(uri);
   }
 
   /// [contentTypeUid] -- You can also initialize sync with entries of
@@ -262,7 +260,7 @@ class Stack {
   Future _syncRequest(parameters) async{
     parameters['environment'] = _client.stackHeaders['environment'];
     final Uri uri = Uri.https(endpoint, '$apiVersion/stacks/sync', parameters);
-    return _client.sendRequest(uri.toString());
+    return _client.sendRequest(uri);
   }
 
   String _publishTypeString(PublishType publishType) {

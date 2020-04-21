@@ -24,12 +24,10 @@ class EntryModel{
   String updatedAt;
   @JsonKey(name: "_version")
   int version;
-  @JsonKey(name: "_in_progress")
-  String inProgress;
 
   EntryModel(this.locale, this.title, this.url, this.description, 
   this.categories, this.tags, this.uid, this.createdBy, this.updatedBy, 
-  this.createdAt, this.updatedAt, this.version, this.inProgress);
+  this.createdAt, this.updatedAt, this.version);
 
 
   factory EntryModel.fromJson(Map<String, dynamic> json) => _$EntryModelFromJson(json);
