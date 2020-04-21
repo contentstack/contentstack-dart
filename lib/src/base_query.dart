@@ -1,4 +1,4 @@
-
+import 'package:contentstack/src/operations.dart';
 
 ///
 /// This is base Query class that contains common
@@ -7,31 +7,38 @@
 /// Example:
 ///
 /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
-/// final query = stack.contentType('content_type_uid').query();
+/// final query = stack.contentType('content_type_uid').entry().query();
 /// query.addParams('key', 'value');
 /// final response = query.find();
 ///
+
 class BaseQuery {
   final Map<String, String> queryParameter = <String, String>{};
-  final Map<String, String> parameter = <String, String>{};
-  
+  final Map<String, dynamic> parameter = <String, dynamic>{};
 
-  void where(Where type, String key, value) {
-    if (type != null && key != null && key.isNotEmpty) {
-      final operation = _operationKey(type);
-      if (operation.isEmpty) {
-        String key;
-        if(value is List){
-         key = value.elementAt(0);
-        }else{
-          key = value;
-        }
-        parameter[key] = key;
-      } else {
-        final query = {operation: value.toString()};
-        parameter[key] = query.toString();
-      }
-      //queryParameter['query'] = parameter.toString();
+  void where(String fieldUid, QueryOperation queryOperation) {
+    if (fieldUid != null && fieldUid.isNotEmpty) {
+      queryOperation.when(equals: (operation) {
+        parameter[fieldUid] = operation.value;
+      }, notEquals: (operation) {
+        parameter[fieldUid] = {'\$ne': operation.value};
+      }, includes: (operation) {
+        parameter[fieldUid] = {"\$in": operation.value};
+      }, excludes: (operation) {
+        parameter[fieldUid] = {"\$nin": operation.value};
+      }, isLessThan: (operation) {
+        parameter[fieldUid] = {'\$lt': operation.value};
+      }, isLessThanOrEqual: (operation) {
+        parameter[fieldUid] = {"\$lte": operation.value};
+      }, isGreaterThan: (operation) {
+        parameter[fieldUid] = {'\$gt': operation.value};
+      }, isGreaterThanOrEqual: (operation) {
+        parameter[fieldUid] = {'\$gte': operation.value};
+      }, exists: (operation) {
+        parameter[fieldUid] = {'\$exists': operation.value};
+      }, matches: (operation) {
+        parameter[fieldUid] = {'\$regex': operation.regex};
+      });
     }
   }
 
@@ -49,7 +56,7 @@ class BaseQuery {
   /// query.skip(2);
   ///
   void skip(int skipCount) {
-    parameter["skip"] = skipCount.toString();
+    queryParameter["skip"] = skipCount.toString();
     // this will be removed and place at the common place where url is created
     // queryParameter['query'] = parameter.toString();
   }
@@ -66,7 +73,7 @@ class BaseQuery {
   /// query.limit(2);
   ///
   void limit(int limitCount) {
-    parameter["limit"] = limitCount.toString();
+    queryParameter["limit"] = limitCount.toString();
     //queryParameter['query'] = parameter.toString();
   }
 
@@ -82,7 +89,7 @@ class BaseQuery {
   /// query.orderByAscending('ascendingByKey');
   ///
   void orderByAscending(String key) {
-    parameter["asc"] = key.toString();
+    queryParameter["asc"] = key.toString();
     //queryParameter['query'] = parameter.toString();
   }
 
@@ -97,8 +104,8 @@ class BaseQuery {
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.orderByDecending('descendingByKey');
   ///
-  void orderByDecending(String key) {
-    parameter["desc"] = key.toString();
+  void orderByDescending(String key) {
+    queryParameter["desc"] = key.toString();
     //queryParameter['query'] = parameter.toString();
   }
 
@@ -114,7 +121,7 @@ class BaseQuery {
   ///
   void param(String key, String value) {
     if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
-      parameter[key] = value.toString();
+      queryParameter[key] = value.toString();
     }
     //queryParameter['query'] = parameter.toString();
   }
@@ -128,10 +135,10 @@ class BaseQuery {
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.addParam({key: value, key1: value2});
   ///
-  void addParam(Map parameters) {
+  void addParams(Map parameters) {
     if (parameters != null && parameters.isNotEmpty) {
       parameters.forEach((key, value) {
-        parameter[key] = value;
+        queryParameter[key] = value;
       });
     }
     //queryParameter['query'] = parameter.toString();
@@ -149,7 +156,7 @@ class BaseQuery {
   ///
   void query(String key, String value) {
     if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
-      queryParameter[key] = value.toString();
+      parameter[key] = value.toString();
     }
   }
 
@@ -165,49 +172,9 @@ class BaseQuery {
   void addQuery(Map parameters) {
     if (parameters != null && parameters.isNotEmpty) {
       parameters.forEach((key, value) {
-        queryParameter[key] = value;
+        parameter[key] = value;
       });
     }
   }
 
-  String _operationKey(Where whereType) {
-    switch (whereType) {
-      case Where.equals:
-        return '';
-      case Where.notEquals:
-        return "\$ne";
-      case Where.includes:
-        return '\$in';
-      case Where.excludes:
-        return '\$nin';
-      case Where.isLessThan:
-        return '\$lt';
-      case Where.isLessThanOrEqual:
-        return '\$lte';
-      case Where.isGreaterThan:
-        return '\$gt';
-      case Where.isGreaterThanOrEqual:
-        return '\$gte';
-      case Where.exists:
-        return '\$exists';
-      case Where.matches:
-        return '\$regex';
-    }
-    return null;
-  }
-}
-
-
-
-enum Where {
-  equals,
-  notEquals,
-  includes,
-  excludes,
-  isLessThan,
-  isLessThanOrEqual,
-  isGreaterThan,
-  isGreaterThanOrEqual,
-  exists,
-  matches
 }

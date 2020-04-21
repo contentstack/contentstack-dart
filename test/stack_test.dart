@@ -1,7 +1,9 @@
+import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:contentstack/src/query_params.dart';
+import 'package:http/http.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
-
 import 'credentials.dart';
 
 void main() {
@@ -98,8 +100,9 @@ void main() {
     });
 
     test('testcases setHeader', () {
-      final result = stack.setHeader('header1', 'headerValue');
-      expect(true, result.stackHeader.containsKey('header1'));
+      final result = stack..setHeader('header1', 'headerValue');
+      final finalResult = result..stackHeader['header1'];
+      expect(true, finalResult.stackHeader.containsKey('header1'));
     });
 
     test('testcases setHeader', () {
@@ -296,5 +299,71 @@ void main() {
         expect(422, error['error_code']);
       });
     });
+  });
+
+
+  group('testcase for httpclient coverage', (){
+
+    contentstack.Stack stack;
+    setUp(() {
+      stack = Credential.stack();
+    });
+
+//    test('client code coverage test for send function', () async{
+//      final Map<String, String> mapHeaders = {
+//        'api_key' : 'test_api_key',
+//        'access_token' : 'test_access_token',
+//        'delivery_token' : 'test_delivery_token',
+//      };
+//      BaseClient client;
+//      try{
+//        final httpClient = HttpClient(mapHeaders, client: client, stack: stack);
+//        final httpResp = await httpClient.sendRequest('https://cdn.contentstack.io');
+//        httpResp.then((onResponse){
+//          log.fine(onResponse.toString());
+//        }).catchError((onError){
+//          log.fine(onError.toString());
+//        });
+//        //expect(3, );
+//      }catch(e){
+//        expect(e.message.toString(), "Returned value was not JSON. Did the uri end with \'.json\'?");
+//      }
+//
+//
+//    });
+
+
+//    test('client code coverage close instance', () async{
+//      final Map<String, String> mapHeaders = {
+//        'api_key' : 'test_api_key',
+//        'access_token' : 'test_access_token',
+//        'delivery_token' : 'test_delivery_token',
+//      };
+//      BaseClient client;
+//      try{
+//        final httpClient = HttpClient(mapHeaders, client: client, stack: stack);
+//        httpClient.close();
+//        final response = await httpClient.sendRequest('https://cdn.contentstack.io');
+//        response.then((onError){}).then((response){});
+//        expect(true, httpClient.stackHeaders.containsKey('delivery_token'));
+//      }catch(e){
+//        expect(e.message.toString(), "Returned value was not JSON. Did the uri end with \'.json\'?");
+//      }
+//    });
+
+    test('test query_params', (){
+      final params = URLQueryParams();
+      params.append('key', 'value');
+      final url = params.toUrl('cdn.contentstack.io/');
+      expect("cdn.contentstack.io?key=value",url);
+    });
+
+    test('query_params', (){
+      final params = URLQueryParams();
+      params..append('key', 'value')..append('key1', 'value1')..remove('key');
+      final url = params.toUrl('cdn.contentstack.io');
+      expect('cdn.contentstack.io?key1=value1',url);
+    });
+
   });
 }

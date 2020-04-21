@@ -40,6 +40,6 @@ class Entry extends EntryQueryable {
       throw Exception("Provide entry uid to fetch single entry");
     }
     final uri = Uri.https(_client.stack.endpoint, "$_path/$_uid", parameter);
-    return _client.sendRequest(uri.toString());
+    return _client.sendRequest(uri);
   }
 }

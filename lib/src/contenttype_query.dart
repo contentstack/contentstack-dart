@@ -43,7 +43,7 @@ class ContentTypeQuery extends BaseQuery{
       queryParameter.addAll(queryParams);
     }
     final uri = Uri.https(_client.stack.endpoint, _urlPath, queryParameter);
-    return _client.sendRequest(uri.toString());
+    return _client.sendRequest(uri);
   }
 
 }

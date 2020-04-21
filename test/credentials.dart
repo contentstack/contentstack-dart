@@ -8,6 +8,7 @@ class Credential{
   static const String accessToken = 'blt4cb0db9f9139b604';
   static const String deliveryToken = 'csd2e69747f83e59e327d19962';
   static const String environment = 'development';
+  static const String entryUid = 'blt53ca1231625bdde4';
 
   static contentstack.Stack stack(){
     final contentstack.Stack stack = contentstack.Stack(apiKey, deliveryToken, environment, region: contentstack.Region.us);

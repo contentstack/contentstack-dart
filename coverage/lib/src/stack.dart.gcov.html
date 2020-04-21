@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">80</td>
-            <td class="headerCovTableEntry">86</td>
-            <td class="headerCovTableEntryHi">93.0 %</td>
+            <td class="headerCovTableEntry">85</td>
+            <td class="headerCovTableEntryHi">94.1 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-04-13 22:57:24</td>
+            <td class="headerValue">2020-04-16 17:10:56</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -192,206 +192,203 @@
 <a name="130"><span class="lineNum">     130 </span>            :   ///  returns [Stack] Instance</a>
 <a name="131"><span class="lineNum">     131 </span>            :   ///</a>
 <a name="132"><span class="lineNum">     132 </span>            : </a>
-<a name="133"><span class="lineNum">     133 </span><span class="lineCov">          1 :   Stack removeHeader(String headerKey) {</span></a>
+<a name="133"><span class="lineNum">     133 </span><span class="lineCov">          1 :   void removeHeader(String headerKey) {</span></a>
 <a name="134"><span class="lineNum">     134 </span>            :     if (headerKey != null) {</a>
 <a name="135"><span class="lineNum">     135 </span><span class="lineCov">          2 :       if (stackHeader.containsKey(headerKey)) {</span></a>
 <a name="136"><span class="lineNum">     136 </span><span class="lineCov">          2 :         stackHeader.remove(headerKey);</span></a>
 <a name="137"><span class="lineNum">     137 </span>            :       }</a>
-<a name="138"><span class="lineNum">     138 </span>            :       return this;</a>
-<a name="139"><span class="lineNum">     139 </span>            :     }</a>
-<a name="140"><span class="lineNum">     140 </span><span class="lineNoCov">          0 :     throw ArgumentError.notNull(&quot;headerKey &quot;);</span></a>
-<a name="141"><span class="lineNum">     141 </span>            :   }</a>
-<a name="142"><span class="lineNum">     142 </span>            : </a>
-<a name="143"><span class="lineNum">     143 </span><span class="lineCov">          1 :   Stack setHeader(String key, String value) {</span></a>
-<a name="144"><span class="lineNum">     144 </span>            :     if (key == null || value == null) {</a>
-<a name="145"><span class="lineNum">     145 </span><span class="lineNoCov">          0 :       throw ArgumentError.notNull(&quot;key &amp; value &quot;);</span></a>
-<a name="146"><span class="lineNum">     146 </span>            :     }</a>
-<a name="147"><span class="lineNum">     147 </span><span class="lineCov">          2 :     stackHeader[key] = value;</span></a>
-<a name="148"><span class="lineNum">     148 </span>            :     return this;</a>
-<a name="149"><span class="lineNum">     149 </span>            :   }</a>
+<a name="138"><span class="lineNum">     138 </span>            :     }</a>
+<a name="139"><span class="lineNum">     139 </span>            :   }</a>
+<a name="140"><span class="lineNum">     140 </span>            : </a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineCov">          1 :   void setHeader(String key, String value) {</span></a>
+<a name="142"><span class="lineNum">     142 </span>            :     if (key == null || value == null) {</a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineNoCov">          0 :       throw ArgumentError.notNull(&quot;key &amp; value &quot;);</span></a>
+<a name="144"><span class="lineNum">     144 </span>            :     }</a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">          2 :     stackHeader[key] = value;</span></a>
+<a name="146"><span class="lineNum">     146 </span>            :   }</a>
+<a name="147"><span class="lineNum">     147 </span>            : </a>
+<a name="148"><span class="lineNum">     148 </span>            :   /// It returns apiKey of the Stack</a>
+<a name="149"><span class="lineNum">     149 </span><span class="lineCov">          2 :   String get apiKey =&gt; _apiKey;</span></a>
 <a name="150"><span class="lineNum">     150 </span>            : </a>
-<a name="151"><span class="lineNum">     151 </span>            :   /// It returns apiKey of the Stack</a>
-<a name="152"><span class="lineNum">     152 </span><span class="lineCov">          2 :   String get apiKey =&gt; _apiKey;</span></a>
+<a name="151"><span class="lineNum">     151 </span>            :   /// It returns delivery token of the Stack</a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">          2 :   String get deliveryToken =&gt; _deliveryToken;</span></a>
 <a name="153"><span class="lineNum">     153 </span>            : </a>
-<a name="154"><span class="lineNum">     154 </span>            :   /// It returns delivery token of the Stack</a>
-<a name="155"><span class="lineNum">     155 </span><span class="lineCov">          2 :   String get deliveryToken =&gt; _deliveryToken;</span></a>
+<a name="154"><span class="lineNum">     154 </span>            :   /// It returns delivery token of the Environment</a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineCov">          2 :   String get environment =&gt; _environment;</span></a>
 <a name="156"><span class="lineNum">     156 </span>            : </a>
-<a name="157"><span class="lineNum">     157 </span>            :   /// It returns delivery token of the Environment</a>
-<a name="158"><span class="lineNum">     158 </span><span class="lineCov">          2 :   String get environment =&gt; _environment;</span></a>
+<a name="157"><span class="lineNum">     157 </span>            :   /// It returns host of the Stack</a>
+<a name="158"><span class="lineNum">     158 </span><span class="lineCov">          2 :   String get host =&gt; _host;</span></a>
 <a name="159"><span class="lineNum">     159 </span>            : </a>
-<a name="160"><span class="lineNum">     160 </span>            :   /// It returns host of the Stack</a>
-<a name="161"><span class="lineNum">     161 </span><span class="lineCov">          2 :   String get host =&gt; _host;</span></a>
+<a name="160"><span class="lineNum">     160 </span>            :   /// It returns endpoint of the Stack</a>
+<a name="161"><span class="lineNum">     161 </span><span class="lineCov">          2 :   String get endpoint =&gt; host;</span></a>
 <a name="162"><span class="lineNum">     162 </span>            : </a>
-<a name="163"><span class="lineNum">     163 </span>            :   /// It returns endpoint of the Stack</a>
-<a name="164"><span class="lineNum">     164 </span><span class="lineCov">          2 :   String get endpoint =&gt; host;</span></a>
-<a name="165"><span class="lineNum">     165 </span>            : </a>
-<a name="166"><span class="lineNum">     166 </span><span class="lineCov">          1 :   void includeStackVariables() {</span></a>
-<a name="167"><span class="lineNum">     167 </span><span class="lineCov">          2 :     queryParameter['include_stack_variables'] = 'true';</span></a>
-<a name="168"><span class="lineNum">     168 </span>            :   }</a>
-<a name="169"><span class="lineNum">     169 </span>            : </a>
-<a name="170"><span class="lineNum">     170 </span><span class="lineCov">          1 :   void includeDiscreteVariables() {</span></a>
-<a name="171"><span class="lineNum">     171 </span><span class="lineCov">          2 :     queryParameter['include_discrete_variables'] = 'true';</span></a>
-<a name="172"><span class="lineNum">     172 </span>            :   }</a>
-<a name="173"><span class="lineNum">     173 </span>            : </a>
-<a name="174"><span class="lineNum">     174 </span><span class="lineCov">          1 :   void includeCount() {</span></a>
-<a name="175"><span class="lineNum">     175 </span><span class="lineCov">          2 :     queryParameter['include_count'] = 'true';</span></a>
-<a name="176"><span class="lineNum">     176 </span>            :   }</a>
-<a name="177"><span class="lineNum">     177 </span>            : </a>
-<a name="178"><span class="lineNum">     178 </span>            :   ///</a>
-<a name="179"><span class="lineNum">     179 </span>            :   /// The Image Delivery API is used to retrieve, manipulate and/or convert image</a>
-<a name="180"><span class="lineNum">     180 </span>            :   /// files of your Contentstack account and deliver it to your web or mobile properties.</a>
-<a name="181"><span class="lineNum">     181 </span>            :   /// {Supported input formats}:  JPEG, PNG, WEBP, GIF</a>
-<a name="182"><span class="lineNum">     182 </span>            :   /// {Supported output formats}: JPEG (baseline &amp; progressive), PNG, WEBP (lossy &amp; lossless), GIF</a>
-<a name="183"><span class="lineNum">     183 </span>            :   /// Read documentation for more details:</a>
-<a name="184"><span class="lineNum">     184 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#limitations-with-optimizing-image</a>
-<a name="185"><span class="lineNum">     185 </span>            :   ///</a>
-<a name="186"><span class="lineNum">     186 </span>            :   /// [imageUrl] is the required parameter</a>
-<a name="187"><span class="lineNum">     187 </span>            :   ///</a>
-<a name="188"><span class="lineNum">     188 </span>            :   /// Example:</a>
-<a name="189"><span class="lineNum">     189 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="190"><span class="lineNum">     190 </span>            :   /// imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="191"><span class="lineNum">     191 </span>            :   ///</a>
-<a name="192"><span class="lineNum">     192 </span><span class="lineCov">          1 :   ImageTransformation imageTransform(String imageUrl) {</span></a>
-<a name="193"><span class="lineNum">     193 </span><span class="lineCov">          2 :     return ImageTransformation(imageUrl, _client);</span></a>
-<a name="194"><span class="lineNum">     194 </span>            :   }</a>
-<a name="195"><span class="lineNum">     195 </span>            : </a>
-<a name="196"><span class="lineNum">     196 </span>            :   ///</a>
-<a name="197"><span class="lineNum">     197 </span>            :   /// Fetches all Content Types from the Stack.</a>
-<a name="198"><span class="lineNum">     198 </span>            :   /// This call returns comprehensive information</a>
-<a name="199"><span class="lineNum">     199 </span>            :   /// of all the content types available in a particular stack in your account.</a>
-<a name="200"><span class="lineNum">     200 </span>            :   /// API Reference: https://www.contentstack.com/docs/apis/content-delivery-api/#content-types</a>
-<a name="201"><span class="lineNum">     201 </span>            :   /// [queryParameters] is query parameters for the content_types of type [Map]</a>
-<a name="202"><span class="lineNum">     202 </span>            :   /// returns list of content_types</a>
-<a name="203"><span class="lineNum">     203 </span>            :   ///</a>
-<a name="204"><span class="lineNum">     204 </span>            :   /// Example:</a>
-<a name="205"><span class="lineNum">     205 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="206"><span class="lineNum">     206 </span>            :   /// response = stack.getContentTypes(queryParameters);</a>
-<a name="207"><span class="lineNum">     207 </span>            :   ///</a>
-<a name="208"><span class="lineNum">     208 </span>            : </a>
-<a name="209"><span class="lineNum">     209 </span><span class="lineCov">          1 :   Future&lt;dynamic&gt; getContentTypes(Map queryParameters) {</span></a>
-<a name="210"><span class="lineNum">     210 </span><span class="lineCov">          4 :     final Uri uri = Uri.https(endpoint, '$apiVersion/content_types');</span></a>
-<a name="211"><span class="lineNum">     211 </span><span class="lineCov">          3 :     return _client.sendRequest(uri.toString());</span></a>
-<a name="212"><span class="lineNum">     212 </span>            :   }</a>
-<a name="213"><span class="lineNum">     213 </span>            : </a>
-<a name="214"><span class="lineNum">     214 </span>            :   /// gets stack Future response</a>
-<a name="215"><span class="lineNum">     215 </span><span class="lineNoCov">          0 :   Future&lt;dynamic&gt; fetch() {</span></a>
-<a name="216"><span class="lineNum">     216 </span><span class="lineNoCov">          0 :     return _client.sendRequest('$endpoint/stack');</span></a>
-<a name="217"><span class="lineNum">     217 </span>            :   }</a>
-<a name="218"><span class="lineNum">     218 </span>            : </a>
-<a name="219"><span class="lineNum">     219 </span>            :   /// [contentTypeUid] -- You can also initialize sync with entries of</a>
-<a name="220"><span class="lineNum">     220 </span>            :   /// only specific content_type. To do this, use syncContentType and specify</a>
-<a name="221"><span class="lineNum">     221 </span>            :   /// the content type uid as its value. However, if you do this,</a>
-<a name="222"><span class="lineNum">     222 </span>            :   /// the subsequent syncs will only include the entries of the specified content_type.</a>
-<a name="223"><span class="lineNum">     223 </span>            :   ///</a>
-<a name="224"><span class="lineNum">     224 </span>            :   /// [fromDate] -- You can also initialize sync with entries published</a>
-<a name="225"><span class="lineNum">     225 </span>            :   /// after a specific date. To do this, use from_date</a>
-<a name="226"><span class="lineNum">     226 </span>            :   /// and specify the start date as its value.</a>
-<a name="227"><span class="lineNum">     227 </span>            :   ///</a>
-<a name="228"><span class="lineNum">     228 </span>            :   /// [locale] -- You can also initialize sync with entries of only specific locales.</a>
-<a name="229"><span class="lineNum">     229 </span>            :   /// To do this, use syncLocale and specify the locale code as its value.</a>
-<a name="230"><span class="lineNum">     230 </span>            :   /// However, if you do this, the subsequent syncs will only include</a>
-<a name="231"><span class="lineNum">     231 </span>            :   /// the entries of the specified locales.</a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineCov">          1 :   void includeStackVariables() {</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineCov">          2 :     queryParameter['include_stack_variables'] = 'true';</span></a>
+<a name="165"><span class="lineNum">     165 </span>            :   }</a>
+<a name="166"><span class="lineNum">     166 </span>            : </a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineCov">          1 :   void includeDiscreteVariables() {</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineCov">          2 :     queryParameter['include_discrete_variables'] = 'true';</span></a>
+<a name="169"><span class="lineNum">     169 </span>            :   }</a>
+<a name="170"><span class="lineNum">     170 </span>            : </a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineCov">          1 :   void includeCount() {</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">          2 :     queryParameter['include_count'] = 'true';</span></a>
+<a name="173"><span class="lineNum">     173 </span>            :   }</a>
+<a name="174"><span class="lineNum">     174 </span>            : </a>
+<a name="175"><span class="lineNum">     175 </span>            :   ///</a>
+<a name="176"><span class="lineNum">     176 </span>            :   /// The Image Delivery API is used to retrieve, manipulate and/or convert image</a>
+<a name="177"><span class="lineNum">     177 </span>            :   /// files of your Contentstack account and deliver it to your web or mobile properties.</a>
+<a name="178"><span class="lineNum">     178 </span>            :   /// {Supported input formats}:  JPEG, PNG, WEBP, GIF</a>
+<a name="179"><span class="lineNum">     179 </span>            :   /// {Supported output formats}: JPEG (baseline &amp; progressive), PNG, WEBP (lossy &amp; lossless), GIF</a>
+<a name="180"><span class="lineNum">     180 </span>            :   /// Read documentation for more details:</a>
+<a name="181"><span class="lineNum">     181 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#limitations-with-optimizing-image</a>
+<a name="182"><span class="lineNum">     182 </span>            :   ///</a>
+<a name="183"><span class="lineNum">     183 </span>            :   /// [imageUrl] is the required parameter</a>
+<a name="184"><span class="lineNum">     184 </span>            :   ///</a>
+<a name="185"><span class="lineNum">     185 </span>            :   /// Example:</a>
+<a name="186"><span class="lineNum">     186 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="187"><span class="lineNum">     187 </span>            :   /// imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="188"><span class="lineNum">     188 </span>            :   ///</a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">          1 :   ImageTransformation imageTransform(String imageUrl) {</span></a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">          2 :     return ImageTransformation(imageUrl, _client);</span></a>
+<a name="191"><span class="lineNum">     191 </span>            :   }</a>
+<a name="192"><span class="lineNum">     192 </span>            : </a>
+<a name="193"><span class="lineNum">     193 </span>            :   ///</a>
+<a name="194"><span class="lineNum">     194 </span>            :   /// Fetches all Content Types from the Stack.</a>
+<a name="195"><span class="lineNum">     195 </span>            :   /// This call returns comprehensive information</a>
+<a name="196"><span class="lineNum">     196 </span>            :   /// of all the content types available in a particular stack in your account.</a>
+<a name="197"><span class="lineNum">     197 </span>            :   /// API Reference: https://www.contentstack.com/docs/apis/content-delivery-api/#content-types</a>
+<a name="198"><span class="lineNum">     198 </span>            :   /// [queryParameters] is query parameters for the content_types of type [Map]</a>
+<a name="199"><span class="lineNum">     199 </span>            :   /// returns list of content_types</a>
+<a name="200"><span class="lineNum">     200 </span>            :   ///</a>
+<a name="201"><span class="lineNum">     201 </span>            :   /// Example:</a>
+<a name="202"><span class="lineNum">     202 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="203"><span class="lineNum">     203 </span>            :   /// response = stack.getContentTypes(queryParameters);</a>
+<a name="204"><span class="lineNum">     204 </span>            :   ///</a>
+<a name="205"><span class="lineNum">     205 </span>            : </a>
+<a name="206"><span class="lineNum">     206 </span><span class="lineCov">          1 :   Future&lt;dynamic&gt; getContentTypes(Map queryParameters) {</span></a>
+<a name="207"><span class="lineNum">     207 </span><span class="lineCov">          4 :     final Uri uri = Uri.https(endpoint, '$apiVersion/content_types');</span></a>
+<a name="208"><span class="lineNum">     208 </span><span class="lineCov">          3 :     return _client.sendRequest(uri.toString());</span></a>
+<a name="209"><span class="lineNum">     209 </span>            :   }</a>
+<a name="210"><span class="lineNum">     210 </span>            : </a>
+<a name="211"><span class="lineNum">     211 </span>            :   /// gets stack Future response</a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineNoCov">          0 :   Future&lt;dynamic&gt; fetch() {</span></a>
+<a name="213"><span class="lineNum">     213 </span><span class="lineNoCov">          0 :     return _client.sendRequest('$endpoint/stack');</span></a>
+<a name="214"><span class="lineNum">     214 </span>            :   }</a>
+<a name="215"><span class="lineNum">     215 </span>            : </a>
+<a name="216"><span class="lineNum">     216 </span>            :   /// [contentTypeUid] -- You can also initialize sync with entries of</a>
+<a name="217"><span class="lineNum">     217 </span>            :   /// only specific content_type. To do this, use syncContentType and specify</a>
+<a name="218"><span class="lineNum">     218 </span>            :   /// the content type uid as its value. However, if you do this,</a>
+<a name="219"><span class="lineNum">     219 </span>            :   /// the subsequent syncs will only include the entries of the specified content_type.</a>
+<a name="220"><span class="lineNum">     220 </span>            :   ///</a>
+<a name="221"><span class="lineNum">     221 </span>            :   /// [fromDate] -- You can also initialize sync with entries published</a>
+<a name="222"><span class="lineNum">     222 </span>            :   /// after a specific date. To do this, use from_date</a>
+<a name="223"><span class="lineNum">     223 </span>            :   /// and specify the start date as its value.</a>
+<a name="224"><span class="lineNum">     224 </span>            :   ///</a>
+<a name="225"><span class="lineNum">     225 </span>            :   /// [locale] -- You can also initialize sync with entries of only specific locales.</a>
+<a name="226"><span class="lineNum">     226 </span>            :   /// To do this, use syncLocale and specify the locale code as its value.</a>
+<a name="227"><span class="lineNum">     227 </span>            :   /// However, if you do this, the subsequent syncs will only include</a>
+<a name="228"><span class="lineNum">     228 </span>            :   /// the entries of the specified locales.</a>
+<a name="229"><span class="lineNum">     229 </span>            :   ///</a>
+<a name="230"><span class="lineNum">     230 </span>            :   /// [publishType] -- Use the type parameter to get a specific type of content.</a>
+<a name="231"><span class="lineNum">     231 </span>            :   /// If you do not specify any value, it will bring all published entries and published assets.</a>
 <a name="232"><span class="lineNum">     232 </span>            :   ///</a>
-<a name="233"><span class="lineNum">     233 </span>            :   /// [publishType] -- Use the type parameter to get a specific type of content.</a>
-<a name="234"><span class="lineNum">     234 </span>            :   /// If you do not specify any value, it will bring all published entries and published assets.</a>
+<a name="233"><span class="lineNum">     233 </span>            :   /// Returns:</a>
+<a name="234"><span class="lineNum">     234 </span>            :   /// List[SyncModel] -- returns list of SyncResult</a>
 <a name="235"><span class="lineNum">     235 </span>            :   ///</a>
-<a name="236"><span class="lineNum">     236 </span>            :   /// Returns:</a>
-<a name="237"><span class="lineNum">     237 </span>            :   /// List[SyncModel] -- returns list of SyncResult</a>
-<a name="238"><span class="lineNum">     238 </span>            :   ///</a>
-<a name="239"><span class="lineNum">     239 </span><span class="lineCov">          1 :   Future sync(</span></a>
-<a name="240"><span class="lineNum">     240 </span>            :       {String contentTypeUid,</a>
-<a name="241"><span class="lineNum">     241 </span>            :       String fromDate,</a>
-<a name="242"><span class="lineNum">     242 </span>            :       String locale,</a>
-<a name="243"><span class="lineNum">     243 </span>            :       PublishType publishType}) async {</a>
-<a name="244"><span class="lineNum">     244 </span><span class="lineCov">          1 :     final parameter = &lt;String, String&gt;{};</span></a>
-<a name="245"><span class="lineNum">     245 </span><span class="lineCov">          1 :     parameter['init'] = 'true';</span></a>
-<a name="246"><span class="lineNum">     246 </span><span class="lineNoCov">          0 :     if (contentTypeUid != null &amp;&amp; contentTypeUid.isNotEmpty) {</span></a>
-<a name="247"><span class="lineNum">     247 </span><span class="lineNoCov">          0 :       parameter['content_type_uid'] = contentTypeUid;</span></a>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">          1 :   Future sync(</span></a>
+<a name="237"><span class="lineNum">     237 </span>            :       {String contentTypeUid,</a>
+<a name="238"><span class="lineNum">     238 </span>            :       String fromDate,</a>
+<a name="239"><span class="lineNum">     239 </span>            :       String locale,</a>
+<a name="240"><span class="lineNum">     240 </span>            :       PublishType publishType}) async {</a>
+<a name="241"><span class="lineNum">     241 </span><span class="lineCov">          1 :     final parameter = &lt;String, String&gt;{};</span></a>
+<a name="242"><span class="lineNum">     242 </span><span class="lineCov">          1 :     parameter['init'] = 'true';</span></a>
+<a name="243"><span class="lineNum">     243 </span><span class="lineNoCov">          0 :     if (contentTypeUid != null &amp;&amp; contentTypeUid.isNotEmpty) {</span></a>
+<a name="244"><span class="lineNum">     244 </span><span class="lineNoCov">          0 :       parameter['content_type_uid'] = contentTypeUid;</span></a>
+<a name="245"><span class="lineNum">     245 </span>            :     }</a>
+<a name="246"><span class="lineNum">     246 </span><span class="lineCov">          1 :     if (fromDate != null &amp;&amp; fromDate.isNotEmpty) {</span></a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">          1 :       parameter['from_date'] = fromDate;</span></a>
 <a name="248"><span class="lineNum">     248 </span>            :     }</a>
-<a name="249"><span class="lineNum">     249 </span><span class="lineCov">          1 :     if (fromDate != null &amp;&amp; fromDate.isNotEmpty) {</span></a>
-<a name="250"><span class="lineNum">     250 </span><span class="lineCov">          1 :       parameter['from_date'] = fromDate;</span></a>
+<a name="249"><span class="lineNum">     249 </span><span class="lineCov">          1 :     if (locale != null &amp;&amp; locale.isNotEmpty) {</span></a>
+<a name="250"><span class="lineNum">     250 </span><span class="lineCov">          1 :       parameter['locale'] = locale;</span></a>
 <a name="251"><span class="lineNum">     251 </span>            :     }</a>
-<a name="252"><span class="lineNum">     252 </span><span class="lineCov">          1 :     if (locale != null &amp;&amp; locale.isNotEmpty) {</span></a>
-<a name="253"><span class="lineNum">     253 </span><span class="lineCov">          1 :       parameter['locale'] = locale;</span></a>
+<a name="252"><span class="lineNum">     252 </span>            :     if (publishType != null) {</a>
+<a name="253"><span class="lineNum">     253 </span><span class="lineCov">          2 :       parameter['publish_type'] = _publishTypeString(publishType);</span></a>
 <a name="254"><span class="lineNum">     254 </span>            :     }</a>
-<a name="255"><span class="lineNum">     255 </span>            :     if (publishType != null) {</a>
-<a name="256"><span class="lineNum">     256 </span><span class="lineCov">          2 :       parameter['publish_type'] = _publishTypeString(publishType);</span></a>
-<a name="257"><span class="lineNum">     257 </span>            :     }</a>
-<a name="258"><span class="lineNum">     258 </span><span class="lineCov">          1 :     return _syncRequest(parameter);</span></a>
-<a name="259"><span class="lineNum">     259 </span>            :   }</a>
-<a name="260"><span class="lineNum">     260 </span>            : </a>
-<a name="261"><span class="lineNum">     261 </span>            : </a>
-<a name="262"><span class="lineNum">     262 </span><span class="lineCov">          1 :   Future _syncRequest(parameters) async{</span></a>
-<a name="263"><span class="lineNum">     263 </span><span class="lineCov">          4 :     parameters['environment'] = _client.stackHeaders['environment'];</span></a>
-<a name="264"><span class="lineNum">     264 </span><span class="lineCov">          4 :     final Uri uri = Uri.https(endpoint, '$apiVersion/stacks/sync', parameters);</span></a>
-<a name="265"><span class="lineNum">     265 </span><span class="lineCov">          3 :     return _client.sendRequest(uri.toString());</span></a>
-<a name="266"><span class="lineNum">     266 </span>            :   }</a>
-<a name="267"><span class="lineNum">     267 </span>            : </a>
-<a name="268"><span class="lineNum">     268 </span><span class="lineCov">          1 :   String _publishTypeString(PublishType publishType) {</span></a>
-<a name="269"><span class="lineNum">     269 </span>            :     switch (publishType) {</a>
-<a name="270"><span class="lineNum">     270 </span><span class="lineCov">          1 :       case PublishType.assetPublished:</span></a>
-<a name="271"><span class="lineNum">     271 </span>            :         return 'asset_published';</a>
-<a name="272"><span class="lineNum">     272 </span><span class="lineCov">          1 :       case PublishType.entryPublished:</span></a>
-<a name="273"><span class="lineNum">     273 </span>            :         return 'entry_published';</a>
-<a name="274"><span class="lineNum">     274 </span><span class="lineCov">          1 :       case PublishType.assetUnpublished:</span></a>
-<a name="275"><span class="lineNum">     275 </span>            :         return 'asset_unpublished';</a>
-<a name="276"><span class="lineNum">     276 </span><span class="lineCov">          1 :       case PublishType.assetDeleted:</span></a>
-<a name="277"><span class="lineNum">     277 </span>            :         return &quot;asset_deleted&quot;;</a>
-<a name="278"><span class="lineNum">     278 </span><span class="lineCov">          1 :       case PublishType.entryUnpublished:</span></a>
-<a name="279"><span class="lineNum">     279 </span>            :         return &quot;entry_unpublished&quot;;</a>
-<a name="280"><span class="lineNum">     280 </span><span class="lineCov">          1 :       case PublishType.entryDeleted:</span></a>
-<a name="281"><span class="lineNum">     281 </span>            :         return &quot;entry_deleted&quot;;</a>
-<a name="282"><span class="lineNum">     282 </span><span class="lineCov">          1 :       case PublishType.contentTypeDeleted:</span></a>
-<a name="283"><span class="lineNum">     283 </span>            :         return &quot;content_type_deleted&quot;;</a>
-<a name="284"><span class="lineNum">     284 </span>            :     }</a>
+<a name="255"><span class="lineNum">     255 </span><span class="lineCov">          1 :     return _syncRequest(parameter);</span></a>
+<a name="256"><span class="lineNum">     256 </span>            :   }</a>
+<a name="257"><span class="lineNum">     257 </span>            : </a>
+<a name="258"><span class="lineNum">     258 </span>            : </a>
+<a name="259"><span class="lineNum">     259 </span><span class="lineCov">          1 :   Future _syncRequest(parameters) async{</span></a>
+<a name="260"><span class="lineNum">     260 </span><span class="lineCov">          4 :     parameters['environment'] = _client.stackHeaders['environment'];</span></a>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">          4 :     final Uri uri = Uri.https(endpoint, '$apiVersion/stacks/sync', parameters);</span></a>
+<a name="262"><span class="lineNum">     262 </span><span class="lineCov">          3 :     return _client.sendRequest(uri.toString());</span></a>
+<a name="263"><span class="lineNum">     263 </span>            :   }</a>
+<a name="264"><span class="lineNum">     264 </span>            : </a>
+<a name="265"><span class="lineNum">     265 </span><span class="lineCov">          1 :   String _publishTypeString(PublishType publishType) {</span></a>
+<a name="266"><span class="lineNum">     266 </span>            :     switch (publishType) {</a>
+<a name="267"><span class="lineNum">     267 </span><span class="lineCov">          1 :       case PublishType.assetPublished:</span></a>
+<a name="268"><span class="lineNum">     268 </span>            :         return 'asset_published';</a>
+<a name="269"><span class="lineNum">     269 </span><span class="lineCov">          1 :       case PublishType.entryPublished:</span></a>
+<a name="270"><span class="lineNum">     270 </span>            :         return 'entry_published';</a>
+<a name="271"><span class="lineNum">     271 </span><span class="lineCov">          1 :       case PublishType.assetUnpublished:</span></a>
+<a name="272"><span class="lineNum">     272 </span>            :         return 'asset_unpublished';</a>
+<a name="273"><span class="lineNum">     273 </span><span class="lineCov">          1 :       case PublishType.assetDeleted:</span></a>
+<a name="274"><span class="lineNum">     274 </span>            :         return &quot;asset_deleted&quot;;</a>
+<a name="275"><span class="lineNum">     275 </span><span class="lineCov">          1 :       case PublishType.entryUnpublished:</span></a>
+<a name="276"><span class="lineNum">     276 </span>            :         return &quot;entry_unpublished&quot;;</a>
+<a name="277"><span class="lineNum">     277 </span><span class="lineCov">          1 :       case PublishType.entryDeleted:</span></a>
+<a name="278"><span class="lineNum">     278 </span>            :         return &quot;entry_deleted&quot;;</a>
+<a name="279"><span class="lineNum">     279 </span><span class="lineCov">          1 :       case PublishType.contentTypeDeleted:</span></a>
+<a name="280"><span class="lineNum">     280 </span>            :         return &quot;content_type_deleted&quot;;</a>
+<a name="281"><span class="lineNum">     281 </span>            :     }</a>
+<a name="282"><span class="lineNum">     282 </span>            : </a>
+<a name="283"><span class="lineNum">     283 </span>            :     return null;</a>
+<a name="284"><span class="lineNum">     284 </span>            :   }</a>
 <a name="285"><span class="lineNum">     285 </span>            : </a>
-<a name="286"><span class="lineNum">     286 </span>            :     return null;</a>
-<a name="287"><span class="lineNum">     287 </span>            :   }</a>
-<a name="288"><span class="lineNum">     288 </span>            : </a>
-<a name="289"><span class="lineNum">     289 </span>            : </a>
-<a name="290"><span class="lineNum">     290 </span>            :   ///</a>
-<a name="291"><span class="lineNum">     291 </span>            :   /// If the result of the initial sync (or subsequent sync) contains more than 100 records, the response would be</a>
-<a name="292"><span class="lineNum">     292 </span>            :   /// paginated. It provides pagination token in the response. However, you do not have to use the pagination token</a>
-<a name="293"><span class="lineNum">     293 </span>            :   /// manually to get the next batch, the SDK does that automatically until the sync is complete. Pagination token</a>
-<a name="294"><span class="lineNum">     294 </span>            :   /// can be used in case you want to fetch only selected batches. It is especially useful if the sync process is</a>
-<a name="295"><span class="lineNum">     295 </span>            :   /// interrupted midway (due to network issues, etc.). In such cases, this token can be used to restart the sync</a>
-<a name="296"><span class="lineNum">     296 </span>            :   /// process from where it was interrupted.</a>
-<a name="297"><span class="lineNum">     297 </span>            :   ///</a>
-<a name="298"><span class="lineNum">     298 </span><span class="lineCov">          1 :   Future paginationToken(String paginationToken) {</span></a>
-<a name="299"><span class="lineNum">     299 </span><span class="lineCov">          1 :     final parameters = &lt;String, String&gt;{};</span></a>
-<a name="300"><span class="lineNum">     300 </span><span class="lineCov">          1 :     if(paginationToken != null &amp;&amp; paginationToken.isNotEmpty){</span></a>
-<a name="301"><span class="lineNum">     301 </span><span class="lineCov">          1 :       parameters['pagination_token'] = paginationToken;</span></a>
-<a name="302"><span class="lineNum">     302 </span>            :     }</a>
-<a name="303"><span class="lineNum">     303 </span><span class="lineCov">          1 :     return _syncRequest(parameters);</span></a>
-<a name="304"><span class="lineNum">     304 </span>            :   }</a>
-<a name="305"><span class="lineNum">     305 </span>            : </a>
-<a name="306"><span class="lineNum">     306 </span>            :   ///</a>
-<a name="307"><span class="lineNum">     307 </span>            :   /// You can use the sync token (that you receive after initial sync)</a>
-<a name="308"><span class="lineNum">     308 </span>            :   /// to get the updated content next time.</a>
-<a name="309"><span class="lineNum">     309 </span>            :   /// The sync token fetches only the content that was added after your last sync,</a>
-<a name="310"><span class="lineNum">     310 </span>            :   /// and the details of the content that was deleted or updated.</a>
-<a name="311"><span class="lineNum">     311 </span>            :   ///</a>
-<a name="312"><span class="lineNum">     312 </span>            :   ///</a>
-<a name="313"><span class="lineNum">     313 </span><span class="lineCov">          1 :   Future syncToken(String syncToken) {</span></a>
-<a name="314"><span class="lineNum">     314 </span><span class="lineCov">          1 :     final parameters = &lt;String, String&gt;{};</span></a>
-<a name="315"><span class="lineNum">     315 </span><span class="lineCov">          1 :     if(syncToken != null &amp;&amp; syncToken.isNotEmpty){</span></a>
-<a name="316"><span class="lineNum">     316 </span><span class="lineCov">          1 :       parameters['sync_token'] = syncToken;</span></a>
-<a name="317"><span class="lineNum">     317 </span>            :     }</a>
-<a name="318"><span class="lineNum">     318 </span><span class="lineCov">          1 :     return _syncRequest(parameters);</span></a>
-<a name="319"><span class="lineNum">     319 </span>            :   }</a>
-<a name="320"><span class="lineNum">     320 </span>            : }</a>
-<a name="321"><span class="lineNum">     321 </span>            : </a>
-<a name="322"><span class="lineNum">     322 </span><span class="lineCov">          1 : enum PublishType {</span></a>
-<a name="323"><span class="lineNum">     323 </span><span class="lineCov">          1 :   assetPublished,</span></a>
-<a name="324"><span class="lineNum">     324 </span><span class="lineCov">          1 :   entryPublished,</span></a>
-<a name="325"><span class="lineNum">     325 </span><span class="lineCov">          1 :   assetUnpublished,</span></a>
-<a name="326"><span class="lineNum">     326 </span><span class="lineCov">          1 :   assetDeleted,</span></a>
-<a name="327"><span class="lineNum">     327 </span><span class="lineCov">          1 :   entryUnpublished,</span></a>
-<a name="328"><span class="lineNum">     328 </span><span class="lineCov">          1 :   entryDeleted,</span></a>
-<a name="329"><span class="lineNum">     329 </span><span class="lineCov">          1 :   contentTypeDeleted</span></a>
-<a name="330"><span class="lineNum">     330 </span>            : }</a>
-<a name="331"><span class="lineNum">     331 </span>            : </a>
-<a name="332"><span class="lineNum">     332 </span><span class="lineCov">          3 : enum Region { us, eu }</span></a>
+<a name="286"><span class="lineNum">     286 </span>            : </a>
+<a name="287"><span class="lineNum">     287 </span>            :   ///</a>
+<a name="288"><span class="lineNum">     288 </span>            :   /// If the result of the initial sync (or subsequent sync) contains more than 100 records, the response would be</a>
+<a name="289"><span class="lineNum">     289 </span>            :   /// paginated. It provides pagination token in the response. However, you do not have to use the pagination token</a>
+<a name="290"><span class="lineNum">     290 </span>            :   /// manually to get the next batch, the SDK does that automatically until the sync is complete. Pagination token</a>
+<a name="291"><span class="lineNum">     291 </span>            :   /// can be used in case you want to fetch only selected batches. It is especially useful if the sync process is</a>
+<a name="292"><span class="lineNum">     292 </span>            :   /// interrupted midway (due to network issues, etc.). In such cases, this token can be used to restart the sync</a>
+<a name="293"><span class="lineNum">     293 </span>            :   /// process from where it was interrupted.</a>
+<a name="294"><span class="lineNum">     294 </span>            :   ///</a>
+<a name="295"><span class="lineNum">     295 </span><span class="lineCov">          1 :   Future paginationToken(String paginationToken) {</span></a>
+<a name="296"><span class="lineNum">     296 </span><span class="lineCov">          1 :     final parameters = &lt;String, String&gt;{};</span></a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineCov">          1 :     if(paginationToken != null &amp;&amp; paginationToken.isNotEmpty){</span></a>
+<a name="298"><span class="lineNum">     298 </span><span class="lineCov">          1 :       parameters['pagination_token'] = paginationToken;</span></a>
+<a name="299"><span class="lineNum">     299 </span>            :     }</a>
+<a name="300"><span class="lineNum">     300 </span><span class="lineCov">          1 :     return _syncRequest(parameters);</span></a>
+<a name="301"><span class="lineNum">     301 </span>            :   }</a>
+<a name="302"><span class="lineNum">     302 </span>            : </a>
+<a name="303"><span class="lineNum">     303 </span>            :   ///</a>
+<a name="304"><span class="lineNum">     304 </span>            :   /// You can use the sync token (that you receive after initial sync)</a>
+<a name="305"><span class="lineNum">     305 </span>            :   /// to get the updated content next time.</a>
+<a name="306"><span class="lineNum">     306 </span>            :   /// The sync token fetches only the content that was added after your last sync,</a>
+<a name="307"><span class="lineNum">     307 </span>            :   /// and the details of the content that was deleted or updated.</a>
+<a name="308"><span class="lineNum">     308 </span>            :   ///</a>
+<a name="309"><span class="lineNum">     309 </span>            :   ///</a>
+<a name="310"><span class="lineNum">     310 </span><span class="lineCov">          1 :   Future syncToken(String syncToken) {</span></a>
+<a name="311"><span class="lineNum">     311 </span><span class="lineCov">          1 :     final parameters = &lt;String, String&gt;{};</span></a>
+<a name="312"><span class="lineNum">     312 </span><span class="lineCov">          1 :     if(syncToken != null &amp;&amp; syncToken.isNotEmpty){</span></a>
+<a name="313"><span class="lineNum">     313 </span><span class="lineCov">          1 :       parameters['sync_token'] = syncToken;</span></a>
+<a name="314"><span class="lineNum">     314 </span>            :     }</a>
+<a name="315"><span class="lineNum">     315 </span><span class="lineCov">          1 :     return _syncRequest(parameters);</span></a>
+<a name="316"><span class="lineNum">     316 </span>            :   }</a>
+<a name="317"><span class="lineNum">     317 </span>            : }</a>
+<a name="318"><span class="lineNum">     318 </span>            : </a>
+<a name="319"><span class="lineNum">     319 </span><span class="lineCov">          1 : enum PublishType {</span></a>
+<a name="320"><span class="lineNum">     320 </span><span class="lineCov">          1 :   assetPublished,</span></a>
+<a name="321"><span class="lineNum">     321 </span><span class="lineCov">          1 :   entryPublished,</span></a>
+<a name="322"><span class="lineNum">     322 </span><span class="lineCov">          1 :   assetUnpublished,</span></a>
+<a name="323"><span class="lineNum">     323 </span><span class="lineCov">          1 :   assetDeleted,</span></a>
+<a name="324"><span class="lineNum">     324 </span><span class="lineCov">          1 :   entryUnpublished,</span></a>
+<a name="325"><span class="lineNum">     325 </span><span class="lineCov">          1 :   entryDeleted,</span></a>
+<a name="326"><span class="lineNum">     326 </span><span class="lineCov">          1 :   contentTypeDeleted</span></a>
+<a name="327"><span class="lineNum">     327 </span>            : }</a>
+<a name="328"><span class="lineNum">     328 </span>            : </a>
+<a name="329"><span class="lineNum">     329 </span><span class="lineCov">          3 : enum Region { us, eu }</span></a>
 </pre>
       </td>
     </tr>

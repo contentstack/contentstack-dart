@@ -67,13 +67,13 @@ class Asset extends BaseQuery {
     }
     final uri =
         Uri.https(_client.stack.endpoint, "$_urlPath/$_uid", queryParameter);
-    return _client.sendRequest(uri.toString());
+    return _client.sendRequest(uri);
   }
 
   /// find is applicable for getting all the
   /// available assets and apply query on the data.
   Future find() async {
     final uri = Uri.https(_client.stack.endpoint, "$_urlPath", queryParameter);
-    return _client.sendRequest(uri.toString());
+    return _client.sendRequest(uri);
   }
 }

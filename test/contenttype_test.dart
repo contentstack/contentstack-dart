@@ -3,6 +3,8 @@ import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:contentstack/contentstack.dart' as contentstack;
 
+import 'credentials.dart';
+
 void main() {
   
   final Logger log = Logger('Stack');
@@ -10,9 +12,8 @@ void main() {
   group('test functional testing', () {
     contentstack.ContentType contentType;
     setUp(() async {
-      final stack = contentstack.Stack(
-          'blt12c8ad610ff4ddc2', 'blt43359585f471685188b2e1ba', 'env1');
-      contentType = stack.contentType('a');
+      final stack = Credential.stack();
+      contentType = stack.contentType('application_theme');
     });
 
     test('test network call for content type', () async {
@@ -33,23 +34,21 @@ void main() {
   group('test contentTypeQuery API testing', () {
     
     contentstack.ContentType ct;
-
     setUp(() {
-      final stack = contentstack.Stack(
-          'blt12c8ad610ff4ddc2', 'blt43359585f471685188b2e1ba', 'env1');
+      final stack = Credential.stack();
       ct = stack.contentType();
     });
 
     test('test for all the contenttypes available', () async {
       final allContents = ct.query();
       final response = await allContents.find();
-      expect(5, response['content_types'].length);
+      expect(11, response['content_types'].length);
     });
 
     test('test include_count is available', () async {
       final allContents = ct.query();
       final response = await allContents.includeCount().find();
-      expect(5, response['count']);
+      expect(11, response['count']);
     });
   });
 

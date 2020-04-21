@@ -17,12 +17,12 @@ dependencies:
   json_annotation: ^3.0.1
   dartdoc: ^0.30.1
   logging: ^0.11.4
-  package_info: ^0.4.0+16
+  #package_info: ^0.4.0+16
+  super_enum: ^0.4.2
+
 
 dev_dependencies:
   test: '>=0.6.0 <1.11.0'
-  # A simple command-line tool to collect test coverage information from Dart VM tests.
-  # It is useful if you need to generate coverage reports locally during development
   test_coverage: ^0.4.1
   build_runner:
   json_serializable:
@@ -30,3 +30,4 @@ dev_dependencies:
   lint: ^1.1.1
   build_test: ^0.10.0
   build_web_compilers: '>=1.2.0 <3.0.0'
+  super_enum_generator:

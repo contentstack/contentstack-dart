@@ -26,8 +26,8 @@ class HttpClient extends http.BaseClient {
     return _client.send(request);
   }
 
-  Future<dynamic> sendRequest(String url) async {
-    final response = await http.get(Uri.encodeFull(url), headers: stackHeaders);
+  Future<dynamic> sendRequest(Uri url) async {
+    final response = await http.get(url, headers: stackHeaders);
     Object bodyJson;
     try {
       bodyJson = jsonDecode(response.body);

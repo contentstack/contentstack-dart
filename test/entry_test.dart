@@ -1,24 +1,19 @@
-import 'package:contentstack/client.dart';
+import 'dart:math';
+
 import 'package:contentstack/contentstack.dart';
-import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/src/entry_queryable.dart';
 import 'package:test/test.dart';
+import 'credentials.dart';
 
 void main() {
-
-  const String apiKey = "blt12c8ad610ff4ddc2";
-  const String deliveryToken = "blt43359585f471685188b2e1ba";
-  const String environment = "env1";
-  const String entryUid = "blt7801c5d40cbbe979";
 
   group('Entry functinal testcases', () {
     
     Entry entry;
 
     setUp(() {
-      final Stack stack =
-          contentstack.Stack(apiKey, deliveryToken, environment);
-      entry = stack.contentType('product').entry(entryUid: entryUid);
+      final Stack stack = Credential.stack();
+      entry = stack.contentType('faq').entry(entryUid: Credential.entryUid);
     });
 
     test('test if parameters are not empty', () {
@@ -100,28 +95,34 @@ void main() {
     Stack stack;
 
     setUp(() {
-      stack = contentstack.Stack(apiKey, deliveryToken, environment);
-      entry = stack.contentType('product').entry(entryUid: entryUid);
+      stack = Credential.stack();
+      entry = stack.contentType('faq').entry(entryUid: Credential.entryUid);
     });
 
     test('find the entry response with locale', () async {
       entry.locale('en-us');
-      final response = await entry.fetch();
-      if(response is Error){
-        expect(422, Error().statusCode);
-      }
-      expect('en-us', response['entry']['locale']);
+      await entry.fetch().then((response){
+        expect('en-us', response['entry']['locale']);
+      }).catchError((onError){
+        prints(onError.toString());
+      });
+
     });
+
 
     test('test entry response with version', () async {
       entry.locale('en-us');
-      entry.addParam('version', '4');
-      final response = await entry.fetch();
-      if(response is Error){
-        expect(141, response.errorCode);
-      }else{
-        expect('en-us', response['entry']['locale']);
-      }
+      entry.addParam('version', '1');
+      await entry.fetch().then((response){
+        if(response is Error){
+          expect(141, response.errorCode);
+        }else{
+          expect(1, response['entry']['_version']);
+        }
+      }).catchError((onError){
+        expect('', onError.toString());
+      });
+
     });
 
 
@@ -129,21 +130,27 @@ void main() {
       entry.locale('en-us');
       const List<String> fieldUID = ["price", "orange", "mango"];
       entry.only(fieldUID);
-      final response = await entry.fetch();
-      expect(786, response['entry']['price']);
+      await entry.fetch().then((response){
+        expect('MEALS', response['entry']['title']);
+      }).catchError((onError){
+        expect('0923', '23i');
+      });
+
     });
 
 
     test('find the except API call', () async {
       entry.locale('en-us');
-      const List<String> fieldUID = ["price", "orange", "mango"];
+      const List<String> fieldUID = ["title"];
       entry.except(fieldUID);
-      final response = await entry.fetch();
-      if(response is Map){
-        final entryModel = EntryModel.fromJson(response['entry']);
-        expect(true, entryModel is EntryModel);
-        expect('laptop', entryModel.title);
-      }
+      await entry.fetch().then((response){
+        if(response is Map){
+          final entryModel = EntryModel.fromJson(response['entry']);
+          expect(true, entryModel is EntryModel);
+          expect('MEALS', entryModel.title);
+        }
+      });
+
 
     });
 
@@ -163,10 +170,13 @@ void main() {
 
     test('find the includeReference default API call', () async {
       entry.locale('en-us');
-      //const List<String> fieldUID = ["price", "orange", "mango"];
       entry.includeReference(IncludeType.none, 'category');
-      final response = await entry.fetch();
-      expect(45, response['entry']['discount']);
+      await entry.fetch().then((response){
+        expect('/meals', response['entry']['url']);
+      }).catchError((onError){
+        expect('invalid url requested', onError.message);
+      });
+      //expect(45, response['entry']['discount']);
     });
 
 
@@ -182,25 +192,28 @@ void main() {
 
     test('find the includeContentType except API call', () async {
       entry.includeContentType();
-      final response = await entry.fetch();
-      expect(11, response['content_type']['schema'].length);
+      await entry.fetch().then((response){
+        expect(true, response['content_type']['schema'] is List);
+      }).catchError((onError){
+        expect(null, onError.toString());
+      });
+
     });
 
     test('find the includeReferenceContentTypeUID except API call', () async {
-      final Entry includeEntry = stack.contentType("user").entry(entryUid: 'blt3b0aaebf6f1c3762');
-      includeEntry.includeReferenceContentTypeUID();
-      final response = await includeEntry.fetch();
-      final resp = response['entry']['cart'];
-      expect('product', resp[0]['_content_type_uid']);
+      entry.includeReferenceContentTypeUID();
+      await entry.fetch().then((response){
+        final resp = response['entry']['faq_group'];
+        expect(true, resp is List);
+      });
     });
 
     test('test chaining few methods API call', () async {
-      final Entry includeEntry = stack.contentType("user").entry(entryUid: 'blt3b0aaebf6f1c3762');
-      // ignore: avoid_single_cascade_in_expression_statements
-      includeEntry..includeContentType()..includeReferenceContentTypeUID();
-      final response = await includeEntry.fetch();
-      final resp = response['entry']['cart'];
-      expect('product', resp[0]['_content_type_uid']);
+      entry..includeContentType()..includeReferenceContentTypeUID();
+      await entry.fetch().then((response){
+        expect(true, response.containsKey('content_type'));
+      });
+
     });
 
   
