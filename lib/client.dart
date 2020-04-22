@@ -7,11 +7,10 @@ import 'package:contentstack/src/stack.dart';
 
 class HttpClient extends http.BaseClient {
   final http.Client _client;
-  Stack stack;
+  final Stack stack;
   final Map<String, String> stackHeaders;
 
-  factory HttpClient(Map<String, String> headers,
-      {http.Client client, Stack stack}) {
+  factory HttpClient(Map<String, String> headers, {http.Client client, Stack stack}) {
     final stackClient = client ?? http.Client();
     return HttpClient._internal(stackClient, headers, stack);
   }
@@ -20,14 +19,17 @@ class HttpClient extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    request.headers.addAll(stackHeaders);
-    request.headers['Content-Type'] = 'application/json';
-    request.headers['sdk'] = 'contentstack-dart-v0.1.0';
+    //request.headers.addAll(stackHeaders);
+    //request.headers['Content-Type'] = 'application/json';
+    //request.headers['sdk'] = 'contentstack-dart-v0.1.0';
     return _client.send(request);
   }
 
-  Future<dynamic> sendRequest(Uri url) async {
-    final response = await http.get(url, headers: stackHeaders);
+  Future<dynamic> sendRequest(Uri uri) async {
+    stackHeaders.addAll(stackHeaders);
+    stackHeaders['Content-Type'] = 'application/json';
+    stackHeaders['sdk'] = 'contentstack-dart-v0.1.0';
+    final response = await http.get(uri, headers: stackHeaders);
     Object bodyJson;
     try {
       bodyJson = jsonDecode(response.body);
@@ -48,5 +50,35 @@ class HttpClient extends http.BaseClient {
 
   @override
   void close() => _client.close();
-}
 
+
+  ///////////////////////////////////////
+
+
+  static T fromJson<T, K>(dynamic json) {
+    if (json is Iterable) {
+      return _fromJsonList<K>(json) as T;
+    } else if (T == AssetModel) {
+      return AssetModel.fromJson(json) as T;
+    } else if (T == EntryModel) {
+      return EntryModel.fromJson(json) as T;
+    } else if (T == SyncResult) {
+      return SyncResult.fromJson(json) as T;
+    } else {
+      throw Exception("Unknown class");
+    }
+  }
+
+  static List<K> _fromJsonList<K>(List jsonList) {
+    if (jsonList == null) {
+      return null;
+    }
+    // ignore: prefer_collection_literals
+    final List<K> output = List();
+    // ignore: prefer_final_in_for_each
+    for (Map<String, dynamic> json in jsonList) {
+      output.add(fromJson(json));
+    }
+    return output;
+  }
+}

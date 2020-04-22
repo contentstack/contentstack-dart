@@ -38,7 +38,7 @@ class ContentTypeQuery extends BaseQuery{
   /// final contentTypeQuery = stack.contentType().query()
   /// final response = contentTypeQuery.includeCount().find();
   /// print(response);
-  Future find([Map queryParams]) async{
+  Future find({Map<String, String> queryParams}) async{
     if (queryParams != null && queryParams.isNotEmpty) {
       queryParameter.addAll(queryParams);
     }

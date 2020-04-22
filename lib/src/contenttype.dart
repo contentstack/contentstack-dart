@@ -71,7 +71,7 @@ class ContentType {
   /// final response = contentType.fetch(queryParameter);
   /// print(response);
   ///
-  Future fetch([Map queryParams]){
+  Future fetch([Map<String, String> queryParams]){
     if(urlPath == null){
       throw Exception('content_type_uid is missing');
     }
