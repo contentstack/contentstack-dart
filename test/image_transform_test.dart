@@ -1,14 +1,16 @@
+import 'package:contentstack/src/image/fit.dart';
+import 'package:contentstack/src/image/format.dart';
 import 'package:contentstack/src/image/orientation.dart';
 import 'package:contentstack/src/image_transform.dart';
+import 'package:contentstack/src/image/filter.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:contentstack/contentstack.dart' as contentstack;
-
 import 'credentials.dart';
 
 void main() {
 
-  group('ImageTransformation testcases', () {
+  group('ImageTransformation functional testcases', () {
     final Logger log = Logger('ImageTransformation testcases');
     const imageUrl =
         "https://images.contentstack.io/v3/assets/blteae40eb499811073/bltc5064f36b5855343/59e0c41ac0eddd140d5a8e3e/download";
@@ -43,19 +45,39 @@ void main() {
      });
 
      test('convert to gif in ImageTransformation', () {
-       final response = imageTransformation..convert(Format.gif)..getUrl();
+       final response = imageTransformation..convert(Format.gif())..getUrl();
        expect('format=gif', response.query.toString());
      });
 
      test('convert to png in ImageTransformation', () {
-       final response = imageTransformation..convert(Format.png)..getUrl();
+       final response = imageTransformation..convert(Format.png())..getUrl();
        expect('format=png', response.query.toString());
      });
 
      test('convert to jpeg in ImageTransformation', () {
-       final response = imageTransformation..convert(Format.pjpg)..getUrl();
+       final response = imageTransformation..convert(Format.pjpg())..getUrl();
        expect('format=pjpg', response.query.toString());
      });
+
+    test('convert to jpeg in ImageTransformation', () {
+      final response = imageTransformation..convert(Format.jpg())..getUrl();
+      expect('format=jpg', response.query.toString());
+    });
+
+    test('convert to jpeg in ImageTransformation', () {
+      final response = imageTransformation..convert(Format.webp())..getUrl();
+      expect('format=webp', response.query.toString());
+    });
+
+    test('convert to jpeg in ImageTransformation', () {
+      final response = imageTransformation..convert(Format.webplossy())..getUrl();
+      expect('format=webply', response.query.toString());
+    });
+
+    test('convert to jpeg in ImageTransformation', () {
+      final response = imageTransformation..convert(Format.webplossless())..getUrl();
+      expect('format=webpll', response.query.toString());
+    });
 
      test('width resize image in ImageTransformation', () {
        final response = imageTransformation..resize(width: 100)..getUrl();
@@ -106,12 +128,12 @@ void main() {
      });
 
      test('Fit To Bound  in ImageTransformation', () {
-       final response = imageTransformation..fit(0.50, 0.50, Fit.bounds)..getUrl();
+       final response = imageTransformation..fit(0.50, 0.50, Fit.bounds())..getUrl();
        expect('width=0.5&height=0.5&fit=bounds', response.query.toString());
      });
 
      test('Fit By Cropping  in ImageTransformation', () {
-       final response = imageTransformation..fit(0.50, 0.50, Fit.crop)..getUrl();
+       final response = imageTransformation..fit(0.50, 0.50, Fit.crop())..getUrl();
        expect('width=0.5&height=0.5&fit=crop', response.query.toString());
      });
 
@@ -267,28 +289,28 @@ void main() {
 
      test('resize-filter  type nearest in ImageTransformation', () {
        final response = imageTransformation
-           ..resizeFilter(width: 20, height: 40, filter: Filter.nearest)
+           ..resizeFilter(width: 20, height: 40, filter: Filter.nearest())
            ..getUrl();
        expect('width=20&height=40&resize-filter=nearest', response.query.toString());
      });
 
      test('resize-filter  type Filter.bicubic in ImageTransformation', () {
        final response = imageTransformation
-           ..resizeFilter(width: 20, height: 40, filter: Filter.bicubic)
+           ..resizeFilter(width: 20, height: 40, filter: Filter.bicubic())
            ..getUrl();
        expect('width=20&height=40&resize-filter=bicubic', response.query.toString());
      });
 
      test('resize-filter type Filter.bilinear  in ImageTransformation', () {
        final response = imageTransformation
-           ..resizeFilter(width: 20, height: 40, filter: Filter.bilinear)
+           ..resizeFilter(width: 20, height: 40, filter: Filter.bilinear())
            ..getUrl();
        expect('width=20&height=40&resize-filter=bilinear', response.query.toString());
      });
 
      test('resize-filter  type lanczos in ImageTransformation', () {
        final response = imageTransformation
-           ..resizeFilter(width: 20, height: 40, filter: Filter.lanczos)
+           ..resizeFilter(width: 20, height: 40, filter: Filter.lanczos())
            ..getUrl();
        expect('width=20&height=40&resize-filter=lanczos3', response.query.toString());
      });
@@ -315,5 +337,16 @@ void main() {
            ..getUrl();
        expect('canvas=700%2C800%2Coffset-x0.65%2Coffset-y0.80', response.query.toString());
      });
+
+    test('canvas by Offset in ImageTransformation API Request', () async {
+      imageTransformation.fit(200, 100, Fit.crop());
+      await imageTransformation.fetch().then((response){
+        expect('80', response.query.toString());
+      }).catchError((onError){
+        expect('Unexpected character', onError.message.toString());
+      });
+    });
+
+
    });
  }

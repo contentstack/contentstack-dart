@@ -1,9 +1,9 @@
-///The Image Delivery API is used to retrieve, manipulate and/or convert image
-///files of your Contentstack account and deliver it to your web or mobile properties.
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:contentstack/client.dart';
+import 'package:contentstack/src/image/filter.dart';
+import 'package:contentstack/src/image/fit.dart';
+import 'package:contentstack/src/image/format.dart';
 import 'package:contentstack/src/image/orientation.dart';
 import 'package:contentstack/src/query_params.dart';
 import 'package:logging/logging.dart';
@@ -67,7 +67,21 @@ class ImageTransformation {
   ///  final imageTransformation = stack.imageTransform(imageUrl);
   ///  final response = await imageTransformation.convert(Format.pjpg).fetch();
   void convert(Format format) {
-    query.append("format", _formatToString(format));
+    format.when(gif: (formatResult) {
+      query.append("format", "gif");
+    }, png: (formatResult) {
+      query.append("format", "png");
+    }, jpg: (formatResult) {
+      query.append("format", "jpg");
+    }, pjpg: (formatResult) {
+      query.append("format", "pjpg");
+    }, webp: (formatResult) {
+      query.append("format", "webp");
+    }, webplossy: (formatResult) {
+      query.append("format", "webply");
+    }, webplossless: (formatResult) {
+      query.append("format", "webpll");
+    });
   }
 
   /// this function lets you dynamically resize the width of the output image by specifying pixels or percentage values
@@ -135,8 +149,7 @@ class ImageTransformation {
   /// final imageTransformation = stack.imageTransform(imageUrl);
   /// final response = await imageTransformation.cropBy(150, 100).fetch();
   /// log.fine(response);
-  void cropBy(int width, int height,
-      {String region, String offset}) {
+  void cropBy(int width, int height, {String region, String offset}) {
     // checks if cropRatio is not null then takes height, width and cropRatio as prams
     // else it takes crop params and comas separated width & height
     final cropLRBL = [];
@@ -178,7 +191,12 @@ class ImageTransformation {
       query.append("height", height.toString());
     }
     if (fit != null) {
-      query.append("fit", _fitToString(fit));
+      //enum Fit { bounds, crop }
+      fit.when(bounds: (value) {
+        query.append("fit", "bounds");
+      }, crop: (value) {
+        query.append("fit", "crop");
+      });
     }
   }
 
@@ -240,21 +258,21 @@ class ImageTransformation {
     //  horizontallyAndRotate90DegreesRight = '7';
     //  rotate90DegreesLeft = '8';
     if (orient != null) {
-      orient.when(toDefault: (orientation){
+      orient.when(toDefault: (orientation) {
         query.append("orient", 1);
-      }, horizontally: (orientation){
+      }, horizontally: (orientation) {
         query.append("orient", 2);
-      }, horizontallyAndVertically: (orientation){
+      }, horizontallyAndVertically: (orientation) {
         query.append("orient", 3);
-      }, vertically: (orientation){
+      }, vertically: (orientation) {
         query.append("orient", 4);
-      }, horizontallyAndRotate90DegreeLeft: (orientation){
+      }, horizontallyAndRotate90DegreeLeft: (orientation) {
         query.append("orient", 5);
-      }, degrees90TowardsRight: (orientation){
+      }, degrees90TowardsRight: (orientation) {
         query.append("orient", 6);
-      }, horizontallyAndRotate90DegreesRight: (orientation){
+      }, horizontallyAndRotate90DegreesRight: (orientation) {
         query.append("orient", 7);
-      }, rotate90DegreesLeft: (orientation){
+      }, rotate90DegreesLeft: (orientation) {
         query.append("orient", 8);
       });
     }
@@ -454,7 +472,7 @@ class ImageTransformation {
     query.append("brightness", brightness.toString());
   }
 
-  /// 
+  ///
   /// The resize-filter parameter allows you to use the resizing
   /// filter to increase or decrease the number of pixels in a given image.
   /// This parameter resizes the given image without adding or removing any data from it.
@@ -462,7 +480,7 @@ class ImageTransformation {
   /// The following values are acceptable for the resize-filter parameter
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#resize-filter
-  
+
   /// Example:
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
@@ -476,11 +494,19 @@ class ImageTransformation {
       query.append('height', height.toString());
     }
     if (filter != null) {
-      query.append('resize-filter', _resizeFilterToString(filter));
+      filter.when(nearest: (filterType) {
+        query.append('resize-filter', "nearest");
+      }, bilinear: (filterType) {
+        query.append('resize-filter', "bilinear");
+      }, bicubic: (filterType) {
+        query.append('resize-filter', "bicubic");
+      }, lanczos: (filterType) {
+        query.append('resize-filter', "lanczos3");
+      });
     }
   }
 
-  /// 
+  ///
   /// The canvas parameter allows you to increase the size of the canvas that surrounds an image.
   /// You can specify the height and width of the canvas area in pixels or percentage or define the
   /// height and width of the aspect ratio of the canvas. You can also define the starting point for
@@ -511,19 +537,16 @@ class ImageTransformation {
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
   /// final response =  imageTransformation.canvas('700,800,offset-x0.65,offset-y0.80');
-  /// 
+  ///
   void canvas(String canvasValue) {
     query.append("canvas", canvasValue);
   }
 
   ///Makes API Request of respective function.
-  Future fetch() async {
+  Future<dynamic> fetch() async {
     final bool _validURL = Uri.parse(_imageUrl).isAbsolute;
-    if (!_validURL) {
-      throw Exception('Invalid url requested');
-    }
+    if (!_validURL) { throw Exception('Invalid url requested');}
     final response = await client.get(getUrl());
-    print(response.body.toString());
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -534,55 +557,4 @@ class ImageTransformation {
   String getUrl() {
     return query.toUrl(_imageUrl);
   }
-
-
-  String _formatToString(Format format) {
-    //supports gif, png, jpg, pjpg, webp, webply, webpll
-    switch (format) {
-      case Format.gif:
-        return 'gif';
-      case Format.png:
-        return 'png';
-      case Format.jpg:
-        return 'jpg';
-      case Format.pjpg:
-        return 'pjpg';
-      case Format.webp:
-        return 'webp';
-      case Format.webplossy:
-        return 'webply';
-      case Format.webplossless:
-        return 'webpll';      
-    }
-
-    return null;
-  }
-  String _fitToString(Fit fit) {
-    switch (fit) {
-      case Fit.bounds:
-        return 'bounds';
-      case Fit.crop:
-        return 'crop';
-    }
-
-    return null;
-  }
-  String _resizeFilterToString(Filter filter) {
-    switch (filter) {
-      case Filter.nearest:
-        return 'nearest';
-      case Filter.bilinear:
-        return 'bilinear';
-      case Filter.bicubic:
-        return 'bicubic';
-      case Filter.lanczos:
-        return 'lanczos3';
-    }
-
-    return null;
-  }
 }
-
-enum Filter { nearest, bilinear, bicubic, lanczos }
-enum Format { gif, png, jpg, pjpg, webp, webplossy, webplossless }
-enum Fit { bounds, crop }

@@ -1,7 +1,6 @@
-import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/src/query_params.dart';
-import 'package:http/http.dart';
+import 'package:contentstack/src/sync/publishtype.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'credentials.dart';
@@ -206,7 +205,7 @@ void main() {
       final response = stack.sync(
           fromDate: '12-01-2020',
           locale: 'en-us',
-          publishType: contentstack.PublishType.assetPublished);
+          publishType: PublishType.assetPublished());
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);
@@ -220,7 +219,7 @@ void main() {
       final response = stack.sync(
           fromDate: '12-01-2020',
           locale: 'en-us',
-          publishType: contentstack.PublishType.assetUnpublished);
+          publishType: PublishType.assetUnpublished());
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);
@@ -234,7 +233,7 @@ void main() {
       final response = stack.sync(
           fromDate: '12-01-2020',
           locale: 'en-us',
-          publishType: contentstack.PublishType.assetDeleted);
+          publishType: PublishType.assetDeleted());
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);
@@ -248,7 +247,7 @@ void main() {
       final response = stack.sync(
           fromDate: '12-01-2020',
           locale: 'en-us',
-          publishType: contentstack.PublishType.entryPublished);
+          publishType: PublishType.entryPublished());
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);
@@ -262,7 +261,7 @@ void main() {
       final response = stack.sync(
           fromDate: '12-01-2020',
           locale: 'en-us',
-          publishType: contentstack.PublishType.entryUnpublished);
+          publishType: PublishType.entryUnpublished());
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);
@@ -276,7 +275,7 @@ void main() {
       final response = stack.sync(
           fromDate: '12-01-2020',
           locale: 'en-us',
-          publishType: contentstack.PublishType.entryDeleted);
+          publishType: PublishType.entryDeleted());
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);
@@ -290,7 +289,7 @@ void main() {
       final response = stack.sync(
           fromDate: '12-01-2020',
           locale: 'en-us',
-          publishType: contentstack.PublishType.contentTypeDeleted);
+          publishType: PublishType.contentTypeDeleted());
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);

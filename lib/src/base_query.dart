@@ -1,3 +1,4 @@
+import 'package:contentstack/src/entry_queryable.dart';
 import 'package:contentstack/src/operations.dart';
 
 ///
@@ -12,9 +13,9 @@ import 'package:contentstack/src/operations.dart';
 /// final response = query.find();
 ///
 
-class BaseQuery {
+class BaseQuery extends EntryQueryable{
   final Map<String, String> queryParameter = <String, String>{};
-  final Map<String, dynamic> parameter = <String, dynamic>{};
+  //final Map<String, dynamic> parameter = <String, dynamic>{};
 
   void where(String fieldUid, QueryOperation queryOperation) {
     if (fieldUid != null && fieldUid.isNotEmpty) {
