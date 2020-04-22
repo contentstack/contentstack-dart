@@ -3,7 +3,26 @@ import 'package:contentstack/contentstack.dart' as contentstack;
 import 'credentials.dart';
 
 void main() {
+
   group('test the functional implementation', () {
+    contentstack.Stack stack;
+    setUp(() {
+      stack = Credential.stack();
+    });
+
+
+    test("test functional asset environment", () async {
+      final asset = stack.asset(uid: Credential.assetUid);
+      asset.environment('development');
+      final params = asset.queryParameter;
+      expect("{environment: development}", params.toString());
+    });
+
+
+  });
+
+  group('test the API implementation', () {
+
     contentstack.Stack stack;
     setUp(() {
       stack = Credential.stack();
@@ -54,10 +73,7 @@ void main() {
     test("testcase asset find chaining the functions", () async {
       final asset = stack.asset(uid: Credential.assetUid);
       // chaining the functions
-      asset
-        ..version(4)
-        ..relativeUrls()
-        ..includeDimension();
+      asset..version(4)..relativeUrls()..includeDimension();
       await asset.find().then((response) {
         expect(0, response["assets"].length);
       }).catchError((error) {
@@ -75,7 +91,20 @@ void main() {
         expect(e.message, equals("Provide asset uid to fetch single entry"));
       }
     });
-  });
 
-  group('test the API implementation', () {});
+
+    test("testcase asset set to model", () async {
+      try {
+        final asset = stack.asset();
+        await asset.fetch().then((response) {
+          final model = contentstack.AssetModel.fromJson(response['asset']);
+          expect(171, model.dimension);
+        });
+      } catch (e) {
+        expect(e.message, equals("Provide asset uid to fetch single entry"));
+      }
+    });
+
+
+  });
 }

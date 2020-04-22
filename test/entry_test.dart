@@ -156,6 +156,20 @@ void main() {
       });
     });
 
+    test('find the includeReference default with list objects', () async {
+      const List<String> fieldUID = ["title", "attendee", "created_at"];
+      entry.includeReference('categories', includeReferenceField: Include.none(fieldUidList: fieldUID));
+      await entry.fetch().then((response) {
+        if(response is Error){
+          expect(141, response.errorCode);
+        }else{
+          expect('/meals', response['entry']['url']);
+        }
+      }).catchError((onError) {
+        expect('invalid url requested', onError.message);
+      });
+    });
+
     test('find the includeReference with only API call', () async {
       entry.locale('en-us');
       const List<String> fieldUID = ["price", "orange", "mango"];

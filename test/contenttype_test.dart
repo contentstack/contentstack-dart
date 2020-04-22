@@ -17,7 +17,9 @@ void main() {
     });
 
     test('test network call for content type', () async {
-      final response = await contentType.fetch();
+      Map<String, String> map = {'key': 'value'};
+      final response = await contentType.fetch(map);
+      //expect(true, contentType.toString());
       log.finest(response);
     });
 
@@ -50,6 +52,15 @@ void main() {
       final response = await allContents.includeCount().find();
       expect(11, response['count']);
     });
+
+    test('test contenttype query', () async {
+      final allContents = ct.query();
+      await allContents.find(queryParams: {"include_count": "true"}).then((response){
+        expect(11, response['count']);
+      });
+    });
+
+
   });
 
 }

@@ -1,3 +1,4 @@
+import 'package:contentstack/src/image/orientation.dart';
 import 'package:contentstack/src/image_transform.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
@@ -134,11 +135,53 @@ void main() {
        expect('trim=25', response.query.toString());
      });
 
-     test('orientation  in ImageTransformation check params', () {
+     test('orientation vertical in ImageTransformation check params', () {
        final response =
-           imageTransformation..orientation(Orientation.vertically)..getUrl();
+           imageTransformation..orientation(Orientation.vertically())..getUrl();
        expect('orient=4', response.query.toString());
      });
+
+    test('orientation horizontal in ImageTransformation check params', () {
+      final response =
+      imageTransformation..orientation(Orientation.horizontally())..getUrl();
+      expect('orient=2', response.query.toString());
+    });
+
+    test('orientation degrees90TowardsRight in ImageTransformation check params', () {
+      final response =
+      imageTransformation..orientation(Orientation.degrees90TowardsRight())..getUrl();
+      expect('orient=6', response.query.toString());
+    });
+
+    test('orientation horizontallyAndRotate90DegreeLeft in ImageTransformation check params', () {
+      final response =
+      imageTransformation..orientation(Orientation.horizontallyAndRotate90DegreeLeft())..getUrl();
+      expect('orient=5', response.query.toString());
+    });
+
+    test('orientation horizontallyAndRotate90DegreesRight in ImageTransformation check params', () {
+      final response =
+      imageTransformation..orientation(Orientation.horizontallyAndRotate90DegreesRight())..getUrl();
+      expect('orient=7', response.query.toString());
+    });
+
+    test('orientation horizontallyAndVertically in ImageTransformation check params', () {
+      final response =
+      imageTransformation..orientation(Orientation.horizontallyAndVertically())..getUrl();
+      expect('orient=3', response.query.toString());
+    });
+
+    test('orientation toDefault in ImageTransformation check params', () {
+      final response =
+      imageTransformation..orientation(Orientation.toDefault())..getUrl();
+      expect('orient=1', response.query.toString());
+    });
+
+    test('orientation rotate90DegreesLeft in ImageTransformation check params', () {
+      final response =
+      imageTransformation..orientation(Orientation.rotate90DegreesLeft())..getUrl();
+      expect('orient=8', response.query.toString());
+    });
 
      test('overlay  overlayAlign in ImageTransformation', () {
        final response = imageTransformation

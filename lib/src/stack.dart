@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/src/asset.dart';
 import 'package:contentstack/src/image_transform.dart';
-import 'package:contentstack/src/models/syncresult.dart';
 import 'package:http/http.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:logging/logging.dart';
@@ -20,35 +19,16 @@ import 'package:logging/logging.dart';
 /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
 ///
 class Stack {
-
   final Logger log = Logger('Stack');
-
-  /// Stack API Key
   final String _apiKey;
-
-  /// Stack Delivery Token
   final String _deliveryToken;
-
-  /// Stack API Key
   final String _environment;
-
-  /// The domain host to perform requests against. Defaults to `Host.delivery` i.e. `"cdn.contentstack.com"`.
   final String _host;
-
-  ///  The region
   final Region region;
-
-  /// The Api Version
   final String apiVersion;
-
-  /// The BaseClient
   HttpClient _client;
 
-  /// stack headers
   Map<String, String> stackHeader = <String, String>{};
-
-  /// stack Query parameters
-
   final Map<String, String> queryParameter = <String, String>{};
 
   ///
@@ -256,8 +236,7 @@ class Stack {
     return _syncRequest(parameter);
   }
 
-
-  Future _syncRequest(parameters) async{
+  Future _syncRequest(parameters) async {
     parameters['environment'] = _client.stackHeaders['environment'];
     final Uri uri = Uri.https(endpoint, '$apiVersion/stacks/sync', parameters);
     return _client.sendRequest(uri);
@@ -284,7 +263,6 @@ class Stack {
     return null;
   }
 
-
   ///
   /// If the result of the initial sync (or subsequent sync) contains more than 100 records, the response would be
   /// paginated. It provides pagination token in the response. However, you do not have to use the pagination token
@@ -295,7 +273,7 @@ class Stack {
   ///
   Future paginationToken(String paginationToken) {
     final parameters = <String, String>{};
-    if(paginationToken != null && paginationToken.isNotEmpty){
+    if (paginationToken != null && paginationToken.isNotEmpty) {
       parameters['pagination_token'] = paginationToken;
     }
     return _syncRequest(parameters);
@@ -310,7 +288,7 @@ class Stack {
   ///
   Future syncToken(String syncToken) {
     final parameters = <String, String>{};
-    if(syncToken != null && syncToken.isNotEmpty){
+    if (syncToken != null && syncToken.isNotEmpty) {
       parameters['sync_token'] = syncToken;
     }
     return _syncRequest(parameters);

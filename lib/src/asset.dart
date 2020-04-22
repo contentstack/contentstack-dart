@@ -2,16 +2,15 @@ import 'dart:async';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/src/base_query.dart';
 
-///
 /// Assets refer to all the media files (images, videos, PDFs, audio files, and so on)
 /// uploaded in your Contentstack repository for future use. These files can be
 /// attached and used in multiple entries. Learn more about Assets.
 /// https://www.contentstack.com/docs/content-managers/work-with-assets
 ///
-/// All Assets
+/// * All Assets
 /// This call fetches the list of all the assets of a particular stack
 ///
-/// Single Asset
+/// * Single Asset
 /// This call fetches the latest version of a specific asset of a particular stack.
 ///
 class Asset extends BaseQuery {
@@ -21,9 +20,7 @@ class Asset extends BaseQuery {
 
   Asset(this._uid, [this._client]) {
     queryParameter['environment'] = _client.stackHeaders['environment'];
-    if (_uid != null && _uid.isNotEmpty) {
-      _urlPath = "/${_client.stack.apiVersion}/assets";
-    }
+    _urlPath = "/${_client.stack.apiVersion}/assets";
   }
 
   ///
@@ -60,19 +57,16 @@ class Asset extends BaseQuery {
     queryParameter["relative_urls"] = 'true';
   }
 
+
   /// It fetch single asset data on the basis of the asset uid.
-  Future fetch() async {
-    if (_uid == null) {
-      throw Exception('Provide asset uid to fetch single entry');
-    }
-    final uri =
-        Uri.https(_client.stack.endpoint, "$_urlPath/$_uid", queryParameter);
+  Future<dynamic> fetch() {
+    if (_uid == null) {throw Exception('Provide asset uid to fetch single entry');}
+    final uri = Uri.https(_client.stack.endpoint, "$_urlPath/$_uid", queryParameter);
     return _client.sendRequest(uri);
   }
 
-  /// find is applicable for getting all the
-  /// available assets and apply query on the data.
-  Future find() async {
+  /// find is applicable for getting all the available assets based on the query
+  Future<dynamic> find() async {
     final uri = Uri.https(_client.stack.endpoint, "$_urlPath", queryParameter);
     return _client.sendRequest(uri);
   }

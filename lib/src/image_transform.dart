@@ -2,7 +2,9 @@
 ///files of your Contentstack account and deliver it to your web or mobile properties.
 
 import 'dart:async';
+import 'dart:convert';
 import 'package:contentstack/client.dart';
+import 'package:contentstack/src/image/orientation.dart';
 import 'package:contentstack/src/query_params.dart';
 import 'package:logging/logging.dart';
 
@@ -229,7 +231,7 @@ class ImageTransformation {
   ///  final imageTransformation = stack.imageTransform(imageUrl);
   ///  final response = await imageTransformation.orientation(Orientation.vertically).fetch();
   void orientation(Orientation orient) {
-    // toDefault = '1';
+    //  toDefault = '1';
     //  horizontally = '2';
     //  horizontallyAndVertically = '3';
     //  vertically = '4';
@@ -238,7 +240,23 @@ class ImageTransformation {
     //  horizontallyAndRotate90DegreesRight = '7';
     //  rotate90DegreesLeft = '8';
     if (orient != null) {
-      query.append("orient", _orientToString(orient));
+      orient.when(toDefault: (orientation){
+        query.append("orient", 1);
+      }, horizontally: (orientation){
+        query.append("orient", 2);
+      }, horizontallyAndVertically: (orientation){
+        query.append("orient", 3);
+      }, vertically: (orientation){
+        query.append("orient", 4);
+      }, horizontallyAndRotate90DegreeLeft: (orientation){
+        query.append("orient", 5);
+      }, degrees90TowardsRight: (orientation){
+        query.append("orient", 6);
+      }, horizontallyAndRotate90DegreesRight: (orientation){
+        query.append("orient", 7);
+      }, rotate90DegreesLeft: (orientation){
+        query.append("orient", 8);
+      });
     }
   }
 
@@ -504,38 +522,20 @@ class ImageTransformation {
     if (!_validURL) {
       throw Exception('Invalid url requested');
     }
-//    final response = await client.sendRequest(getUrl());
-//    if (response.statusCode != 200) {
-//      throw Exception('getEntry failed');
-//    }
-    return null;
+    final response = await client.get(getUrl());
+    print(response.body.toString());
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
   }
 
   String getUrl() {
     return query.toUrl(_imageUrl);
   }
-  int _orientToString(Orientation orient) {
-    switch (orient) {
-      case Orientation.toDefault:
-        return 1;
-      case Orientation.horizontally:
-        return 2;
-      case Orientation.horizontallyAndVertically:
-        return 3;
-      case Orientation.vertically:
-        return 4;
-      case Orientation.horizontallyAndRotate90DegreeLeft:
-        return 5;
-      case Orientation.degrees90TowardsRight:
-        return 6;
-      case Orientation.horizontallyAndRotate90DegreesRight:
-        return 7;
-      case Orientation.rotate90DegreesLeft:
-        return 8;
-      default:
-        return 1;
-    }
-  }
+
+
   String _formatToString(Format format) {
     //supports gif, png, jpg, pjpg, webp, webply, webpll
     switch (format) {
@@ -558,7 +558,6 @@ class ImageTransformation {
     return null;
   }
   String _fitToString(Fit fit) {
-    //supports bounds, crop
     switch (fit) {
       case Fit.bounds:
         return 'bounds';
@@ -569,7 +568,6 @@ class ImageTransformation {
     return null;
   }
   String _resizeFilterToString(Filter filter) {
-    //supports bounds, crop
     switch (filter) {
       case Filter.nearest:
         return 'nearest';
@@ -586,15 +584,5 @@ class ImageTransformation {
 }
 
 enum Filter { nearest, bilinear, bicubic, lanczos }
-enum Orientation {
-  toDefault,
-  horizontally,
-  horizontallyAndVertically,
-  vertically,
-  horizontallyAndRotate90DegreeLeft,
-  degrees90TowardsRight,
-  horizontallyAndRotate90DegreesRight,
-  rotate90DegreesLeft
-}
 enum Format { gif, png, jpg, pjpg, webp, webplossy, webplossless }
 enum Fit { bounds, crop }
