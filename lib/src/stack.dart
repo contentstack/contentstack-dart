@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/src/asset.dart';
 import 'package:contentstack/src/image_transform.dart';
+import 'package:contentstack/src/sync/publishtype.dart';
 import 'package:http/http.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:logging/logging.dart';
@@ -231,36 +232,29 @@ class Stack {
       parameter['locale'] = locale;
     }
     if (publishType != null) {
-      parameter['publish_type'] = _publishTypeString(publishType);
+      publishType.when(assetPublished: (result) {
+        parameter["publish_type"] = "asset_published";
+      }, entryPublished: (result) {
+        parameter["publish_type"] = "entry_published";
+      }, assetUnpublished: (result) {
+        parameter["publish_type"] = "asset_unpublished";
+      }, assetDeleted: (result) {
+        parameter["publish_type"] = "asset_deleted";
+      }, entryUnpublished: (result) {
+        parameter["publish_type"] = "entry_unpublished";
+      }, entryDeleted: (result) {
+        parameter["publish_type"] = "entry_deleted";
+      }, contentTypeDeleted: (result) {
+        parameter["publish_type"] = "content_type_deleted";
+      });
     }
     return _syncRequest(parameter);
   }
 
-  Future _syncRequest(parameters) async {
+  Future<dynamic> _syncRequest(parameters) async {
     parameters['environment'] = _client.stackHeaders['environment'];
     final Uri uri = Uri.https(endpoint, '$apiVersion/stacks/sync', parameters);
     return _client.sendRequest(uri);
-  }
-
-  String _publishTypeString(PublishType publishType) {
-    switch (publishType) {
-      case PublishType.assetPublished:
-        return 'asset_published';
-      case PublishType.entryPublished:
-        return 'entry_published';
-      case PublishType.assetUnpublished:
-        return 'asset_unpublished';
-      case PublishType.assetDeleted:
-        return "asset_deleted";
-      case PublishType.entryUnpublished:
-        return "entry_unpublished";
-      case PublishType.entryDeleted:
-        return "entry_deleted";
-      case PublishType.contentTypeDeleted:
-        return "content_type_deleted";
-    }
-
-    return null;
   }
 
   ///
@@ -271,7 +265,7 @@ class Stack {
   /// interrupted midway (due to network issues, etc.). In such cases, this token can be used to restart the sync
   /// process from where it was interrupted.
   ///
-  Future paginationToken(String paginationToken) {
+  Future<dynamic> paginationToken(String paginationToken) {
     final parameters = <String, String>{};
     if (paginationToken != null && paginationToken.isNotEmpty) {
       parameters['pagination_token'] = paginationToken;
@@ -286,23 +280,13 @@ class Stack {
   /// and the details of the content that was deleted or updated.
   ///
   ///
-  Future syncToken(String syncToken) {
+  Future<dynamic> syncToken(String syncToken) {
     final parameters = <String, String>{};
     if (syncToken != null && syncToken.isNotEmpty) {
       parameters['sync_token'] = syncToken;
     }
     return _syncRequest(parameters);
   }
-}
-
-enum PublishType {
-  assetPublished,
-  entryPublished,
-  assetUnpublished,
-  assetDeleted,
-  entryUnpublished,
-  entryDeleted,
-  contentTypeDeleted
 }
 
 enum Region { us, eu }

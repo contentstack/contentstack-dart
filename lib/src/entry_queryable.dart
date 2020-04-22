@@ -1,7 +1,7 @@
 import 'package:contentstack/src/include.dart';
 
 class EntryQueryable {
-  final Map<String, String> parameter = <String, String>{};
+  final Map<String, dynamic> parameter = <String, dynamic>{};
 
   ///
   /// [locale] is code of the language of which the entries needs to be included.
