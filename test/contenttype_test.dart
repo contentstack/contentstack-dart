@@ -6,10 +6,9 @@ import 'package:contentstack/contentstack.dart' as contentstack;
 import 'credentials.dart';
 
 void main() {
-  
   final Logger log = Logger('Stack');
 
-  group('test functional testing', () {
+  group('testcase contenttype functional testing', () {
     contentstack.ContentType contentType;
     setUp(() async {
       final stack = Credential.stack();
@@ -17,7 +16,7 @@ void main() {
     });
 
     test('test network call for content type', () async {
-      Map<String, String> map = {'key': 'value'};
+      final map = {'key': 'value'};
       final response = await contentType.fetch(map);
       //expect(true, contentType.toString());
       log.finest(response);
@@ -29,12 +28,7 @@ void main() {
     });
   });
 
-
-
-
-
-  group('test contentTypeQuery API testing', () {
-    
+  group('testcases contentTypeQuery functional', () {
     contentstack.ContentType ct;
     setUp(() {
       final stack = Credential.stack();
@@ -55,12 +49,10 @@ void main() {
 
     test('test contenttype query', () async {
       final allContents = ct.query();
-      await allContents.find(queryParams: {"include_count": "true"}).then((response){
+      await allContents
+          .find(queryParams: {"include_count": "true"}).then((response) {
         expect(11, response['count']);
       });
     });
-
-
   });
-
 }

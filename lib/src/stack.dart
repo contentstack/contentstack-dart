@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/src/asset.dart';
+import 'package:contentstack/src/assetquery.dart';
 import 'package:contentstack/src/image_transform.dart';
 import 'package:contentstack/src/sync/publishtype.dart';
 import 'package:http/http.dart';
@@ -89,20 +90,34 @@ class Stack {
   }
 
   ///
-  /// Assets refer to all the media files (images, videos, PDFs, audio files, and so on)
-  /// uploaded in your Contentstack repository for future use. These files can be
-  /// attached and used in multiple entries. Learn more about Assets.
-  /// Keep uid None to fetch list of all assets
-  /// API Reference : https://www.contentstack.com/docs/content-managers/work-with-assets
-  /// Asset  accepts [uid] of the asset Optional
-  /// Returns class object of asset so we can chain the [Asset] functions.
+  /// This call fetches the latest version of a specific
+  /// asset of a particular stack.
+  /// API Reference :
+  /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#single-asset
+  /// [uid] assetUid
   ///
   /// Example:
   /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  /// var asset = stack.asset('asset_uid');
+  /// var asset = stack.asset('uid');
   ///
-  Asset asset({String uid}) {
+  Asset asset(String uid) {
     return Asset(uid, _client);
+  }
+
+
+  ///
+  /// This call fetches the list of all the assets of a particular stack.
+  /// It also returns the content of each asset in JSON format.
+  /// You can also specify the environment of which you wish to get the assets.
+  /// API Reference :
+  /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#all-assets
+  ///
+  /// Example:
+  /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// var asset = stack.assetQuery(');
+  ///
+  AssetQuery assetQuery() {
+    return AssetQuery(_client);
   }
 
   ///

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:contentstack/client.dart';
+import 'package:contentstack/src/base_query.dart';
 
 /// Assets refer to all the media files (images, videos, PDFs, audio files, and so on)
 /// uploaded in your Contentstack repository for future use. These files can be
@@ -12,14 +13,12 @@ import 'package:contentstack/client.dart';
 /// * Single Asset
 /// This call fetches the latest version of a specific asset of a particular stack.
 ///
-class Asset {
+class AssetQuery extends BaseQuery {
   final HttpClient _client;
-  final String _uid;
   String _urlPath;
-  final Map<String, dynamic> assetParameter = <String, dynamic>{};
 
-  Asset(this._uid, [this._client]) {
-    assetParameter['environment'] = _client.stackHeaders['environment'];
+  AssetQuery([this._client]) {
+    queryParameter['environment'] = _client.stackHeaders['environment'];
     _urlPath = "/${_client.stack.apiVersion}/assets";
   }
 
@@ -29,7 +28,7 @@ class Asset {
   /// [environment] required
   ///
   void environment(String environment) {
-    assetParameter["environment"] = environment;
+    queryParameter["environment"] = environment;
   }
 
   ///
@@ -39,15 +38,31 @@ class Asset {
   /// [version] required
   ///
   void version(int version) {
-    assetParameter["version"] = version.toString();
+    queryParameter["version"] = version.toString();
   }
 
+  ///
+  /// include the dimensions (height and width) of the image in the response.
+  /// Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD.
+  ///
+  void includeDimension() {
+    queryParameter["include_dimension"] = 'true';
+  }
 
-  /// It fetch single asset data on the basis of the asset uid.
-  Future<dynamic> fetch() {
-    if (_uid == null) {throw Exception('Provide asset uid to fetch single entry');}
-    final uri = Uri.https(_client.stack.endpoint, "$_urlPath/$_uid", assetParameter);
+  ///
+  /// include the relative URLs of the assets in the response.
+  ///
+  void relativeUrls() {
+    queryParameter["relative_urls"] = 'true';
+  }
+
+  void includeCount(){
+    queryParameter['include_count'] = 'true';
+  }
+
+  /// find is applicable for getting all the available assets based on the query
+  Future<dynamic> find() async {
+    final uri = Uri.https(_client.stack.endpoint, "$_urlPath", queryParameter);
     return _client.sendRequest(uri);
   }
-
 }

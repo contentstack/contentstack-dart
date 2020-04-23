@@ -30,6 +30,13 @@ class ContentTypeQuery extends BaseQuery{
     return this;
   }
 
+
+
+  ContentTypeQuery includeGlobalField(){
+    queryParameter['include_count'] = 'true';
+    return this;
+  }
+
   /// This call returns comprehensive information of all the content types
   /// available in a particular stack in your account.
   /// 
