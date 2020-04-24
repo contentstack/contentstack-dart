@@ -1,5 +1,5 @@
 import 'package:contentstack/contentstack.dart';
-import 'package:contentstack/src/include.dart';
+import 'package:contentstack/src/enums/include.dart';
 import 'package:test/test.dart';
 import 'credentials.dart';
 

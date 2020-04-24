@@ -18,9 +18,9 @@ AssetModel _$AssetModelFromJson(Map<String, dynamic> json) {
     json['tags'] as List,
     json['filename'] as String,
     json['url'] as String,
-    json['_version'] as String,
+    json['_version'] as int,
     json['title'] as String,
-    json['dimension'] as Map<String, dynamic>,
+    json['dimension'] as Map<dynamic, dynamic>,
     json['publish_details'] as Map<String, dynamic>,
   );
 }

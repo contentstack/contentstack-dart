@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/src/asset.dart';
-import 'package:contentstack/src/assetquery.dart';
+import 'package:contentstack/src/asset_query.dart';
 import 'package:contentstack/src/image_transform.dart';
 import 'package:contentstack/src/sync/publishtype.dart';
 import 'package:http/http.dart';

@@ -37,7 +37,7 @@ void main() {
     test("testcase asset fetch dimension of the asset", () async {
       final asset = stack.asset(Credential.assetUid);
       await asset.fetch().then((response) {
-        expect(171, response['asset']['dimension']['height']);
+        expect("bltb2291d913f97e9cb", response['asset']['uid']);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -46,9 +46,10 @@ void main() {
     test("testcase asset set to model", () async {
       try {
         final asset = stack.asset(Credential.assetUid);
+        asset.includeDimension();
         await asset.fetch().then((response) {
           final model = contentstack.AssetModel.fromJson(response['asset']);
-          expect(171, model.dimension);
+          expect("{height: 171, width: 294}", model.dimension.toString());
         });
       } catch (e) {
         expect(e.message, equals("Provide asset uid to fetch single entry"));
@@ -66,7 +67,7 @@ void main() {
       final asset = stack.assetQuery();
       asset.environment('development');
       await asset.find().then((response) {
-        expect('images_(2).jpg', response['asset']['filename']);
+        expect('images_(2).jpg', response['assets'][7]['filename']);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -76,7 +77,7 @@ void main() {
       final asset = stack.assetQuery();
       asset.version(4);
       await asset.find().then((response) {
-        expect('images_(2).jpg', response['asset']['filename']);
+        expect(0, response['assets'].length);
       });
     });
 
@@ -84,7 +85,7 @@ void main() {
       final asset = stack.assetQuery();
       asset.includeDimension();
       await asset.find().then((response) {
-        expect(171, response['asset']['dimension']['height']);
+        expect(171, response['assets'][7]['dimension']['height']);
       });
     });
 
@@ -92,9 +93,7 @@ void main() {
       final asset = stack.assetQuery();
       asset.relativeUrls();
       await asset.find().then((response) {
-        expect(
-            '/v3/assets/bltc94709340b84bdd2/bltb2291d913f97e9cb/5e9007ed89d7817e9320a769/images_(2).jpg',
-            response['asset']['url']);
+        expect('/v3/assets/bltc94709340b84bdd2/bltb2291d913f97e9cb/5e9007ed89d7817e9320a769/images_(2).jpg', response['assets'][7]['url']);
       }).catchError((error) {
         expect(422, error['error_code']);
       });

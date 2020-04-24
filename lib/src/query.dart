@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/src/base_query.dart';
-import 'package:contentstack/src/operator.dart';
-import 'package:contentstack/src/reference.dart';
+import 'package:contentstack/src/enums/operator.dart';
+import 'package:contentstack/src/enums/reference.dart';
 
 class Query extends BaseQuery {
 

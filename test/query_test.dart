@@ -1,7 +1,7 @@
 import 'package:contentstack/contentstack.dart' as contentstack;
-import 'package:contentstack/src/operations.dart';
-import 'package:contentstack/src/operator.dart';
-import 'package:contentstack/src/reference.dart';
+import 'package:contentstack/src/enums/operations.dart';
+import 'package:contentstack/src/enums/operator.dart';
+import 'package:contentstack/src/enums/reference.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'credentials.dart';

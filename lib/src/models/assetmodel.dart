@@ -19,9 +19,9 @@ class AssetModel{
   String filename;
   String url;
   @JsonKey(name: "_version")
-  String version;
+  int version;
   String title;
-  Map dimension;
+  Map<dynamic, dynamic> dimension;
   @JsonKey(name: "publish_details")
   Map publishDetails;
   AssetModel(this.uid, this.createdAt, this.updatedAt, this.createdBy,
