@@ -104,7 +104,6 @@ class Stack {
     return Asset(uid, _client);
   }
 
-
   ///
   /// This call fetches the list of all the assets of a particular stack.
   /// It also returns the content of each asset in JSON format.

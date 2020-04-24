@@ -10,7 +10,8 @@ class HttpClient extends http.BaseClient {
   final Stack stack;
   final Map<String, String> stackHeaders;
 
-  factory HttpClient(Map<String, String> headers, {http.Client client, Stack stack}) {
+  factory HttpClient(Map<String, String> headers,
+      {http.Client client, Stack stack}) {
     final stackClient = client ?? http.Client();
     return HttpClient._internal(stackClient, headers, stack);
   }
@@ -51,9 +52,7 @@ class HttpClient extends http.BaseClient {
   @override
   void close() => _client.close();
 
-
   ///////////////////////////////////////
-
 
   static T fromJson<T, K>(dynamic json) {
     if (json is Iterable) {

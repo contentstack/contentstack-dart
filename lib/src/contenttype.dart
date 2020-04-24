@@ -10,9 +10,8 @@ import 'package:contentstack/src/contenttype_query.dart';
 /// and then create entries using the content type.
 /// Read more about Content Types.
 /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#content-types
-/// 
+///
 class ContentType {
-
   final String _contentTypeUid;
   final HttpClient _client;
   String urlPath;
@@ -25,7 +24,7 @@ class ContentType {
     }
   }
 
-  /// 
+  ///
   /// This function provide option to  get single entry as well as all the entries.
   /// [entryUid] is Optional, If [entryUid]  Provided it fetches related entry of a respected content type
   /// Read more about single entry:
@@ -36,10 +35,10 @@ class ContentType {
   /// and locale of which you wish to get the entries.
   /// /// Read more about entries:
   /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#all-entries
-  /// 
+  ///
   /// final entry = stack.contentType('content_type_uid').entry(entryUid: 'entry_uid');
   /// print(entry);
-  /// 
+  ///
   Entry entry({String entryUid}) {
     return Entry(entryUid, _client, _contentTypeUid);
   }
@@ -48,7 +47,7 @@ class ContentType {
   /// Query on ContentType
   /// This call returns comprehensive information of all the content types
   /// available in a particular stack in your account
-  /// 
+  ///
   /// Example:
   /// final contentTypeQuery = stack.contentType().query();
   /// final response = contentTypeQuery.find();
@@ -71,8 +70,8 @@ class ContentType {
   /// final response = contentType.fetch(queryParameter);
   /// print(response);
   ///
-  Future fetch([Map<String, dynamic> queryParams]){
-    if(urlPath == null){
+  Future fetch([Map<String, dynamic> queryParams]) {
+    if (urlPath == null) {
       throw Exception('content_type_uid is missing');
     }
     if (queryParams != null && queryParams.isNotEmpty) {

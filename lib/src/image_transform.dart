@@ -9,7 +9,6 @@ import 'package:contentstack/src/query_params.dart';
 import 'package:logging/logging.dart';
 
 class ImageTransformation {
-
   final String _imageUrl;
   final HttpClient client;
   final Logger log = Logger('ImageTransformation');
@@ -545,7 +544,9 @@ class ImageTransformation {
   ///Makes API Request of respective function.
   Future<dynamic> fetch() async {
     final bool _validURL = Uri.parse(_imageUrl).isAbsolute;
-    if (!_validURL) { throw Exception('Invalid url requested');}
+    if (!_validURL) {
+      throw Exception('Invalid url requested');
+    }
     final response = await client.get(getUrl());
     if (response.statusCode == 200) {
       return json.decode(response.body);

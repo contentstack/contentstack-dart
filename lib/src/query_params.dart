@@ -21,18 +21,16 @@ class URLQueryParams {
     _values.forEach((key, value) {
       response += "$key=$value&";
     });
-    return response.substring(
-        0, response.isEmpty ? 0 : response.length - 1);
+    return response.substring(0, response.isEmpty ? 0 : response.length - 1);
   }
 
-  String toUrl(String urls){
+  String toUrl(String urls) {
     String updatedUrl;
     if (urls != null && urls.isNotEmpty && urls.endsWith('/')) {
-      updatedUrl = urls.substring(0, urls.length-1);
-    }else{
+      updatedUrl = urls.substring(0, urls.length - 1);
+    } else {
       updatedUrl = urls;
     }
     return "$updatedUrl?${toString()}";
   }
-
 }

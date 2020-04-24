@@ -56,7 +56,7 @@ class AssetQuery extends BaseQuery {
     queryParameter["relative_urls"] = 'true';
   }
 
-  void includeCount(){
+  void includeCount() {
     queryParameter['include_count'] = 'true';
   }
 

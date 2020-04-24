@@ -92,7 +92,7 @@ class EntryQueryable {
   /// entry.includeReference("referenceFieldUid", IncludeReference.except(fieldUidList: fieldUid));
   ///
   void includeReference(String referenceFieldUid,
-  {Include includeReferenceField}) {
+      {Include includeReferenceField}) {
     if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
       final List referenceArray = [];
       if (includeReferenceField != null) {
@@ -130,7 +130,7 @@ class EntryQueryable {
           includeReference(referenceFieldUid);
           parameter["except"] = referenceOnlyParam.toString();
         });
-      }else{
+      } else {
         //referenceArray.add(referenceFieldUid);
         parameter["include[]"] = referenceFieldUid;
       }

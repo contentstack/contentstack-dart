@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'syncresult.g.dart';
+
 @JsonSerializable(createFactory: true)
 class SyncResult {
   final List items;
@@ -11,13 +12,15 @@ class SyncResult {
   final String syncToken;
   @JsonKey(name: "pagination_token")
   final String paginationToken;
-  SyncResult(this.items, this.skip, this.limit, this.totalCount, this.syncToken, this.paginationToken);
-  factory SyncResult.fromJson(Map<String, dynamic> json) => _$SyncResultFromJson(json);
+  SyncResult(this.items, this.skip, this.limit, this.totalCount, this.syncToken,
+      this.paginationToken);
+  factory SyncResult.fromJson(Map<String, dynamic> json) =>
+      _$SyncResultFromJson(json);
   Map<String, dynamic> toJson() => _$SyncResultToJson(this);
 }
 
 @JsonSerializable()
-class Items{
+class Items {
   final String type;
   final String eventAt;
   final String contentTypeUid;
@@ -28,7 +31,7 @@ class Items{
 }
 
 @JsonSerializable()
-class Data{
+class Data {
   final String uid;
   final String locale;
   final String title;

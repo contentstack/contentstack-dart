@@ -56,7 +56,6 @@ class Asset {
     assetParameter['version'] = version.toString();
   }
 
-
   ///
   /// include the dimensions (height and width) of the image in the response.
   /// Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD.
