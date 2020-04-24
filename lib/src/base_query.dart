@@ -13,7 +13,7 @@ import 'package:contentstack/src/enums/operations.dart';
 /// final response = query.find();
 ///
 
-class BaseQuery extends EntryQueryable{
+class BaseQuery extends EntryQueryable {
   final Map<String, String> queryParameter = <String, String>{};
   //final Map<String, dynamic> parameter = <String, dynamic>{};
 
@@ -177,5 +177,4 @@ class BaseQuery extends EntryQueryable{
       });
     }
   }
-
 }

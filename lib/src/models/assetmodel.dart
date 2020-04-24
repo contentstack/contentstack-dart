@@ -1,7 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'assetmodel.g.dart';
+
 @JsonSerializable(createFactory: true)
-class AssetModel{
+class AssetModel {
   String uid;
   @JsonKey(name: "created_at")
   String createdAt;
@@ -24,9 +25,22 @@ class AssetModel{
   Map<dynamic, dynamic> dimension;
   @JsonKey(name: "publish_details")
   Map publishDetails;
-  AssetModel(this.uid, this.createdAt, this.updatedAt, this.createdBy,
-      this.updatedBy, this.contentType, this.fileSize, this.tags, this.filename,
-      this.url, this.version, this.title, this.dimension, this.publishDetails);
-  factory AssetModel.fromJson(Map<String, dynamic> json) => _$AssetModelFromJson(json);
+  AssetModel(
+      this.uid,
+      this.createdAt,
+      this.updatedAt,
+      this.createdBy,
+      this.updatedBy,
+      this.contentType,
+      this.fileSize,
+      this.tags,
+      this.filename,
+      this.url,
+      this.version,
+      this.title,
+      this.dimension,
+      this.publishDetails);
+  factory AssetModel.fromJson(Map<String, dynamic> json) =>
+      _$AssetModelFromJson(json);
   Map<String, dynamic> toJson() => _$AssetModelToJson(this);
 }

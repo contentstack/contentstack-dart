@@ -30,6 +30,7 @@ class Entry extends EntryQueryable {
   String _path;
   final String _uid;
 
+  /// Applies query on entries
   Query query() {
     return Query(_client, _contentTypeUid);
   }

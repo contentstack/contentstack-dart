@@ -6,18 +6,18 @@ import 'package:contentstack/src/enums/operator.dart';
 import 'package:contentstack/src/enums/reference.dart';
 
 class Query extends BaseQuery {
-
   final HttpClient _client;
   final String _contentTypeUid;
   String _path;
 
   Query([this._client, this._contentTypeUid]) {
     queryParameter['environment'] = _client.stackHeaders['environment'];
-    _path = "/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries";
+    _path =
+        "/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries";
   }
 
-  Map getQueryUrl(){
-    if(parameter !=null && parameter.isNotEmpty){
+  Map getQueryUrl() {
+    if (parameter != null && parameter.isNotEmpty) {
       final stringify = json.encode(parameter);
       queryParameter["query"] = stringify.toString();
       return queryParameter;
@@ -41,8 +41,8 @@ class Query extends BaseQuery {
   /// final query = stack.contentType('content_type_uid').entry().query();
   /// query.setHeader('key', 'value');
   ///
-  void setHeader(String key, String value){
-    if(key.isNotEmpty && value.isNotEmpty){
+  void setHeader(String key, String value) {
+    if (key.isNotEmpty && value.isNotEmpty) {
       _client.stackHeaders[key] = value;
     }
   }
@@ -56,12 +56,11 @@ class Query extends BaseQuery {
   /// final query = stack.contentType('content_type_uid').entry().query();
   /// query.removeHeader('key');
   ///
-  void removeHeader(String key){
-    if(_client.stackHeaders.containsKey(key)){
+  void removeHeader(String key) {
+    if (_client.stackHeaders.containsKey(key)) {
       _client.stackHeaders.remove(key);
     }
   }
-
 
   ///
   /// * Reference Search Equals:
@@ -86,40 +85,39 @@ class Query extends BaseQuery {
   ///       print(response);
   ///   });
   ///
-  void whereReference(String referenceUid, QueryReference reference){
+  void whereReference(String referenceUid, QueryReference reference) {
     if (referenceUid != null && referenceUid.isNotEmpty) {
-      reference.when(include: (queryInstance){
+      reference.when(include: (queryInstance) {
         parameter[referenceUid] = {"\$in_query": queryInstance.query.parameter};
-      },notInclude: (queryInstance){
-        parameter[referenceUid] = {"\$nin_query": queryInstance.query.parameter};
+      }, notInclude: (queryInstance) {
+        parameter[referenceUid] = {
+          "\$nin_query": queryInstance.query.parameter
+        };
       });
     }
   }
 
-
-
-  void operator(QueryOperator operator){
-    operator.when(and: (and){
-      final List<Query> queryList = and.queryObjects;//and.queryObjects is list of Query Objects
-      if(queryList.isNotEmpty){
+  void operator(QueryOperator operator) {
+    operator.when(and: (and) {
+      final List<Query> queryList =
+          and.queryObjects; //and.queryObjects is list of Query Objects
+      if (queryList.isNotEmpty) {
         final emptyList = [];
-        for(final item in queryList){
+        for (final item in queryList) {
           emptyList.add(item.parameter);
         }
         parameter["\$and"] = emptyList;
       }
-    }, or: (or){
-      final List<Query> queryList = or.queryObjects;//and.queryObjects is list of Query Objects
-      if(queryList.isNotEmpty){
+    }, or: (or) {
+      final List<Query> queryList =
+          or.queryObjects; //and.queryObjects is list of Query Objects
+      if (queryList.isNotEmpty) {
         final emptyList = [];
-        for(final item in queryList){
+        for (final item in queryList) {
           emptyList.add(item.parameter);
         }
         parameter["\$or"] = emptyList;
       }
     });
   }
-
-
-
 }

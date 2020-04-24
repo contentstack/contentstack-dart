@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'error.g.dart';
+
 @JsonSerializable(createFactory: true)
 class Error implements Exception {
   @JsonKey(name: "error_message")
