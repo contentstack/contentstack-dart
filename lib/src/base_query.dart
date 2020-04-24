@@ -1,5 +1,5 @@
 import 'package:contentstack/src/entry_queryable.dart';
-import 'package:contentstack/src/operations.dart';
+import 'package:contentstack/src/enums/operations.dart';
 
 ///
 /// This is base Query class that contains common

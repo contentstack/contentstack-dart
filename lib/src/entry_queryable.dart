@@ -1,4 +1,4 @@
-import 'package:contentstack/src/include.dart';
+import 'package:contentstack/src/enums/include.dart';
 
 class EntryQueryable {
   final Map<String, dynamic> parameter = <String, dynamic>{};
