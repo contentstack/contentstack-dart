@@ -9,9 +9,8 @@ import 'package:contentstack/src/base_query.dart';
 ///
 /// * All Assets
 /// This call fetches the list of all the assets of a particular stack
-///
-/// * Single Asset
-/// This call fetches the latest version of a specific asset of a particular stack.
+/// Learn more about All Assets.
+/// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-all-assets
 ///
 class AssetQuery extends BaseQuery {
   final HttpClient _client;

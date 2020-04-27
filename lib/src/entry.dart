@@ -35,7 +35,25 @@ class Entry extends EntryQueryable {
     return Query(_client, _contentTypeUid);
   }
 
-  /// It fetch single entry data.
+  /// The Get a single entry request fetches a particular entry of a content type.
+  ///
+  /// Example:
+  ///
+  /// import 'package:contentstack/contentstack.dart' as contentstack;
+  ///
+  /// final contentstack.Stack stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// entry = stack.contentType('faq').entry(entryUid: Credential.entryUid);
+  /// entry.includeReference('categories');
+  ///      await entry.fetch().then((response) {
+  ///        if(response is Error){
+  ///          print(response.errorMessage);
+  ///        }else{
+  ///          print(response.toString());
+  ///        }
+  ///      }).catchError((onError) {
+  ///        expect('invalid url requested', onError.message);
+  ///      });
+  ///
   Future fetch() async {
     if (_uid == null) {
       throw Exception("Provide entry uid to fetch single entry");

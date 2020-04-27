@@ -3,12 +3,13 @@ import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/contenttype_query.dart';
 
-/// Content type defines the structure or schema of a
-/// page or a section of your web or mobile property.
-/// To create content for your application, you are
-/// required to first create a content type,
-/// and then create entries using the content type.
-/// Read more about Content Types.
+///
+/// Content type defines the structure or schema of a page or a section of your
+/// web or mobile property. To create content for your application, you are
+/// required to first create a content type, and then create entries using the
+/// content type.
+///
+/// * Read more about Content Types.
 /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#content-types
 ///
 class ContentType {

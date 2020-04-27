@@ -1,0 +1,11 @@
+dartdoc:
+    showUndocumentedCategories: true
+    ignore:
+        - ambiguous-doc-reference
+    errors:
+        - unresolved-doc-reference
+    warnings:
+        - tool-error
+    exclude:
+        - lib/client.dart
+

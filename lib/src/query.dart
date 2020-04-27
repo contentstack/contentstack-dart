@@ -97,6 +97,62 @@ class Query extends BaseQuery {
     }
   }
 
+  ///
+  /// * AND Operator
+  /// Get entries that satisfy all the conditions provided in the '$and' query.
+  ///
+  /// * OR Operator
+  /// Get all entries that satisfy at least one of the given conditions provided
+  /// in the '$or' query.
+  ///
+  /// Example:
+  /// * operator OR
+  ///
+  /// test('test operator OR in Query', () async {
+  ///
+  ///      final stackInstance1 = Credential.stack();
+  ///      final queryBase1 = stackInstance1.contentType('room').entry().query();
+  ///      queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
+  ///
+  ///      final stackInstance2 = Credential.stack();
+  ///      final queryBase2 = stackInstance2.contentType('room').entry().query();
+  ///      queryBase2.where('attendee', QueryOperation.equals(value: 20));
+  ///
+  ///      final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
+  ///      query.operator(QueryOperator.or(queryObjects: listOfQuery));
+  ///      await query.find().then((response){
+  ///        logger.fine(response);
+  ///        final completeUrl = query.getQueryUrl()['query'];
+  ///        print(response.toString());
+  ///      }).catchError((onError){
+  ///        print(onError);
+  ///      });
+  ///    });
+  ///
+  ///
+  /// Example:
+  ///
+  /// * And Operator:
+  /// test('test operator And in Query', () async {
+  ///      final stackInstance1 = Credential.stack();
+  ///      final queryBase1 = stackInstance1.contentType('room').entry().query();
+  ///      queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
+  ///
+  ///      final stackInstance2 = Credential.stack();
+  ///      final queryBase2 = stackInstance2.contentType('room').entry().query();
+  ///      queryBase2.where('attendee', QueryOperation.equals(value: 20));
+  ///
+  ///      final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
+  ///      query.operator(QueryOperator.and(queryObjects: listOfQuery));
+  ///      await query.find().then((response){
+  ///        logger.fine(response);
+  ///        final completeUrl = query.getQueryUrl()['query'];
+  ///        print(response.toString());
+  ///      }).catchError((onError){
+  ///        print(onError);
+  ///      });
+  ///    });
+  ///
   void operator(QueryOperator operator) {
     operator.when(and: (and) {
       final List<Query> queryList =

@@ -182,11 +182,4 @@ class EntryQueryable {
     }
   }
 
-//  void _include(String referenceFieldUid) {
-//    final List referenceArray = [];
-//    if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
-//      referenceArray.add(referenceFieldUid);
-//    }
-//    parameter["include[]"] = referenceArray.toString();
-//  }
 }
