@@ -1,12 +1,13 @@
-import 'package:contentstack/src/entry_queryable.dart';
 import 'package:contentstack/src/enums/operations.dart';
 
 ///
 /// This is base Query class that contains common
 /// functions to query in Entry, Assets and content_type
 ///
-class BaseQuery extends EntryQueryable {
+class BaseQuery {
+
   final Map<String, String> queryParameter = <String, String>{};
+  final Map<String, dynamic> parameter = <String, dynamic>{};
 
   void where(String fieldUid, QueryOperation queryOperation) {
     if (fieldUid != null && fieldUid.isNotEmpty) {
