@@ -67,7 +67,9 @@ To initialize the SDK, specify application  API key, access token, and environme
 as shown in the snippet given below (config is optional):
 
 ```bash
-final stack = Contentstack.stack(apiKey, accessToken, 'environment');
+import 'package:contentstack/contentstack.dart' as contentstack;
+
+final stack = Contentstack.stack(apiKey, accessToken, environment);
 ```
 
 To get the API credentials mentioned above, log in to your Contentstack account and then in your
@@ -78,7 +80,9 @@ top panel navigation, go to Settings & Stack to view the API Key and Access Toke
 To retrieve a single entry from a content type use the code snippet given below:
 
 ```bash
-final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+import 'package:contentstack/contentstack.dart' as contentstack;
+
+final stack = contentstack.Stack(apiKey, deliveryToken, environment);
 final entry = stack.contentType('contentTypeUid').entry(entryUid: 'entryUid');
     await entry.fetch().then((response) {
         print(response.toString());
@@ -92,7 +96,9 @@ final entry = stack.contentType('contentTypeUid').entry(entryUid: 'entryUid');
 To retrieve multiple entries of a particular content type, use the code snippet given below:
 
 ```bash
-final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+import 'package:contentstack/contentstack.dart' as contentstack;
+
+final stack = contentstack.Stack(apiKey, deliveryToken, environment);
 final query = stack.contentType('contentTypeUid').entry().query();
 await query.find().then((response) {
         print(response.toString());
@@ -123,6 +129,10 @@ There are several more parameters that you can use for your images.
 You can use the Image Delivery API functions in this SDK as well. Here are a few examples of its usage in the SDK.
 
 ```bash
+import 'package:contentstack/contentstack.dart' as contentstack;
+
+final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+imageTransformation = stack.imageTransform(imageUrl);
 
 #set the image quality to 100
 imageParams = {'quality': 100}
