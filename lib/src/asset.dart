@@ -9,6 +9,8 @@ import 'package:contentstack/client.dart';
 /// Single Asset
 /// This call fetches the latest version of a specific asset of a
 /// particular stack.
+/// Read more about asset:
+/// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-a-single-asset
 ///
 /// * Tip:
 /// If no version is mentioned, this request will retrieve the latest published

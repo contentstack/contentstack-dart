@@ -3,19 +3,10 @@ import 'package:contentstack/src/enums/operations.dart';
 
 ///
 /// This is base Query class that contains common
-/// functions to query in Entry, Assets and  content_type
+/// functions to query in Entry, Assets and content_type
 ///
-/// Example:
-///
-/// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
-/// final query = stack.contentType('content_type_uid').entry().query();
-/// query.addParams('key', 'value');
-/// final response = query.find();
-///
-
 class BaseQuery extends EntryQueryable {
   final Map<String, String> queryParameter = <String, String>{};
-  //final Map<String, dynamic> parameter = <String, dynamic>{};
 
   void where(String fieldUid, QueryOperation queryOperation) {
     if (fieldUid != null && fieldUid.isNotEmpty) {
@@ -58,8 +49,6 @@ class BaseQuery extends EntryQueryable {
   ///
   void skip(int skipCount) {
     queryParameter["skip"] = skipCount.toString();
-    // this will be removed and place at the common place where url is created
-    // queryParameter['query'] = parameter.toString();
   }
 
   ///
@@ -75,7 +64,6 @@ class BaseQuery extends EntryQueryable {
   ///
   void limit(int limitCount) {
     queryParameter["limit"] = limitCount.toString();
-    //queryParameter['query'] = parameter.toString();
   }
 
   ///
@@ -91,7 +79,6 @@ class BaseQuery extends EntryQueryable {
   ///
   void orderByAscending(String key) {
     queryParameter["asc"] = key.toString();
-    //queryParameter['query'] = parameter.toString();
   }
 
   ///
@@ -107,7 +94,6 @@ class BaseQuery extends EntryQueryable {
   ///
   void orderByDescending(String key) {
     queryParameter["desc"] = key.toString();
-    //queryParameter['query'] = parameter.toString();
   }
 
   ///
@@ -124,7 +110,6 @@ class BaseQuery extends EntryQueryable {
     if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
       queryParameter[key] = value.toString();
     }
-    //queryParameter['query'] = parameter.toString();
   }
 
   ///
@@ -142,7 +127,6 @@ class BaseQuery extends EntryQueryable {
         queryParameter[key] = value;
       });
     }
-    //queryParameter['query'] = parameter.toString();
   }
 
   ///

@@ -42,7 +42,6 @@ class Stack {
   /// Example:
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   ///
-
   Stack(this._apiKey, this._deliveryToken, this._environment,
       {this.apiVersion = "v3",
       this.region = Region.us,
@@ -124,7 +123,6 @@ class Stack {
   /// It requires header key to delete the header
   ///  returns [Stack] Instance
   ///
-
   void removeHeader(String headerKey) {
     if (headerKey != null) {
       if (stackHeader.containsKey(headerKey)) {
@@ -133,6 +131,7 @@ class Stack {
     }
   }
 
+  /// adds headers for the request
   void setHeader(String key, String value) {
     if (key == null || value == null) {
       throw ArgumentError.notNull("key & value ");
@@ -227,7 +226,7 @@ class Stack {
   /// If you do not specify any value, it will bring all published entries and published assets.
   ///
   /// Returns:
-  /// List[SyncModel] -- returns list of SyncResult
+  /// Returns list of SyncResult
   ///
   Future sync(
       {String contentTypeUid,
