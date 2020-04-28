@@ -22,6 +22,7 @@ import 'package:logging/logging.dart';
 ///
 class Stack {
   final Logger log = Logger('Stack');
+  Map<String, String> stackHeader = <String, String>{};
   final String _apiKey;
   final String _deliveryToken;
   final String _environment;
@@ -30,8 +31,6 @@ class Stack {
   final String apiVersion;
   HttpClient _client;
 
-  Map<String, String> stackHeader = <String, String>{};
-  final Map<String, String> queryParameter = <String, String>{};
 
   ///
   /// Create a new Stack instance with stack's apikey, token, environment name and Optional parameters like.
@@ -154,18 +153,6 @@ class Stack {
   /// It returns endpoint of the Stack
   String get endpoint => host;
 
-  void includeStackVariables() {
-    queryParameter['include_stack_variables'] = 'true';
-  }
-
-  void includeDiscreteVariables() {
-    queryParameter['include_discrete_variables'] = 'true';
-  }
-
-  void includeCount() {
-    queryParameter['include_count'] = 'true';
-  }
-
   ///
   /// The Image Delivery API is used to retrieve, manipulate and/or convert image
   /// files of your Contentstack account and deliver it to your web or mobile properties.
@@ -199,12 +186,6 @@ class Stack {
 
   Future<dynamic> getContentTypes(Map queryParameters) {
     final Uri uri = Uri.https(endpoint, '$apiVersion/content_types');
-    return _client.sendRequest(uri);
-  }
-
-  /// gets stack Future response
-  Future<dynamic> fetch() {
-    final Uri uri = Uri.https(endpoint, '$apiVersion/stack');
     return _client.sendRequest(uri);
   }
 

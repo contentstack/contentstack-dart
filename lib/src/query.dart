@@ -6,6 +6,7 @@ import 'package:contentstack/src/enums/operator.dart';
 import 'package:contentstack/src/enums/reference.dart';
 
 class Query extends BaseQuery {
+
   final HttpClient _client;
   final String _contentTypeUid;
   String _path;
