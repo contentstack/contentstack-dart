@@ -107,7 +107,7 @@ void main() {
 
     test('test entry response with version', () async {
       entry.locale('en-us');
-      entry.addParam('version', '1');
+      entry.addParam('version', "1");
       await entry.fetch().then((response) {
         if (response is Error) {
           expect(141, response.errorCode);
