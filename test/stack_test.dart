@@ -6,11 +6,8 @@ import 'package:test/test.dart';
 import 'credentials.dart';
 
 void main() {
-
   final Logger log = Logger('Stack');
-
   group('functional testcases for stack', () {
-
     contentstack.Stack stack;
     setUp(() {
       stack = Credential.stack();
@@ -251,9 +248,7 @@ void main() {
     });
   });
 
-
-  group('testcase for httpclient coverage', (){
-
+  group('testcase for httpclient coverage', () {
     //    test('client code coverage test for send function', () async{
 //      final Map<String, String> mapHeaders = {
 //        'api_key' : 'test_api_key',
@@ -277,7 +272,6 @@ void main() {
 //
 //    });
 
-
 //    test('client code coverage close instance', () async{
 //      final Map<String, String> mapHeaders = {
 //        'api_key' : 'test_api_key',
@@ -295,19 +289,21 @@ void main() {
 //        expect(e.message.toString(), "Returned value was not JSON. Did the uri end with \'.json\'?");
 //      }
 //    });
-    test('test query_params', (){
+    test('test query_params', () {
       final params = URLQueryParams();
       params.append('key', 'value');
       final url = params.toUrl('cdn.contentstack.io/');
-      expect("cdn.contentstack.io?key=value",url);
+      expect("cdn.contentstack.io?key=value", url);
     });
 
-    test('query_params', (){
+    test('query_params', () {
       final params = URLQueryParams();
-      params..append('key', 'value')..append('key1', 'value1')..remove('key');
+      params
+        ..append('key', 'value')
+        ..append('key1', 'value1')
+        ..remove('key');
       final url = params.toUrl('cdn.contentstack.io');
-      expect('cdn.contentstack.io?key1=value1',url);
+      expect('cdn.contentstack.io?key1=value1', url);
     });
-
   });
 }
