@@ -1,7 +1,7 @@
 import 'package:contentstack/src/enums/include.dart';
 
 class EntryQueryable {
-  final Map<String, dynamic> parameter = <String, dynamic>{};
+  final Map<String, String> parameter = <String, String>{};
 
   ///
   /// [locale] is code of the language of which the entries needs to be included.
@@ -178,7 +178,7 @@ class EntryQueryable {
   ///
   void addParam(String key, String value) {
     if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
-      parameter[key] = value;
+      parameter[key] = value.toString();
     }
   }
 
