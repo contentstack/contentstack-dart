@@ -5,7 +5,6 @@ import 'package:contentstack/src/image_transform.dart';
 import 'package:contentstack/src/image/filter.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
-import 'package:contentstack/contentstack.dart' as contentstack;
 import 'credentials.dart';
 
 void main() {
@@ -17,7 +16,7 @@ void main() {
     ImageTransformation imageTransformation;
 
     setUp(() {
-      final contentstack.Stack stack = Credential.stack();
+      final stack = Credential.stack();
       imageTransformation = stack.imageTransform(imageUrl);
     });
 
