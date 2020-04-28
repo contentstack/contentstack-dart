@@ -6,11 +6,8 @@ import 'package:test/test.dart';
 import 'credentials.dart';
 
 void main() {
-
   final Logger log = Logger('Stack');
-
   group('functional testcases for stack', () {
-
     contentstack.Stack stack;
     setUp(() {
       stack = Credential.stack();
@@ -152,9 +149,6 @@ void main() {
         expect(true, response['skip'] is int);
         expect(true, response['limit'] is int);
         expect(true, response['total_count'] is int);
-      }).catchError((error) {
-        log.fine('Data set Error!!! $error');
-        expect(422, error['error_code']);
       });
     });
 
@@ -165,19 +159,14 @@ void main() {
         expect(true, syncResult is contentstack.SyncResult);
         expect(true, syncResult.toJson() is Map);
         expect('blt5af6b3fc67e6092a8a9410', syncResult.syncToken);
-      }).catchError((error) {
-        log.fine('Data set Error!!! $error');
-        expect(422, error['error_code']);
       });
     });
 
     test('pagination token response', () async {
       final response = stack.paginationToken('blt4a508e188c98d4c94c3616');
       await response.then((response) {
-        log.fine('Data set success $response');
-        expect('blta2662861c53ebf7cab51e7', response['sync_token']);
-      }).catchError((error) {
-        log.fine('Data set Error!!! $error');
+        //log.fine('Data set success $response');
+        expect('blt52d57c3323c29c6455e5fa', response['sync_token']);
       });
     });
 
@@ -187,11 +176,8 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.assetPublished());
       await response.then((response) {
-        log.fine('Data set success $response');
+        //log.fine('Data set success $response');
         expect(100, response['items'].length);
-      }).catchError((error) {
-        log.fine('Data set Error!!! $error');
-        expect(422, error['error_code']);
       });
     });
 
@@ -201,11 +187,8 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.assetUnpublished());
       await response.then((response) {
-        log.fine('Data set success $response');
+        //log.fine('Data set success $response');
         expect(100, response['items'].length);
-      }).catchError((error) {
-        log.fine('Data set Error!!! $error');
-        expect(422, error['error_code']);
       });
     });
 
@@ -217,9 +200,6 @@ void main() {
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);
-      }).catchError((error) {
-        log.fine('Data set Error!!! $error');
-        expect(422, error['error_code']);
       });
     });
 
@@ -231,9 +211,6 @@ void main() {
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);
-      }).catchError((error) {
-        log.fine('Data set Error!!! $error');
-        expect(422, error['error_code']);
       });
     });
 
@@ -245,9 +222,6 @@ void main() {
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);
-      }).catchError((error) {
-        log.fine('Data set Error!!! $error');
-        expect(422, error['error_code']);
       });
     });
 
@@ -259,9 +233,6 @@ void main() {
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);
-      }).catchError((error) {
-        log.fine('Data set Error!!! $error');
-        expect(422, error['error_code']);
       });
     });
 
@@ -273,22 +244,12 @@ void main() {
       await response.then((response) {
         log.fine('Data set success $response');
         expect(100, response['items'].length);
-      }).catchError((error) {
-        log.fine('Data set Error!!! $error');
-        expect(422, error['error_code']);
       });
     });
   });
 
-
-  group('testcase for httpclient coverage', (){
-
-    contentstack.Stack stack;
-    setUp(() {
-      stack = Credential.stack();
-    });
-
-//    test('client code coverage test for send function', () async{
+  group('testcase for httpclient coverage', () {
+    //    test('client code coverage test for send function', () async{
 //      final Map<String, String> mapHeaders = {
 //        'api_key' : 'test_api_key',
 //        'access_token' : 'test_access_token',
@@ -311,7 +272,6 @@ void main() {
 //
 //    });
 
-
 //    test('client code coverage close instance', () async{
 //      final Map<String, String> mapHeaders = {
 //        'api_key' : 'test_api_key',
@@ -329,20 +289,21 @@ void main() {
 //        expect(e.message.toString(), "Returned value was not JSON. Did the uri end with \'.json\'?");
 //      }
 //    });
-
-    test('test query_params', (){
+    test('test query_params', () {
       final params = URLQueryParams();
       params.append('key', 'value');
       final url = params.toUrl('cdn.contentstack.io/');
-      expect("cdn.contentstack.io?key=value",url);
+      expect("cdn.contentstack.io?key=value", url);
     });
 
-    test('query_params', (){
+    test('query_params', () {
       final params = URLQueryParams();
-      params..append('key', 'value')..append('key1', 'value1')..remove('key');
+      params
+        ..append('key', 'value')
+        ..append('key1', 'value1')
+        ..remove('key');
       final url = params.toUrl('cdn.contentstack.io');
-      expect('cdn.contentstack.io?key1=value1',url);
+      expect('cdn.contentstack.io?key1=value1', url);
     });
-
   });
 }
