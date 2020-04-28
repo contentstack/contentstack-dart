@@ -78,26 +78,6 @@ void main() {
       log.fine(resp);
     });
 
-    test('testcases includeStackVariables', () {
-      final stack = contentstack.Stack(Credential.apiKey, Credential.deliveryToken, Credential.environment);
-      stack.includeStackVariables();
-      final result = stack.queryParameter['include_stack_variables'];
-      expect('true', result);
-    });
-
-    test('testcases includeDiscreteVariables', () {
-      final stack = contentstack.Stack(Credential.apiKey, Credential.deliveryToken, Credential.environment);
-      stack.includeDiscreteVariables();
-      final result = stack.queryParameter['include_discrete_variables'];
-      expect('true', result);
-    });
-
-    test('testcases includeCount', () {
-      stack.includeCount();
-      final result = stack.queryParameter['include_count'];
-      expect('true', result);
-    });
-
     test('testcases setHeader', () {
       final result = stack..setHeader('header1', 'headerValue');
       final finalResult = result..stackHeader['header1'];
