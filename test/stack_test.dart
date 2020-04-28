@@ -162,13 +162,13 @@ void main() {
       });
     });
 
-    test('pagination token response', () async {
-      final response = stack.paginationToken('blt4a508e188c98d4c94c3616');
-      await response.then((response) {
-        //log.fine('Data set success $response');
-        expect('blt52d57c3323c29c6455e5fa', response['sync_token']);
-      });
-    });
+//    test('pagination token response', () async {
+////      final response = stack.paginationToken('blt4a508e188c98d4c94c3616');
+////      await response.then((response) {
+////        //log.fine('Data set success $response');
+////        expect('blt52d57c3323c29c6455e5fa', response['sync_token']);
+////      });
+////    });
 
     test('sync with multiple params assetPublished', () async {
       final response = stack.sync(
