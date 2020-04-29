@@ -70,7 +70,7 @@ as shown in the snippet given below (config is optional):
 ```bash
 import 'package:contentstack/contentstack.dart' as contentstack;
 
-final stack = Contentstack.stack(apiKey, accessToken, environment);
+final stack = Contentstack.stack(apiKey, deliveryToken, environment);
 ```
 
 To get the API credentials mentioned above, log in to your Contentstack account and then in your
