@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-04-22 15:15:09</td>
+            <td class="headerValue">2020-04-30 00:26:08</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -62,17 +62,18 @@
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : import 'package:json_annotation/json_annotation.dart';</a>
 <a name="2"><span class="lineNum">       2 </span>            : part 'error.g.dart';</a>
-<a name="3"><span class="lineNum">       3 </span>            : @JsonSerializable(createFactory: true)</a>
-<a name="4"><span class="lineNum">       4 </span>            : class Error implements Exception {</a>
-<a name="5"><span class="lineNum">       5 </span>            :   @JsonKey(name: &quot;error_message&quot;)</a>
-<a name="6"><span class="lineNum">       6 </span>            :   final String errorMessage;</a>
-<a name="7"><span class="lineNum">       7 </span>            :   @JsonKey(name: &quot;error_code&quot;)</a>
-<a name="8"><span class="lineNum">       8 </span>            :   final int errorCode;</a>
-<a name="9"><span class="lineNum">       9 </span>            :   int statusCode;</a>
-<a name="10"><span class="lineNum">      10 </span><span class="lineCov">          1 :   Error({this.errorMessage, this.errorCode});</span></a>
-<a name="11"><span class="lineNum">      11 </span><span class="lineCov">          2 :   factory Error.fromJson(Map&lt;String, dynamic&gt; json) =&gt; _$ErrorFromJson(json);</span></a>
-<a name="12"><span class="lineNum">      12 </span><span class="lineCov">          2 :   Map&lt;String, dynamic&gt; toJson() =&gt; _$ErrorToJson(this);</span></a>
-<a name="13"><span class="lineNum">      13 </span>            : }</a>
+<a name="3"><span class="lineNum">       3 </span>            : </a>
+<a name="4"><span class="lineNum">       4 </span>            : @JsonSerializable(createFactory: true)</a>
+<a name="5"><span class="lineNum">       5 </span>            : class Error implements Exception {</a>
+<a name="6"><span class="lineNum">       6 </span>            :   @JsonKey(name: &quot;error_message&quot;)</a>
+<a name="7"><span class="lineNum">       7 </span>            :   final String errorMessage;</a>
+<a name="8"><span class="lineNum">       8 </span>            :   @JsonKey(name: &quot;error_code&quot;)</a>
+<a name="9"><span class="lineNum">       9 </span>            :   final int errorCode;</a>
+<a name="10"><span class="lineNum">      10 </span>            :   int statusCode;</a>
+<a name="11"><span class="lineNum">      11 </span><span class="lineCov">          1 :   Error({this.errorMessage, this.errorCode});</span></a>
+<a name="12"><span class="lineNum">      12 </span><span class="lineCov">          2 :   factory Error.fromJson(Map&lt;String, dynamic&gt; json) =&gt; _$ErrorFromJson(json);</span></a>
+<a name="13"><span class="lineNum">      13 </span><span class="lineCov">          2 :   Map&lt;String, dynamic&gt; toJson() =&gt; _$ErrorToJson(this);</span></a>
+<a name="14"><span class="lineNum">      14 </span>            : }</a>
 </pre>
       </td>
     </tr>

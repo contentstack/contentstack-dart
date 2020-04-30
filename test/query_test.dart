@@ -149,10 +149,10 @@ void main() {
     test('testcase setHeader for the query class', () async {
       query.setHeader('key', 'value');
       await query.find().then((response) {
-        print(response.toString());
+        //print(response.toString());
         logger.fine(response);
       }).catchError((onError) {
-        print(onError.toString());
+        //print(onError.toString());
         logger.fine(onError);
       });
     });
@@ -301,7 +301,7 @@ void main() {
         //logger.fine(response);
         final List listOfEntry = response['entries'];
         for (final entry in listOfEntry){
-          print(entry['attendee']);
+          //print(entry['attendee']);
           expect(true, entry['attendee']>=70);
         }
       }).catchError((onError){
@@ -329,7 +329,7 @@ void main() {
       await query.find().then((response){
         //logger.fine(response);
         final List listOfEntry = response['entries'];
-        print(listOfEntry.length);
+        //print(listOfEntry.length);
         expect(29, listOfEntry.length);
       }).catchError((onError){
         expect('Error Occured', onError.message);
@@ -379,7 +379,7 @@ void main() {
       await query.find().then((response){
         logger.fine(response);
         final completeUrl = query.getQueryUrl()['query'];
-        print(response.toString());
+        //print(response.toString());
         expect("{\"\$and\":[{\"title\":\"Room 13\"},{\"attendee\":20}]}", completeUrl);
       }).catchError((onError){
         expect("Failed host lookup: 'cdn.contentstack.io'", onError.message);
@@ -401,7 +401,7 @@ void main() {
       await query.find().then((response){
         logger.fine(response);
         final completeUrl = query.getQueryUrl()['query'];
-        print(response.toString());
+        //(response.toString());
         expect("{\"\$or\":[{\"title\":\"Room 13\"},{\"attendee\":20}]}", completeUrl);
       }).catchError((onError){
         expect("Failed host lookup: 'cdn.contentstack.io'", onError.message);
