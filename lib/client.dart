@@ -20,11 +20,11 @@ class HttpClient extends http.BaseClient {
 
   /// Sends an HTTP request and asynchronously returns the response.
   ///
-  /// Implementers should call [BaseRequest.finalize] to get the body of the
-  /// request as a [ByteStream]. They shouldn't make any assumptions about the
+  /// Implementers should call BaseRequest.finalize to get the body of the
+  /// request as a ByteStream. They shouldn't make any assumptions about the
   /// state of the stream; it could have data written to it asynchronously at a
   /// later point, or it could already be closed when it's returned. Any
-  /// internal HTTP errors should be wrapped as [ClientException]s.
+  /// internal HTTP errors should be wrapped as ClientException s.
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
     //request.headers.addAll(stackHeaders);
