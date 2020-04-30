@@ -92,7 +92,7 @@ final entry = stack.contentType('contentTypeUid').entry(entryUid: 'entryUid');
     });
 ```
 
-##### Get Multiple Entries
+#### Get Multiple Entries
 
 To retrieve multiple entries of a particular content type, use the code snippet given below:
 
