@@ -6,11 +6,11 @@ class SyncResult {
   final List items;
   final int skip;
   final int limit;
-  @JsonKey(name: "total_count")
+  @JsonKey(name: 'total_count')
   final int totalCount;
-  @JsonKey(name: "sync_token")
+  @JsonKey(name: 'sync_token')
   final String syncToken;
-  @JsonKey(name: "pagination_token")
+  @JsonKey(name: 'pagination_token')
   final String paginationToken;
   SyncResult(this.items, this.skip, this.limit, this.totalCount, this.syncToken,
       this.paginationToken);

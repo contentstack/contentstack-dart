@@ -21,7 +21,7 @@ class Entry extends EntryQueryable {
     parameter['environment'] = _client.stackHeaders['environment'];
     if (_contentTypeUid != null && _contentTypeUid.isNotEmpty) {
       _path =
-          "/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries";
+          '/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries';
     }
   }
 
@@ -54,11 +54,11 @@ class Entry extends EntryQueryable {
   ///        expect('invalid url requested', onError.message);
   ///      });
   ///
-  Future fetch() async {
+  Future<T> fetch<T, K>() async {
     if (_uid == null) {
-      throw Exception("Provide entry uid to fetch single entry");
+      throw Exception('Provide entry uid to fetch single entry');
     }
-    final uri = Uri.https(_client.stack.endpoint, "$_path/$_uid", parameter);
-    return _client.sendRequest(uri);
+    final uri = Uri.https(_client.stack.endpoint, '$_path/$_uid', parameter);
+    return _client.sendRequest<T, K>(uri);
   }
 }
