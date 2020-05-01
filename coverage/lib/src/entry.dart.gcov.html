@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-04-30 00:26:08</td>
+            <td class="headerValue">2020-05-01 02:05:29</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -116,12 +116,12 @@
 <a name="54"><span class="lineNum">      54 </span>            :   ///        expect('invalid url requested', onError.message);</a>
 <a name="55"><span class="lineNum">      55 </span>            :   ///      });</a>
 <a name="56"><span class="lineNum">      56 </span>            :   ///</a>
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">          1 :   Future fetch() async {</span></a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">          1 :   Future&lt;T&gt; fetch&lt;T, K&gt;() async {</span></a>
 <a name="58"><span class="lineNum">      58 </span><span class="lineCov">          1 :     if (_uid == null) {</span></a>
 <a name="59"><span class="lineNum">      59 </span><span class="lineNoCov">          0 :       throw Exception(&quot;Provide entry uid to fetch single entry&quot;);</span></a>
 <a name="60"><span class="lineNum">      60 </span>            :     }</a>
 <a name="61"><span class="lineNum">      61 </span><span class="lineCov">          8 :     final uri = Uri.https(_client.stack.endpoint, &quot;$_path/$_uid&quot;, parameter);</span></a>
-<a name="62"><span class="lineNum">      62 </span><span class="lineCov">          2 :     return _client.sendRequest(uri);</span></a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineCov">          2 :     return _client.sendRequest&lt;T, K&gt;(uri);</span></a>
 <a name="63"><span class="lineNum">      63 </span>            :   }</a>
 <a name="64"><span class="lineNum">      64 </span>            : }</a>
 </pre>

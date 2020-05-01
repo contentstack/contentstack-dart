@@ -19,7 +19,7 @@ class URLQueryParams {
   String toString() {
     String response = '';
     _values.forEach((key, value) {
-      response += "$key=$value&";
+      response += '$key=$value&';
     });
     return response.substring(0, response.isEmpty ? 0 : response.length - 1);
   }
@@ -31,6 +31,6 @@ class URLQueryParams {
     } else {
       updatedUrl = urls;
     }
-    return "$updatedUrl?${toString()}";
+    return '$updatedUrl?${toString()}';
   }
 }

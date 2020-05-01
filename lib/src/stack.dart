@@ -31,7 +31,6 @@ class Stack {
   final String apiVersion;
   HttpClient _client;
 
-
   ///
   /// Create a new Stack instance with stack's apikey, token, environment name and Optional parameters like.
   /// Throws an [ArgumentError] if [apiKey], [deliveryToken] and [environment] is not passed.
@@ -42,32 +41,32 @@ class Stack {
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   ///
   Stack(this._apiKey, this._deliveryToken, this._environment,
-      {this.apiVersion = "v3",
+      {this.apiVersion = 'v3',
       this.region = Region.us,
-      String host = "cdn.contentstack.io",
+      String host = 'cdn.contentstack.io',
       BaseClient client})
       : _host = (region == Region.us)
             ? host
-            : (host == "cdn.contentstack.io"
+            : (host == 'cdn.contentstack.io'
                 ? 'eu-cdn.contentstack.com'
-                : "eu-$host") {
+                : 'eu-$host') {
     // final blank = s == null || s.trim() == '';
-    if (_apiKey.replaceAll(RegExp("\\W"), "").isEmpty ?? true) {
+    if (_apiKey.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
       throw ArgumentError.notNull('APIkey');
     }
 
-    if (_deliveryToken.replaceAll(RegExp("\\W"), "").isEmpty ?? true) {
+    if (_deliveryToken.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
       throw ArgumentError.notNull('deliveryToken');
     }
 
-    if (_environment.replaceAll(RegExp("\\W"), "").isEmpty ?? true) {
+    if (_environment.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
       throw ArgumentError.notNull('environment');
     }
 
     stackHeader = {
-      "api_key": _apiKey,
-      "access_token": _deliveryToken,
-      "environment": _environment,
+      'api_key': _apiKey,
+      'access_token': _deliveryToken,
+      'environment': _environment,
     };
 
     _client = HttpClient(stackHeader, client: client, stack: this);
@@ -132,10 +131,9 @@ class Stack {
 
   /// adds headers for the request
   void setHeader(String key, String value) {
-    if (key == null || value == null) {
-      throw ArgumentError.notNull("key & value ");
+    if (key.isNotEmpty && value.isNotEmpty) {
+      stackHeader[key] = value;
     }
-    stackHeader[key] = value;
   }
 
   /// It returns apiKey of the Stack
@@ -184,32 +182,37 @@ class Stack {
   /// response = stack.getContentTypes(queryParameters);
   ///
 
-  Future<dynamic> getContentTypes(Map queryParameters) {
+  Future<T> getContentTypes<T, K>(Map queryParameters) {
     final Uri uri = Uri.https(endpoint, '$apiVersion/content_types');
-    return _client.sendRequest(uri);
+    return _client.sendRequest<T, K>(uri);
   }
 
-  /// [contentTypeUid] -- You can also initialize sync with entries of
+
+  /////////////////////////////////////////////////
+  //-------------[Synchronization]---------------//
+  /////////////////////////////////////////////////
+
+
+  /// * [contentTypeUid] -- You can also initialize sync with entries of
   /// only specific content_type. To do this, use syncContentType and specify
   /// the content type uid as its value. However, if you do this,
   /// the subsequent syncs will only include the entries of the specified content_type.
   ///
-  /// [fromDate] -- You can also initialize sync with entries published
+  /// * [fromDate] -- You can also initialize sync with entries published
   /// after a specific date. To do this, use from_date
   /// and specify the start date as its value.
   ///
-  /// [locale] -- You can also initialize sync with entries of only specific locales.
+  /// * [locale] -- You can also initialize sync with entries of only specific locales.
   /// To do this, use syncLocale and specify the locale code as its value.
   /// However, if you do this, the subsequent syncs will only include
   /// the entries of the specified locales.
   ///
-  /// [publishType] -- Use the type parameter to get a specific type of content.
+  /// * [publishType] -- Use the type parameter to get a specific type of content.
   /// If you do not specify any value, it will bring all published entries and published assets.
   ///
-  /// Returns:
-  /// Returns list of SyncResult
+  /// Returns: List Of [SyncResult]
   ///
-  Future sync(
+  Future<T> sync<T, K>(
       {String contentTypeUid,
       String fromDate,
       String locale,
@@ -227,28 +230,29 @@ class Stack {
     }
     if (publishType != null) {
       publishType.when(assetPublished: (result) {
-        parameter["publish_type"] = "asset_published";
+        parameter['publish_type'] = 'asset_published';
       }, entryPublished: (result) {
-        parameter["publish_type"] = "entry_published";
+        parameter['publish_type'] = 'entry_published';
       }, assetUnpublished: (result) {
-        parameter["publish_type"] = "asset_unpublished";
+        parameter['publish_type'] = 'asset_unpublished';
       }, assetDeleted: (result) {
-        parameter["publish_type"] = "asset_deleted";
+        parameter['publish_type'] = 'asset_deleted';
       }, entryUnpublished: (result) {
-        parameter["publish_type"] = "entry_unpublished";
+        parameter['publish_type'] = 'entry_unpublished';
       }, entryDeleted: (result) {
-        parameter["publish_type"] = "entry_deleted";
+        parameter['publish_type'] = 'entry_deleted';
       }, contentTypeDeleted: (result) {
-        parameter["publish_type"] = "content_type_deleted";
+        parameter['publish_type'] = 'content_type_deleted';
       });
     }
-    return _syncRequest(parameter);
+
+    return _syncRequest<T, K>(parameter);
   }
 
-  Future<dynamic> _syncRequest(parameters) async {
+  Future<T> _syncRequest<T, K>(parameters) async {
     parameters['environment'] = _client.stackHeaders['environment'];
     final Uri uri = Uri.https(endpoint, '$apiVersion/stacks/sync', parameters);
-    return _client.sendRequest(uri);
+    return _client.sendRequest<T, K>(uri);
   }
 
   ///
@@ -259,12 +263,12 @@ class Stack {
   /// interrupted midway (due to network issues, etc.). In such cases, this token can be used to restart the sync
   /// process from where it was interrupted.
   ///
-  Future<dynamic> paginationToken(String paginationToken) {
+  Future<T> paginationToken<T, K>(String paginationToken) {
     final parameters = <String, String>{};
     if (paginationToken != null && paginationToken.isNotEmpty) {
       parameters['pagination_token'] = paginationToken;
     }
-    return _syncRequest(parameters);
+    return _syncRequest<T, K>(parameters);
   }
 
   ///
@@ -274,12 +278,17 @@ class Stack {
   /// and the details of the content that was deleted or updated.
   ///
   ///
-  Future<dynamic> syncToken(String syncToken) {
+  Future<T> syncToken<T, K>(String syncToken) {
     final parameters = <String, String>{};
     if (syncToken != null && syncToken.isNotEmpty) {
       parameters['sync_token'] = syncToken;
     }
-    return _syncRequest(parameters);
+
+    parameters['environment'] = _client.stackHeaders['environment'];
+    final Uri uri = Uri.https(endpoint, '$apiVersion/stacks/sync', parameters);
+    return _client.sendRequest<T, K>(uri);
+
+    //return _syncRequest<T, K>(parameters);
   }
 }
 

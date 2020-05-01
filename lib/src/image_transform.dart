@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:contentstack/client.dart';
+import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/image/filter.dart';
 import 'package:contentstack/src/image/fit.dart';
 import 'package:contentstack/src/image/format.dart';
@@ -32,7 +33,7 @@ class ImageTransformation {
       query.append('auto', auto);
     }
     if (format != null) {
-      query.append("formate", format);
+      query.append('formate', format);
     }
   }
 
@@ -50,7 +51,7 @@ class ImageTransformation {
   /// final response = await imageTransformation.quality(2).fetch();
   ///
   void quality(int quality) {
-    query.append("quality", quality.toString());
+    query.append('quality', quality.toString());
   }
 
   /// The format function lets you converts a given image from one format to another.
@@ -67,19 +68,19 @@ class ImageTransformation {
   ///  final response = await imageTransformation.convert(Format.pjpg).fetch();
   void convert(Format format) {
     format.when(gif: (formatResult) {
-      query.append("format", "gif");
+      query.append('format', 'gif');
     }, png: (formatResult) {
-      query.append("format", "png");
+      query.append('format', 'png');
     }, jpg: (formatResult) {
-      query.append("format", "jpg");
+      query.append('format', 'jpg');
     }, pjpg: (formatResult) {
-      query.append("format", "pjpg");
+      query.append('format', 'pjpg');
     }, webp: (formatResult) {
-      query.append("format", "webp");
+      query.append('format', 'webp');
     }, webplossy: (formatResult) {
-      query.append("format", "webply");
+      query.append('format', 'webply');
     }, webplossless: (formatResult) {
-      query.append("format", "webpll");
+      query.append('format', 'webpll');
     });
   }
 
@@ -102,20 +103,20 @@ class ImageTransformation {
   void resize({int width, int height, bool disable}) {
     if (width != null) {
       //queryParameter['width'] = width.toString();
-      query.append("width", width.toString());
+      query.append('width', width.toString());
     }
     if (height != null) {
-      query.append("height", height.toString());
+      query.append('height', height.toString());
     }
     if (disable != null && disable) {
-      query.append("disable", "upscale");
+      query.append('disable', 'upscale');
     }
   }
 
   void crop(String cropValue) {
     // checks if cropRatio is not null then takes height, width and cropRatio as prams
     // else it takes crop params and comas separated width & height
-    query.append("crop", cropValue);
+    query.append('crop', cropValue);
   }
 
   /// The crop function allows you to remove pixels from an image.
@@ -165,7 +166,7 @@ class ImageTransformation {
       cropLRBL.add(offset);
     }
     final commaSeparated = cropLRBL.join(', ');
-    query.append("crop", commaSeparated);
+    query.append('crop', commaSeparated);
   }
 
   ///This parameter enables you to fit the given image properly within the specified height and width.
@@ -184,17 +185,17 @@ class ImageTransformation {
 
   void fit(double width, double height, Fit fit) {
     if (width != null) {
-      query.append("width", width.toString());
+      query.append('width', width.toString());
     }
     if (height != null) {
-      query.append("height", height.toString());
+      query.append('height', height.toString());
     }
     if (fit != null) {
       //enum Fit { bounds, crop }
       fit.when(bounds: (value) {
-        query.append("fit", "bounds");
+        query.append('fit', 'bounds');
       }, crop: (value) {
-        query.append("fit", "crop");
+        query.append('fit', 'crop');
       });
     }
   }
@@ -229,7 +230,7 @@ class ImageTransformation {
       trimLRBL.add(left);
     }
     final joinedValue = trimLRBL.join(', ');
-    query.append("trim", joinedValue);
+    query.append('trim', joinedValue);
   }
 
   ///The orient parameter lets you control the cardinal orientation of the given image.
@@ -258,21 +259,21 @@ class ImageTransformation {
     //  rotate90DegreesLeft = '8';
     if (orient != null) {
       orient.when(toDefault: (orientation) {
-        query.append("orient", 1);
+        query.append('orient', 1);
       }, horizontally: (orientation) {
-        query.append("orient", 2);
+        query.append('orient', 2);
       }, horizontallyAndVertically: (orientation) {
-        query.append("orient", 3);
+        query.append('orient', 3);
       }, vertically: (orientation) {
-        query.append("orient", 4);
+        query.append('orient', 4);
       }, horizontallyAndRotate90DegreeLeft: (orientation) {
-        query.append("orient", 5);
+        query.append('orient', 5);
       }, degrees90TowardsRight: (orientation) {
-        query.append("orient", 6);
+        query.append('orient', 6);
       }, horizontallyAndRotate90DegreesRight: (orientation) {
-        query.append("orient", 7);
+        query.append('orient', 7);
       }, rotate90DegreesLeft: (orientation) {
-        query.append("orient", 8);
+        query.append('orient', 8);
       });
     }
   }
@@ -304,13 +305,13 @@ class ImageTransformation {
       query.append('overlay-align', overlayAlign);
     }
     if (overlayRepeat != null) {
-      query.append("overlay-repeat", overlayRepeat);
+      query.append('overlay-repeat', overlayRepeat);
     }
     if (overlayWidth != null) {
-      query.append("overlay-width", overlayWidth);
+      query.append('overlay-width', overlayWidth);
     }
     if (overlayHeight != null) {
-      query.append("overlay-height", overlayHeight);
+      query.append('overlay-height', overlayHeight);
     }
   }
 
@@ -330,7 +331,7 @@ class ImageTransformation {
   ///final response = await imageTransformation.padding("25,50,75,100").fetch();
   ///
   void padding(String padding) {
-    query.append("pad", padding);
+    query.append('pad', padding);
   }
 
   ///You can either specify all the four padding values (top, right, bottom, and left)
@@ -341,7 +342,7 @@ class ImageTransformation {
   ///final imageTransformation = stack.imageTransform(imageUrl);
   ///final response = await imageTransformation.addPadding("25,50,75,100").fetch();
   void overlayPadding(String overlayPadding) {
-    query.append("overlay-pad", overlayPadding);
+    query.append('overlay-pad', overlayPadding);
   }
 
   ///The bg-color function lets you set a backgroud color for the given image.
@@ -356,7 +357,7 @@ class ImageTransformation {
   ///  final imageTransformation = stack.imageTransform(imageUrl);
   ///  final response = await imageTransformation.bgColor('cccccc').fetch();
   void bgColor(String bgColor) {
-    query.append("bg-color", bgColor);
+    query.append('bg-color', bgColor);
   }
 
   ///To implement the device pixel ratio functionality of the Image Delivery API, you require two parameters "dpr" and "height or width".
@@ -372,7 +373,7 @@ class ImageTransformation {
   ///  final response = await imageTransformation.dpr(30, 60, 12).fetch();
   ///
   void dpr(int dpr) {
-    query.append("dpr", dpr.toString());
+    query.append('dpr', dpr.toString());
   }
 
   ///
@@ -389,7 +390,7 @@ class ImageTransformation {
   ///  final response = await imageTransformation.blur(3).fetch();
 
   void blur(int blur) {
-    query.append("blur", blur.toString());
+    query.append('blur', blur.toString());
   }
 
   ///The frame parameter fetches the first frame from an animated GIF
@@ -403,7 +404,7 @@ class ImageTransformation {
   ///  final response = await imageTransformation.frame(30).fetch();
   ///
   void frame(int frame) {
-    query.append("frame", frame.toString());
+    query.append('frame', frame.toString());
   }
 
   ///The frame parameter fetches the first frame from an animated GIF
@@ -418,7 +419,7 @@ class ImageTransformation {
   ///  final response = await imageTransformation.sharpen(5, 1000, 2').fetch();
   ///
   void sharpen(int amount, int radius, int threshold) {
-    query.append("sharpen", "a$amount,r$radius,t$threshold");
+    query.append('sharpen', 'a$amount,r$radius,t$threshold');
   }
 
   ///The saturation parameter allows you to increase or decrease the intensity
@@ -433,7 +434,7 @@ class ImageTransformation {
   ///    final response = await imageTransformation.saturation(20);
 
   void saturation(int saturation) {
-    query.append("saturation", saturation.toString());
+    query.append('saturation', saturation.toString());
   }
 
   /// The contrast parameter allows you to increase or decrease
@@ -451,7 +452,7 @@ class ImageTransformation {
   /// final response = await imageTransformation.contrast(20);
 
   void contrast(int contrast) {
-    query.append("contrast", contrast.toString());
+    query.append('contrast', contrast.toString());
   }
 
   /// The brightness parameter allows you to increase or decrease the intensity
@@ -468,7 +469,7 @@ class ImageTransformation {
   /// final imageTransformation = stack.imageTransform(imageUrl);
   /// final response =  imageTransformation.brightness(20);
   void brightness(int brightness) {
-    query.append("brightness", brightness.toString());
+    query.append('brightness', brightness.toString());
   }
 
   ///
@@ -487,20 +488,20 @@ class ImageTransformation {
   ///
   void resizeFilter({int width, int height, Filter filter}) {
     if (width != null) {
-      query.append("width", width.toString());
+      query.append('width', width.toString());
     }
     if (height != null) {
       query.append('height', height.toString());
     }
     if (filter != null) {
       filter.when(nearest: (filterType) {
-        query.append('resize-filter', "nearest");
+        query.append('resize-filter', 'nearest');
       }, bilinear: (filterType) {
-        query.append('resize-filter', "bilinear");
+        query.append('resize-filter', 'bilinear');
       }, bicubic: (filterType) {
-        query.append('resize-filter', "bicubic");
+        query.append('resize-filter', 'bicubic');
       }, lanczos: (filterType) {
-        query.append('resize-filter', "lanczos3");
+        query.append('resize-filter', 'lanczos3');
       });
     }
   }
@@ -538,18 +539,23 @@ class ImageTransformation {
   /// final response =  imageTransformation.canvas('700,800,offset-x0.65,offset-y0.80');
   ///
   void canvas(String canvasValue) {
-    query.append("canvas", canvasValue);
+    query.append('canvas', canvasValue);
   }
 
   ///Makes API Request of respective function.
-  Future<dynamic> fetch() async {
+  Future<T> fetch<T, K>() async {
     final bool _validURL = Uri.parse(_imageUrl).isAbsolute;
     if (!_validURL) {
       throw Exception('Invalid url requested');
     }
     final response = await client.get(getUrl());
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      final Map bodyJson = jsonDecode(response.body);
+      if (T == AssetModel && bodyJson.containsKey('asset')) {
+        return AssetModel.fromJson(bodyJson['asset']) as T;
+      }else{
+        return json.decode(response.body);
+      }
     } else {
       throw Exception('Failed to load post');
     }

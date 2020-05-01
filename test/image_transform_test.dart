@@ -12,7 +12,7 @@ void main() {
   group('ImageTransformation functional testcases', () {
     final Logger log = Logger('ImageTransformation testcases');
     const imageUrl =
-        "https://images.contentstack.io/v3/assets/blteae40eb499811073/bltc5064f36b5855343/59e0c41ac0eddd140d5a8e3e/download";
+        'https://images.contentstack.io/v3/assets/blteae40eb499811073/bltc5064f36b5855343/59e0c41ac0eddd140d5a8e3e/download';
     ImageTransformation imageTransformation;
 
     setUp(() {
@@ -111,18 +111,18 @@ void main() {
      });
 
      test('crop subregion  in ImageTransformation', () {
-       final response = imageTransformation..crop("50,75,x0.10,y0.20")..getUrl();
+       final response = imageTransformation..crop('50,75,x0.10,y0.20')..getUrl();
        expect('crop=50%2C75%2Cx0.10%2Cy0.20', response.query.toString());
      });
 
      test('Crop in fail-safe mode  in ImageTransformation', () {
        final response =
-           imageTransformation..crop("300,400,x50,y50,safe")..getUrl();
+           imageTransformation..crop('300,400,x50,y50,safe')..getUrl();
        expect('crop=300%2C400%2Cx50%2Cy50%2Csafe', response.query.toString());
      });
 
      test('Smart Crop  in ImageTransformation', () {
-       final response = imageTransformation..crop("2:5,smart")..getUrl();
+       final response = imageTransformation..crop('2:5,smart')..getUrl();
        expect('crop=2%3A5%2Csmart', response.query.toString());
      });
 
@@ -211,7 +211,7 @@ void main() {
                overlayAlign: 'left,bottom')
            ..getUrl();
        const String expectedResult =
-           "overlay=%2Fv3%2Fassets%2Fblteae40eb499811073%2Fbltb21dacdd20d0e24c%2F59e0c401462a293417405f34%2Fdownload&overlay-align=left%2Cbottom";
+           'overlay=%2Fv3%2Fassets%2Fblteae40eb499811073%2Fbltb21dacdd20d0e24c%2F59e0c401462a293417405f34%2Fdownload&overlay-align=left%2Cbottom';
        expect(expectedResult, response.query.toString());
      });
 
@@ -236,13 +236,13 @@ void main() {
      });
 
      test('padding   in ImageTransformation result of Padding', () {
-       final response = imageTransformation..padding("25,50,75,100")..getUrl();
+       final response = imageTransformation..padding('25,50,75,100')..getUrl();
        expect('pad=25%2C50%2C75%2C100', response.query.toString());
      });
 
      test('overlay-padding  in ImageTransformation result of Padding', () {
        final response =
-           imageTransformation..overlayPadding("25,50,75,100")..getUrl();
+           imageTransformation..overlayPadding('25,50,75,100')..getUrl();
        expect('overlay-pad=25%2C50%2C75%2C100', response.query.toString());
      });
 
@@ -326,13 +326,13 @@ void main() {
 
      test('canvas by sub-region in ImageTransformation', () {
        final response =
-           imageTransformation..canvas("700,800,x0.50,y0.60")..getUrl();
+           imageTransformation..canvas('700,800,x0.50,y0.60')..getUrl();
        expect('canvas=700%2C800%2Cx0.50%2Cy0.60', response.query.toString());
      });
 
      test('canvas by Offset in ImageTransformation', () {
        final response = imageTransformation
-           ..canvas("700,800,offset-x0.65,offset-y0.80")
+           ..canvas('700,800,offset-x0.65,offset-y0.80')
            ..getUrl();
        expect('canvas=700%2C800%2Coffset-x0.65%2Coffset-y0.80', response.query.toString());
      });

@@ -11,15 +11,15 @@ class EntryModel {
   List categories;
   List tags;
   String uid;
-  @JsonKey(name: "created_by")
+  @JsonKey(name: 'created_by')
   String createdBy;
-  @JsonKey(name: "updated_by")
+  @JsonKey(name: 'updated_by')
   String updatedBy;
-  @JsonKey(name: "created_at")
+  @JsonKey(name: 'created_at')
   String createdAt;
-  @JsonKey(name: "updated_at")
+  @JsonKey(name: 'updated_at')
   String updatedAt;
-  @JsonKey(name: "_version")
+  @JsonKey(name: '_version')
   int version;
   EntryModel(
       this.locale,

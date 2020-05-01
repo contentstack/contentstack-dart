@@ -18,7 +18,7 @@ class AssetQuery extends BaseQuery {
 
   AssetQuery([this._client]) {
     queryParameter['environment'] = _client.stackHeaders['environment'];
-    _urlPath = "/${_client.stack.apiVersion}/assets";
+    _urlPath = '/${_client.stack.apiVersion}/assets';
   }
 
   ///
@@ -27,7 +27,7 @@ class AssetQuery extends BaseQuery {
   /// [environment] required
   ///
   void environment(String environment) {
-    queryParameter["environment"] = environment;
+    queryParameter['environment'] = environment;
   }
 
   ///
@@ -37,7 +37,7 @@ class AssetQuery extends BaseQuery {
   /// [version] required
   ///
   void version(int version) {
-    queryParameter["version"] = version.toString();
+    queryParameter['version'] = version.toString();
   }
 
   ///
@@ -45,14 +45,14 @@ class AssetQuery extends BaseQuery {
   /// Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD.
   ///
   void includeDimension() {
-    queryParameter["include_dimension"] = 'true';
+    queryParameter['include_dimension'] = 'true';
   }
 
   ///
   /// include the relative URLs of the assets in the response.
   ///
   void relativeUrls() {
-    queryParameter["relative_urls"] = 'true';
+    queryParameter['relative_urls'] = 'true';
   }
 
   void includeCount() {
@@ -60,8 +60,8 @@ class AssetQuery extends BaseQuery {
   }
 
   /// find is applicable for getting all the available assets based on the query
-  Future<dynamic> find() async {
-    final uri = Uri.https(_client.stack.endpoint, "$_urlPath", queryParameter);
-    return _client.sendRequest(uri);
+  Future<T> find<T, K>() async {
+    final uri = Uri.https(_client.stack.endpoint, '$_urlPath', queryParameter);
+    return _client.sendRequest<T, K>(uri);
   }
 }

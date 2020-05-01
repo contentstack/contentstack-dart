@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-04-30 00:26:08</td>
+            <td class="headerValue">2020-05-01 02:05:29</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -69,8 +69,8 @@
 <a name="7"><span class="lineNum">       7 </span>            :   final String errorMessage;</a>
 <a name="8"><span class="lineNum">       8 </span>            :   @JsonKey(name: &quot;error_code&quot;)</a>
 <a name="9"><span class="lineNum">       9 </span>            :   final int errorCode;</a>
-<a name="10"><span class="lineNum">      10 </span>            :   int statusCode;</a>
-<a name="11"><span class="lineNum">      11 </span><span class="lineCov">          1 :   Error({this.errorMessage, this.errorCode});</span></a>
+<a name="10"><span class="lineNum">      10 </span>            :   final Map errors;</a>
+<a name="11"><span class="lineNum">      11 </span><span class="lineCov">          1 :   Error({this.errorMessage, this.errorCode, this.errors});</span></a>
 <a name="12"><span class="lineNum">      12 </span><span class="lineCov">          2 :   factory Error.fromJson(Map&lt;String, dynamic&gt; json) =&gt; _$ErrorFromJson(json);</span></a>
 <a name="13"><span class="lineNum">      13 </span><span class="lineCov">          2 :   Map&lt;String, dynamic&gt; toJson() =&gt; _$ErrorToJson(this);</span></a>
 <a name="14"><span class="lineNum">      14 </span>            : }</a>

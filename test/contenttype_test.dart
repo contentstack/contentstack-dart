@@ -42,15 +42,19 @@ void main() {
     });
 
     test('test include_count is available', () async {
-      final allContents = ct.query();
-      final response = await allContents.includeCount().find();
-      expect(11, response['count']);
+      final allContents = ct.query()..includeCount();
+      await allContents.find().then((response){
+        expect(11, response['count']);
+      }).catchError((error){
+        expect('invalid response', error.message);
+      });
+      
     });
 
     test('test contenttype query', () async {
-      final allContents = ct.query();
+      final allContents = ct.query()..includeGlobalField();
       await allContents
-          .find(queryParams: {"include_count": "true"}).then((response) {
+          .find(queryParams: {'include_count': 'true'}).then((response) {
         expect(11, response['count']);
       });
     });

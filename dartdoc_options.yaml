@@ -1,11 +1,11 @@
 dartdoc:
     showUndocumentedCategories: true
-    ignore:
+    --ignore:
         - ambiguous-doc-reference
-    errors:
+    --errors:
         - unresolved-doc-reference
-    warnings:
+    --warnings:
         - tool-error
-    exclude:
-        - lib/client.dart
+    --exclude:
+        - [client.dart, Items.dart, EntryModel.dart]
 

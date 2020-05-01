@@ -28,7 +28,7 @@ class Asset {
   /// the details. {Example: blt19c34e5374418484}
   Asset(this._uid, [this._client]) {
     assetParameter['environment'] = _client.stackHeaders['environment'];
-    _urlPath = "/${_client.stack.apiVersion}/assets";
+    _urlPath = '/${_client.stack.apiVersion}/assets';
   }
 
   ///
@@ -40,13 +40,6 @@ class Asset {
     assetParameter['environment'] = environment;
   }
 
-
-  /// It removes environment from the stack headers
-  void removeEnvironment() {
-    if(assetParameter.containsKey('environment')){
-      assetParameter.remove('environment');
-    }
-  }
 
   ///
   /// Specify the version number of the asset that you wish to retrieve.
@@ -63,15 +56,15 @@ class Asset {
   /// Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD.
   ///
   void includeDimension() {
-    assetParameter["include_dimension"] = 'true';
+    assetParameter['include_dimension'] = 'true';
   }
 
 
   /// It fetch single asset data on the basis of the asset uid.
-  Future<dynamic> fetch() {
+  Future<T> fetch<T, K>() {
     if (_uid == null || _uid.isEmpty) {throw Exception('Provide asset uid to fetch single entry');}
-    final uri = Uri.https(_client.stack.endpoint, "$_urlPath/$_uid", assetParameter);
-    return _client.sendRequest(uri);
+    final uri = Uri.https(_client.stack.endpoint, '$_urlPath/$_uid', assetParameter);
+    return _client.sendRequest<T, K>(uri);
   }
 
 }

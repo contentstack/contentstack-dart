@@ -1,4 +1,5 @@
 import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/query_params.dart';
 import 'package:contentstack/src/sync/publishtype.dart';
 import 'package:logging/logging.dart';
@@ -17,52 +18,52 @@ void main() {
       expect(stack.apiKey, Credential.apiKey);
       expect(stack.deliveryToken, Credential.deliveryToken);
       expect(stack.environment, Credential.environment);
-      expect(stack.host, equals("cdn.contentstack.io"));
+      expect(stack.host, equals('cdn.contentstack.io'));
     });
 
     test('Stack initialization with Host', () {
-      final stack = contentstack.Stack("apiKey", "accessToken", "environment",
-          host: "com.contentstack.com");
-      expect(stack.host, equals("com.contentstack.com"));
+      final stack = contentstack.Stack('apiKey', 'accessToken', 'environment',
+          host: 'com.contentstack.com');
+      expect(stack.host, equals('com.contentstack.com'));
     });
 
     test('Stack initialization with EU Region', () {
-      final stack = contentstack.Stack("apiKey", "accessToken", "environment",
+      final stack = contentstack.Stack('apiKey', 'accessToken', 'environment',
           region: contentstack.Region.eu);
       expect(stack.region, equals(contentstack.Region.eu));
-      expect(stack.host, equals("eu-cdn.contentstack.com"));
+      expect(stack.host, equals('eu-cdn.contentstack.com'));
     });
 
     test('Stack initialization with EU Region and Host', () {
-      final stack = contentstack.Stack("apiKey", "accessToken", "environment",
+      final stack = contentstack.Stack('apiKey', 'accessToken', 'environment',
           region: contentstack.Region.eu, host: 'com.contentstack.com');
-      expect(stack.host, equals("eu-com.contentstack.com"));
+      expect(stack.host, equals('eu-com.contentstack.com'));
     });
 
     test('Stack initialization without API Key', () {
       try {
-        final stack = contentstack.Stack(" !", "accessToken", "environment");
+        final stack = contentstack.Stack(' !', 'accessToken', 'environment');
         expect(stack, equals(null));
       } catch (e) {
-        expect(e.message, equals("Must not be null"));
+        expect(e.message, equals('Must not be null'));
       }
     });
 
     test('stack initialization without Delivery Token', () {
       try {
-        final stack = contentstack.Stack("apiKey", " +", "environment");
+        final stack = contentstack.Stack('apiKey', ' +', 'environment');
         expect(stack, equals(null));
       } catch (e) {
-        expect(e.message, equals("Must not be null"));
+        expect(e.message, equals('Must not be null'));
       }
     });
 
     test('stack initialization without Environment name', () {
       try {
-        final stack = contentstack.Stack("apiKey", "apiKey", "} ");
+        final stack = contentstack.Stack('apiKey', 'apiKey', '} ');
         expect(stack, equals(null));
       } catch (e) {
-        expect(e.message, equals("Must not be null"));
+        expect(e.message, equals('Must not be null'));
       }
     });
 
@@ -120,7 +121,7 @@ void main() {
         contentType.urlPath = null;
         await contentType.fetch().then((response) {}).catchError((error) {});
       } catch (e) {
-        expect(e.message, equals("content_type_uid is missing"));
+        expect(e.message, equals('content_type_uid is missing'));
       }
     });
 
@@ -142,42 +143,38 @@ void main() {
     });
 
     test('sync initialisation response', () async {
-      final response = stack.sync(locale: 'en-us');
+      final response = stack.sync<SyncResult, Null>(locale: 'en-us');
       await response.then((response) {
         log.fine('Data set success $response');
-        expect(true, response['items'] is List);
-        expect(true, response['skip'] is int);
-        expect(true, response['limit'] is int);
-        expect(true, response['total_count'] is int);
+        expect(123, response.totalCount);
+        expect(response.limit, response.limit);
+        expect(null, response.syncToken);
+        expect('blt233312100c58dbf9a56bfa', response.paginationToken);
+        expect(response.limit, response.items.length);
       });
     });
 
     test('sync token response', () async {
-      final response = stack.syncToken('blta2662861c53ebf7cab51e7');
+      final response = stack.syncToken<SyncResult, Null>('blta2662861c53ebf7cab51e7');
       await response.then((response) {
-        final syncResult = contentstack.SyncResult.fromJson(response);
-        expect(true, syncResult is contentstack.SyncResult);
-        expect(true, syncResult.toJson() is Map);
-        //expect('bltbf04c67021273a169e6099', syncResult.syncToken);
+        expect(34, response.totalCount);
       });
     });
 
-//    test('pagination token response', () async {
-//      final response = stack.paginationToken('blt4a508e188c98d4c94c3616');
-//      await response.then((response) {
-//        //log.fine('Data set success $response');
-//        expect('blt52d57c3323c29c6455e5fa', response['sync_token']);
-//      });
-//    });
+    test('pagination token response', () async {
+      final response = stack.paginationToken<SyncResult, Null>('blt233312100c58dbf9a56bfa');
+      await response.then((response) {
+        expect('blt5dd141299bb56309f793a6', response.syncToken);
+      });
+    });
 
     test('sync with multiple params assetPublished', () async {
-      final response = stack.sync(
+      final response = stack.sync<SyncResult, Null>(
           fromDate: '12-01-2020',
           locale: 'en-us',
           publishType: PublishType.assetPublished());
       await response.then((response) {
-        //log.fine('Data set success $response');
-        expect(100, response['items'].length);
+        expect(100, response.limit);
       });
     });
 
@@ -187,7 +184,6 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.assetUnpublished());
       await response.then((response) {
-        //log.fine('Data set success $response');
         expect(100, response['items'].length);
       });
     });
@@ -242,64 +238,33 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.contentTypeDeleted());
       await response.then((response) {
-        log.fine('Data set success $response');
         expect(100, response['items'].length);
       });
     });
+
+
+    test('sync with multiple params content_type_uid', () async {
+      await stack.sync(contentTypeUid: 'testuid').then((response) {
+        final error = contentstack.Error.fromJson(response);
+        expect(true, error.toJson() is Map);
+        expect(error.errorMessage, response['error_message']);
+      });
+    });
+
+
+
   });
 
-  group('testcase for httpclient coverage', () {
-    //    test('client code coverage test for send function', () async{
-//      final Map<String, String> mapHeaders = {
-//        'api_key' : 'test_api_key',
-//        'access_token' : 'test_access_token',
-//        'delivery_token' : 'test_delivery_token',
-//      };
-//      BaseClient client;
-//      try{
-//        final httpClient = HttpClient(mapHeaders, client: client, stack: stack);
-//        final httpResp = await httpClient.sendRequest('https://cdn.contentstack.io');
-//        httpResp.then((onResponse){
-//          log.fine(onResponse.toString());
-//        }).catchError((onError){
-//          log.fine(onError.toString());
-//        });
-//        //expect(3, );
-//      }catch(e){
-//        expect(e.message.toString(), "Returned value was not JSON. Did the uri end with \'.json\'?");
-//      }
-//
-//
-//    });
+  group('testcase for URLQueryParams', () {
 
-//    test('client code coverage close instance', () async{
-//      final Map<String, String> mapHeaders = {
-//        'api_key' : 'test_api_key',
-//        'access_token' : 'test_access_token',
-//        'delivery_token' : 'test_delivery_token',
-//      };
-//      BaseClient client;
-//      try{
-//        final httpClient = HttpClient(mapHeaders, client: client, stack: stack);
-//        httpClient.close();
-//        final response = await httpClient.sendRequest('https://cdn.contentstack.io');
-//        response.then((onError){}).then((response){});
-//        expect(true, httpClient.stackHeaders.containsKey('delivery_token'));
-//      }catch(e){
-//        expect(e.message.toString(), "Returned value was not JSON. Did the uri end with \'.json\'?");
-//      }
-//    });
     test('test query_params', () {
-      final params = URLQueryParams();
-      params.append('key', 'value');
+      final params = URLQueryParams()..append('key', 'value');
       final url = params.toUrl('cdn.contentstack.io/');
-      expect("cdn.contentstack.io?key=value", url);
+      expect('cdn.contentstack.io?key=value', url);
     });
 
     test('query_params', () {
-      final params = URLQueryParams();
-      params
-        ..append('key', 'value')
+      final params = URLQueryParams()..append('key', 'value')
         ..append('key1', 'value1')
         ..remove('key');
       final url = params.toUrl('cdn.contentstack.io');
