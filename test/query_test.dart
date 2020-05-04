@@ -452,7 +452,7 @@ void main() {
         ..only(['price_in_usd']);
       final url = query.getQueryUrl();
       expect(true, url.containsKey('only[BASE][]'));
-      expect('price_in_usd', url['only[BASE][]']);
+      expect('[price_in_usd]', url['only[BASE][]']);
       expect('en-us', url['locale']);
     });
 
