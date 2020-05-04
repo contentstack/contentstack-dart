@@ -456,52 +456,45 @@ void main() {
       expect('en-us', url['locale']);
     });
 
-    test('query testcase locale and only base', () {
+    test('query testcase only base', () {
       query
         ..locale('en-us')
-        ..only(['price_in_usd'])
-        ..find().then((response) {
-          logger.i('message: ${query.getQueryUrl()}');
-          expect('response', response);
-        }).catchError((error) {
-          logger.i('error: $error');
-        });
+        ..only(['price_in_usd']);
+      final result = query.getQueryUrl();
+      //logger.i('message: ${query.getQueryUrl()}');
+      expect('[price_in_usd]', result['only[BASE][]']);
     });
-
 
     test('query testcase locale except base', () {
-      query..locale('en-us')
-        ..except(['field1','field2','field3','field4'])
-        ..find().then((response) {
-          logger.i('message: ${query.getQueryUrl()}');
-          expect('response', response);
-        }).catchError((error) {
-          //expect('response', error);
-          logger.e('error: $error');
-        });
+      query
+        ..locale('en-us')
+        ..except(['field1', 'field2', 'field3', 'field4']);
+      final url = query.getQueryUrl();
+      expect('[field1, field2, field3, field4]', url['except[BASE][]']);
     });
 
-
     test('query testcase cascase functions for entry Queryable', () {
-      const uiFieldList = ['uifield1','uifield2','uifield3'];
-      query..locale('en-us')
-        ..except(['field1','field2','field3','field4'])
-        ..includeReference('referenceFieldUid', includeReferenceField: include.Include.none(fieldUidList: uiFieldList))
+      const uiFieldList = ['uifield1', 'uifield2', 'uifield3'];
+      query
+        ..locale('en-us')
+        ..except(['field1', 'field2', 'field3', 'field4'])
+        ..includeReference('referenceFieldUid',
+            includeReferenceField:
+                include.Include.none(fieldUidList: uiFieldList))
         ..includeContentType()
         ..includeReferenceContentTypeUID()
         ..addParam('key', 'value');
       final result = query.getQueryUrl();
-      logger.i('message: ${query.getQueryUrl()}');
+      //logger.i('message: ${query.getQueryUrl()}');
       expect('development', result['environment']);
       expect('en-us', result['locale']);
-      expect('[referenceFieldUid, uifield1, uifield2, uifield3]', result['include[]']);
+      expect('[referenceFieldUid, uifield1, uifield2, uifield3]',
+          result['include[]']);
       expect('[field1, field2, field3, field4]', result['except[BASE][]']);
       expect('true', result['include_content_type']);
       expect('true', result['include_global_field_schema']);
       expect('true', result['include_reference_content_type_uid']);
       expect('value', result['key']);
     });
-
-
   });
 }
