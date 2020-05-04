@@ -1,14 +1,17 @@
 import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:contentstack/src/enums/include.dart' as include;
 import 'package:contentstack/src/enums/operations.dart';
 import 'package:contentstack/src/enums/operator.dart';
 import 'package:contentstack/src/enums/reference.dart';
 import 'package:contentstack/src/models/entrymodel.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:test/test.dart';
 import 'credentials.dart';
 
 void main() {
-  final Logger logger = Logger('Query');
+  var logger = Logger(
+    printer: PrettyPrinter(),
+  );
   group('testcases for functional base queries', () {
     contentstack.Query query;
     setUp(() {
@@ -20,7 +23,7 @@ void main() {
       final params = query.getQueryUrl();
       expect(true, params.containsKey('environment'));
       final key = params['environment'];
-      logger.fine(key);
+      logger.i(key);
       expect(Credential.environment, key);
     });
 
@@ -152,7 +155,7 @@ void main() {
 
     test('testcase setHeader for the query class', () async {
       query.setHeader('key', 'value');
-      await query.find().then(logger.fine).catchError(logger.fine);
+      await query.find().then(logger.i).catchError(logger.e);
     });
   });
 
@@ -169,7 +172,7 @@ void main() {
     test('test length of the entry of respected contentType', () async {
       final response = query.find();
       await response.then((response) {
-        logger.fine('query response: $response');
+        logger.i('query response: $response');
         expect(29, response['entries'].length);
       });
     });
@@ -357,7 +360,7 @@ void main() {
       final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
       query.operator(QueryOperator.and(queryObjects: listOfQuery));
       await query.find().then((response) {
-        logger.fine(response);
+        logger.i(response);
         final completeUrl = query.getQueryUrl()['query'];
         //print(response.toString());
         expect('{\"\$and\":[{\"title\":\"Room 13\"},{\"attendee\":20}]}',
@@ -381,7 +384,7 @@ void main() {
       final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
       query.operator(QueryOperator.or(queryObjects: listOfQuery));
       await query.find().then((response) {
-        logger.fine(response);
+        logger.i(response);
         final completeUrl = query.getQueryUrl()['query'];
         //(response.toString());
         expect('{\"\$or\":[{\"title\":\"Room 13\"},{\"attendee\":20}]}',
@@ -458,13 +461,47 @@ void main() {
         ..locale('en-us')
         ..only(['price_in_usd'])
         ..find().then((response) {
-          final url = query.getQueryUrl();
-          print('message: ${query.getQueryUrl()}');
+          logger.i('message: ${query.getQueryUrl()}');
           expect('response', response);
         }).catchError((error) {
-          expect('response', error);
-          logger.info('error: $error');
+          logger.i('error: $error');
         });
     });
+
+
+    test('query testcase locale except base', () {
+      query..locale('en-us')
+        ..except(['field1','field2','field3','field4'])
+        ..find().then((response) {
+          logger.i('message: ${query.getQueryUrl()}');
+          expect('response', response);
+        }).catchError((error) {
+          //expect('response', error);
+          logger.e('error: $error');
+        });
+    });
+
+
+    test('query testcase cascase functions for entry Queryable', () {
+      const uiFieldList = ['uifield1','uifield2','uifield3'];
+      query..locale('en-us')
+        ..except(['field1','field2','field3','field4'])
+        ..includeReference('referenceFieldUid', includeReferenceField: include.Include.none(fieldUidList: uiFieldList))
+        ..includeContentType()
+        ..includeReferenceContentTypeUID()
+        ..addParam('key', 'value');
+      final result = query.getQueryUrl();
+      logger.i('message: ${query.getQueryUrl()}');
+      expect('development', result['environment']);
+      expect('en-us', result['locale']);
+      expect('[referenceFieldUid, uifield1, uifield2, uifield3]', result['include[]']);
+      expect('[field1, field2, field3, field4]', result['except[BASE][]']);
+      expect('true', result['include_content_type']);
+      expect('true', result['include_global_field_schema']);
+      expect('true', result['include_reference_content_type_uid']);
+      expect('value', result['key']);
+    });
+
+
   });
 }

@@ -2,12 +2,15 @@ import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/query_params.dart';
 import 'package:contentstack/src/sync/publishtype.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:test/test.dart';
 import 'credentials.dart';
 
 void main() {
-  final Logger log = Logger('Stack');
+  //final Logger log = Logger('Stack');
+  var logger = Logger(
+    printer: PrettyPrinter(),
+  );
   group('functional testcases for stack', () {
     contentstack.Stack stack;
     setUp(() {
@@ -73,7 +76,7 @@ void main() {
       if (resp is Map) {
         expect(true, resp.containsKey('content_types'));
       }
-      log.fine(resp);
+      logger.i(resp);
     });
 
     test('testcases setHeader', () {
@@ -145,7 +148,7 @@ void main() {
     test('sync initialisation response', () async {
       final response = stack.sync<SyncResult, Null>(locale: 'en-us');
       await response.then((response) {
-        log.fine('Data set success $response');
+        logger.i('Data set success $response');
         expect(123, response.totalCount);
         expect(response.limit, response.limit);
         expect(null, response.syncToken);
@@ -194,7 +197,7 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.assetDeleted());
       await response.then((response) {
-        log.fine('Data set success $response');
+        logger.i('Data set success $response');
         expect(100, response['items'].length);
       });
     });
@@ -205,7 +208,7 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.entryPublished());
       await response.then((response) {
-        log.fine('Data set success $response');
+        logger.i('Data set success $response');
         expect(100, response['items'].length);
       });
     });
@@ -216,7 +219,7 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.entryUnpublished());
       await response.then((response) {
-        log.fine('Data set success $response');
+        logger.i('Data set success $response');
         expect(100, response['items'].length);
       });
     });
@@ -227,7 +230,7 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.entryDeleted());
       await response.then((response) {
-        log.fine('Data set success $response');
+        logger.i('Data set success $response');
         expect(100, response['items'].length);
       });
     });

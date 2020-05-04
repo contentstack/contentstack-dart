@@ -3,14 +3,17 @@ import 'package:contentstack/src/image/format.dart';
 import 'package:contentstack/src/image/orientation.dart';
 import 'package:contentstack/src/image_transform.dart';
 import 'package:contentstack/src/image/filter.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:test/test.dart';
 import 'credentials.dart';
 
 void main() {
 
+  var logger = Logger(
+    printer: PrettyPrinter(),
+  );
+
   group('ImageTransformation functional testcases', () {
-    final Logger log = Logger('ImageTransformation testcases');
     const imageUrl =
         'https://images.contentstack.io/v3/assets/blteae40eb499811073/bltc5064f36b5855343/59e0c41ac0eddd140d5a8e3e/download';
     ImageTransformation imageTransformation;
@@ -22,19 +25,19 @@ void main() {
 
     test('auto in ImageTransformation', () {
       final response = imageTransformation..auto(auto: 'webp')..getUrl();
-      log.finest(response);
+      logger.i(response);
       //expect(true, response.contains('?auto=webp'));
     });
 
      test('formate in ImageTransformation', () {
        final response = imageTransformation..auto(format: 'pjpg')..getUrl();
-       log.finest(response);
+       logger.i(response);
        expect('formate=pjpg', response.query.toString());
      });
 
      test('auto and formate in ImageTransformation', () {
        final response = imageTransformation..auto(auto: 'webp', format: 'pjpg')..getUrl();
-       log.finest(response);
+       logger.i(response);
        expect('auto=webp&formate=pjpg', response.query.toString());
      });
 

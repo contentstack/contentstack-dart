@@ -209,7 +209,7 @@ class Query extends BaseQuery {
       for (final item in fieldUid) {
         referenceArray.add(item);
       }
-      queryParameter['only[BASE][]'] = referenceArray.join(', ');
+      queryParameter['only[BASE][]'] = referenceArray.toString();
     }
   }
 
@@ -230,7 +230,7 @@ class Query extends BaseQuery {
       for (final item in fieldUid) {
         referenceArray.add(item);
       }
-      parameter['except[BASE][]'] = referenceArray.toString();
+      queryParameter['except[BASE][]'] = referenceArray.toString();
     }
   }
 
@@ -281,7 +281,7 @@ class Query extends BaseQuery {
               referenceArray.add(item);
             }
           }
-          parameter['include[]'] = referenceArray.toString();
+          queryParameter['include[]'] = referenceArray.toString();
         }, only: (fieldUid) {
           final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
           if (fieldUid.fieldUidList != null &&
@@ -293,7 +293,7 @@ class Query extends BaseQuery {
           referenceOnlyParam[referenceFieldUid] = referenceArray;
           //_include(referenceFieldUid);
           includeReference(referenceFieldUid);
-          parameter['only'] = referenceOnlyParam.toString();
+          queryParameter['only'] = referenceOnlyParam.toString();
         }, except: (fieldUid) {
           final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
           if (fieldUid.fieldUidList != null &&
@@ -305,11 +305,10 @@ class Query extends BaseQuery {
           referenceOnlyParam[referenceFieldUid] = referenceArray;
           //_include(referenceFieldUid);
           includeReference(referenceFieldUid);
-          parameter['except'] = referenceOnlyParam.toString();
+          queryParameter['except'] = referenceOnlyParam.toString();
         });
       } else {
-        //referenceArray.add(referenceFieldUid);
-        parameter['include[]'] = referenceFieldUid;
+        queryParameter['include[]'] = referenceFieldUid;
       }
     }
   }
@@ -324,8 +323,8 @@ class Query extends BaseQuery {
   /// query.includeContentType();
   ///
   void includeContentType() {
-    parameter['include_content_type'] = 'true';
-    parameter['include_global_field_schema'] = 'true';
+    queryParameter['include_content_type'] = 'true';
+    queryParameter['include_global_field_schema'] = 'true';
   }
 
   /// This method also includes the content type UIDs of the referenced entries returned in the response
@@ -338,7 +337,7 @@ class Query extends BaseQuery {
   /// query.includeReferenceContentTypeUID();
   ///
   void includeReferenceContentTypeUID() {
-    parameter['include_reference_content_type_uid'] = 'true';
+    queryParameter['include_reference_content_type_uid'] = 'true';
   }
 
   ///
@@ -355,7 +354,7 @@ class Query extends BaseQuery {
   ///
   void addParam(String key, String value) {
     if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
-      parameter[key] = value.toString();
+      queryParameter[key] = value.toString();
     }
   }
 

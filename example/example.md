@@ -10,15 +10,12 @@ In order to integrate your Flutter app with Contentstack Dart SDK, follow the st
 To get started with Dart SDK, you will need the following:
 
 - [Android Studio](https://developer.android.com/studio/install.html)
-
 - [Visual Studio Code](https://code.visualstudio.com/download)
-
 - [Install the Dart SDK](https://dart.dev/get-dart#install)
 
 ### Creating new project using android studio
 
 1. In the IDE, click Create New Project from the Welcome window or File > New > Project from the main IDE window.
-
 2. Select Flutter in the menu, and click Next.
 3. Enter your desired Project name and Project location.
 4. If you might publish this app, set the company domain.
@@ -27,7 +24,6 @@ To get started with Dart SDK, you will need the following:
 ### Creating new project using Visual Studio Code
 
 1. Open the Command Palette (Ctrl+Shift+P (Cmd+Shift+P on macOS)).
-
 2. Select the Flutter: New Project command and press Enter.
 3. Enter your desired Project name.
 4. Select a Project location.
@@ -74,7 +70,7 @@ To retrieve a single entry from a content type use the code snippet given below:
           print(error.message.toString());
         });
 
-        Or, You can get generic objects as well
+Or, You can get generic objects as well
 
         final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
         final entry = stack.contentType('content_type_uid').entry(entryUid: 'entry_uid');
@@ -84,7 +80,7 @@ To retrieve a single entry from a content type use the code snippet given below:
           print(error.message.toString());
         });
 
-## Get Multiple Entries
+### Get Multiple Entries
 
 To retrieve multiple entries of a particular content type, use the code snippet given below:
 
@@ -96,7 +92,7 @@ To retrieve multiple entries of a particular content type, use the code snippet 
           print(error.message.toString());
         });
 
-        Or, You can get List of generic objects
+Or, You can get List of generic objects
 
         final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
         final query = stack.contentType('content_type_uid').entry().query();
@@ -106,7 +102,7 @@ To retrieve multiple entries of a particular content type, use the code snippet 
           print(error.message.toString());
         });
 
-## Make call to get single asset by asset uid
+### Make call to get single asset by asset uid
 
           final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
           await stack.asset('asset_uid').fetch().then((response) {
@@ -115,7 +111,7 @@ To retrieve multiple entries of a particular content type, use the code snippet 
             print(error.message.toString());
           });
 
-          Or, You can get generic objects as well
+Or, You can get generic objects as well
 
           final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
           await stack.asset('asset_uid').fetch<AssetModel, Null>().then((response) {
@@ -124,7 +120,7 @@ To retrieve multiple entries of a particular content type, use the code snippet 
             print(error.message.toString());
           });
 
-## Make call to apply query on asset
+### Make call to apply query on asset
 
         final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
         final assetQuery = stack.assetQuery();
@@ -135,7 +131,7 @@ To retrieve multiple entries of a particular content type, use the code snippet 
           print(error.message.toString());
         });
 
-        Or, You can get List of generic objects
+Or, You can get List of generic objects
 
         final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
         final assetQuery = stack.assetQuery();

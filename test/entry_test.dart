@@ -4,9 +4,9 @@ import 'package:test/test.dart';
 import 'credentials.dart';
 
 void main() {
+
   group('Entry functinal testcases', () {
     Entry entry;
-
     setUp(() {
       final Stack stack = Credential.stack();
       entry = stack.contentType('faq').entry(entryUid: Credential.entryUid);

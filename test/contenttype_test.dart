@@ -1,13 +1,14 @@
 import 'package:contentstack/src/contenttype_query.dart';
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:contentstack/contentstack.dart' as contentstack;
-
+import 'package:logger/logger.dart';
 import 'credentials.dart';
 
 void main() {
-  final Logger log = Logger('Stack');
 
+  final logger = Logger(
+    printer: PrettyPrinter(),
+  );
   group('testcase contenttype functional testing', () {
     contentstack.ContentType contentType;
     setUp(() async {
@@ -19,7 +20,7 @@ void main() {
       final map = {'key': 'value'};
       final response = await contentType.fetch(map);
       //expect(true, contentType.toString());
-      log.finest(response);
+      logger.i(response);
     });
 
     test('test ContentTypeQuery instance', () {
