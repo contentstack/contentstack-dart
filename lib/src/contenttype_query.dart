@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/src/base_query.dart';
 
-///
-/// This call facilitate to apply query on the contenttype.
-///
+/// This call returns comprehensive information of all the content types
+/// available in a particular stack in your account.
+/// [ContentType](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#all-content-types).
 class ContentTypeQuery extends BaseQuery {
   final HttpClient _client;
   String _urlPath;

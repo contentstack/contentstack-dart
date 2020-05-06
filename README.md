@@ -35,30 +35,30 @@ contentstack 0.0.1
 #### Stack
 
 A stack is like a container that holds the content of your app.
-Learn more about [Stacks](https://www.contentstack.com/docs/guide/stack).
+Learn more about [Stacks](https://www.contentstack.com/docs/developers/set-up-stack/about-stack/).
 
 #### Content Type
 
 Content type lets you define the structure or blueprint of a page or a section of your digital property.
 It is a form-like page that gives Content Managers an interface to input and upload content.
-[Read more](https://www.contentstack.com/docs/guide/content-types).
+[Read more](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#content-types).
 
 #### Entry
 
 An entry is the actual piece of content created using one of the defined content types.
-Learn more about [Entries](https://www.contentstack.com/docs/guide/content-management#working-with-entries).
+Learn more about [Entries](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries).
 
 #### Asset
 
 Assets refer to all the media files (images, videos, PDFs, audio files, and so on) uploaded to Contentstack.
 These files can be used in multiple entries.
-Read more about [Assets](https://www.contentstack.com/docs/guide/content-management#working-with-assets).
+Read more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#assets).
 
 #### Environment
 
 A publishing environment corresponds to one or more deployment servers or a content delivery
 destination where the entries need to be published.
-Learn how to work with [Environments](https://www.contentstack.com/docs/guide/environments).
+Learn how to work with [Environments](https://www.contentstack.com/docs/developers/set-up-environments/about-environments/).
 
 ### Contentstack Dart SDK: 5-minute Quickstart
 
@@ -111,7 +111,7 @@ await query.find().then((response) {
 ### Advanced Queries
 
 You can query for content types, entries, assets and more using our dart API Reference.
-  [Dart API Reference Doc](https://www.contentstack.com/docs/platforms/dart/api-reference/)
+[Dart API Reference Doc](https://www.contentstack.com/docs/platforms/dart/api-reference/)
 
 ### Working with Images
 

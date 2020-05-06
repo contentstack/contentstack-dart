@@ -3,7 +3,7 @@ import 'package:contentstack/src/enums/operations.dart';
 ///
 /// This is base Query class that contains common
 /// functions to query in Entry, Assets and content_type
-///
+/// common query for asset & entry
 class BaseQuery {
 
   final Map<String, String> queryParameter = <String, String>{};

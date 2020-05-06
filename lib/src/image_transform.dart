@@ -9,6 +9,9 @@ import 'package:contentstack/src/image/orientation.dart';
 import 'package:contentstack/src/query_params.dart';
 import 'package:logging/logging.dart';
 
+///Image Delivery APIs retrieve, manipulate and/or convert the retrieved image file,
+///and deliver it to your web or mobile properties.
+///Learn more about [ImageTransformation](https://www.contentstack.com/docs/developers/apis/image-delivery-api/)
 class ImageTransformation {
   final String _imageUrl;
   final HttpClient client;

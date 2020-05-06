@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-05-01 02:05:29</td>
+            <td class="headerValue">2020-05-04 13:08:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -103,32 +103,32 @@
 <a name="41"><span class="lineNum">      41 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
 <a name="42"><span class="lineNum">      42 </span>            :   ///</a>
 <a name="43"><span class="lineNum">      43 </span><span class="lineCov">          1 :   Stack(this._apiKey, this._deliveryToken, this._environment,</span></a>
-<a name="44"><span class="lineNum">      44 </span>            :       {this.apiVersion = &quot;v3&quot;,</a>
+<a name="44"><span class="lineNum">      44 </span>            :       {this.apiVersion = 'v3',</a>
 <a name="45"><span class="lineNum">      45 </span>            :       this.region = Region.us,</a>
-<a name="46"><span class="lineNum">      46 </span>            :       String host = &quot;cdn.contentstack.io&quot;,</a>
+<a name="46"><span class="lineNum">      46 </span>            :       String host = 'cdn.contentstack.io',</a>
 <a name="47"><span class="lineNum">      47 </span>            :       BaseClient client})</a>
 <a name="48"><span class="lineNum">      48 </span><span class="lineCov">          1 :       : _host = (region == Region.us)</span></a>
 <a name="49"><span class="lineNum">      49 </span>            :             ? host</a>
-<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          1 :             : (host == &quot;cdn.contentstack.io&quot;</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          1 :             : (host == 'cdn.contentstack.io'</span></a>
 <a name="51"><span class="lineNum">      51 </span>            :                 ? 'eu-cdn.contentstack.com'</a>
-<a name="52"><span class="lineNum">      52 </span><span class="lineCov">          1 :                 : &quot;eu-$host&quot;) {</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">          1 :                 : 'eu-$host') {</span></a>
 <a name="53"><span class="lineNum">      53 </span>            :     // final blank = s == null || s.trim() == '';</a>
-<a name="54"><span class="lineNum">      54 </span><span class="lineCov">          4 :     if (_apiKey.replaceAll(RegExp(&quot;\\W&quot;), &quot;&quot;).isEmpty ?? true) {</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">          4 :     if (_apiKey.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {</span></a>
 <a name="55"><span class="lineNum">      55 </span><span class="lineCov">          1 :       throw ArgumentError.notNull('APIkey');</span></a>
 <a name="56"><span class="lineNum">      56 </span>            :     }</a>
 <a name="57"><span class="lineNum">      57 </span>            : </a>
-<a name="58"><span class="lineNum">      58 </span><span class="lineCov">          4 :     if (_deliveryToken.replaceAll(RegExp(&quot;\\W&quot;), &quot;&quot;).isEmpty ?? true) {</span></a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">          4 :     if (_deliveryToken.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {</span></a>
 <a name="59"><span class="lineNum">      59 </span><span class="lineCov">          1 :       throw ArgumentError.notNull('deliveryToken');</span></a>
 <a name="60"><span class="lineNum">      60 </span>            :     }</a>
 <a name="61"><span class="lineNum">      61 </span>            : </a>
-<a name="62"><span class="lineNum">      62 </span><span class="lineCov">          4 :     if (_environment.replaceAll(RegExp(&quot;\\W&quot;), &quot;&quot;).isEmpty ?? true) {</span></a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineCov">          4 :     if (_environment.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {</span></a>
 <a name="63"><span class="lineNum">      63 </span><span class="lineCov">          1 :       throw ArgumentError.notNull('environment');</span></a>
 <a name="64"><span class="lineNum">      64 </span>            :     }</a>
 <a name="65"><span class="lineNum">      65 </span>            : </a>
 <a name="66"><span class="lineNum">      66 </span><span class="lineCov">          2 :     stackHeader = {</span></a>
-<a name="67"><span class="lineNum">      67 </span><span class="lineCov">          1 :       &quot;api_key&quot;: _apiKey,</span></a>
-<a name="68"><span class="lineNum">      68 </span><span class="lineCov">          1 :       &quot;access_token&quot;: _deliveryToken,</span></a>
-<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          1 :       &quot;environment&quot;: _environment,</span></a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">          1 :       'api_key': _apiKey,</span></a>
+<a name="68"><span class="lineNum">      68 </span><span class="lineCov">          1 :       'access_token': _deliveryToken,</span></a>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          1 :       'environment': _environment,</span></a>
 <a name="70"><span class="lineNum">      70 </span>            :     };</a>
 <a name="71"><span class="lineNum">      71 </span>            : </a>
 <a name="72"><span class="lineNum">      72 </span><span class="lineCov">          3 :     _client = HttpClient(stackHeader, client: client, stack: this);</span></a>
@@ -292,19 +292,19 @@
 <a name="230"><span class="lineNum">     230 </span>            :     }</a>
 <a name="231"><span class="lineNum">     231 </span>            :     if (publishType != null) {</a>
 <a name="232"><span class="lineNum">     232 </span><span class="lineCov">          2 :       publishType.when(assetPublished: (result) {</span></a>
-<a name="233"><span class="lineNum">     233 </span><span class="lineCov">          1 :         parameter[&quot;publish_type&quot;] = &quot;asset_published&quot;;</span></a>
+<a name="233"><span class="lineNum">     233 </span><span class="lineCov">          1 :         parameter['publish_type'] = 'asset_published';</span></a>
 <a name="234"><span class="lineNum">     234 </span><span class="lineCov">          1 :       }, entryPublished: (result) {</span></a>
-<a name="235"><span class="lineNum">     235 </span><span class="lineCov">          1 :         parameter[&quot;publish_type&quot;] = &quot;entry_published&quot;;</span></a>
+<a name="235"><span class="lineNum">     235 </span><span class="lineCov">          1 :         parameter['publish_type'] = 'entry_published';</span></a>
 <a name="236"><span class="lineNum">     236 </span><span class="lineCov">          1 :       }, assetUnpublished: (result) {</span></a>
-<a name="237"><span class="lineNum">     237 </span><span class="lineCov">          1 :         parameter[&quot;publish_type&quot;] = &quot;asset_unpublished&quot;;</span></a>
+<a name="237"><span class="lineNum">     237 </span><span class="lineCov">          1 :         parameter['publish_type'] = 'asset_unpublished';</span></a>
 <a name="238"><span class="lineNum">     238 </span><span class="lineCov">          1 :       }, assetDeleted: (result) {</span></a>
-<a name="239"><span class="lineNum">     239 </span><span class="lineCov">          1 :         parameter[&quot;publish_type&quot;] = &quot;asset_deleted&quot;;</span></a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">          1 :         parameter['publish_type'] = 'asset_deleted';</span></a>
 <a name="240"><span class="lineNum">     240 </span><span class="lineCov">          1 :       }, entryUnpublished: (result) {</span></a>
-<a name="241"><span class="lineNum">     241 </span><span class="lineCov">          1 :         parameter[&quot;publish_type&quot;] = &quot;entry_unpublished&quot;;</span></a>
+<a name="241"><span class="lineNum">     241 </span><span class="lineCov">          1 :         parameter['publish_type'] = 'entry_unpublished';</span></a>
 <a name="242"><span class="lineNum">     242 </span><span class="lineCov">          1 :       }, entryDeleted: (result) {</span></a>
-<a name="243"><span class="lineNum">     243 </span><span class="lineCov">          1 :         parameter[&quot;publish_type&quot;] = &quot;entry_deleted&quot;;</span></a>
+<a name="243"><span class="lineNum">     243 </span><span class="lineCov">          1 :         parameter['publish_type'] = 'entry_deleted';</span></a>
 <a name="244"><span class="lineNum">     244 </span><span class="lineCov">          1 :       }, contentTypeDeleted: (result) {</span></a>
-<a name="245"><span class="lineNum">     245 </span><span class="lineCov">          1 :         parameter[&quot;publish_type&quot;] = &quot;content_type_deleted&quot;;</span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">          1 :         parameter['publish_type'] = 'content_type_deleted';</span></a>
 <a name="246"><span class="lineNum">     246 </span>            :       });</a>
 <a name="247"><span class="lineNum">     247 </span>            :     }</a>
 <a name="248"><span class="lineNum">     248 </span>            : </a>

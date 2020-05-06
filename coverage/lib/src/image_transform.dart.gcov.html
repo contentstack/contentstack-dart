@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-05-01 02:05:29</td>
+            <td class="headerValue">2020-05-04 13:08:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -95,7 +95,7 @@
 <a name="33"><span class="lineNum">      33 </span><span class="lineCov">          2 :       query.append('auto', auto);</span></a>
 <a name="34"><span class="lineNum">      34 </span>            :     }</a>
 <a name="35"><span class="lineNum">      35 </span>            :     if (format != null) {</a>
-<a name="36"><span class="lineNum">      36 </span><span class="lineCov">          2 :       query.append(&quot;formate&quot;, format);</span></a>
+<a name="36"><span class="lineNum">      36 </span><span class="lineCov">          2 :       query.append('formate', format);</span></a>
 <a name="37"><span class="lineNum">      37 </span>            :     }</a>
 <a name="38"><span class="lineNum">      38 </span>            :   }</a>
 <a name="39"><span class="lineNum">      39 </span>            : </a>
@@ -113,7 +113,7 @@
 <a name="51"><span class="lineNum">      51 </span>            :   /// final response = await imageTransformation.quality(2).fetch();</a>
 <a name="52"><span class="lineNum">      52 </span>            :   ///</a>
 <a name="53"><span class="lineNum">      53 </span><span class="lineCov">          1 :   void quality(int quality) {</span></a>
-<a name="54"><span class="lineNum">      54 </span><span class="lineCov">          3 :     query.append(&quot;quality&quot;, quality.toString());</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">          3 :     query.append('quality', quality.toString());</span></a>
 <a name="55"><span class="lineNum">      55 </span>            :   }</a>
 <a name="56"><span class="lineNum">      56 </span>            : </a>
 <a name="57"><span class="lineNum">      57 </span>            :   /// The format function lets you converts a given image from one format to another.</a>
@@ -130,19 +130,19 @@
 <a name="68"><span class="lineNum">      68 </span>            :   ///  final response = await imageTransformation.convert(Format.pjpg).fetch();</a>
 <a name="69"><span class="lineNum">      69 </span><span class="lineCov">          1 :   void convert(Format format) {</span></a>
 <a name="70"><span class="lineNum">      70 </span><span class="lineCov">          2 :     format.when(gif: (formatResult) {</span></a>
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;gif&quot;);</span></a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          2 :       query.append('format', 'gif');</span></a>
 <a name="72"><span class="lineNum">      72 </span><span class="lineCov">          1 :     }, png: (formatResult) {</span></a>
-<a name="73"><span class="lineNum">      73 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;png&quot;);</span></a>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">          2 :       query.append('format', 'png');</span></a>
 <a name="74"><span class="lineNum">      74 </span><span class="lineCov">          1 :     }, jpg: (formatResult) {</span></a>
-<a name="75"><span class="lineNum">      75 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;jpg&quot;);</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">          2 :       query.append('format', 'jpg');</span></a>
 <a name="76"><span class="lineNum">      76 </span><span class="lineCov">          1 :     }, pjpg: (formatResult) {</span></a>
-<a name="77"><span class="lineNum">      77 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;pjpg&quot;);</span></a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">          2 :       query.append('format', 'pjpg');</span></a>
 <a name="78"><span class="lineNum">      78 </span><span class="lineCov">          1 :     }, webp: (formatResult) {</span></a>
-<a name="79"><span class="lineNum">      79 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;webp&quot;);</span></a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">          2 :       query.append('format', 'webp');</span></a>
 <a name="80"><span class="lineNum">      80 </span><span class="lineCov">          1 :     }, webplossy: (formatResult) {</span></a>
-<a name="81"><span class="lineNum">      81 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;webply&quot;);</span></a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">          2 :       query.append('format', 'webply');</span></a>
 <a name="82"><span class="lineNum">      82 </span><span class="lineCov">          1 :     }, webplossless: (formatResult) {</span></a>
-<a name="83"><span class="lineNum">      83 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;webpll&quot;);</span></a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineCov">          2 :       query.append('format', 'webpll');</span></a>
 <a name="84"><span class="lineNum">      84 </span>            :     });</a>
 <a name="85"><span class="lineNum">      85 </span>            :   }</a>
 <a name="86"><span class="lineNum">      86 </span>            : </a>
@@ -165,20 +165,20 @@
 <a name="103"><span class="lineNum">     103 </span><span class="lineCov">          1 :   void resize({int width, int height, bool disable}) {</span></a>
 <a name="104"><span class="lineNum">     104 </span>            :     if (width != null) {</a>
 <a name="105"><span class="lineNum">     105 </span>            :       //queryParameter['width'] = width.toString();</a>
-<a name="106"><span class="lineNum">     106 </span><span class="lineCov">          3 :       query.append(&quot;width&quot;, width.toString());</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">          3 :       query.append('width', width.toString());</span></a>
 <a name="107"><span class="lineNum">     107 </span>            :     }</a>
 <a name="108"><span class="lineNum">     108 </span>            :     if (height != null) {</a>
-<a name="109"><span class="lineNum">     109 </span><span class="lineCov">          3 :       query.append(&quot;height&quot;, height.toString());</span></a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">          3 :       query.append('height', height.toString());</span></a>
 <a name="110"><span class="lineNum">     110 </span>            :     }</a>
 <a name="111"><span class="lineNum">     111 </span>            :     if (disable != null &amp;&amp; disable) {</a>
-<a name="112"><span class="lineNum">     112 </span><span class="lineCov">          2 :       query.append(&quot;disable&quot;, &quot;upscale&quot;);</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">          2 :       query.append('disable', 'upscale');</span></a>
 <a name="113"><span class="lineNum">     113 </span>            :     }</a>
 <a name="114"><span class="lineNum">     114 </span>            :   }</a>
 <a name="115"><span class="lineNum">     115 </span>            : </a>
 <a name="116"><span class="lineNum">     116 </span><span class="lineCov">          1 :   void crop(String cropValue) {</span></a>
 <a name="117"><span class="lineNum">     117 </span>            :     // checks if cropRatio is not null then takes height, width and cropRatio as prams</a>
 <a name="118"><span class="lineNum">     118 </span>            :     // else it takes crop params and comas separated width &amp; height</a>
-<a name="119"><span class="lineNum">     119 </span><span class="lineCov">          2 :     query.append(&quot;crop&quot;, cropValue);</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">          2 :     query.append('crop', cropValue);</span></a>
 <a name="120"><span class="lineNum">     120 </span>            :   }</a>
 <a name="121"><span class="lineNum">     121 </span>            : </a>
 <a name="122"><span class="lineNum">     122 </span>            :   /// The crop function allows you to remove pixels from an image.</a>
@@ -228,7 +228,7 @@
 <a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :       cropLRBL.add(offset);</span></a>
 <a name="167"><span class="lineNum">     167 </span>            :     }</a>
 <a name="168"><span class="lineNum">     168 </span><span class="lineCov">          1 :     final commaSeparated = cropLRBL.join(', ');</span></a>
-<a name="169"><span class="lineNum">     169 </span><span class="lineCov">          2 :     query.append(&quot;crop&quot;, commaSeparated);</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineCov">          2 :     query.append('crop', commaSeparated);</span></a>
 <a name="170"><span class="lineNum">     170 </span>            :   }</a>
 <a name="171"><span class="lineNum">     171 </span>            : </a>
 <a name="172"><span class="lineNum">     172 </span>            :   ///This parameter enables you to fit the given image properly within the specified height and width.</a>
@@ -247,17 +247,17 @@
 <a name="185"><span class="lineNum">     185 </span>            : </a>
 <a name="186"><span class="lineNum">     186 </span><span class="lineCov">          1 :   void fit(double width, double height, Fit fit) {</span></a>
 <a name="187"><span class="lineNum">     187 </span>            :     if (width != null) {</a>
-<a name="188"><span class="lineNum">     188 </span><span class="lineCov">          3 :       query.append(&quot;width&quot;, width.toString());</span></a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">          3 :       query.append('width', width.toString());</span></a>
 <a name="189"><span class="lineNum">     189 </span>            :     }</a>
 <a name="190"><span class="lineNum">     190 </span>            :     if (height != null) {</a>
-<a name="191"><span class="lineNum">     191 </span><span class="lineCov">          3 :       query.append(&quot;height&quot;, height.toString());</span></a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">          3 :       query.append('height', height.toString());</span></a>
 <a name="192"><span class="lineNum">     192 </span>            :     }</a>
 <a name="193"><span class="lineNum">     193 </span>            :     if (fit != null) {</a>
 <a name="194"><span class="lineNum">     194 </span>            :       //enum Fit { bounds, crop }</a>
 <a name="195"><span class="lineNum">     195 </span><span class="lineCov">          2 :       fit.when(bounds: (value) {</span></a>
-<a name="196"><span class="lineNum">     196 </span><span class="lineCov">          2 :         query.append(&quot;fit&quot;, &quot;bounds&quot;);</span></a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineCov">          2 :         query.append('fit', 'bounds');</span></a>
 <a name="197"><span class="lineNum">     197 </span><span class="lineCov">          1 :       }, crop: (value) {</span></a>
-<a name="198"><span class="lineNum">     198 </span><span class="lineCov">          2 :         query.append(&quot;fit&quot;, &quot;crop&quot;);</span></a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineCov">          2 :         query.append('fit', 'crop');</span></a>
 <a name="199"><span class="lineNum">     199 </span>            :       });</a>
 <a name="200"><span class="lineNum">     200 </span>            :     }</a>
 <a name="201"><span class="lineNum">     201 </span>            :   }</a>
@@ -292,7 +292,7 @@
 <a name="230"><span class="lineNum">     230 </span><span class="lineCov">          1 :       trimLRBL.add(left);</span></a>
 <a name="231"><span class="lineNum">     231 </span>            :     }</a>
 <a name="232"><span class="lineNum">     232 </span><span class="lineCov">          1 :     final joinedValue = trimLRBL.join(', ');</span></a>
-<a name="233"><span class="lineNum">     233 </span><span class="lineCov">          2 :     query.append(&quot;trim&quot;, joinedValue);</span></a>
+<a name="233"><span class="lineNum">     233 </span><span class="lineCov">          2 :     query.append('trim', joinedValue);</span></a>
 <a name="234"><span class="lineNum">     234 </span>            :   }</a>
 <a name="235"><span class="lineNum">     235 </span>            : </a>
 <a name="236"><span class="lineNum">     236 </span>            :   ///The orient parameter lets you control the cardinal orientation of the given image.</a>
@@ -321,21 +321,21 @@
 <a name="259"><span class="lineNum">     259 </span>            :     //  rotate90DegreesLeft = '8';</a>
 <a name="260"><span class="lineNum">     260 </span>            :     if (orient != null) {</a>
 <a name="261"><span class="lineNum">     261 </span><span class="lineCov">          2 :       orient.when(toDefault: (orientation) {</span></a>
-<a name="262"><span class="lineNum">     262 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 1);</span></a>
+<a name="262"><span class="lineNum">     262 </span><span class="lineCov">          2 :         query.append('orient', 1);</span></a>
 <a name="263"><span class="lineNum">     263 </span><span class="lineCov">          1 :       }, horizontally: (orientation) {</span></a>
-<a name="264"><span class="lineNum">     264 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 2);</span></a>
+<a name="264"><span class="lineNum">     264 </span><span class="lineCov">          2 :         query.append('orient', 2);</span></a>
 <a name="265"><span class="lineNum">     265 </span><span class="lineCov">          1 :       }, horizontallyAndVertically: (orientation) {</span></a>
-<a name="266"><span class="lineNum">     266 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 3);</span></a>
+<a name="266"><span class="lineNum">     266 </span><span class="lineCov">          2 :         query.append('orient', 3);</span></a>
 <a name="267"><span class="lineNum">     267 </span><span class="lineCov">          1 :       }, vertically: (orientation) {</span></a>
-<a name="268"><span class="lineNum">     268 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 4);</span></a>
+<a name="268"><span class="lineNum">     268 </span><span class="lineCov">          2 :         query.append('orient', 4);</span></a>
 <a name="269"><span class="lineNum">     269 </span><span class="lineCov">          1 :       }, horizontallyAndRotate90DegreeLeft: (orientation) {</span></a>
-<a name="270"><span class="lineNum">     270 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 5);</span></a>
+<a name="270"><span class="lineNum">     270 </span><span class="lineCov">          2 :         query.append('orient', 5);</span></a>
 <a name="271"><span class="lineNum">     271 </span><span class="lineCov">          1 :       }, degrees90TowardsRight: (orientation) {</span></a>
-<a name="272"><span class="lineNum">     272 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 6);</span></a>
+<a name="272"><span class="lineNum">     272 </span><span class="lineCov">          2 :         query.append('orient', 6);</span></a>
 <a name="273"><span class="lineNum">     273 </span><span class="lineCov">          1 :       }, horizontallyAndRotate90DegreesRight: (orientation) {</span></a>
-<a name="274"><span class="lineNum">     274 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 7);</span></a>
+<a name="274"><span class="lineNum">     274 </span><span class="lineCov">          2 :         query.append('orient', 7);</span></a>
 <a name="275"><span class="lineNum">     275 </span><span class="lineCov">          1 :       }, rotate90DegreesLeft: (orientation) {</span></a>
-<a name="276"><span class="lineNum">     276 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 8);</span></a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">          2 :         query.append('orient', 8);</span></a>
 <a name="277"><span class="lineNum">     277 </span>            :       });</a>
 <a name="278"><span class="lineNum">     278 </span>            :     }</a>
 <a name="279"><span class="lineNum">     279 </span>            :   }</a>
@@ -367,13 +367,13 @@
 <a name="305"><span class="lineNum">     305 </span><span class="lineCov">          2 :       query.append('overlay-align', overlayAlign);</span></a>
 <a name="306"><span class="lineNum">     306 </span>            :     }</a>
 <a name="307"><span class="lineNum">     307 </span>            :     if (overlayRepeat != null) {</a>
-<a name="308"><span class="lineNum">     308 </span><span class="lineCov">          2 :       query.append(&quot;overlay-repeat&quot;, overlayRepeat);</span></a>
+<a name="308"><span class="lineNum">     308 </span><span class="lineCov">          2 :       query.append('overlay-repeat', overlayRepeat);</span></a>
 <a name="309"><span class="lineNum">     309 </span>            :     }</a>
 <a name="310"><span class="lineNum">     310 </span>            :     if (overlayWidth != null) {</a>
-<a name="311"><span class="lineNum">     311 </span><span class="lineCov">          2 :       query.append(&quot;overlay-width&quot;, overlayWidth);</span></a>
+<a name="311"><span class="lineNum">     311 </span><span class="lineCov">          2 :       query.append('overlay-width', overlayWidth);</span></a>
 <a name="312"><span class="lineNum">     312 </span>            :     }</a>
 <a name="313"><span class="lineNum">     313 </span>            :     if (overlayHeight != null) {</a>
-<a name="314"><span class="lineNum">     314 </span><span class="lineCov">          2 :       query.append(&quot;overlay-height&quot;, overlayHeight);</span></a>
+<a name="314"><span class="lineNum">     314 </span><span class="lineCov">          2 :       query.append('overlay-height', overlayHeight);</span></a>
 <a name="315"><span class="lineNum">     315 </span>            :     }</a>
 <a name="316"><span class="lineNum">     316 </span>            :   }</a>
 <a name="317"><span class="lineNum">     317 </span>            : </a>
@@ -393,7 +393,7 @@
 <a name="331"><span class="lineNum">     331 </span>            :   ///final response = await imageTransformation.padding(&quot;25,50,75,100&quot;).fetch();</a>
 <a name="332"><span class="lineNum">     332 </span>            :   ///</a>
 <a name="333"><span class="lineNum">     333 </span><span class="lineCov">          1 :   void padding(String padding) {</span></a>
-<a name="334"><span class="lineNum">     334 </span><span class="lineCov">          2 :     query.append(&quot;pad&quot;, padding);</span></a>
+<a name="334"><span class="lineNum">     334 </span><span class="lineCov">          2 :     query.append('pad', padding);</span></a>
 <a name="335"><span class="lineNum">     335 </span>            :   }</a>
 <a name="336"><span class="lineNum">     336 </span>            : </a>
 <a name="337"><span class="lineNum">     337 </span>            :   ///You can either specify all the four padding values (top, right, bottom, and left)</a>
@@ -404,7 +404,7 @@
 <a name="342"><span class="lineNum">     342 </span>            :   ///final imageTransformation = stack.imageTransform(imageUrl);</a>
 <a name="343"><span class="lineNum">     343 </span>            :   ///final response = await imageTransformation.addPadding(&quot;25,50,75,100&quot;).fetch();</a>
 <a name="344"><span class="lineNum">     344 </span><span class="lineCov">          1 :   void overlayPadding(String overlayPadding) {</span></a>
-<a name="345"><span class="lineNum">     345 </span><span class="lineCov">          2 :     query.append(&quot;overlay-pad&quot;, overlayPadding);</span></a>
+<a name="345"><span class="lineNum">     345 </span><span class="lineCov">          2 :     query.append('overlay-pad', overlayPadding);</span></a>
 <a name="346"><span class="lineNum">     346 </span>            :   }</a>
 <a name="347"><span class="lineNum">     347 </span>            : </a>
 <a name="348"><span class="lineNum">     348 </span>            :   ///The bg-color function lets you set a backgroud color for the given image.</a>
@@ -419,7 +419,7 @@
 <a name="357"><span class="lineNum">     357 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
 <a name="358"><span class="lineNum">     358 </span>            :   ///  final response = await imageTransformation.bgColor('cccccc').fetch();</a>
 <a name="359"><span class="lineNum">     359 </span><span class="lineCov">          1 :   void bgColor(String bgColor) {</span></a>
-<a name="360"><span class="lineNum">     360 </span><span class="lineCov">          2 :     query.append(&quot;bg-color&quot;, bgColor);</span></a>
+<a name="360"><span class="lineNum">     360 </span><span class="lineCov">          2 :     query.append('bg-color', bgColor);</span></a>
 <a name="361"><span class="lineNum">     361 </span>            :   }</a>
 <a name="362"><span class="lineNum">     362 </span>            : </a>
 <a name="363"><span class="lineNum">     363 </span>            :   ///To implement the device pixel ratio functionality of the Image Delivery API, you require two parameters &quot;dpr&quot; and &quot;height or width&quot;.</a>
@@ -435,7 +435,7 @@
 <a name="373"><span class="lineNum">     373 </span>            :   ///  final response = await imageTransformation.dpr(30, 60, 12).fetch();</a>
 <a name="374"><span class="lineNum">     374 </span>            :   ///</a>
 <a name="375"><span class="lineNum">     375 </span><span class="lineCov">          1 :   void dpr(int dpr) {</span></a>
-<a name="376"><span class="lineNum">     376 </span><span class="lineCov">          3 :     query.append(&quot;dpr&quot;, dpr.toString());</span></a>
+<a name="376"><span class="lineNum">     376 </span><span class="lineCov">          3 :     query.append('dpr', dpr.toString());</span></a>
 <a name="377"><span class="lineNum">     377 </span>            :   }</a>
 <a name="378"><span class="lineNum">     378 </span>            : </a>
 <a name="379"><span class="lineNum">     379 </span>            :   ///</a>
@@ -452,7 +452,7 @@
 <a name="390"><span class="lineNum">     390 </span>            :   ///  final response = await imageTransformation.blur(3).fetch();</a>
 <a name="391"><span class="lineNum">     391 </span>            : </a>
 <a name="392"><span class="lineNum">     392 </span><span class="lineCov">          1 :   void blur(int blur) {</span></a>
-<a name="393"><span class="lineNum">     393 </span><span class="lineCov">          3 :     query.append(&quot;blur&quot;, blur.toString());</span></a>
+<a name="393"><span class="lineNum">     393 </span><span class="lineCov">          3 :     query.append('blur', blur.toString());</span></a>
 <a name="394"><span class="lineNum">     394 </span>            :   }</a>
 <a name="395"><span class="lineNum">     395 </span>            : </a>
 <a name="396"><span class="lineNum">     396 </span>            :   ///The frame parameter fetches the first frame from an animated GIF</a>
@@ -466,7 +466,7 @@
 <a name="404"><span class="lineNum">     404 </span>            :   ///  final response = await imageTransformation.frame(30).fetch();</a>
 <a name="405"><span class="lineNum">     405 </span>            :   ///</a>
 <a name="406"><span class="lineNum">     406 </span><span class="lineCov">          1 :   void frame(int frame) {</span></a>
-<a name="407"><span class="lineNum">     407 </span><span class="lineCov">          3 :     query.append(&quot;frame&quot;, frame.toString());</span></a>
+<a name="407"><span class="lineNum">     407 </span><span class="lineCov">          3 :     query.append('frame', frame.toString());</span></a>
 <a name="408"><span class="lineNum">     408 </span>            :   }</a>
 <a name="409"><span class="lineNum">     409 </span>            : </a>
 <a name="410"><span class="lineNum">     410 </span>            :   ///The frame parameter fetches the first frame from an animated GIF</a>
@@ -481,7 +481,7 @@
 <a name="419"><span class="lineNum">     419 </span>            :   ///  final response = await imageTransformation.sharpen(5, 1000, 2').fetch();</a>
 <a name="420"><span class="lineNum">     420 </span>            :   ///</a>
 <a name="421"><span class="lineNum">     421 </span><span class="lineCov">          1 :   void sharpen(int amount, int radius, int threshold) {</span></a>
-<a name="422"><span class="lineNum">     422 </span><span class="lineCov">          3 :     query.append(&quot;sharpen&quot;, &quot;a$amount,r$radius,t$threshold&quot;);</span></a>
+<a name="422"><span class="lineNum">     422 </span><span class="lineCov">          3 :     query.append('sharpen', 'a$amount,r$radius,t$threshold');</span></a>
 <a name="423"><span class="lineNum">     423 </span>            :   }</a>
 <a name="424"><span class="lineNum">     424 </span>            : </a>
 <a name="425"><span class="lineNum">     425 </span>            :   ///The saturation parameter allows you to increase or decrease the intensity</a>
@@ -496,7 +496,7 @@
 <a name="434"><span class="lineNum">     434 </span>            :   ///    final response = await imageTransformation.saturation(20);</a>
 <a name="435"><span class="lineNum">     435 </span>            : </a>
 <a name="436"><span class="lineNum">     436 </span><span class="lineCov">          1 :   void saturation(int saturation) {</span></a>
-<a name="437"><span class="lineNum">     437 </span><span class="lineCov">          3 :     query.append(&quot;saturation&quot;, saturation.toString());</span></a>
+<a name="437"><span class="lineNum">     437 </span><span class="lineCov">          3 :     query.append('saturation', saturation.toString());</span></a>
 <a name="438"><span class="lineNum">     438 </span>            :   }</a>
 <a name="439"><span class="lineNum">     439 </span>            : </a>
 <a name="440"><span class="lineNum">     440 </span>            :   /// The contrast parameter allows you to increase or decrease</a>
@@ -514,7 +514,7 @@
 <a name="452"><span class="lineNum">     452 </span>            :   /// final response = await imageTransformation.contrast(20);</a>
 <a name="453"><span class="lineNum">     453 </span>            : </a>
 <a name="454"><span class="lineNum">     454 </span><span class="lineCov">          1 :   void contrast(int contrast) {</span></a>
-<a name="455"><span class="lineNum">     455 </span><span class="lineCov">          3 :     query.append(&quot;contrast&quot;, contrast.toString());</span></a>
+<a name="455"><span class="lineNum">     455 </span><span class="lineCov">          3 :     query.append('contrast', contrast.toString());</span></a>
 <a name="456"><span class="lineNum">     456 </span>            :   }</a>
 <a name="457"><span class="lineNum">     457 </span>            : </a>
 <a name="458"><span class="lineNum">     458 </span>            :   /// The brightness parameter allows you to increase or decrease the intensity</a>
@@ -531,7 +531,7 @@
 <a name="469"><span class="lineNum">     469 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
 <a name="470"><span class="lineNum">     470 </span>            :   /// final response =  imageTransformation.brightness(20);</a>
 <a name="471"><span class="lineNum">     471 </span><span class="lineCov">          1 :   void brightness(int brightness) {</span></a>
-<a name="472"><span class="lineNum">     472 </span><span class="lineCov">          3 :     query.append(&quot;brightness&quot;, brightness.toString());</span></a>
+<a name="472"><span class="lineNum">     472 </span><span class="lineCov">          3 :     query.append('brightness', brightness.toString());</span></a>
 <a name="473"><span class="lineNum">     473 </span>            :   }</a>
 <a name="474"><span class="lineNum">     474 </span>            : </a>
 <a name="475"><span class="lineNum">     475 </span>            :   ///</a>
@@ -550,20 +550,20 @@
 <a name="488"><span class="lineNum">     488 </span>            :   ///</a>
 <a name="489"><span class="lineNum">     489 </span><span class="lineCov">          1 :   void resizeFilter({int width, int height, Filter filter}) {</span></a>
 <a name="490"><span class="lineNum">     490 </span>            :     if (width != null) {</a>
-<a name="491"><span class="lineNum">     491 </span><span class="lineCov">          3 :       query.append(&quot;width&quot;, width.toString());</span></a>
+<a name="491"><span class="lineNum">     491 </span><span class="lineCov">          3 :       query.append('width', width.toString());</span></a>
 <a name="492"><span class="lineNum">     492 </span>            :     }</a>
 <a name="493"><span class="lineNum">     493 </span>            :     if (height != null) {</a>
 <a name="494"><span class="lineNum">     494 </span><span class="lineCov">          3 :       query.append('height', height.toString());</span></a>
 <a name="495"><span class="lineNum">     495 </span>            :     }</a>
 <a name="496"><span class="lineNum">     496 </span>            :     if (filter != null) {</a>
 <a name="497"><span class="lineNum">     497 </span><span class="lineCov">          2 :       filter.when(nearest: (filterType) {</span></a>
-<a name="498"><span class="lineNum">     498 </span><span class="lineCov">          2 :         query.append('resize-filter', &quot;nearest&quot;);</span></a>
+<a name="498"><span class="lineNum">     498 </span><span class="lineCov">          2 :         query.append('resize-filter', 'nearest');</span></a>
 <a name="499"><span class="lineNum">     499 </span><span class="lineCov">          1 :       }, bilinear: (filterType) {</span></a>
-<a name="500"><span class="lineNum">     500 </span><span class="lineCov">          2 :         query.append('resize-filter', &quot;bilinear&quot;);</span></a>
+<a name="500"><span class="lineNum">     500 </span><span class="lineCov">          2 :         query.append('resize-filter', 'bilinear');</span></a>
 <a name="501"><span class="lineNum">     501 </span><span class="lineCov">          1 :       }, bicubic: (filterType) {</span></a>
-<a name="502"><span class="lineNum">     502 </span><span class="lineCov">          2 :         query.append('resize-filter', &quot;bicubic&quot;);</span></a>
+<a name="502"><span class="lineNum">     502 </span><span class="lineCov">          2 :         query.append('resize-filter', 'bicubic');</span></a>
 <a name="503"><span class="lineNum">     503 </span><span class="lineCov">          1 :       }, lanczos: (filterType) {</span></a>
-<a name="504"><span class="lineNum">     504 </span><span class="lineCov">          2 :         query.append('resize-filter', &quot;lanczos3&quot;);</span></a>
+<a name="504"><span class="lineNum">     504 </span><span class="lineCov">          2 :         query.append('resize-filter', 'lanczos3');</span></a>
 <a name="505"><span class="lineNum">     505 </span>            :       });</a>
 <a name="506"><span class="lineNum">     506 </span>            :     }</a>
 <a name="507"><span class="lineNum">     507 </span>            :   }</a>
@@ -601,7 +601,7 @@
 <a name="539"><span class="lineNum">     539 </span>            :   /// final response =  imageTransformation.canvas('700,800,offset-x0.65,offset-y0.80');</a>
 <a name="540"><span class="lineNum">     540 </span>            :   ///</a>
 <a name="541"><span class="lineNum">     541 </span><span class="lineCov">          1 :   void canvas(String canvasValue) {</span></a>
-<a name="542"><span class="lineNum">     542 </span><span class="lineCov">          2 :     query.append(&quot;canvas&quot;, canvasValue);</span></a>
+<a name="542"><span class="lineNum">     542 </span><span class="lineCov">          2 :     query.append('canvas', canvasValue);</span></a>
 <a name="543"><span class="lineNum">     543 </span>            :   }</a>
 <a name="544"><span class="lineNum">     544 </span>            : </a>
 <a name="545"><span class="lineNum">     545 </span>            :   ///Makes API Request of respective function.</a>

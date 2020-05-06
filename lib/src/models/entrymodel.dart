@@ -2,6 +2,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'entrymodel.g.dart';
 
+/// EntryModel refers to the generic class for entry result
 @JsonSerializable(createFactory: true)
 class EntryModel {
   String locale;

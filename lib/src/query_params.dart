@@ -1,3 +1,4 @@
+/// Helper class to construct uri for the ImageTransformation class
 class URLQueryParams {
   final Map<String, String> _values = {};
 

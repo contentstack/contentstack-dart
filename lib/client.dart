@@ -23,10 +23,9 @@ class HttpClient extends http.BaseClient {
     return _client.send(request);
   }
 
-  ///@nodoc
   Future<T> sendRequest<T, K>(Uri uri) async {
     stackHeaders['Content-Type'] = 'application/json';
-    stackHeaders['sdk'] = 'contentstack-dart-v0.1.0';
+    stackHeaders['X-User-Agent'] = 'contentstack-dart/0.1.0';
     final response = await http.get(uri, headers: stackHeaders);
     Object bodyJson;
     try {
@@ -55,7 +54,6 @@ class HttpClient extends http.BaseClient {
         return fromJson<T, K>(bodyJson);
       }
     } else {
-      //Error.fromJson(bodyJson);
       return bodyJson;
     }
   }

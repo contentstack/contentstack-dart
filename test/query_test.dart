@@ -9,9 +9,11 @@ import 'package:test/test.dart';
 import 'credentials.dart';
 
 void main() {
-  var logger = Logger(
+
+  final logger = Logger(
     printer: PrettyPrinter(),
   );
+
   group('testcases for functional base queries', () {
     contentstack.Query query;
     setUp(() {
@@ -495,6 +497,34 @@ void main() {
       expect('true', result['include_global_field_schema']);
       expect('true', result['include_reference_content_type_uid']);
       expect('value', result['key']);
+    });
+
+    test('query testcase reference only entry queryable', () {
+      const uiFieldList = ['uifield1', 'uifield2', 'uifield3'];
+      query
+        ..locale('en-us')
+        ..includeReference('referenceFieldUid',
+            includeReferenceField:
+                include.Include.only(fieldUidList: uiFieldList));
+      final result = query.getQueryUrl();
+      logger.i('message: ${query.getQueryUrl()}');
+      expect('referenceFieldUid', result['include[]']);
+      expect('{referenceFieldUid: [uifield1, uifield2, uifield3]}',
+          result['only']);
+    });
+
+    test('query testcase reference except entry queryable', () {
+      const uiFieldList = ['uifield1', 'uifield2', 'uifield3'];
+      query
+        ..locale('en-us')
+        ..includeReference('referenceFieldUid',
+            includeReferenceField:
+                include.Include.except(fieldUidList: uiFieldList));
+      final result = query.getQueryUrl();
+      logger.i('message: ${query.getQueryUrl()}');
+      expect('referenceFieldUid', result['include[]']);
+      expect('{referenceFieldUid: [uifield1, uifield2, uifield3]}',
+          result['except']);
     });
   });
 }
