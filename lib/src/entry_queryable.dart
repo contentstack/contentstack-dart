@@ -1,5 +1,6 @@
 import 'package:contentstack/src/enums/include.dart';
 
+/// Applies Queries on [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
 class EntryQueryable {
   final Map<String, String> parameter = <String, String>{};
 

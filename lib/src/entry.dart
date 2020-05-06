@@ -3,19 +3,9 @@ import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/entry_queryable.dart';
 
-///
-/// An entry is the actual piece of content created
-/// using one of the defined content types.
-/// Read more about Entries.
-/// https://www.contentstack.com/docs/content-managers/work-with-entries/
-///
-/// All Entries:
-/// The Get all entries call fetches the list of all the entries of a
-/// particular content type
-///
-/// Single Entry:
-/// The Get a single entry request fetches a particular entry of a content type
-///
+///An entry is the actual piece of content created using one of
+///the defined content types. Learn more about Entries.
+/// Read more for details of [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
 class Entry extends EntryQueryable {
   Entry([this._uid, this._client, this._contentTypeUid]) {
     parameter['environment'] = _client.stackHeaders['environment'];

@@ -2,16 +2,10 @@ import 'dart:async';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/src/base_query.dart';
 
-/// Assets refer to all the media files (images, videos, PDFs, audio files, and so on)
-/// uploaded in your Contentstack repository for future use. These files can be
-/// attached and used in multiple entries. Learn more about Assets.
-/// https://www.contentstack.com/docs/content-managers/work-with-assets
-///
-/// * All Assets
-/// This call fetches the list of all the assets of a particular stack
-/// Learn more about All Assets.
-/// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-all-assets
-///
+/// This call fetches the list of all the assets of a particular stack.
+/// It also returns the content of each asset in JSON format.
+/// You can also specify the environment of which you wish to get the assets.
+/// Learn more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#all-assets)
 class AssetQuery extends BaseQuery {
   final HttpClient _client;
   String _urlPath;

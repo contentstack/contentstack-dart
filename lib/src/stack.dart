@@ -9,17 +9,8 @@ import 'package:http/http.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:logging/logging.dart';
 
-///
-/// A stack can be defined as a pool of data or a container that
-/// holds all the content/assets related to a site.
-/// It is a collaboration space where multiple users can work
-/// together to create, edit, approve, and publish content
-/// For more details, Read documentation:
-/// https://www.contentstack.com/docs/developers/set-up-stack/about-stack
-///
-/// Example:
-/// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
-///
+/// A stack is like a container that holds the content of your app.
+/// Learn more about [Stacks](https://www.contentstack.com/docs/developers/set-up-stack/about-stack/).
 class Stack {
   final Logger log = Logger('Stack');
   Map<String, String> stackHeader = <String, String>{};
@@ -187,11 +178,9 @@ class Stack {
     return _client.sendRequest<T, K>(uri);
   }
 
-
   /////////////////////////////////////////////////
   //-------------[Synchronization]---------------//
   /////////////////////////////////////////////////
-
 
   /// * [contentTypeUid] -- You can also initialize sync with entries of
   /// only specific content_type. To do this, use syncContentType and specify
@@ -287,9 +276,12 @@ class Stack {
     parameters['environment'] = _client.stackHeaders['environment'];
     final Uri uri = Uri.https(endpoint, '$apiVersion/stacks/sync', parameters);
     return _client.sendRequest<T, K>(uri);
-
-    //return _syncRequest<T, K>(parameters);
   }
 }
 
+/// Choosing a Region
+/// A Contentstack region refers to the location of the data centers
+/// where your organization's data resides
+/// * Default [Region](https://www.contentstack.com/docs/developers/contentstack-regions/about-regions/) is: US
+// Contact our support team at support@contentstack.com for more details.
 enum Region { us, eu }

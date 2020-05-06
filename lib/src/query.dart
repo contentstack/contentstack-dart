@@ -7,6 +7,9 @@ import 'package:contentstack/src/enums/reference.dart';
 import 'package:contentstack/src/enums/include.dart' as include;
 
 
+/// Contentstack provides certain queries that you can use to fetch filtered results.
+/// You can use queries for Entries and Assets API requests.
+/// Learn more about [Query](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#queries)
 class Query extends BaseQuery {
 
   final HttpClient _client;

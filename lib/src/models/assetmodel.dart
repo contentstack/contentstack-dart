@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'assetmodel.g.dart';
 
+/// AssetModel refers to the generic class for asset result
 @JsonSerializable(createFactory: true)
 class AssetModel {
   String uid;

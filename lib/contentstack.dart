@@ -1,7 +1,7 @@
-
 /// Dart SDK for Contentstack's Content Delivery API
+/// Here is contentstack library.
 ///
-///
+// {@category contentstack}
 library contentstack;
 
 export 'src/asset.dart';
