@@ -4,7 +4,6 @@ import 'package:contentstack/contentstack.dart';
 import 'package:http/http.dart' as http;
 import 'package:contentstack/src/stack.dart';
 
-///@nodoc
 class HttpClient extends http.BaseClient {
   final http.Client _client;
   final Stack stack;
