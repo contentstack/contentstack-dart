@@ -3,7 +3,7 @@
 
 ## Dart SDK for Contentstack
 
-![Coverage](https://github.com/contentstack/contentstack-dart/blob/development/coverage_badge.svg?sanitize=true)
+![Coverage](https://raw.githubusercontent.com/contentstack/contentstack-dart/ae680c33d9efe68938bde585f72b12cca442c7a7/coverage_badge.svg)
 ![Dart CI](https://github.com/contentstack/contentstack-dart/workflows/Dart%20CI/badge.svg)
 
 Contentstack is a headless CMS with an API-first approach.
