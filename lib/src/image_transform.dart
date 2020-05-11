@@ -554,7 +554,7 @@ class ImageTransformation {
       final Map bodyJson = jsonDecode(response.body);
       if (T == AssetModel && bodyJson.containsKey('asset')) {
         return AssetModel.fromJson(bodyJson['asset']) as T;
-      }else{
+      } else {
         return json.decode(response.body);
       }
     } else {
