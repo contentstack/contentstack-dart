@@ -3,7 +3,8 @@ import 'package:contentstack/client.dart';
 
 /// This call fetches the latest version of a specific asset of a particular stack.
 /// Read more about
-/// Learn more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-a-single-asset).
+/// Learn more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-a-single-asset)
+///
 class Asset {
   final HttpClient _client;
   final String _uid;
@@ -27,7 +28,6 @@ class Asset {
     assetParameter['environment'] = environment;
   }
 
-
   ///
   /// Specify the version number of the asset that you wish to retrieve.
   /// If the version is not specified, the details of the latest version will be retrieved.
@@ -46,12 +46,13 @@ class Asset {
     assetParameter['include_dimension'] = 'true';
   }
 
-
   /// It fetch single asset data on the basis of the asset uid.
   Future<T> fetch<T, K>() {
-    if (_uid == null || _uid.isEmpty) {throw Exception('Provide asset uid to fetch single entry');}
-    final uri = Uri.https(_client.stack.endpoint, '$_urlPath/$_uid', assetParameter);
+    if (_uid == null || _uid.isEmpty) {
+      throw Exception('Provide asset uid to fetch single entry');
+    }
+    final uri =
+        Uri.https(_client.stack.endpoint, '$_urlPath/$_uid', assetParameter);
     return _client.sendRequest<T, K>(uri);
   }
-
 }
