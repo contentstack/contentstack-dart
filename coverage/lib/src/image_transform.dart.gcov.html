@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">112</td>
-            <td class="headerCovTableEntry">116</td>
-            <td class="headerCovTableEntryHi">96.6 %</td>
+            <td class="headerCovTableEntry">111</td>
+            <td class="headerCovTableEntry">118</td>
+            <td class="headerCovTableEntryHi">94.1 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-04-22 15:15:09</td>
+            <td class="headerValue">2020-05-04 13:08:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -63,564 +63,570 @@
 <a name="1"><span class="lineNum">       1 </span>            : import 'dart:async';</a>
 <a name="2"><span class="lineNum">       2 </span>            : import 'dart:convert';</a>
 <a name="3"><span class="lineNum">       3 </span>            : import 'package:contentstack/client.dart';</a>
-<a name="4"><span class="lineNum">       4 </span>            : import 'package:contentstack/src/image/filter.dart';</a>
-<a name="5"><span class="lineNum">       5 </span>            : import 'package:contentstack/src/image/fit.dart';</a>
-<a name="6"><span class="lineNum">       6 </span>            : import 'package:contentstack/src/image/format.dart';</a>
-<a name="7"><span class="lineNum">       7 </span>            : import 'package:contentstack/src/image/orientation.dart';</a>
-<a name="8"><span class="lineNum">       8 </span>            : import 'package:contentstack/src/query_params.dart';</a>
-<a name="9"><span class="lineNum">       9 </span>            : import 'package:logging/logging.dart';</a>
-<a name="10"><span class="lineNum">      10 </span>            : </a>
-<a name="11"><span class="lineNum">      11 </span>            : class ImageTransformation {</a>
-<a name="12"><span class="lineNum">      12 </span>            :   final String _imageUrl;</a>
-<a name="13"><span class="lineNum">      13 </span>            :   final HttpClient client;</a>
-<a name="14"><span class="lineNum">      14 </span>            :   final Logger log = Logger('ImageTransformation');</a>
-<a name="15"><span class="lineNum">      15 </span>            :   final Map&lt;String, String&gt; queryParameter = &lt;String, String&gt;{};</a>
-<a name="16"><span class="lineNum">      16 </span>            :   final URLQueryParams query = URLQueryParams();</a>
-<a name="17"><span class="lineNum">      17 </span><span class="lineCov">          1 :   ImageTransformation(this._imageUrl, this.client);</span></a>
-<a name="18"><span class="lineNum">      18 </span>            : </a>
-<a name="19"><span class="lineNum">      19 </span>            :   /// The auto function lets you enable the functionality that automates certain image optimization features.</a>
-<a name="20"><span class="lineNum">      20 </span>            :   /// As of now, there is only one possible value for this field, i.e., webp. When the auto parameter is set to webp,</a>
-<a name="21"><span class="lineNum">      21 </span>            :   /// it enables WebP image support. WebP images have higher compression rate with minimum loss of quality.</a>
-<a name="22"><span class="lineNum">      22 </span>            : </a>
-<a name="23"><span class="lineNum">      23 </span>            :   /// For more details, Read documentation:</a>
-<a name="24"><span class="lineNum">      24 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#automate-optimization</a>
-<a name="25"><span class="lineNum">      25 </span>            :   ///</a>
-<a name="26"><span class="lineNum">      26 </span>            :   ///Example:</a>
-<a name="27"><span class="lineNum">      27 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="28"><span class="lineNum">      28 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="29"><span class="lineNum">      29 </span>            :   ///  await imageTransformation.auto(auto: 'webp', format: 'pjpg').fetch();</a>
-<a name="30"><span class="lineNum">      30 </span><span class="lineCov">          1 :   void auto({String auto, String format}) {</span></a>
-<a name="31"><span class="lineNum">      31 </span>            :     if (auto != null) {</a>
-<a name="32"><span class="lineNum">      32 </span><span class="lineCov">          2 :       query.append('auto', auto);</span></a>
-<a name="33"><span class="lineNum">      33 </span>            :     }</a>
-<a name="34"><span class="lineNum">      34 </span>            :     if (format != null) {</a>
-<a name="35"><span class="lineNum">      35 </span><span class="lineCov">          2 :       query.append(&quot;formate&quot;, format);</span></a>
-<a name="36"><span class="lineNum">      36 </span>            :     }</a>
-<a name="37"><span class="lineNum">      37 </span>            :   }</a>
-<a name="38"><span class="lineNum">      38 </span>            : </a>
-<a name="39"><span class="lineNum">      39 </span>            :   /// The quality function lets you control the compression level of images that have Lossy file format.</a>
-<a name="40"><span class="lineNum">      40 </span>            :   /// The value for this parameters can be entered in any whole number (taken as a percentage)</a>
-<a name="41"><span class="lineNum">      41 </span>            :   /// between 1 and 100. The lower the number, the smaller will be file size and lower quality, and vice versa.</a>
-<a name="42"><span class="lineNum">      42 </span>            :   /// If the source image file is not of Lossy file format, this parameter will be ignored.</a>
-<a name="43"><span class="lineNum">      43 </span>            :   ///</a>
-<a name="44"><span class="lineNum">      44 </span>            :   /// For more details, Read documentation:</a>
-<a name="45"><span class="lineNum">      45 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#quality</a>
-<a name="46"><span class="lineNum">      46 </span>            :   ///</a>
-<a name="47"><span class="lineNum">      47 </span>            :   /// Example:</a>
-<a name="48"><span class="lineNum">      48 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="49"><span class="lineNum">      49 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="50"><span class="lineNum">      50 </span>            :   /// final response = await imageTransformation.quality(2).fetch();</a>
-<a name="51"><span class="lineNum">      51 </span>            :   ///</a>
-<a name="52"><span class="lineNum">      52 </span><span class="lineCov">          1 :   void quality(int quality) {</span></a>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">          3 :     query.append(&quot;quality&quot;, quality.toString());</span></a>
-<a name="54"><span class="lineNum">      54 </span>            :   }</a>
-<a name="55"><span class="lineNum">      55 </span>            : </a>
-<a name="56"><span class="lineNum">      56 </span>            :   /// The format function lets you converts a given image from one format to another.</a>
-<a name="57"><span class="lineNum">      57 </span>            :   /// The formats that the source image can be converted to are gif, png, jpg (for JPEG),</a>
-<a name="58"><span class="lineNum">      58 </span>            :   /// pjpg (for Progressive JPEG), webp, webpll (Lossless), and webply (Lossy).</a>
-<a name="59"><span class="lineNum">      59 </span>            :   ///</a>
-<a name="60"><span class="lineNum">      60 </span>            :   /// for more details read documentation:</a>
-<a name="61"><span class="lineNum">      61 </span>            :   /// For more details, Read documentation:</a>
-<a name="62"><span class="lineNum">      62 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#convert-formats</a>
-<a name="63"><span class="lineNum">      63 </span>            :   ///</a>
-<a name="64"><span class="lineNum">      64 </span>            :   ///  Example:</a>
-<a name="65"><span class="lineNum">      65 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="66"><span class="lineNum">      66 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="67"><span class="lineNum">      67 </span>            :   ///  final response = await imageTransformation.convert(Format.pjpg).fetch();</a>
-<a name="68"><span class="lineNum">      68 </span><span class="lineCov">          1 :   void convert(Format format) {</span></a>
-<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          2 :     format.when(gif: (formatResult) {</span></a>
-<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;gif&quot;);</span></a>
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          1 :     }, png: (formatResult) {</span></a>
-<a name="72"><span class="lineNum">      72 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;png&quot;);</span></a>
-<a name="73"><span class="lineNum">      73 </span><span class="lineCov">          1 :     }, jpg: (formatResult) {</span></a>
-<a name="74"><span class="lineNum">      74 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;jpg&quot;);</span></a>
-<a name="75"><span class="lineNum">      75 </span><span class="lineCov">          1 :     }, pjpg: (formatResult) {</span></a>
-<a name="76"><span class="lineNum">      76 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;pjpg&quot;);</span></a>
-<a name="77"><span class="lineNum">      77 </span><span class="lineCov">          1 :     }, webp: (formatResult) {</span></a>
-<a name="78"><span class="lineNum">      78 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;webp&quot;);</span></a>
-<a name="79"><span class="lineNum">      79 </span><span class="lineCov">          1 :     }, webplossy: (formatResult) {</span></a>
-<a name="80"><span class="lineNum">      80 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;webply&quot;);</span></a>
-<a name="81"><span class="lineNum">      81 </span><span class="lineCov">          1 :     }, webplossless: (formatResult) {</span></a>
-<a name="82"><span class="lineNum">      82 </span><span class="lineCov">          2 :       query.append(&quot;format&quot;, &quot;webpll&quot;);</span></a>
-<a name="83"><span class="lineNum">      83 </span>            :     });</a>
-<a name="84"><span class="lineNum">      84 </span>            :   }</a>
-<a name="85"><span class="lineNum">      85 </span>            : </a>
-<a name="86"><span class="lineNum">      86 </span>            :   /// this function lets you dynamically resize the width of the output image by specifying pixels or percentage values</a>
-<a name="87"><span class="lineNum">      87 </span>            :   /// for more details read documentation:</a>
-<a name="88"><span class="lineNum">      88 </span>            :   /// The disable function disables the functionality that is enabled by default.</a>
-<a name="89"><span class="lineNum">      89 </span>            :   /// For instance, upscale is always enabled, in which the image is upscaled</a>
-<a name="90"><span class="lineNum">      90 </span>            :   /// if the output image (by specifying the width or height) is bigger than the source image.</a>
-<a name="91"><span class="lineNum">      91 </span>            :   /// To disable this feature, you can use the query ?disable=upscale.</a>
-<a name="92"><span class="lineNum">      92 </span>            :   /// This ensures that even if the specified height or width is much bigger than the actual image,</a>
-<a name="93"><span class="lineNum">      93 </span>            :   /// it will not be rendered disproportionately.</a>
-<a name="94"><span class="lineNum">      94 </span>            :   ///</a>
-<a name="95"><span class="lineNum">      95 </span>            :   /// For more details, Read documentation:</a>
-<a name="96"><span class="lineNum">      96 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#resize-images</a>
-<a name="97"><span class="lineNum">      97 </span>            :   ///</a>
-<a name="98"><span class="lineNum">      98 </span>            :   /// Example:</a>
-<a name="99"><span class="lineNum">      99 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="100"><span class="lineNum">     100 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="101"><span class="lineNum">     101 </span>            :   /// final response = await imageTransformation.resize(width: 100, disable: true ).fetch();</a>
-<a name="102"><span class="lineNum">     102 </span><span class="lineCov">          1 :   void resize({int width, int height, bool disable}) {</span></a>
-<a name="103"><span class="lineNum">     103 </span>            :     if (width != null) {</a>
-<a name="104"><span class="lineNum">     104 </span>            :       //queryParameter['width'] = width.toString();</a>
-<a name="105"><span class="lineNum">     105 </span><span class="lineCov">          3 :       query.append(&quot;width&quot;, width.toString());</span></a>
-<a name="106"><span class="lineNum">     106 </span>            :     }</a>
-<a name="107"><span class="lineNum">     107 </span>            :     if (height != null) {</a>
-<a name="108"><span class="lineNum">     108 </span><span class="lineCov">          3 :       query.append(&quot;height&quot;, height.toString());</span></a>
-<a name="109"><span class="lineNum">     109 </span>            :     }</a>
-<a name="110"><span class="lineNum">     110 </span>            :     if (disable != null &amp;&amp; disable) {</a>
-<a name="111"><span class="lineNum">     111 </span><span class="lineCov">          2 :       query.append(&quot;disable&quot;, &quot;upscale&quot;);</span></a>
-<a name="112"><span class="lineNum">     112 </span>            :     }</a>
-<a name="113"><span class="lineNum">     113 </span>            :   }</a>
-<a name="114"><span class="lineNum">     114 </span>            : </a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">          1 :   void crop(String cropValue) {</span></a>
-<a name="116"><span class="lineNum">     116 </span>            :     // checks if cropRatio is not null then takes height, width and cropRatio as prams</a>
-<a name="117"><span class="lineNum">     117 </span>            :     // else it takes crop params and comas separated width &amp; height</a>
-<a name="118"><span class="lineNum">     118 </span><span class="lineCov">          2 :     query.append(&quot;crop&quot;, cropValue);</span></a>
-<a name="119"><span class="lineNum">     119 </span>            :   }</a>
-<a name="120"><span class="lineNum">     120 </span>            : </a>
-<a name="121"><span class="lineNum">     121 </span>            :   /// The crop function allows you to remove pixels from an image.</a>
-<a name="122"><span class="lineNum">     122 </span>            :   /// You can crop an image by specifying the height and width in</a>
-<a name="123"><span class="lineNum">     123 </span>            :   /// pixels or percentage value, or defining height and width in aspect ratio.</a>
-<a name="124"><span class="lineNum">     124 </span>            :   /// You can also define a sub region (i.e., define the starting point for crop)</a>
-<a name="125"><span class="lineNum">     125 </span>            :   /// before cropping the image, or you can offset the image on its</a>
-<a name="126"><span class="lineNum">     126 </span>            :   /// X and Y axis (i.e., define the centre point of the crop) before cropping the image.</a>
-<a name="127"><span class="lineNum">     127 </span>            : </a>
-<a name="128"><span class="lineNum">     128 </span>            :   /// You can set the X-axis and Y-axis position of the top left corner of the crop by</a>
-<a name="129"><span class="lineNum">     129 </span>            :   /// using the query ?crop={width_value},{height_value},x{value},y{value}.</a>
-<a name="130"><span class="lineNum">     130 </span>            :   /// This lets you define the starting point of the crop region.</a>
-<a name="131"><span class="lineNum">     131 </span>            :   /// The x-axis value and y-axis value can be defined in pixels or percentage.</a>
-<a name="132"><span class="lineNum">     132 </span>            :   ///</a>
-<a name="133"><span class="lineNum">     133 </span>            :   /// An example of this would be ?crop=300,400,x150,y75 or ?crop=300,400,x0.50,y0.60.</a>
-<a name="134"><span class="lineNum">     134 </span>            :   /// Compulsory parameters [width] and [height]</a>
-<a name="135"><span class="lineNum">     135 </span>            :   /// Optional parameters: [region]</a>
-<a name="136"><span class="lineNum">     136 </span>            :   /// Optional parameters: [offset]</a>
-<a name="137"><span class="lineNum">     137 </span>            :   /// For more details, Read documentation:</a>
-<a name="138"><span class="lineNum">     138 </span>            :   /// For more details read the doc: https://www.contentstack.com/docs/developers/apis/image-delivery-api/#crop-images</a>
-<a name="139"><span class="lineNum">     139 </span>            :   ///</a>
-<a name="140"><span class="lineNum">     140 </span>            :   /// Example: With Aspect Ratio:</a>
-<a name="141"><span class="lineNum">     141 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="142"><span class="lineNum">     142 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="143"><span class="lineNum">     143 </span>            :   /// final response = await imageTransformation.cropBy(150, 100, cropRatio: '1:3').fetch();</a>
-<a name="144"><span class="lineNum">     144 </span>            :   /// log.fine(response);</a>
-<a name="145"><span class="lineNum">     145 </span>            :   ///</a>
-<a name="146"><span class="lineNum">     146 </span>            :   /// Example: Without aspect Ratio:</a>
-<a name="147"><span class="lineNum">     147 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="148"><span class="lineNum">     148 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="149"><span class="lineNum">     149 </span>            :   /// final response = await imageTransformation.cropBy(150, 100).fetch();</a>
-<a name="150"><span class="lineNum">     150 </span>            :   /// log.fine(response);</a>
-<a name="151"><span class="lineNum">     151 </span><span class="lineCov">          1 :   void cropBy(int width, int height, {String region, String offset}) {</span></a>
-<a name="152"><span class="lineNum">     152 </span>            :     // checks if cropRatio is not null then takes height, width and cropRatio as prams</a>
-<a name="153"><span class="lineNum">     153 </span>            :     // else it takes crop params and comas separated width &amp; height</a>
-<a name="154"><span class="lineNum">     154 </span><span class="lineCov">          1 :     final cropLRBL = [];</span></a>
-<a name="155"><span class="lineNum">     155 </span>            :     if (width != null) {</a>
-<a name="156"><span class="lineNum">     156 </span><span class="lineCov">          1 :       cropLRBL.add(width);</span></a>
-<a name="157"><span class="lineNum">     157 </span>            :     }</a>
-<a name="158"><span class="lineNum">     158 </span>            :     if (height != null) {</a>
-<a name="159"><span class="lineNum">     159 </span><span class="lineCov">          1 :       cropLRBL.add(height);</span></a>
-<a name="160"><span class="lineNum">     160 </span>            :     }</a>
-<a name="161"><span class="lineNum">     161 </span>            :     if (region != null) {</a>
-<a name="162"><span class="lineNum">     162 </span><span class="lineNoCov">          0 :       cropLRBL.add(region);</span></a>
-<a name="163"><span class="lineNum">     163 </span>            :     }</a>
-<a name="164"><span class="lineNum">     164 </span>            :     if (offset != null) {</a>
-<a name="165"><span class="lineNum">     165 </span><span class="lineNoCov">          0 :       cropLRBL.add(offset);</span></a>
-<a name="166"><span class="lineNum">     166 </span>            :     }</a>
-<a name="167"><span class="lineNum">     167 </span><span class="lineCov">          1 :     final commaSeparated = cropLRBL.join(', ');</span></a>
-<a name="168"><span class="lineNum">     168 </span><span class="lineCov">          2 :     query.append(&quot;crop&quot;, commaSeparated);</span></a>
-<a name="169"><span class="lineNum">     169 </span>            :   }</a>
-<a name="170"><span class="lineNum">     170 </span>            : </a>
-<a name="171"><span class="lineNum">     171 </span>            :   ///This parameter enables you to fit the given image properly within the specified height and width.</a>
-<a name="172"><span class="lineNum">     172 </span>            :   ///You need to provide values for the height, width and fit parameters.</a>
-<a name="173"><span class="lineNum">     173 </span>            :   ///The two available values for the fit parameter are bounds and crop.</a>
-<a name="174"><span class="lineNum">     174 </span>            :   ///fit accepts optional parameters [width], [height]  of type [int] and fir of type [Fit]</a>
-<a name="175"><span class="lineNum">     175 </span>            :   ///</a>
-<a name="176"><span class="lineNum">     176 </span>            :   /// For more details, Read documentation:</a>
-<a name="177"><span class="lineNum">     177 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#fit-mode</a>
-<a name="178"><span class="lineNum">     178 </span>            :   ///</a>
-<a name="179"><span class="lineNum">     179 </span>            :   ///  Example:</a>
-<a name="180"><span class="lineNum">     180 </span>            :   ///   final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="181"><span class="lineNum">     181 </span>            :   ///   final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="182"><span class="lineNum">     182 </span>            :   ///   final response = await imageTransformation.fitBy(  250,  250, Fit.crop).fetch();</a>
-<a name="183"><span class="lineNum">     183 </span>            :   ///</a>
-<a name="184"><span class="lineNum">     184 </span>            : </a>
-<a name="185"><span class="lineNum">     185 </span><span class="lineCov">          1 :   void fit(double width, double height, Fit fit) {</span></a>
-<a name="186"><span class="lineNum">     186 </span>            :     if (width != null) {</a>
-<a name="187"><span class="lineNum">     187 </span><span class="lineCov">          3 :       query.append(&quot;width&quot;, width.toString());</span></a>
-<a name="188"><span class="lineNum">     188 </span>            :     }</a>
-<a name="189"><span class="lineNum">     189 </span>            :     if (height != null) {</a>
-<a name="190"><span class="lineNum">     190 </span><span class="lineCov">          3 :       query.append(&quot;height&quot;, height.toString());</span></a>
-<a name="191"><span class="lineNum">     191 </span>            :     }</a>
-<a name="192"><span class="lineNum">     192 </span>            :     if (fit != null) {</a>
-<a name="193"><span class="lineNum">     193 </span>            :       //enum Fit { bounds, crop }</a>
-<a name="194"><span class="lineNum">     194 </span><span class="lineCov">          2 :       fit.when(bounds: (value) {</span></a>
-<a name="195"><span class="lineNum">     195 </span><span class="lineCov">          2 :         query.append(&quot;fit&quot;, &quot;bounds&quot;);</span></a>
-<a name="196"><span class="lineNum">     196 </span><span class="lineCov">          1 :       }, crop: (value) {</span></a>
-<a name="197"><span class="lineNum">     197 </span><span class="lineCov">          2 :         query.append(&quot;fit&quot;, &quot;crop&quot;);</span></a>
-<a name="198"><span class="lineNum">     198 </span>            :       });</a>
-<a name="199"><span class="lineNum">     199 </span>            :     }</a>
-<a name="200"><span class="lineNum">     200 </span>            :   }</a>
-<a name="201"><span class="lineNum">     201 </span>            : </a>
-<a name="202"><span class="lineNum">     202 </span>            :   ///The trim parameter lets you trim an image from the edges.</a>
-<a name="203"><span class="lineNum">     203 </span>            :   ///This is especially useful for removing border or white spaces</a>
-<a name="204"><span class="lineNum">     204 </span>            :   ///that the downloaded images usually come with.</a>
-<a name="205"><span class="lineNum">     205 </span>            :   ///The value for this parameter can be given in pixels or percentage.</a>
-<a name="206"><span class="lineNum">     206 </span>            :   ///You can specify values for [top], [right], [bottom], and [left] edges of an image.</a>
-<a name="207"><span class="lineNum">     207 </span>            :   ///For example, to trim the top edge by 25px, right edge by 50px, bottom edge by 75px and left edge by 100</a>
-<a name="208"><span class="lineNum">     208 </span>            :   /// provide [trim] as comma separated value like, 25,50,75,100</a>
-<a name="209"><span class="lineNum">     209 </span>            :   ///</a>
-<a name="210"><span class="lineNum">     210 </span>            :   /// For more details, Read documentation:</a>
-<a name="211"><span class="lineNum">     211 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#trim-images</a>
-<a name="212"><span class="lineNum">     212 </span>            :   ///</a>
-<a name="213"><span class="lineNum">     213 </span>            :   /// Example:</a>
-<a name="214"><span class="lineNum">     214 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="215"><span class="lineNum">     215 </span>            :   ///   final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="216"><span class="lineNum">     216 </span>            :   ///   final response = await imageTransformation.trim(25).fetch();</a>
-<a name="217"><span class="lineNum">     217 </span><span class="lineCov">          1 :   void trim([int top, int right, int bottom, int left]) {</span></a>
-<a name="218"><span class="lineNum">     218 </span><span class="lineCov">          1 :     final trimLRBL = [];</span></a>
-<a name="219"><span class="lineNum">     219 </span>            :     if (top != null) {</a>
-<a name="220"><span class="lineNum">     220 </span><span class="lineCov">          1 :       trimLRBL.add(top);</span></a>
-<a name="221"><span class="lineNum">     221 </span>            :     }</a>
-<a name="222"><span class="lineNum">     222 </span>            :     if (right != null) {</a>
-<a name="223"><span class="lineNum">     223 </span><span class="lineCov">          1 :       trimLRBL.add(top);</span></a>
-<a name="224"><span class="lineNum">     224 </span>            :     }</a>
-<a name="225"><span class="lineNum">     225 </span>            :     if (bottom != null) {</a>
-<a name="226"><span class="lineNum">     226 </span><span class="lineCov">          1 :       trimLRBL.add(bottom);</span></a>
-<a name="227"><span class="lineNum">     227 </span>            :     }</a>
-<a name="228"><span class="lineNum">     228 </span>            :     if (left != null) {</a>
-<a name="229"><span class="lineNum">     229 </span><span class="lineCov">          1 :       trimLRBL.add(left);</span></a>
-<a name="230"><span class="lineNum">     230 </span>            :     }</a>
-<a name="231"><span class="lineNum">     231 </span><span class="lineCov">          1 :     final joinedValue = trimLRBL.join(', ');</span></a>
-<a name="232"><span class="lineNum">     232 </span><span class="lineCov">          2 :     query.append(&quot;trim&quot;, joinedValue);</span></a>
-<a name="233"><span class="lineNum">     233 </span>            :   }</a>
-<a name="234"><span class="lineNum">     234 </span>            : </a>
-<a name="235"><span class="lineNum">     235 </span>            :   ///The orient parameter lets you control the cardinal orientation of the given image.</a>
-<a name="236"><span class="lineNum">     236 </span>            :   ///Using this parameter, you can orient the image right or left, flip horizontally</a>
-<a name="237"><span class="lineNum">     237 </span>            :   ///or vertically or both, and do a lot more. It can automatically correct the</a>
-<a name="238"><span class="lineNum">     238 </span>            :   ///orientation of the image if the source image contains orientation details</a>
-<a name="239"><span class="lineNum">     239 </span>            :   ///within its EXIF data (Exchangeable Image File Format).</a>
-<a name="240"><span class="lineNum">     240 </span>            :   ///</a>
-<a name="241"><span class="lineNum">     241 </span>            :   ///[orient] parameter should be enum type of  [Orientation]</a>
-<a name="242"><span class="lineNum">     242 </span>            :   ///</a>
-<a name="243"><span class="lineNum">     243 </span>            :   /// For more details, Read documentation:</a>
-<a name="244"><span class="lineNum">     244 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#reorient-images</a>
-<a name="245"><span class="lineNum">     245 </span>            :   ///</a>
-<a name="246"><span class="lineNum">     246 </span>            :   ///  Example:</a>
-<a name="247"><span class="lineNum">     247 </span>            :   ///   final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="248"><span class="lineNum">     248 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="249"><span class="lineNum">     249 </span>            :   ///  final response = await imageTransformation.orientation(Orientation.vertically).fetch();</a>
-<a name="250"><span class="lineNum">     250 </span><span class="lineCov">          1 :   void orientation(Orientation orient) {</span></a>
-<a name="251"><span class="lineNum">     251 </span>            :     //  toDefault = '1';</a>
-<a name="252"><span class="lineNum">     252 </span>            :     //  horizontally = '2';</a>
-<a name="253"><span class="lineNum">     253 </span>            :     //  horizontallyAndVertically = '3';</a>
-<a name="254"><span class="lineNum">     254 </span>            :     //  vertically = '4';</a>
-<a name="255"><span class="lineNum">     255 </span>            :     //  horizontallyAndRotate90DegreeLeft = '5';</a>
-<a name="256"><span class="lineNum">     256 </span>            :     //  degrees90TowardsRight = '6';</a>
-<a name="257"><span class="lineNum">     257 </span>            :     //  horizontallyAndRotate90DegreesRight = '7';</a>
-<a name="258"><span class="lineNum">     258 </span>            :     //  rotate90DegreesLeft = '8';</a>
-<a name="259"><span class="lineNum">     259 </span>            :     if (orient != null) {</a>
-<a name="260"><span class="lineNum">     260 </span><span class="lineCov">          2 :       orient.when(toDefault: (orientation) {</span></a>
-<a name="261"><span class="lineNum">     261 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 1);</span></a>
-<a name="262"><span class="lineNum">     262 </span><span class="lineCov">          1 :       }, horizontally: (orientation) {</span></a>
-<a name="263"><span class="lineNum">     263 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 2);</span></a>
-<a name="264"><span class="lineNum">     264 </span><span class="lineCov">          1 :       }, horizontallyAndVertically: (orientation) {</span></a>
-<a name="265"><span class="lineNum">     265 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 3);</span></a>
-<a name="266"><span class="lineNum">     266 </span><span class="lineCov">          1 :       }, vertically: (orientation) {</span></a>
-<a name="267"><span class="lineNum">     267 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 4);</span></a>
-<a name="268"><span class="lineNum">     268 </span><span class="lineCov">          1 :       }, horizontallyAndRotate90DegreeLeft: (orientation) {</span></a>
-<a name="269"><span class="lineNum">     269 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 5);</span></a>
-<a name="270"><span class="lineNum">     270 </span><span class="lineCov">          1 :       }, degrees90TowardsRight: (orientation) {</span></a>
-<a name="271"><span class="lineNum">     271 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 6);</span></a>
-<a name="272"><span class="lineNum">     272 </span><span class="lineCov">          1 :       }, horizontallyAndRotate90DegreesRight: (orientation) {</span></a>
-<a name="273"><span class="lineNum">     273 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 7);</span></a>
-<a name="274"><span class="lineNum">     274 </span><span class="lineCov">          1 :       }, rotate90DegreesLeft: (orientation) {</span></a>
-<a name="275"><span class="lineNum">     275 </span><span class="lineCov">          2 :         query.append(&quot;orient&quot;, 8);</span></a>
-<a name="276"><span class="lineNum">     276 </span>            :       });</a>
-<a name="277"><span class="lineNum">     277 </span>            :     }</a>
-<a name="278"><span class="lineNum">     278 </span>            :   }</a>
-<a name="279"><span class="lineNum">     279 </span>            : </a>
-<a name="280"><span class="lineNum">     280 </span>            :   /// The overlay parameter allows you to put one image on top of another.</a>
-<a name="281"><span class="lineNum">     281 </span>            :   /// You need to specify the relative URL of the image as value for this parameter.</a>
-<a name="282"><span class="lineNum">     282 </span>            :   /// By default, the cropping alignment will be middle, center. See overlay-align for more details.</a>
-<a name="283"><span class="lineNum">     283 </span>            :   /// It accepts [overlayUrl]  as a parameter to put one [overlayUrl] on top of [_imageUrl]</a>
-<a name="284"><span class="lineNum">     284 </span>            :   /// There are optional params also like [overlayAlign], [overlayRepeat], [overlayWidth], [overlayHeight]</a>
-<a name="285"><span class="lineNum">     285 </span>            :   /// Fr more details read the documentation:</a>
-<a name="286"><span class="lineNum">     286 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#overlay</a>
-<a name="287"><span class="lineNum">     287 </span>            :   ///</a>
-<a name="288"><span class="lineNum">     288 </span>            :   /// For more details, Read documentation:</a>
-<a name="289"><span class="lineNum">     289 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#overlay-pad</a>
-<a name="290"><span class="lineNum">     290 </span>            :   ///</a>
-<a name="291"><span class="lineNum">     291 </span>            :   /// Example</a>
-<a name="292"><span class="lineNum">     292 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="293"><span class="lineNum">     293 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="294"><span class="lineNum">     294 </span>            :   ///  final response = await imageTransformation.overlay('overlayUrl', overlayWidth: '').fetch();</a>
-<a name="295"><span class="lineNum">     295 </span>            :   ///</a>
-<a name="296"><span class="lineNum">     296 </span><span class="lineCov">          1 :   void overlay(String overlayUrl,</span></a>
-<a name="297"><span class="lineNum">     297 </span>            :       {String overlayAlign,</a>
-<a name="298"><span class="lineNum">     298 </span>            :       String overlayRepeat,</a>
-<a name="299"><span class="lineNum">     299 </span>            :       int overlayWidth,</a>
-<a name="300"><span class="lineNum">     300 </span>            :       int overlayHeight}) {</a>
-<a name="301"><span class="lineNum">     301 </span><span class="lineCov">          2 :     query.append('overlay', overlayUrl);</span></a>
-<a name="302"><span class="lineNum">     302 </span>            : </a>
-<a name="303"><span class="lineNum">     303 </span>            :     if (overlayAlign != null) {</a>
-<a name="304"><span class="lineNum">     304 </span><span class="lineCov">          2 :       query.append('overlay-align', overlayAlign);</span></a>
-<a name="305"><span class="lineNum">     305 </span>            :     }</a>
-<a name="306"><span class="lineNum">     306 </span>            :     if (overlayRepeat != null) {</a>
-<a name="307"><span class="lineNum">     307 </span><span class="lineCov">          2 :       query.append(&quot;overlay-repeat&quot;, overlayRepeat);</span></a>
-<a name="308"><span class="lineNum">     308 </span>            :     }</a>
-<a name="309"><span class="lineNum">     309 </span>            :     if (overlayWidth != null) {</a>
-<a name="310"><span class="lineNum">     310 </span><span class="lineCov">          2 :       query.append(&quot;overlay-width&quot;, overlayWidth);</span></a>
-<a name="311"><span class="lineNum">     311 </span>            :     }</a>
-<a name="312"><span class="lineNum">     312 </span>            :     if (overlayHeight != null) {</a>
-<a name="313"><span class="lineNum">     313 </span><span class="lineCov">          2 :       query.append(&quot;overlay-height&quot;, overlayHeight);</span></a>
-<a name="314"><span class="lineNum">     314 </span>            :     }</a>
-<a name="315"><span class="lineNum">     315 </span>            :   }</a>
-<a name="316"><span class="lineNum">     316 </span>            : </a>
-<a name="317"><span class="lineNum">     317 </span>            :   /// This function lets you add extra pixels to the edges of an image.</a>
-<a name="318"><span class="lineNum">     318 </span>            :   /// This is useful if you want to add whitespace or border to an image.</a>
-<a name="319"><span class="lineNum">     319 </span>            :   /// The value for this parameter can be given in pixels or percentage.</a>
-<a name="320"><span class="lineNum">     320 </span>            :   ///</a>
-<a name="321"><span class="lineNum">     321 </span>            :   /// You can specify values for top, right, bottom, and left padding for an image.</a>
-<a name="322"><span class="lineNum">     322 </span>            :   /// For example, to add padding to the top edge by 25px, right edge by 50px, bottom edge by 75px and left edge by 100,</a>
-<a name="323"><span class="lineNum">     323 </span>            :   ///</a>
-<a name="324"><span class="lineNum">     324 </span>            :   /// For more details, Read documentation:</a>
-<a name="325"><span class="lineNum">     325 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#pad</a>
-<a name="326"><span class="lineNum">     326 </span>            :   ///</a>
-<a name="327"><span class="lineNum">     327 </span>            :   ///Example:</a>
-<a name="328"><span class="lineNum">     328 </span>            :   ///final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="329"><span class="lineNum">     329 </span>            :   ///final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="330"><span class="lineNum">     330 </span>            :   ///final response = await imageTransformation.padding(&quot;25,50,75,100&quot;).fetch();</a>
-<a name="331"><span class="lineNum">     331 </span>            :   ///</a>
-<a name="332"><span class="lineNum">     332 </span><span class="lineCov">          1 :   void padding(String padding) {</span></a>
-<a name="333"><span class="lineNum">     333 </span><span class="lineCov">          2 :     query.append(&quot;pad&quot;, padding);</span></a>
-<a name="334"><span class="lineNum">     334 </span>            :   }</a>
-<a name="335"><span class="lineNum">     335 </span>            : </a>
-<a name="336"><span class="lineNum">     336 </span>            :   ///You can either specify all the four padding values (top, right, bottom, and left)</a>
-<a name="337"><span class="lineNum">     337 </span>            :   ///or combine two or more values</a>
-<a name="338"><span class="lineNum">     338 </span>            :   //top, right, bottom, left</a>
-<a name="339"><span class="lineNum">     339 </span>            :   ///Example:</a>
-<a name="340"><span class="lineNum">     340 </span>            :   ///final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="341"><span class="lineNum">     341 </span>            :   ///final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="342"><span class="lineNum">     342 </span>            :   ///final response = await imageTransformation.addPadding(&quot;25,50,75,100&quot;).fetch();</a>
-<a name="343"><span class="lineNum">     343 </span><span class="lineCov">          1 :   void overlayPadding(String overlayPadding) {</span></a>
-<a name="344"><span class="lineNum">     344 </span><span class="lineCov">          2 :     query.append(&quot;overlay-pad&quot;, overlayPadding);</span></a>
-<a name="345"><span class="lineNum">     345 </span>            :   }</a>
-<a name="346"><span class="lineNum">     346 </span>            : </a>
-<a name="347"><span class="lineNum">     347 </span>            :   ///The bg-color function lets you set a backgroud color for the given image.</a>
-<a name="348"><span class="lineNum">     348 </span>            :   ///This is useful when applying padding or for replacing the transparent pixels of an image.</a>
-<a name="349"><span class="lineNum">     349 </span>            :   ///There are three possible types of values for this [bgColor] is string .</a>
-<a name="350"><span class="lineNum">     350 </span>            :   ///It can accept hexadecimal, combination of (Red, Blue, Green) and (Red, Blue, Green, Alpha).</a>
-<a name="351"><span class="lineNum">     351 </span>            :   ///</a>
-<a name="352"><span class="lineNum">     352 </span>            :   /// For more details, Read documentation:</a>
-<a name="353"><span class="lineNum">     353 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#background-color</a>
-<a name="354"><span class="lineNum">     354 </span>            :   ///  Example:</a>
-<a name="355"><span class="lineNum">     355 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="356"><span class="lineNum">     356 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="357"><span class="lineNum">     357 </span>            :   ///  final response = await imageTransformation.bgColor('cccccc').fetch();</a>
-<a name="358"><span class="lineNum">     358 </span><span class="lineCov">          1 :   void bgColor(String bgColor) {</span></a>
-<a name="359"><span class="lineNum">     359 </span><span class="lineCov">          2 :     query.append(&quot;bg-color&quot;, bgColor);</span></a>
-<a name="360"><span class="lineNum">     360 </span>            :   }</a>
-<a name="361"><span class="lineNum">     361 </span>            : </a>
-<a name="362"><span class="lineNum">     362 </span>            :   ///To implement the device pixel ratio functionality of the Image Delivery API, you require two parameters &quot;dpr&quot; and &quot;height or width&quot;.</a>
-<a name="363"><span class="lineNum">     363 </span>            :   ///For more details read the documentation:</a>
-<a name="364"><span class="lineNum">     364 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#set-device-pixel-ratio</a>
-<a name="365"><span class="lineNum">     365 </span>            :   ///</a>
-<a name="366"><span class="lineNum">     366 </span>            :   /// For more details, Read documentation:</a>
-<a name="367"><span class="lineNum">     367 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#dpr</a>
-<a name="368"><span class="lineNum">     368 </span>            :   ///</a>
-<a name="369"><span class="lineNum">     369 </span>            :   /// Example</a>
-<a name="370"><span class="lineNum">     370 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="371"><span class="lineNum">     371 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="372"><span class="lineNum">     372 </span>            :   ///  final response = await imageTransformation.dpr(30, 60, 12).fetch();</a>
-<a name="373"><span class="lineNum">     373 </span>            :   ///</a>
-<a name="374"><span class="lineNum">     374 </span><span class="lineCov">          1 :   void dpr(int dpr) {</span></a>
-<a name="375"><span class="lineNum">     375 </span><span class="lineCov">          3 :     query.append(&quot;dpr&quot;, dpr.toString());</span></a>
-<a name="376"><span class="lineNum">     376 </span>            :   }</a>
-<a name="377"><span class="lineNum">     377 </span>            : </a>
-<a name="378"><span class="lineNum">     378 </span>            :   ///</a>
-<a name="379"><span class="lineNum">     379 </span>            :   /// The blur parameter allows you to decrease the focus and clarity of a given image.</a>
-<a name="380"><span class="lineNum">     380 </span>            :   /// To specify the extent to which you need to increase the blurriness of an image,</a>
-<a name="381"><span class="lineNum">     381 </span>            :   /// use any decimal number (float) between 1 and 1000.</a>
-<a name="382"><span class="lineNum">     382 </span>            :   ///</a>
-<a name="383"><span class="lineNum">     383 </span>            :   /// For more details, Read documentation:</a>
-<a name="384"><span class="lineNum">     384 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#blur</a>
-<a name="385"><span class="lineNum">     385 </span>            :   ///</a>
-<a name="386"><span class="lineNum">     386 </span>            :   /// Example:</a>
-<a name="387"><span class="lineNum">     387 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="388"><span class="lineNum">     388 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="389"><span class="lineNum">     389 </span>            :   ///  final response = await imageTransformation.blur(3).fetch();</a>
-<a name="390"><span class="lineNum">     390 </span>            : </a>
-<a name="391"><span class="lineNum">     391 </span><span class="lineCov">          1 :   void blur(int blur) {</span></a>
-<a name="392"><span class="lineNum">     392 </span><span class="lineCov">          3 :     query.append(&quot;blur&quot;, blur.toString());</span></a>
-<a name="393"><span class="lineNum">     393 </span>            :   }</a>
-<a name="394"><span class="lineNum">     394 </span>            : </a>
-<a name="395"><span class="lineNum">     395 </span>            :   ///The frame parameter fetches the first frame from an animated GIF</a>
-<a name="396"><span class="lineNum">     396 </span>            :   ///(Graphics Interchange Format) file that comprises a sequence of moving images.</a>
-<a name="397"><span class="lineNum">     397 </span>            :   /// For more details, Read documentation:</a>
-<a name="398"><span class="lineNum">     398 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#frame</a>
-<a name="399"><span class="lineNum">     399 </span>            :   ///</a>
-<a name="400"><span class="lineNum">     400 </span>            :   /// Example:</a>
-<a name="401"><span class="lineNum">     401 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="402"><span class="lineNum">     402 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="403"><span class="lineNum">     403 </span>            :   ///  final response = await imageTransformation.frame(30).fetch();</a>
-<a name="404"><span class="lineNum">     404 </span>            :   ///</a>
-<a name="405"><span class="lineNum">     405 </span><span class="lineCov">          1 :   void frame(int frame) {</span></a>
-<a name="406"><span class="lineNum">     406 </span><span class="lineCov">          3 :     query.append(&quot;frame&quot;, frame.toString());</span></a>
-<a name="407"><span class="lineNum">     407 </span>            :   }</a>
-<a name="408"><span class="lineNum">     408 </span>            : </a>
-<a name="409"><span class="lineNum">     409 </span>            :   ///The frame parameter fetches the first frame from an animated GIF</a>
-<a name="410"><span class="lineNum">     410 </span>            :   ///(Graphics Interchange Format) file that comprises a sequence of moving images.</a>
-<a name="411"><span class="lineNum">     411 </span>            :   ///Increase the sharpness of a given image by amount, radius and threshold</a>
-<a name="412"><span class="lineNum">     412 </span>            :   /// For more details, Read documentation:</a>
-<a name="413"><span class="lineNum">     413 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#sharpen</a>
-<a name="414"><span class="lineNum">     414 </span>            :   ///</a>
-<a name="415"><span class="lineNum">     415 </span>            :   ///  Example:</a>
-<a name="416"><span class="lineNum">     416 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="417"><span class="lineNum">     417 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="418"><span class="lineNum">     418 </span>            :   ///  final response = await imageTransformation.sharpen(5, 1000, 2').fetch();</a>
-<a name="419"><span class="lineNum">     419 </span>            :   ///</a>
-<a name="420"><span class="lineNum">     420 </span><span class="lineCov">          1 :   void sharpen(int amount, int radius, int threshold) {</span></a>
-<a name="421"><span class="lineNum">     421 </span><span class="lineCov">          3 :     query.append(&quot;sharpen&quot;, &quot;a$amount,r$radius,t$threshold&quot;);</span></a>
-<a name="422"><span class="lineNum">     422 </span>            :   }</a>
-<a name="423"><span class="lineNum">     423 </span>            : </a>
-<a name="424"><span class="lineNum">     424 </span>            :   ///The saturation parameter allows you to increase or decrease the intensity</a>
-<a name="425"><span class="lineNum">     425 </span>            :   /// of the colors in a given image. To specify the saturation</a>
-<a name="426"><span class="lineNum">     426 </span>            :   /// for an image, use a whole number (integer) between -100 and 100.</a>
-<a name="427"><span class="lineNum">     427 </span>            :   /// You can also define saturation using any decimal number between -100.00 and 100.00</a>
-<a name="428"><span class="lineNum">     428 </span>            :   /// For more details, Read documentation:</a>
-<a name="429"><span class="lineNum">     429 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#saturation</a>
-<a name="430"><span class="lineNum">     430 </span>            :   ///    Example:</a>
-<a name="431"><span class="lineNum">     431 </span>            :   ///    final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="432"><span class="lineNum">     432 </span>            :   ///    final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="433"><span class="lineNum">     433 </span>            :   ///    final response = await imageTransformation.saturation(20);</a>
-<a name="434"><span class="lineNum">     434 </span>            : </a>
-<a name="435"><span class="lineNum">     435 </span><span class="lineCov">          1 :   void saturation(int saturation) {</span></a>
-<a name="436"><span class="lineNum">     436 </span><span class="lineCov">          3 :     query.append(&quot;saturation&quot;, saturation.toString());</span></a>
-<a name="437"><span class="lineNum">     437 </span>            :   }</a>
-<a name="438"><span class="lineNum">     438 </span>            : </a>
-<a name="439"><span class="lineNum">     439 </span>            :   /// The contrast parameter allows you to increase or decrease</a>
-<a name="440"><span class="lineNum">     440 </span>            :   /// the difference between the darkest and lightest tones in a given image.</a>
-<a name="441"><span class="lineNum">     441 </span>            :   /// To specify contrast for an image, use a whole number (integer)</a>
-<a name="442"><span class="lineNum">     442 </span>            :   /// between -100 and 100. You can also define contrast using any decimal number between -100.00 and 100.00.</a>
-<a name="443"><span class="lineNum">     443 </span>            :   ///</a>
-<a name="444"><span class="lineNum">     444 </span>            :   /// To increase the value of the contrast parameter of an image, pass a positive value or negative value</a>
-<a name="445"><span class="lineNum">     445 </span>            :   /// For more details, Read documentation:</a>
-<a name="446"><span class="lineNum">     446 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#contrast</a>
-<a name="447"><span class="lineNum">     447 </span>            :   ///</a>
-<a name="448"><span class="lineNum">     448 </span>            :   /// Example</a>
-<a name="449"><span class="lineNum">     449 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="450"><span class="lineNum">     450 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="451"><span class="lineNum">     451 </span>            :   /// final response = await imageTransformation.contrast(20);</a>
-<a name="452"><span class="lineNum">     452 </span>            : </a>
-<a name="453"><span class="lineNum">     453 </span><span class="lineCov">          1 :   void contrast(int contrast) {</span></a>
-<a name="454"><span class="lineNum">     454 </span><span class="lineCov">          3 :     query.append(&quot;contrast&quot;, contrast.toString());</span></a>
-<a name="455"><span class="lineNum">     455 </span>            :   }</a>
-<a name="456"><span class="lineNum">     456 </span>            : </a>
-<a name="457"><span class="lineNum">     457 </span>            :   /// The brightness parameter allows you to increase or decrease the intensity</a>
-<a name="458"><span class="lineNum">     458 </span>            :   /// with which an image reflects or radiates perceived light.</a>
-<a name="459"><span class="lineNum">     459 </span>            :   /// To specify brightness for an image, use a whole number (integer) between -100 and 100.</a>
-<a name="460"><span class="lineNum">     460 </span>            :   /// You can also define brightness using any decimal number between -100.00 and 100.00</a>
-<a name="461"><span class="lineNum">     461 </span>            :   ///</a>
-<a name="462"><span class="lineNum">     462 </span>            :   /// To increase the value of the brightness parameter of an image, pass a positive value or negative value</a>
-<a name="463"><span class="lineNum">     463 </span>            :   /// For more details, Read documentation:</a>
-<a name="464"><span class="lineNum">     464 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#brightness</a>
-<a name="465"><span class="lineNum">     465 </span>            :   ///</a>
-<a name="466"><span class="lineNum">     466 </span>            :   /// Example:</a>
-<a name="467"><span class="lineNum">     467 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="468"><span class="lineNum">     468 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="469"><span class="lineNum">     469 </span>            :   /// final response =  imageTransformation.brightness(20);</a>
-<a name="470"><span class="lineNum">     470 </span><span class="lineCov">          1 :   void brightness(int brightness) {</span></a>
-<a name="471"><span class="lineNum">     471 </span><span class="lineCov">          3 :     query.append(&quot;brightness&quot;, brightness.toString());</span></a>
-<a name="472"><span class="lineNum">     472 </span>            :   }</a>
-<a name="473"><span class="lineNum">     473 </span>            : </a>
-<a name="474"><span class="lineNum">     474 </span>            :   ///</a>
-<a name="475"><span class="lineNum">     475 </span>            :   /// The resize-filter parameter allows you to use the resizing</a>
-<a name="476"><span class="lineNum">     476 </span>            :   /// filter to increase or decrease the number of pixels in a given image.</a>
-<a name="477"><span class="lineNum">     477 </span>            :   /// This parameter resizes the given image without adding or removing any data from it.</a>
-<a name="478"><span class="lineNum">     478 </span>            :   ///</a>
-<a name="479"><span class="lineNum">     479 </span>            :   /// The following values are acceptable for the resize-filter parameter</a>
-<a name="480"><span class="lineNum">     480 </span>            :   /// For more details, Read documentation:</a>
-<a name="481"><span class="lineNum">     481 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#resize-filter</a>
-<a name="482"><span class="lineNum">     482 </span>            : </a>
-<a name="483"><span class="lineNum">     483 </span>            :   /// Example:</a>
-<a name="484"><span class="lineNum">     484 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="485"><span class="lineNum">     485 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="486"><span class="lineNum">     486 </span>            :   /// final response =  imageTransformation.resizeFilter(width: 20, height: 40, filter: Filter.bilinear);</a>
-<a name="487"><span class="lineNum">     487 </span>            :   ///</a>
-<a name="488"><span class="lineNum">     488 </span><span class="lineCov">          1 :   void resizeFilter({int width, int height, Filter filter}) {</span></a>
-<a name="489"><span class="lineNum">     489 </span>            :     if (width != null) {</a>
-<a name="490"><span class="lineNum">     490 </span><span class="lineCov">          3 :       query.append(&quot;width&quot;, width.toString());</span></a>
-<a name="491"><span class="lineNum">     491 </span>            :     }</a>
-<a name="492"><span class="lineNum">     492 </span>            :     if (height != null) {</a>
-<a name="493"><span class="lineNum">     493 </span><span class="lineCov">          3 :       query.append('height', height.toString());</span></a>
-<a name="494"><span class="lineNum">     494 </span>            :     }</a>
-<a name="495"><span class="lineNum">     495 </span>            :     if (filter != null) {</a>
-<a name="496"><span class="lineNum">     496 </span><span class="lineCov">          2 :       filter.when(nearest: (filterType) {</span></a>
-<a name="497"><span class="lineNum">     497 </span><span class="lineCov">          2 :         query.append('resize-filter', &quot;nearest&quot;);</span></a>
-<a name="498"><span class="lineNum">     498 </span><span class="lineCov">          1 :       }, bilinear: (filterType) {</span></a>
-<a name="499"><span class="lineNum">     499 </span><span class="lineCov">          2 :         query.append('resize-filter', &quot;bilinear&quot;);</span></a>
-<a name="500"><span class="lineNum">     500 </span><span class="lineCov">          1 :       }, bicubic: (filterType) {</span></a>
-<a name="501"><span class="lineNum">     501 </span><span class="lineCov">          2 :         query.append('resize-filter', &quot;bicubic&quot;);</span></a>
-<a name="502"><span class="lineNum">     502 </span><span class="lineCov">          1 :       }, lanczos: (filterType) {</span></a>
-<a name="503"><span class="lineNum">     503 </span><span class="lineCov">          2 :         query.append('resize-filter', &quot;lanczos3&quot;);</span></a>
-<a name="504"><span class="lineNum">     504 </span>            :       });</a>
-<a name="505"><span class="lineNum">     505 </span>            :     }</a>
-<a name="506"><span class="lineNum">     506 </span>            :   }</a>
-<a name="507"><span class="lineNum">     507 </span>            : </a>
-<a name="508"><span class="lineNum">     508 </span>            :   ///</a>
-<a name="509"><span class="lineNum">     509 </span>            :   /// The canvas parameter allows you to increase the size of the canvas that surrounds an image.</a>
-<a name="510"><span class="lineNum">     510 </span>            :   /// You can specify the height and width of the canvas area in pixels or percentage or define the</a>
-<a name="511"><span class="lineNum">     511 </span>            :   /// height and width of the aspect ratio of the canvas. You can also define the starting point for</a>
-<a name="512"><span class="lineNum">     512 </span>            :   /// the canvas area or offset the canvas on its X and Y axis.</a>
-<a name="513"><span class="lineNum">     513 </span>            :   ///</a>
-<a name="514"><span class="lineNum">     514 </span>            :   /// [canvasValue] could be in the type of  string, It could be in the format of</a>
-<a name="515"><span class="lineNum">     515 </span>            :   /// dimension: [700,800],</a>
-<a name="516"><span class="lineNum">     516 </span>            :   /// ratio: 2:3 , sub-region: [700,800,x0.50,y0.60],  or offset :[ 700,800,offset-x0.65,offset-y0.80]</a>
-<a name="517"><span class="lineNum">     517 </span>            :   /// For more details, Read documentation:</a>
-<a name="518"><span class="lineNum">     518 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#canvas</a>
-<a name="519"><span class="lineNum">     519 </span>            :   ///</a>
-<a name="520"><span class="lineNum">     520 </span>            :   /// Example:  Canvas by width &amp; Height:</a>
-<a name="521"><span class="lineNum">     521 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="522"><span class="lineNum">     522 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="523"><span class="lineNum">     523 </span>            :   /// final response =  imageTransformation.canvas('700,800');</a>
-<a name="524"><span class="lineNum">     524 </span>            :   ///</a>
-<a name="525"><span class="lineNum">     525 </span>            :   /// Example:  Canvas by ratio:</a>
-<a name="526"><span class="lineNum">     526 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="527"><span class="lineNum">     527 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="528"><span class="lineNum">     528 </span>            :   /// final response =  imageTransformation.canvas('2:3');</a>
-<a name="529"><span class="lineNum">     529 </span>            :   ///</a>
-<a name="530"><span class="lineNum">     530 </span>            :   /// Example:  Canvas  Sub-region:</a>
-<a name="531"><span class="lineNum">     531 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="532"><span class="lineNum">     532 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="533"><span class="lineNum">     533 </span>            :   /// final response =  imageTransformation.canvas('700,800,x0.50,y0.60');</a>
-<a name="534"><span class="lineNum">     534 </span>            :   ///</a>
-<a name="535"><span class="lineNum">     535 </span>            :   /// Example:  Canvas and offset:</a>
-<a name="536"><span class="lineNum">     536 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
-<a name="537"><span class="lineNum">     537 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
-<a name="538"><span class="lineNum">     538 </span>            :   /// final response =  imageTransformation.canvas('700,800,offset-x0.65,offset-y0.80');</a>
-<a name="539"><span class="lineNum">     539 </span>            :   ///</a>
-<a name="540"><span class="lineNum">     540 </span><span class="lineCov">          1 :   void canvas(String canvasValue) {</span></a>
-<a name="541"><span class="lineNum">     541 </span><span class="lineCov">          2 :     query.append(&quot;canvas&quot;, canvasValue);</span></a>
-<a name="542"><span class="lineNum">     542 </span>            :   }</a>
-<a name="543"><span class="lineNum">     543 </span>            : </a>
-<a name="544"><span class="lineNum">     544 </span>            :   ///Makes API Request of respective function.</a>
-<a name="545"><span class="lineNum">     545 </span><span class="lineCov">          1 :   Future fetch() async {</span></a>
-<a name="546"><span class="lineNum">     546 </span><span class="lineCov">          3 :     final bool _validURL = Uri.parse(_imageUrl).isAbsolute;</span></a>
-<a name="547"><span class="lineNum">     547 </span><span class="lineNoCov">          0 :     if (!_validURL) { throw Exception('Invalid url requested');}</span></a>
-<a name="548"><span class="lineNum">     548 </span><span class="lineCov">          4 :     final response = await client.get(getUrl());</span></a>
-<a name="549"><span class="lineNum">     549 </span><span class="lineCov">          3 :     print(response.body.toString());</span></a>
-<a name="550"><span class="lineNum">     550 </span><span class="lineCov">          2 :     if (response.statusCode == 200) {</span></a>
-<a name="551"><span class="lineNum">     551 </span>            :       //print(json.decode(response.body));</a>
-<a name="552"><span class="lineNum">     552 </span><span class="lineCov">          2 :       return json.decode(response.body);</span></a>
-<a name="553"><span class="lineNum">     553 </span>            :     } else {</a>
-<a name="554"><span class="lineNum">     554 </span><span class="lineNoCov">          0 :       throw Exception('Failed to load post');</span></a>
-<a name="555"><span class="lineNum">     555 </span>            :     }</a>
-<a name="556"><span class="lineNum">     556 </span>            :   }</a>
-<a name="557"><span class="lineNum">     557 </span>            : </a>
-<a name="558"><span class="lineNum">     558 </span><span class="lineCov">          1 :   String getUrl() {</span></a>
-<a name="559"><span class="lineNum">     559 </span><span class="lineCov">          3 :     return query.toUrl(_imageUrl);</span></a>
-<a name="560"><span class="lineNum">     560 </span>            :   }</a>
-<a name="561"><span class="lineNum">     561 </span>            : }</a>
+<a name="4"><span class="lineNum">       4 </span>            : import 'package:contentstack/contentstack.dart';</a>
+<a name="5"><span class="lineNum">       5 </span>            : import 'package:contentstack/src/image/filter.dart';</a>
+<a name="6"><span class="lineNum">       6 </span>            : import 'package:contentstack/src/image/fit.dart';</a>
+<a name="7"><span class="lineNum">       7 </span>            : import 'package:contentstack/src/image/format.dart';</a>
+<a name="8"><span class="lineNum">       8 </span>            : import 'package:contentstack/src/image/orientation.dart';</a>
+<a name="9"><span class="lineNum">       9 </span>            : import 'package:contentstack/src/query_params.dart';</a>
+<a name="10"><span class="lineNum">      10 </span>            : import 'package:logging/logging.dart';</a>
+<a name="11"><span class="lineNum">      11 </span>            : </a>
+<a name="12"><span class="lineNum">      12 </span>            : class ImageTransformation {</a>
+<a name="13"><span class="lineNum">      13 </span>            :   final String _imageUrl;</a>
+<a name="14"><span class="lineNum">      14 </span>            :   final HttpClient client;</a>
+<a name="15"><span class="lineNum">      15 </span>            :   final Logger log = Logger('ImageTransformation');</a>
+<a name="16"><span class="lineNum">      16 </span>            :   final Map&lt;String, String&gt; queryParameter = &lt;String, String&gt;{};</a>
+<a name="17"><span class="lineNum">      17 </span>            :   final URLQueryParams query = URLQueryParams();</a>
+<a name="18"><span class="lineNum">      18 </span><span class="lineCov">          1 :   ImageTransformation(this._imageUrl, this.client);</span></a>
+<a name="19"><span class="lineNum">      19 </span>            : </a>
+<a name="20"><span class="lineNum">      20 </span>            :   /// The auto function lets you enable the functionality that automates certain image optimization features.</a>
+<a name="21"><span class="lineNum">      21 </span>            :   /// As of now, there is only one possible value for this field, i.e., webp. When the auto parameter is set to webp,</a>
+<a name="22"><span class="lineNum">      22 </span>            :   /// it enables WebP image support. WebP images have higher compression rate with minimum loss of quality.</a>
+<a name="23"><span class="lineNum">      23 </span>            : </a>
+<a name="24"><span class="lineNum">      24 </span>            :   /// For more details, Read documentation:</a>
+<a name="25"><span class="lineNum">      25 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#automate-optimization</a>
+<a name="26"><span class="lineNum">      26 </span>            :   ///</a>
+<a name="27"><span class="lineNum">      27 </span>            :   ///Example:</a>
+<a name="28"><span class="lineNum">      28 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="29"><span class="lineNum">      29 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="30"><span class="lineNum">      30 </span>            :   ///  await imageTransformation.auto(auto: 'webp', format: 'pjpg').fetch();</a>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">          1 :   void auto({String auto, String format}) {</span></a>
+<a name="32"><span class="lineNum">      32 </span>            :     if (auto != null) {</a>
+<a name="33"><span class="lineNum">      33 </span><span class="lineCov">          2 :       query.append('auto', auto);</span></a>
+<a name="34"><span class="lineNum">      34 </span>            :     }</a>
+<a name="35"><span class="lineNum">      35 </span>            :     if (format != null) {</a>
+<a name="36"><span class="lineNum">      36 </span><span class="lineCov">          2 :       query.append('formate', format);</span></a>
+<a name="37"><span class="lineNum">      37 </span>            :     }</a>
+<a name="38"><span class="lineNum">      38 </span>            :   }</a>
+<a name="39"><span class="lineNum">      39 </span>            : </a>
+<a name="40"><span class="lineNum">      40 </span>            :   /// The quality function lets you control the compression level of images that have Lossy file format.</a>
+<a name="41"><span class="lineNum">      41 </span>            :   /// The value for this parameters can be entered in any whole number (taken as a percentage)</a>
+<a name="42"><span class="lineNum">      42 </span>            :   /// between 1 and 100. The lower the number, the smaller will be file size and lower quality, and vice versa.</a>
+<a name="43"><span class="lineNum">      43 </span>            :   /// If the source image file is not of Lossy file format, this parameter will be ignored.</a>
+<a name="44"><span class="lineNum">      44 </span>            :   ///</a>
+<a name="45"><span class="lineNum">      45 </span>            :   /// For more details, Read documentation:</a>
+<a name="46"><span class="lineNum">      46 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#quality</a>
+<a name="47"><span class="lineNum">      47 </span>            :   ///</a>
+<a name="48"><span class="lineNum">      48 </span>            :   /// Example:</a>
+<a name="49"><span class="lineNum">      49 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="50"><span class="lineNum">      50 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="51"><span class="lineNum">      51 </span>            :   /// final response = await imageTransformation.quality(2).fetch();</a>
+<a name="52"><span class="lineNum">      52 </span>            :   ///</a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">          1 :   void quality(int quality) {</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">          3 :     query.append('quality', quality.toString());</span></a>
+<a name="55"><span class="lineNum">      55 </span>            :   }</a>
+<a name="56"><span class="lineNum">      56 </span>            : </a>
+<a name="57"><span class="lineNum">      57 </span>            :   /// The format function lets you converts a given image from one format to another.</a>
+<a name="58"><span class="lineNum">      58 </span>            :   /// The formats that the source image can be converted to are gif, png, jpg (for JPEG),</a>
+<a name="59"><span class="lineNum">      59 </span>            :   /// pjpg (for Progressive JPEG), webp, webpll (Lossless), and webply (Lossy).</a>
+<a name="60"><span class="lineNum">      60 </span>            :   ///</a>
+<a name="61"><span class="lineNum">      61 </span>            :   /// for more details read documentation:</a>
+<a name="62"><span class="lineNum">      62 </span>            :   /// For more details, Read documentation:</a>
+<a name="63"><span class="lineNum">      63 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#convert-formats</a>
+<a name="64"><span class="lineNum">      64 </span>            :   ///</a>
+<a name="65"><span class="lineNum">      65 </span>            :   ///  Example:</a>
+<a name="66"><span class="lineNum">      66 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="67"><span class="lineNum">      67 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="68"><span class="lineNum">      68 </span>            :   ///  final response = await imageTransformation.convert(Format.pjpg).fetch();</a>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          1 :   void convert(Format format) {</span></a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          2 :     format.when(gif: (formatResult) {</span></a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          2 :       query.append('format', 'gif');</span></a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">          1 :     }, png: (formatResult) {</span></a>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">          2 :       query.append('format', 'png');</span></a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">          1 :     }, jpg: (formatResult) {</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">          2 :       query.append('format', 'jpg');</span></a>
+<a name="76"><span class="lineNum">      76 </span><span class="lineCov">          1 :     }, pjpg: (formatResult) {</span></a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">          2 :       query.append('format', 'pjpg');</span></a>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">          1 :     }, webp: (formatResult) {</span></a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">          2 :       query.append('format', 'webp');</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">          1 :     }, webplossy: (formatResult) {</span></a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">          2 :       query.append('format', 'webply');</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">          1 :     }, webplossless: (formatResult) {</span></a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineCov">          2 :       query.append('format', 'webpll');</span></a>
+<a name="84"><span class="lineNum">      84 </span>            :     });</a>
+<a name="85"><span class="lineNum">      85 </span>            :   }</a>
+<a name="86"><span class="lineNum">      86 </span>            : </a>
+<a name="87"><span class="lineNum">      87 </span>            :   /// this function lets you dynamically resize the width of the output image by specifying pixels or percentage values</a>
+<a name="88"><span class="lineNum">      88 </span>            :   /// for more details read documentation:</a>
+<a name="89"><span class="lineNum">      89 </span>            :   /// The disable function disables the functionality that is enabled by default.</a>
+<a name="90"><span class="lineNum">      90 </span>            :   /// For instance, upscale is always enabled, in which the image is upscaled</a>
+<a name="91"><span class="lineNum">      91 </span>            :   /// if the output image (by specifying the width or height) is bigger than the source image.</a>
+<a name="92"><span class="lineNum">      92 </span>            :   /// To disable this feature, you can use the query ?disable=upscale.</a>
+<a name="93"><span class="lineNum">      93 </span>            :   /// This ensures that even if the specified height or width is much bigger than the actual image,</a>
+<a name="94"><span class="lineNum">      94 </span>            :   /// it will not be rendered disproportionately.</a>
+<a name="95"><span class="lineNum">      95 </span>            :   ///</a>
+<a name="96"><span class="lineNum">      96 </span>            :   /// For more details, Read documentation:</a>
+<a name="97"><span class="lineNum">      97 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#resize-images</a>
+<a name="98"><span class="lineNum">      98 </span>            :   ///</a>
+<a name="99"><span class="lineNum">      99 </span>            :   /// Example:</a>
+<a name="100"><span class="lineNum">     100 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="101"><span class="lineNum">     101 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="102"><span class="lineNum">     102 </span>            :   /// final response = await imageTransformation.resize(width: 100, disable: true ).fetch();</a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">          1 :   void resize({int width, int height, bool disable}) {</span></a>
+<a name="104"><span class="lineNum">     104 </span>            :     if (width != null) {</a>
+<a name="105"><span class="lineNum">     105 </span>            :       //queryParameter['width'] = width.toString();</a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">          3 :       query.append('width', width.toString());</span></a>
+<a name="107"><span class="lineNum">     107 </span>            :     }</a>
+<a name="108"><span class="lineNum">     108 </span>            :     if (height != null) {</a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">          3 :       query.append('height', height.toString());</span></a>
+<a name="110"><span class="lineNum">     110 </span>            :     }</a>
+<a name="111"><span class="lineNum">     111 </span>            :     if (disable != null &amp;&amp; disable) {</a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">          2 :       query.append('disable', 'upscale');</span></a>
+<a name="113"><span class="lineNum">     113 </span>            :     }</a>
+<a name="114"><span class="lineNum">     114 </span>            :   }</a>
+<a name="115"><span class="lineNum">     115 </span>            : </a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">          1 :   void crop(String cropValue) {</span></a>
+<a name="117"><span class="lineNum">     117 </span>            :     // checks if cropRatio is not null then takes height, width and cropRatio as prams</a>
+<a name="118"><span class="lineNum">     118 </span>            :     // else it takes crop params and comas separated width &amp; height</a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">          2 :     query.append('crop', cropValue);</span></a>
+<a name="120"><span class="lineNum">     120 </span>            :   }</a>
+<a name="121"><span class="lineNum">     121 </span>            : </a>
+<a name="122"><span class="lineNum">     122 </span>            :   /// The crop function allows you to remove pixels from an image.</a>
+<a name="123"><span class="lineNum">     123 </span>            :   /// You can crop an image by specifying the height and width in</a>
+<a name="124"><span class="lineNum">     124 </span>            :   /// pixels or percentage value, or defining height and width in aspect ratio.</a>
+<a name="125"><span class="lineNum">     125 </span>            :   /// You can also define a sub region (i.e., define the starting point for crop)</a>
+<a name="126"><span class="lineNum">     126 </span>            :   /// before cropping the image, or you can offset the image on its</a>
+<a name="127"><span class="lineNum">     127 </span>            :   /// X and Y axis (i.e., define the centre point of the crop) before cropping the image.</a>
+<a name="128"><span class="lineNum">     128 </span>            : </a>
+<a name="129"><span class="lineNum">     129 </span>            :   /// You can set the X-axis and Y-axis position of the top left corner of the crop by</a>
+<a name="130"><span class="lineNum">     130 </span>            :   /// using the query ?crop={width_value},{height_value},x{value},y{value}.</a>
+<a name="131"><span class="lineNum">     131 </span>            :   /// This lets you define the starting point of the crop region.</a>
+<a name="132"><span class="lineNum">     132 </span>            :   /// The x-axis value and y-axis value can be defined in pixels or percentage.</a>
+<a name="133"><span class="lineNum">     133 </span>            :   ///</a>
+<a name="134"><span class="lineNum">     134 </span>            :   /// An example of this would be ?crop=300,400,x150,y75 or ?crop=300,400,x0.50,y0.60.</a>
+<a name="135"><span class="lineNum">     135 </span>            :   /// Compulsory parameters [width] and [height]</a>
+<a name="136"><span class="lineNum">     136 </span>            :   /// Optional parameters: [region]</a>
+<a name="137"><span class="lineNum">     137 </span>            :   /// Optional parameters: [offset]</a>
+<a name="138"><span class="lineNum">     138 </span>            :   /// For more details, Read documentation:</a>
+<a name="139"><span class="lineNum">     139 </span>            :   /// For more details read the doc: https://www.contentstack.com/docs/developers/apis/image-delivery-api/#crop-images</a>
+<a name="140"><span class="lineNum">     140 </span>            :   ///</a>
+<a name="141"><span class="lineNum">     141 </span>            :   /// Example: With Aspect Ratio:</a>
+<a name="142"><span class="lineNum">     142 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="143"><span class="lineNum">     143 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="144"><span class="lineNum">     144 </span>            :   /// final response = await imageTransformation.cropBy(150, 100, cropRatio: '1:3').fetch();</a>
+<a name="145"><span class="lineNum">     145 </span>            :   /// log.fine(response);</a>
+<a name="146"><span class="lineNum">     146 </span>            :   ///</a>
+<a name="147"><span class="lineNum">     147 </span>            :   /// Example: Without aspect Ratio:</a>
+<a name="148"><span class="lineNum">     148 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="149"><span class="lineNum">     149 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="150"><span class="lineNum">     150 </span>            :   /// final response = await imageTransformation.cropBy(150, 100).fetch();</a>
+<a name="151"><span class="lineNum">     151 </span>            :   /// log.fine(response);</a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">          1 :   void cropBy(int width, int height, {String region, String offset}) {</span></a>
+<a name="153"><span class="lineNum">     153 </span>            :     // checks if cropRatio is not null then takes height, width and cropRatio as prams</a>
+<a name="154"><span class="lineNum">     154 </span>            :     // else it takes crop params and comas separated width &amp; height</a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineCov">          1 :     final cropLRBL = [];</span></a>
+<a name="156"><span class="lineNum">     156 </span>            :     if (width != null) {</a>
+<a name="157"><span class="lineNum">     157 </span><span class="lineCov">          1 :       cropLRBL.add(width);</span></a>
+<a name="158"><span class="lineNum">     158 </span>            :     }</a>
+<a name="159"><span class="lineNum">     159 </span>            :     if (height != null) {</a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">          1 :       cropLRBL.add(height);</span></a>
+<a name="161"><span class="lineNum">     161 </span>            :     }</a>
+<a name="162"><span class="lineNum">     162 </span>            :     if (region != null) {</a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineNoCov">          0 :       cropLRBL.add(region);</span></a>
+<a name="164"><span class="lineNum">     164 </span>            :     }</a>
+<a name="165"><span class="lineNum">     165 </span>            :     if (offset != null) {</a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :       cropLRBL.add(offset);</span></a>
+<a name="167"><span class="lineNum">     167 </span>            :     }</a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineCov">          1 :     final commaSeparated = cropLRBL.join(', ');</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineCov">          2 :     query.append('crop', commaSeparated);</span></a>
+<a name="170"><span class="lineNum">     170 </span>            :   }</a>
+<a name="171"><span class="lineNum">     171 </span>            : </a>
+<a name="172"><span class="lineNum">     172 </span>            :   ///This parameter enables you to fit the given image properly within the specified height and width.</a>
+<a name="173"><span class="lineNum">     173 </span>            :   ///You need to provide values for the height, width and fit parameters.</a>
+<a name="174"><span class="lineNum">     174 </span>            :   ///The two available values for the fit parameter are bounds and crop.</a>
+<a name="175"><span class="lineNum">     175 </span>            :   ///fit accepts optional parameters [width], [height]  of type [int] and fir of type [Fit]</a>
+<a name="176"><span class="lineNum">     176 </span>            :   ///</a>
+<a name="177"><span class="lineNum">     177 </span>            :   /// For more details, Read documentation:</a>
+<a name="178"><span class="lineNum">     178 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#fit-mode</a>
+<a name="179"><span class="lineNum">     179 </span>            :   ///</a>
+<a name="180"><span class="lineNum">     180 </span>            :   ///  Example:</a>
+<a name="181"><span class="lineNum">     181 </span>            :   ///   final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="182"><span class="lineNum">     182 </span>            :   ///   final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="183"><span class="lineNum">     183 </span>            :   ///   final response = await imageTransformation.fitBy(  250,  250, Fit.crop).fetch();</a>
+<a name="184"><span class="lineNum">     184 </span>            :   ///</a>
+<a name="185"><span class="lineNum">     185 </span>            : </a>
+<a name="186"><span class="lineNum">     186 </span><span class="lineCov">          1 :   void fit(double width, double height, Fit fit) {</span></a>
+<a name="187"><span class="lineNum">     187 </span>            :     if (width != null) {</a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">          3 :       query.append('width', width.toString());</span></a>
+<a name="189"><span class="lineNum">     189 </span>            :     }</a>
+<a name="190"><span class="lineNum">     190 </span>            :     if (height != null) {</a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">          3 :       query.append('height', height.toString());</span></a>
+<a name="192"><span class="lineNum">     192 </span>            :     }</a>
+<a name="193"><span class="lineNum">     193 </span>            :     if (fit != null) {</a>
+<a name="194"><span class="lineNum">     194 </span>            :       //enum Fit { bounds, crop }</a>
+<a name="195"><span class="lineNum">     195 </span><span class="lineCov">          2 :       fit.when(bounds: (value) {</span></a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineCov">          2 :         query.append('fit', 'bounds');</span></a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineCov">          1 :       }, crop: (value) {</span></a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineCov">          2 :         query.append('fit', 'crop');</span></a>
+<a name="199"><span class="lineNum">     199 </span>            :       });</a>
+<a name="200"><span class="lineNum">     200 </span>            :     }</a>
+<a name="201"><span class="lineNum">     201 </span>            :   }</a>
+<a name="202"><span class="lineNum">     202 </span>            : </a>
+<a name="203"><span class="lineNum">     203 </span>            :   ///The trim parameter lets you trim an image from the edges.</a>
+<a name="204"><span class="lineNum">     204 </span>            :   ///This is especially useful for removing border or white spaces</a>
+<a name="205"><span class="lineNum">     205 </span>            :   ///that the downloaded images usually come with.</a>
+<a name="206"><span class="lineNum">     206 </span>            :   ///The value for this parameter can be given in pixels or percentage.</a>
+<a name="207"><span class="lineNum">     207 </span>            :   ///You can specify values for [top], [right], [bottom], and [left] edges of an image.</a>
+<a name="208"><span class="lineNum">     208 </span>            :   ///For example, to trim the top edge by 25px, right edge by 50px, bottom edge by 75px and left edge by 100</a>
+<a name="209"><span class="lineNum">     209 </span>            :   /// provide [trim] as comma separated value like, 25,50,75,100</a>
+<a name="210"><span class="lineNum">     210 </span>            :   ///</a>
+<a name="211"><span class="lineNum">     211 </span>            :   /// For more details, Read documentation:</a>
+<a name="212"><span class="lineNum">     212 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#trim-images</a>
+<a name="213"><span class="lineNum">     213 </span>            :   ///</a>
+<a name="214"><span class="lineNum">     214 </span>            :   /// Example:</a>
+<a name="215"><span class="lineNum">     215 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="216"><span class="lineNum">     216 </span>            :   ///   final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="217"><span class="lineNum">     217 </span>            :   ///   final response = await imageTransformation.trim(25).fetch();</a>
+<a name="218"><span class="lineNum">     218 </span><span class="lineCov">          1 :   void trim([int top, int right, int bottom, int left]) {</span></a>
+<a name="219"><span class="lineNum">     219 </span><span class="lineCov">          1 :     final trimLRBL = [];</span></a>
+<a name="220"><span class="lineNum">     220 </span>            :     if (top != null) {</a>
+<a name="221"><span class="lineNum">     221 </span><span class="lineCov">          1 :       trimLRBL.add(top);</span></a>
+<a name="222"><span class="lineNum">     222 </span>            :     }</a>
+<a name="223"><span class="lineNum">     223 </span>            :     if (right != null) {</a>
+<a name="224"><span class="lineNum">     224 </span><span class="lineCov">          1 :       trimLRBL.add(top);</span></a>
+<a name="225"><span class="lineNum">     225 </span>            :     }</a>
+<a name="226"><span class="lineNum">     226 </span>            :     if (bottom != null) {</a>
+<a name="227"><span class="lineNum">     227 </span><span class="lineCov">          1 :       trimLRBL.add(bottom);</span></a>
+<a name="228"><span class="lineNum">     228 </span>            :     }</a>
+<a name="229"><span class="lineNum">     229 </span>            :     if (left != null) {</a>
+<a name="230"><span class="lineNum">     230 </span><span class="lineCov">          1 :       trimLRBL.add(left);</span></a>
+<a name="231"><span class="lineNum">     231 </span>            :     }</a>
+<a name="232"><span class="lineNum">     232 </span><span class="lineCov">          1 :     final joinedValue = trimLRBL.join(', ');</span></a>
+<a name="233"><span class="lineNum">     233 </span><span class="lineCov">          2 :     query.append('trim', joinedValue);</span></a>
+<a name="234"><span class="lineNum">     234 </span>            :   }</a>
+<a name="235"><span class="lineNum">     235 </span>            : </a>
+<a name="236"><span class="lineNum">     236 </span>            :   ///The orient parameter lets you control the cardinal orientation of the given image.</a>
+<a name="237"><span class="lineNum">     237 </span>            :   ///Using this parameter, you can orient the image right or left, flip horizontally</a>
+<a name="238"><span class="lineNum">     238 </span>            :   ///or vertically or both, and do a lot more. It can automatically correct the</a>
+<a name="239"><span class="lineNum">     239 </span>            :   ///orientation of the image if the source image contains orientation details</a>
+<a name="240"><span class="lineNum">     240 </span>            :   ///within its EXIF data (Exchangeable Image File Format).</a>
+<a name="241"><span class="lineNum">     241 </span>            :   ///</a>
+<a name="242"><span class="lineNum">     242 </span>            :   ///[orient] parameter should be enum type of  [Orientation]</a>
+<a name="243"><span class="lineNum">     243 </span>            :   ///</a>
+<a name="244"><span class="lineNum">     244 </span>            :   /// For more details, Read documentation:</a>
+<a name="245"><span class="lineNum">     245 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#reorient-images</a>
+<a name="246"><span class="lineNum">     246 </span>            :   ///</a>
+<a name="247"><span class="lineNum">     247 </span>            :   ///  Example:</a>
+<a name="248"><span class="lineNum">     248 </span>            :   ///   final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="249"><span class="lineNum">     249 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="250"><span class="lineNum">     250 </span>            :   ///  final response = await imageTransformation.orientation(Orientation.vertically).fetch();</a>
+<a name="251"><span class="lineNum">     251 </span><span class="lineCov">          1 :   void orientation(Orientation orient) {</span></a>
+<a name="252"><span class="lineNum">     252 </span>            :     //  toDefault = '1';</a>
+<a name="253"><span class="lineNum">     253 </span>            :     //  horizontally = '2';</a>
+<a name="254"><span class="lineNum">     254 </span>            :     //  horizontallyAndVertically = '3';</a>
+<a name="255"><span class="lineNum">     255 </span>            :     //  vertically = '4';</a>
+<a name="256"><span class="lineNum">     256 </span>            :     //  horizontallyAndRotate90DegreeLeft = '5';</a>
+<a name="257"><span class="lineNum">     257 </span>            :     //  degrees90TowardsRight = '6';</a>
+<a name="258"><span class="lineNum">     258 </span>            :     //  horizontallyAndRotate90DegreesRight = '7';</a>
+<a name="259"><span class="lineNum">     259 </span>            :     //  rotate90DegreesLeft = '8';</a>
+<a name="260"><span class="lineNum">     260 </span>            :     if (orient != null) {</a>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">          2 :       orient.when(toDefault: (orientation) {</span></a>
+<a name="262"><span class="lineNum">     262 </span><span class="lineCov">          2 :         query.append('orient', 1);</span></a>
+<a name="263"><span class="lineNum">     263 </span><span class="lineCov">          1 :       }, horizontally: (orientation) {</span></a>
+<a name="264"><span class="lineNum">     264 </span><span class="lineCov">          2 :         query.append('orient', 2);</span></a>
+<a name="265"><span class="lineNum">     265 </span><span class="lineCov">          1 :       }, horizontallyAndVertically: (orientation) {</span></a>
+<a name="266"><span class="lineNum">     266 </span><span class="lineCov">          2 :         query.append('orient', 3);</span></a>
+<a name="267"><span class="lineNum">     267 </span><span class="lineCov">          1 :       }, vertically: (orientation) {</span></a>
+<a name="268"><span class="lineNum">     268 </span><span class="lineCov">          2 :         query.append('orient', 4);</span></a>
+<a name="269"><span class="lineNum">     269 </span><span class="lineCov">          1 :       }, horizontallyAndRotate90DegreeLeft: (orientation) {</span></a>
+<a name="270"><span class="lineNum">     270 </span><span class="lineCov">          2 :         query.append('orient', 5);</span></a>
+<a name="271"><span class="lineNum">     271 </span><span class="lineCov">          1 :       }, degrees90TowardsRight: (orientation) {</span></a>
+<a name="272"><span class="lineNum">     272 </span><span class="lineCov">          2 :         query.append('orient', 6);</span></a>
+<a name="273"><span class="lineNum">     273 </span><span class="lineCov">          1 :       }, horizontallyAndRotate90DegreesRight: (orientation) {</span></a>
+<a name="274"><span class="lineNum">     274 </span><span class="lineCov">          2 :         query.append('orient', 7);</span></a>
+<a name="275"><span class="lineNum">     275 </span><span class="lineCov">          1 :       }, rotate90DegreesLeft: (orientation) {</span></a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">          2 :         query.append('orient', 8);</span></a>
+<a name="277"><span class="lineNum">     277 </span>            :       });</a>
+<a name="278"><span class="lineNum">     278 </span>            :     }</a>
+<a name="279"><span class="lineNum">     279 </span>            :   }</a>
+<a name="280"><span class="lineNum">     280 </span>            : </a>
+<a name="281"><span class="lineNum">     281 </span>            :   /// The overlay parameter allows you to put one image on top of another.</a>
+<a name="282"><span class="lineNum">     282 </span>            :   /// You need to specify the relative URL of the image as value for this parameter.</a>
+<a name="283"><span class="lineNum">     283 </span>            :   /// By default, the cropping alignment will be middle, center. See overlay-align for more details.</a>
+<a name="284"><span class="lineNum">     284 </span>            :   /// It accepts [overlayUrl]  as a parameter to put one [overlayUrl] on top of [_imageUrl]</a>
+<a name="285"><span class="lineNum">     285 </span>            :   /// There are optional params also like [overlayAlign], [overlayRepeat], [overlayWidth], [overlayHeight]</a>
+<a name="286"><span class="lineNum">     286 </span>            :   /// Fr more details read the documentation:</a>
+<a name="287"><span class="lineNum">     287 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#overlay</a>
+<a name="288"><span class="lineNum">     288 </span>            :   ///</a>
+<a name="289"><span class="lineNum">     289 </span>            :   /// For more details, Read documentation:</a>
+<a name="290"><span class="lineNum">     290 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#overlay-pad</a>
+<a name="291"><span class="lineNum">     291 </span>            :   ///</a>
+<a name="292"><span class="lineNum">     292 </span>            :   /// Example</a>
+<a name="293"><span class="lineNum">     293 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="294"><span class="lineNum">     294 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="295"><span class="lineNum">     295 </span>            :   ///  final response = await imageTransformation.overlay('overlayUrl', overlayWidth: '').fetch();</a>
+<a name="296"><span class="lineNum">     296 </span>            :   ///</a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineCov">          1 :   void overlay(String overlayUrl,</span></a>
+<a name="298"><span class="lineNum">     298 </span>            :       {String overlayAlign,</a>
+<a name="299"><span class="lineNum">     299 </span>            :       String overlayRepeat,</a>
+<a name="300"><span class="lineNum">     300 </span>            :       int overlayWidth,</a>
+<a name="301"><span class="lineNum">     301 </span>            :       int overlayHeight}) {</a>
+<a name="302"><span class="lineNum">     302 </span><span class="lineCov">          2 :     query.append('overlay', overlayUrl);</span></a>
+<a name="303"><span class="lineNum">     303 </span>            : </a>
+<a name="304"><span class="lineNum">     304 </span>            :     if (overlayAlign != null) {</a>
+<a name="305"><span class="lineNum">     305 </span><span class="lineCov">          2 :       query.append('overlay-align', overlayAlign);</span></a>
+<a name="306"><span class="lineNum">     306 </span>            :     }</a>
+<a name="307"><span class="lineNum">     307 </span>            :     if (overlayRepeat != null) {</a>
+<a name="308"><span class="lineNum">     308 </span><span class="lineCov">          2 :       query.append('overlay-repeat', overlayRepeat);</span></a>
+<a name="309"><span class="lineNum">     309 </span>            :     }</a>
+<a name="310"><span class="lineNum">     310 </span>            :     if (overlayWidth != null) {</a>
+<a name="311"><span class="lineNum">     311 </span><span class="lineCov">          2 :       query.append('overlay-width', overlayWidth);</span></a>
+<a name="312"><span class="lineNum">     312 </span>            :     }</a>
+<a name="313"><span class="lineNum">     313 </span>            :     if (overlayHeight != null) {</a>
+<a name="314"><span class="lineNum">     314 </span><span class="lineCov">          2 :       query.append('overlay-height', overlayHeight);</span></a>
+<a name="315"><span class="lineNum">     315 </span>            :     }</a>
+<a name="316"><span class="lineNum">     316 </span>            :   }</a>
+<a name="317"><span class="lineNum">     317 </span>            : </a>
+<a name="318"><span class="lineNum">     318 </span>            :   /// This function lets you add extra pixels to the edges of an image.</a>
+<a name="319"><span class="lineNum">     319 </span>            :   /// This is useful if you want to add whitespace or border to an image.</a>
+<a name="320"><span class="lineNum">     320 </span>            :   /// The value for this parameter can be given in pixels or percentage.</a>
+<a name="321"><span class="lineNum">     321 </span>            :   ///</a>
+<a name="322"><span class="lineNum">     322 </span>            :   /// You can specify values for top, right, bottom, and left padding for an image.</a>
+<a name="323"><span class="lineNum">     323 </span>            :   /// For example, to add padding to the top edge by 25px, right edge by 50px, bottom edge by 75px and left edge by 100,</a>
+<a name="324"><span class="lineNum">     324 </span>            :   ///</a>
+<a name="325"><span class="lineNum">     325 </span>            :   /// For more details, Read documentation:</a>
+<a name="326"><span class="lineNum">     326 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#pad</a>
+<a name="327"><span class="lineNum">     327 </span>            :   ///</a>
+<a name="328"><span class="lineNum">     328 </span>            :   ///Example:</a>
+<a name="329"><span class="lineNum">     329 </span>            :   ///final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="330"><span class="lineNum">     330 </span>            :   ///final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="331"><span class="lineNum">     331 </span>            :   ///final response = await imageTransformation.padding(&quot;25,50,75,100&quot;).fetch();</a>
+<a name="332"><span class="lineNum">     332 </span>            :   ///</a>
+<a name="333"><span class="lineNum">     333 </span><span class="lineCov">          1 :   void padding(String padding) {</span></a>
+<a name="334"><span class="lineNum">     334 </span><span class="lineCov">          2 :     query.append('pad', padding);</span></a>
+<a name="335"><span class="lineNum">     335 </span>            :   }</a>
+<a name="336"><span class="lineNum">     336 </span>            : </a>
+<a name="337"><span class="lineNum">     337 </span>            :   ///You can either specify all the four padding values (top, right, bottom, and left)</a>
+<a name="338"><span class="lineNum">     338 </span>            :   ///or combine two or more values</a>
+<a name="339"><span class="lineNum">     339 </span>            :   //top, right, bottom, left</a>
+<a name="340"><span class="lineNum">     340 </span>            :   ///Example:</a>
+<a name="341"><span class="lineNum">     341 </span>            :   ///final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="342"><span class="lineNum">     342 </span>            :   ///final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="343"><span class="lineNum">     343 </span>            :   ///final response = await imageTransformation.addPadding(&quot;25,50,75,100&quot;).fetch();</a>
+<a name="344"><span class="lineNum">     344 </span><span class="lineCov">          1 :   void overlayPadding(String overlayPadding) {</span></a>
+<a name="345"><span class="lineNum">     345 </span><span class="lineCov">          2 :     query.append('overlay-pad', overlayPadding);</span></a>
+<a name="346"><span class="lineNum">     346 </span>            :   }</a>
+<a name="347"><span class="lineNum">     347 </span>            : </a>
+<a name="348"><span class="lineNum">     348 </span>            :   ///The bg-color function lets you set a backgroud color for the given image.</a>
+<a name="349"><span class="lineNum">     349 </span>            :   ///This is useful when applying padding or for replacing the transparent pixels of an image.</a>
+<a name="350"><span class="lineNum">     350 </span>            :   ///There are three possible types of values for this [bgColor] is string .</a>
+<a name="351"><span class="lineNum">     351 </span>            :   ///It can accept hexadecimal, combination of (Red, Blue, Green) and (Red, Blue, Green, Alpha).</a>
+<a name="352"><span class="lineNum">     352 </span>            :   ///</a>
+<a name="353"><span class="lineNum">     353 </span>            :   /// For more details, Read documentation:</a>
+<a name="354"><span class="lineNum">     354 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#background-color</a>
+<a name="355"><span class="lineNum">     355 </span>            :   ///  Example:</a>
+<a name="356"><span class="lineNum">     356 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="357"><span class="lineNum">     357 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="358"><span class="lineNum">     358 </span>            :   ///  final response = await imageTransformation.bgColor('cccccc').fetch();</a>
+<a name="359"><span class="lineNum">     359 </span><span class="lineCov">          1 :   void bgColor(String bgColor) {</span></a>
+<a name="360"><span class="lineNum">     360 </span><span class="lineCov">          2 :     query.append('bg-color', bgColor);</span></a>
+<a name="361"><span class="lineNum">     361 </span>            :   }</a>
+<a name="362"><span class="lineNum">     362 </span>            : </a>
+<a name="363"><span class="lineNum">     363 </span>            :   ///To implement the device pixel ratio functionality of the Image Delivery API, you require two parameters &quot;dpr&quot; and &quot;height or width&quot;.</a>
+<a name="364"><span class="lineNum">     364 </span>            :   ///For more details read the documentation:</a>
+<a name="365"><span class="lineNum">     365 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#set-device-pixel-ratio</a>
+<a name="366"><span class="lineNum">     366 </span>            :   ///</a>
+<a name="367"><span class="lineNum">     367 </span>            :   /// For more details, Read documentation:</a>
+<a name="368"><span class="lineNum">     368 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#dpr</a>
+<a name="369"><span class="lineNum">     369 </span>            :   ///</a>
+<a name="370"><span class="lineNum">     370 </span>            :   /// Example</a>
+<a name="371"><span class="lineNum">     371 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="372"><span class="lineNum">     372 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="373"><span class="lineNum">     373 </span>            :   ///  final response = await imageTransformation.dpr(30, 60, 12).fetch();</a>
+<a name="374"><span class="lineNum">     374 </span>            :   ///</a>
+<a name="375"><span class="lineNum">     375 </span><span class="lineCov">          1 :   void dpr(int dpr) {</span></a>
+<a name="376"><span class="lineNum">     376 </span><span class="lineCov">          3 :     query.append('dpr', dpr.toString());</span></a>
+<a name="377"><span class="lineNum">     377 </span>            :   }</a>
+<a name="378"><span class="lineNum">     378 </span>            : </a>
+<a name="379"><span class="lineNum">     379 </span>            :   ///</a>
+<a name="380"><span class="lineNum">     380 </span>            :   /// The blur parameter allows you to decrease the focus and clarity of a given image.</a>
+<a name="381"><span class="lineNum">     381 </span>            :   /// To specify the extent to which you need to increase the blurriness of an image,</a>
+<a name="382"><span class="lineNum">     382 </span>            :   /// use any decimal number (float) between 1 and 1000.</a>
+<a name="383"><span class="lineNum">     383 </span>            :   ///</a>
+<a name="384"><span class="lineNum">     384 </span>            :   /// For more details, Read documentation:</a>
+<a name="385"><span class="lineNum">     385 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#blur</a>
+<a name="386"><span class="lineNum">     386 </span>            :   ///</a>
+<a name="387"><span class="lineNum">     387 </span>            :   /// Example:</a>
+<a name="388"><span class="lineNum">     388 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="389"><span class="lineNum">     389 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="390"><span class="lineNum">     390 </span>            :   ///  final response = await imageTransformation.blur(3).fetch();</a>
+<a name="391"><span class="lineNum">     391 </span>            : </a>
+<a name="392"><span class="lineNum">     392 </span><span class="lineCov">          1 :   void blur(int blur) {</span></a>
+<a name="393"><span class="lineNum">     393 </span><span class="lineCov">          3 :     query.append('blur', blur.toString());</span></a>
+<a name="394"><span class="lineNum">     394 </span>            :   }</a>
+<a name="395"><span class="lineNum">     395 </span>            : </a>
+<a name="396"><span class="lineNum">     396 </span>            :   ///The frame parameter fetches the first frame from an animated GIF</a>
+<a name="397"><span class="lineNum">     397 </span>            :   ///(Graphics Interchange Format) file that comprises a sequence of moving images.</a>
+<a name="398"><span class="lineNum">     398 </span>            :   /// For more details, Read documentation:</a>
+<a name="399"><span class="lineNum">     399 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#frame</a>
+<a name="400"><span class="lineNum">     400 </span>            :   ///</a>
+<a name="401"><span class="lineNum">     401 </span>            :   /// Example:</a>
+<a name="402"><span class="lineNum">     402 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="403"><span class="lineNum">     403 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="404"><span class="lineNum">     404 </span>            :   ///  final response = await imageTransformation.frame(30).fetch();</a>
+<a name="405"><span class="lineNum">     405 </span>            :   ///</a>
+<a name="406"><span class="lineNum">     406 </span><span class="lineCov">          1 :   void frame(int frame) {</span></a>
+<a name="407"><span class="lineNum">     407 </span><span class="lineCov">          3 :     query.append('frame', frame.toString());</span></a>
+<a name="408"><span class="lineNum">     408 </span>            :   }</a>
+<a name="409"><span class="lineNum">     409 </span>            : </a>
+<a name="410"><span class="lineNum">     410 </span>            :   ///The frame parameter fetches the first frame from an animated GIF</a>
+<a name="411"><span class="lineNum">     411 </span>            :   ///(Graphics Interchange Format) file that comprises a sequence of moving images.</a>
+<a name="412"><span class="lineNum">     412 </span>            :   ///Increase the sharpness of a given image by amount, radius and threshold</a>
+<a name="413"><span class="lineNum">     413 </span>            :   /// For more details, Read documentation:</a>
+<a name="414"><span class="lineNum">     414 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#sharpen</a>
+<a name="415"><span class="lineNum">     415 </span>            :   ///</a>
+<a name="416"><span class="lineNum">     416 </span>            :   ///  Example:</a>
+<a name="417"><span class="lineNum">     417 </span>            :   ///  final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="418"><span class="lineNum">     418 </span>            :   ///  final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="419"><span class="lineNum">     419 </span>            :   ///  final response = await imageTransformation.sharpen(5, 1000, 2').fetch();</a>
+<a name="420"><span class="lineNum">     420 </span>            :   ///</a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineCov">          1 :   void sharpen(int amount, int radius, int threshold) {</span></a>
+<a name="422"><span class="lineNum">     422 </span><span class="lineCov">          3 :     query.append('sharpen', 'a$amount,r$radius,t$threshold');</span></a>
+<a name="423"><span class="lineNum">     423 </span>            :   }</a>
+<a name="424"><span class="lineNum">     424 </span>            : </a>
+<a name="425"><span class="lineNum">     425 </span>            :   ///The saturation parameter allows you to increase or decrease the intensity</a>
+<a name="426"><span class="lineNum">     426 </span>            :   /// of the colors in a given image. To specify the saturation</a>
+<a name="427"><span class="lineNum">     427 </span>            :   /// for an image, use a whole number (integer) between -100 and 100.</a>
+<a name="428"><span class="lineNum">     428 </span>            :   /// You can also define saturation using any decimal number between -100.00 and 100.00</a>
+<a name="429"><span class="lineNum">     429 </span>            :   /// For more details, Read documentation:</a>
+<a name="430"><span class="lineNum">     430 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#saturation</a>
+<a name="431"><span class="lineNum">     431 </span>            :   ///    Example:</a>
+<a name="432"><span class="lineNum">     432 </span>            :   ///    final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="433"><span class="lineNum">     433 </span>            :   ///    final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="434"><span class="lineNum">     434 </span>            :   ///    final response = await imageTransformation.saturation(20);</a>
+<a name="435"><span class="lineNum">     435 </span>            : </a>
+<a name="436"><span class="lineNum">     436 </span><span class="lineCov">          1 :   void saturation(int saturation) {</span></a>
+<a name="437"><span class="lineNum">     437 </span><span class="lineCov">          3 :     query.append('saturation', saturation.toString());</span></a>
+<a name="438"><span class="lineNum">     438 </span>            :   }</a>
+<a name="439"><span class="lineNum">     439 </span>            : </a>
+<a name="440"><span class="lineNum">     440 </span>            :   /// The contrast parameter allows you to increase or decrease</a>
+<a name="441"><span class="lineNum">     441 </span>            :   /// the difference between the darkest and lightest tones in a given image.</a>
+<a name="442"><span class="lineNum">     442 </span>            :   /// To specify contrast for an image, use a whole number (integer)</a>
+<a name="443"><span class="lineNum">     443 </span>            :   /// between -100 and 100. You can also define contrast using any decimal number between -100.00 and 100.00.</a>
+<a name="444"><span class="lineNum">     444 </span>            :   ///</a>
+<a name="445"><span class="lineNum">     445 </span>            :   /// To increase the value of the contrast parameter of an image, pass a positive value or negative value</a>
+<a name="446"><span class="lineNum">     446 </span>            :   /// For more details, Read documentation:</a>
+<a name="447"><span class="lineNum">     447 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#contrast</a>
+<a name="448"><span class="lineNum">     448 </span>            :   ///</a>
+<a name="449"><span class="lineNum">     449 </span>            :   /// Example</a>
+<a name="450"><span class="lineNum">     450 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="451"><span class="lineNum">     451 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="452"><span class="lineNum">     452 </span>            :   /// final response = await imageTransformation.contrast(20);</a>
+<a name="453"><span class="lineNum">     453 </span>            : </a>
+<a name="454"><span class="lineNum">     454 </span><span class="lineCov">          1 :   void contrast(int contrast) {</span></a>
+<a name="455"><span class="lineNum">     455 </span><span class="lineCov">          3 :     query.append('contrast', contrast.toString());</span></a>
+<a name="456"><span class="lineNum">     456 </span>            :   }</a>
+<a name="457"><span class="lineNum">     457 </span>            : </a>
+<a name="458"><span class="lineNum">     458 </span>            :   /// The brightness parameter allows you to increase or decrease the intensity</a>
+<a name="459"><span class="lineNum">     459 </span>            :   /// with which an image reflects or radiates perceived light.</a>
+<a name="460"><span class="lineNum">     460 </span>            :   /// To specify brightness for an image, use a whole number (integer) between -100 and 100.</a>
+<a name="461"><span class="lineNum">     461 </span>            :   /// You can also define brightness using any decimal number between -100.00 and 100.00</a>
+<a name="462"><span class="lineNum">     462 </span>            :   ///</a>
+<a name="463"><span class="lineNum">     463 </span>            :   /// To increase the value of the brightness parameter of an image, pass a positive value or negative value</a>
+<a name="464"><span class="lineNum">     464 </span>            :   /// For more details, Read documentation:</a>
+<a name="465"><span class="lineNum">     465 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#brightness</a>
+<a name="466"><span class="lineNum">     466 </span>            :   ///</a>
+<a name="467"><span class="lineNum">     467 </span>            :   /// Example:</a>
+<a name="468"><span class="lineNum">     468 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="469"><span class="lineNum">     469 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="470"><span class="lineNum">     470 </span>            :   /// final response =  imageTransformation.brightness(20);</a>
+<a name="471"><span class="lineNum">     471 </span><span class="lineCov">          1 :   void brightness(int brightness) {</span></a>
+<a name="472"><span class="lineNum">     472 </span><span class="lineCov">          3 :     query.append('brightness', brightness.toString());</span></a>
+<a name="473"><span class="lineNum">     473 </span>            :   }</a>
+<a name="474"><span class="lineNum">     474 </span>            : </a>
+<a name="475"><span class="lineNum">     475 </span>            :   ///</a>
+<a name="476"><span class="lineNum">     476 </span>            :   /// The resize-filter parameter allows you to use the resizing</a>
+<a name="477"><span class="lineNum">     477 </span>            :   /// filter to increase or decrease the number of pixels in a given image.</a>
+<a name="478"><span class="lineNum">     478 </span>            :   /// This parameter resizes the given image without adding or removing any data from it.</a>
+<a name="479"><span class="lineNum">     479 </span>            :   ///</a>
+<a name="480"><span class="lineNum">     480 </span>            :   /// The following values are acceptable for the resize-filter parameter</a>
+<a name="481"><span class="lineNum">     481 </span>            :   /// For more details, Read documentation:</a>
+<a name="482"><span class="lineNum">     482 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#resize-filter</a>
+<a name="483"><span class="lineNum">     483 </span>            : </a>
+<a name="484"><span class="lineNum">     484 </span>            :   /// Example:</a>
+<a name="485"><span class="lineNum">     485 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="486"><span class="lineNum">     486 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="487"><span class="lineNum">     487 </span>            :   /// final response =  imageTransformation.resizeFilter(width: 20, height: 40, filter: Filter.bilinear);</a>
+<a name="488"><span class="lineNum">     488 </span>            :   ///</a>
+<a name="489"><span class="lineNum">     489 </span><span class="lineCov">          1 :   void resizeFilter({int width, int height, Filter filter}) {</span></a>
+<a name="490"><span class="lineNum">     490 </span>            :     if (width != null) {</a>
+<a name="491"><span class="lineNum">     491 </span><span class="lineCov">          3 :       query.append('width', width.toString());</span></a>
+<a name="492"><span class="lineNum">     492 </span>            :     }</a>
+<a name="493"><span class="lineNum">     493 </span>            :     if (height != null) {</a>
+<a name="494"><span class="lineNum">     494 </span><span class="lineCov">          3 :       query.append('height', height.toString());</span></a>
+<a name="495"><span class="lineNum">     495 </span>            :     }</a>
+<a name="496"><span class="lineNum">     496 </span>            :     if (filter != null) {</a>
+<a name="497"><span class="lineNum">     497 </span><span class="lineCov">          2 :       filter.when(nearest: (filterType) {</span></a>
+<a name="498"><span class="lineNum">     498 </span><span class="lineCov">          2 :         query.append('resize-filter', 'nearest');</span></a>
+<a name="499"><span class="lineNum">     499 </span><span class="lineCov">          1 :       }, bilinear: (filterType) {</span></a>
+<a name="500"><span class="lineNum">     500 </span><span class="lineCov">          2 :         query.append('resize-filter', 'bilinear');</span></a>
+<a name="501"><span class="lineNum">     501 </span><span class="lineCov">          1 :       }, bicubic: (filterType) {</span></a>
+<a name="502"><span class="lineNum">     502 </span><span class="lineCov">          2 :         query.append('resize-filter', 'bicubic');</span></a>
+<a name="503"><span class="lineNum">     503 </span><span class="lineCov">          1 :       }, lanczos: (filterType) {</span></a>
+<a name="504"><span class="lineNum">     504 </span><span class="lineCov">          2 :         query.append('resize-filter', 'lanczos3');</span></a>
+<a name="505"><span class="lineNum">     505 </span>            :       });</a>
+<a name="506"><span class="lineNum">     506 </span>            :     }</a>
+<a name="507"><span class="lineNum">     507 </span>            :   }</a>
+<a name="508"><span class="lineNum">     508 </span>            : </a>
+<a name="509"><span class="lineNum">     509 </span>            :   ///</a>
+<a name="510"><span class="lineNum">     510 </span>            :   /// The canvas parameter allows you to increase the size of the canvas that surrounds an image.</a>
+<a name="511"><span class="lineNum">     511 </span>            :   /// You can specify the height and width of the canvas area in pixels or percentage or define the</a>
+<a name="512"><span class="lineNum">     512 </span>            :   /// height and width of the aspect ratio of the canvas. You can also define the starting point for</a>
+<a name="513"><span class="lineNum">     513 </span>            :   /// the canvas area or offset the canvas on its X and Y axis.</a>
+<a name="514"><span class="lineNum">     514 </span>            :   ///</a>
+<a name="515"><span class="lineNum">     515 </span>            :   /// [canvasValue] could be in the type of  string, It could be in the format of</a>
+<a name="516"><span class="lineNum">     516 </span>            :   /// dimension: [700,800],</a>
+<a name="517"><span class="lineNum">     517 </span>            :   /// ratio: 2:3 , sub-region: [700,800,x0.50,y0.60],  or offset :[ 700,800,offset-x0.65,offset-y0.80]</a>
+<a name="518"><span class="lineNum">     518 </span>            :   /// For more details, Read documentation:</a>
+<a name="519"><span class="lineNum">     519 </span>            :   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#canvas</a>
+<a name="520"><span class="lineNum">     520 </span>            :   ///</a>
+<a name="521"><span class="lineNum">     521 </span>            :   /// Example:  Canvas by width &amp; Height:</a>
+<a name="522"><span class="lineNum">     522 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="523"><span class="lineNum">     523 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="524"><span class="lineNum">     524 </span>            :   /// final response =  imageTransformation.canvas('700,800');</a>
+<a name="525"><span class="lineNum">     525 </span>            :   ///</a>
+<a name="526"><span class="lineNum">     526 </span>            :   /// Example:  Canvas by ratio:</a>
+<a name="527"><span class="lineNum">     527 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="528"><span class="lineNum">     528 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="529"><span class="lineNum">     529 </span>            :   /// final response =  imageTransformation.canvas('2:3');</a>
+<a name="530"><span class="lineNum">     530 </span>            :   ///</a>
+<a name="531"><span class="lineNum">     531 </span>            :   /// Example:  Canvas  Sub-region:</a>
+<a name="532"><span class="lineNum">     532 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="533"><span class="lineNum">     533 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="534"><span class="lineNum">     534 </span>            :   /// final response =  imageTransformation.canvas('700,800,x0.50,y0.60');</a>
+<a name="535"><span class="lineNum">     535 </span>            :   ///</a>
+<a name="536"><span class="lineNum">     536 </span>            :   /// Example:  Canvas and offset:</a>
+<a name="537"><span class="lineNum">     537 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
+<a name="538"><span class="lineNum">     538 </span>            :   /// final imageTransformation = stack.imageTransform(imageUrl);</a>
+<a name="539"><span class="lineNum">     539 </span>            :   /// final response =  imageTransformation.canvas('700,800,offset-x0.65,offset-y0.80');</a>
+<a name="540"><span class="lineNum">     540 </span>            :   ///</a>
+<a name="541"><span class="lineNum">     541 </span><span class="lineCov">          1 :   void canvas(String canvasValue) {</span></a>
+<a name="542"><span class="lineNum">     542 </span><span class="lineCov">          2 :     query.append('canvas', canvasValue);</span></a>
+<a name="543"><span class="lineNum">     543 </span>            :   }</a>
+<a name="544"><span class="lineNum">     544 </span>            : </a>
+<a name="545"><span class="lineNum">     545 </span>            :   ///Makes API Request of respective function.</a>
+<a name="546"><span class="lineNum">     546 </span><span class="lineCov">          1 :   Future&lt;T&gt; fetch&lt;T, K&gt;() async {</span></a>
+<a name="547"><span class="lineNum">     547 </span><span class="lineCov">          3 :     final bool _validURL = Uri.parse(_imageUrl).isAbsolute;</span></a>
+<a name="548"><span class="lineNum">     548 </span>            :     if (!_validURL) {</a>
+<a name="549"><span class="lineNum">     549 </span><span class="lineNoCov">          0 :       throw Exception('Invalid url requested');</span></a>
+<a name="550"><span class="lineNum">     550 </span>            :     }</a>
+<a name="551"><span class="lineNum">     551 </span><span class="lineCov">          4 :     final response = await client.get(getUrl());</span></a>
+<a name="552"><span class="lineNum">     552 </span><span class="lineCov">          2 :     if (response.statusCode == 200) {</span></a>
+<a name="553"><span class="lineNum">     553 </span><span class="lineCov">          2 :       final Map bodyJson = jsonDecode(response.body);</span></a>
+<a name="554"><span class="lineNum">     554 </span><span class="lineNoCov">          0 :       if (T == AssetModel &amp;&amp; bodyJson.containsKey('asset')) {</span></a>
+<a name="555"><span class="lineNum">     555 </span><span class="lineNoCov">          0 :         return AssetModel.fromJson(bodyJson['asset']) as T;</span></a>
+<a name="556"><span class="lineNum">     556 </span>            :       }else{</a>
+<a name="557"><span class="lineNum">     557 </span><span class="lineNoCov">          0 :         return json.decode(response.body);</span></a>
+<a name="558"><span class="lineNum">     558 </span>            :       }</a>
+<a name="559"><span class="lineNum">     559 </span>            :     } else {</a>
+<a name="560"><span class="lineNum">     560 </span><span class="lineNoCov">          0 :       throw Exception('Failed to load post');</span></a>
+<a name="561"><span class="lineNum">     561 </span>            :     }</a>
+<a name="562"><span class="lineNum">     562 </span>            :   }</a>
+<a name="563"><span class="lineNum">     563 </span>            : </a>
+<a name="564"><span class="lineNum">     564 </span><span class="lineCov">          1 :   String getUrl() {</span></a>
+<a name="565"><span class="lineNum">     565 </span><span class="lineCov">          3 :     return query.toUrl(_imageUrl);</span></a>
+<a name="566"><span class="lineNum">     566 </span>            :   }</a>
+<a name="567"><span class="lineNum">     567 </span>            : }</a>
 </pre>
       </td>
     </tr>

@@ -1,16 +1,4 @@
 include: package:lint/analysis_options.yaml
-
-#linter:
-#  rules:
-#    - parameter_assignments
-
-
-#analyzer:
-#  errors:
-#    missing_required_param: error
-#    parameter_assignments: error
-
-
 analyzer:
 strong-mode:
   implicit-casts: false
@@ -23,7 +11,7 @@ linter:
     - always_declare_return_types
     - annotate_overrides
     - avoid_bool_literals_in_conditional_expressions
-    #- avoid_classes_with_only_static_members
+    - avoid_classes_with_only_static_members
     - avoid_empty_else
     - avoid_function_literals_in_foreach_calls
     - avoid_init_to_null
@@ -34,15 +22,16 @@ linter:
     - avoid_returning_null
     - avoid_returning_null_for_future
     - avoid_returning_null_for_void
-   # - avoid_returning_this
+    - avoid_returning_this
     - avoid_shadowing_type_parameters
     - avoid_single_cascade_in_expression_statements
     - avoid_types_as_parameter_names
     - avoid_unused_constructor_parameters
     - await_only_futures
     - camel_case_types
+    #- prefer_void_to_null
     - cancel_subscriptions
-    #- cascade_invocations
+    - cascade_invocations
     - comment_references
     - constant_identifier_names
     - control_flow_in_finally
@@ -76,14 +65,14 @@ linter:
     - prefer_contains
     - prefer_equal_for_default_values
     - prefer_final_fields
-    #- prefer_final_locals
+    - prefer_final_locals
     - prefer_generic_function_type_aliases
     - prefer_initializing_formals
     - prefer_interpolation_to_compose_strings
     - prefer_is_empty
     - prefer_is_not_empty
     - prefer_null_aware_operators
-    #- prefer_single_quotes
+    - prefer_single_quotes
     - prefer_typing_uninitialized_variables
     - recursive_getters
     - slash_for_doc_comments

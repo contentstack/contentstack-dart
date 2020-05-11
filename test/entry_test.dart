@@ -4,9 +4,9 @@ import 'package:test/test.dart';
 import 'credentials.dart';
 
 void main() {
+
   group('Entry functinal testcases', () {
     Entry entry;
-
     setUp(() {
       final Stack stack = Credential.stack();
       entry = stack.contentType('faq').entry(entryUid: Credential.entryUid);
@@ -22,19 +22,17 @@ void main() {
     });
 
     test('test the locale', () {
-      entry.locale('en-us');
-      entry.addParam('testKey', 'testValue123');
+      entry..locale('en-us')..addParam('testKey', 'testValue123');
       expect(true, entry.parameter.containsKey('locale'));
     });
 
     test('test the addParams entry query', () {
-      entry.addParam('locale', 'en-us');
-      entry.addParam('testKey', 'testValue123');
+      entry..addParam('locale', 'en-us')..addParam('testKey', 'testValue123');
       expect(true, entry.parameter.containsKey('testKey'));
     });
 
     test('test for version', () {
-      entry.addParam('version', "3");
+      entry.addParam('version', '3');
       expect(true, entry.parameter.containsKey('version'));
     });
 
@@ -96,75 +94,64 @@ void main() {
       entry = stack.contentType('faq').entry(entryUid: Credential.entryUid);
     });
 
+
+
     test('find the entry response with locale', () async {
       entry.locale('en-us');
-      await entry.fetch().then((response) {
-        expect('en-us', response['entry']['locale']);
+      await entry.fetch<EntryModel, Null>().then((response) {
+        expect('en-us', response.locale);
       }).catchError((onError) {
         prints(onError.toString());
       });
     });
 
+
+
+
+
+
+
+
+
     test('test entry response with version', () async {
-      entry.locale('en-us');
-      entry.addParam('version', "1");
-      await entry.fetch().then((response) {
-        if (response is Error) {
-          expect(141, response.errorCode);
-        } else {
-          expect(1, response['entry']['_version']);
-        }
-      }).catchError((onError) {
-        expect('', onError.toString());
+      entry..locale('en-us')..addParam('version', '1');
+      await entry.fetch<EntryModel, Null>().then((response) {
+        expect(1, response.version);
       });
     });
 
     test('find the only API call', () async {
       entry.locale('en-us');
-      const List<String> fieldUID = ["price", "title"];
+      const List<String> fieldUID = ['price', 'title'];
       entry.only(fieldUID);
-      await entry.fetch().then((response) {
-        expect('blt53ca1231625bdde4', response['entry']['uid']);
-      }).catchError((onError) {
-        expect('0923', '23i');
+      await entry.fetch<EntryModel, Null>().then((response) {
+        expect('blt53ca1231625bdde4', response.uid);
       });
     });
 
     test('find the except API call', () async {
       entry.locale('en-us');
-      const List<String> fieldUID = ["title"];
+      const List<String> fieldUID = ['title'];
       entry.except(fieldUID);
-      await entry.fetch().then((response) {
-        if (response is Map) {
-          final entryModel = EntryModel.fromJson(response['entry']);
-          expect(true, entryModel is EntryModel);
-          expect('MEALS', entryModel.title);
-        }
+      await entry.fetch<EntryModel, Null>().then((response) {
+        expect('MEALS', response.title);
       });
     });
 
     test('find the includeReference default API call', () async {
       entry.includeReference('categories');
       await entry.fetch().then((response) {
-        if(response is Error){
-          expect(141, response.errorCode);
-        }else{
-          expect('/meals', response['entry']['url']);
-        }
+        expect(141, response['error_code']);
       }).catchError((onError) {
         expect('invalid url requested', onError.message);
       });
     });
 
     test('find the includeReference default with list objects', () async {
-      const List<String> fieldUID = ["title", "attendee", "created_at"];
+      const List<String> fieldUID = ['title', 'attendee', 'created_at'];
       entry.includeReference('categories', includeReferenceField: Include.none(fieldUidList: fieldUID));
       await entry.fetch().then((response) {
-        if(response is Error){
-          expect(141, response.errorCode);
-        }else{
-          expect('/meals', response['entry']['url']);
-        }
+        expect(141, response['error_code']);
       }).catchError((onError) {
         expect('invalid url requested', onError.message);
       });
@@ -172,33 +159,31 @@ void main() {
 
     test('find the includeReference with only API call', () async {
       entry.locale('en-us');
-      const List<String> fieldUID = ["price", "orange", "mango"];
+      const List<String> fieldUID = ['price', 'orange', 'mango'];
       entry.includeReference('categories', includeReferenceField: Include.only(fieldUidList: fieldUID));
-      final response = await entry.fetch();
-      if (response is Error) {
-        expect(141, response.errorCode);
-        final isJson = Error().toJson();
-        expect(true, isJson is Map);
-      }
+      await entry.fetch().then((response){
+        expect(141, response['error_code']);
+      });
+
     });
 
     test('find the includeReference except API call', () async {
       entry.locale('en-us');
-      const List<String> fieldUID = ["price", "orange", "mango"];
+      const List<String> fieldUID = ['price', 'orange', 'mango'];
       entry.includeReference('categories',
           includeReferenceField: Include.except(fieldUidList: fieldUID));
-      final response = await entry.fetch();
-      if (response is Error) {
-        expect(141, response.errorCode);
-      }
+      await entry.fetch().then((response){
+        expect("The requested object doesn't exist.", response['error_message']);
+      }).catchError((error){
+        expect('Invalid reponse.', error.message);
+      });
+
     });
 
     test('find the includeContentType except API call', () async {
       entry.includeContentType();
       await entry.fetch().then((response) {
-        expect(true, response['content_type']['schema'] is List);
-      }).catchError((onError) {
-        expect(null, onError.toString());
+        expect(true, response.containsKey('content_type'));
       });
     });
 

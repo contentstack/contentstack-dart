@@ -1,22 +1,9 @@
 import 'dart:async';
 import 'package:contentstack/client.dart';
 
-/// Assets refer to all the media files (images, videos, PDFs, audio files, and so on)
-/// uploaded in your Contentstack repository for future use. These files can be
-/// attached and used in multiple entries. Learn more about Assets.
-/// https://www.contentstack.com/docs/content-managers/work-with-assets
-///
-/// Single Asset
-/// This call fetches the latest version of a specific asset of a
-/// particular stack.
-/// Read more about asset:
-/// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-a-single-asset
-///
-/// * Tip:
-/// If no version is mentioned, this request will retrieve the latest published
-/// version of the asset. To retrieve a specific version, make use of the
-/// version parameter and keep the environment parameter blank.
-///
+/// This call fetches the latest version of a specific asset of a particular stack.
+/// Read more about
+/// Learn more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-a-single-asset).
 class Asset {
   final HttpClient _client;
   final String _uid;
@@ -28,7 +15,7 @@ class Asset {
   /// the details. {Example: blt19c34e5374418484}
   Asset(this._uid, [this._client]) {
     assetParameter['environment'] = _client.stackHeaders['environment'];
-    _urlPath = "/${_client.stack.apiVersion}/assets";
+    _urlPath = '/${_client.stack.apiVersion}/assets';
   }
 
   ///
@@ -40,13 +27,6 @@ class Asset {
     assetParameter['environment'] = environment;
   }
 
-
-  /// It removes environment from the stack headers
-  void removeEnvironment() {
-    if(assetParameter.containsKey('environment')){
-      assetParameter.remove('environment');
-    }
-  }
 
   ///
   /// Specify the version number of the asset that you wish to retrieve.
@@ -63,15 +43,15 @@ class Asset {
   /// Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD.
   ///
   void includeDimension() {
-    assetParameter["include_dimension"] = 'true';
+    assetParameter['include_dimension'] = 'true';
   }
 
 
   /// It fetch single asset data on the basis of the asset uid.
-  Future<dynamic> fetch() {
+  Future<T> fetch<T, K>() {
     if (_uid == null || _uid.isEmpty) {throw Exception('Provide asset uid to fetch single entry');}
-    final uri = Uri.https(_client.stack.endpoint, "$_urlPath/$_uid", assetParameter);
-    return _client.sendRequest(uri);
+    final uri = Uri.https(_client.stack.endpoint, '$_urlPath/$_uid', assetParameter);
+    return _client.sendRequest<T, K>(uri);
   }
 
 }
