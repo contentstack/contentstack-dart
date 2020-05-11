@@ -35,7 +35,7 @@ To integrate your Flutter project with Contentstack, install the pub dependency 
 Add this to your package's pubspec.yaml file:
 
     dependencies:
-      contentstack: ^0.0.1
+      contentstack: any
 
 You can install packages from the command line:
 with Flutter:
