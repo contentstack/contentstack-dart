@@ -6,16 +6,21 @@ part 'syncresult.g.dart';
 class SyncResult {
   /// list of items available in sync result
   final List items;
+
   /// skip count in sync result
   final int skip;
+
   /// limit for result items in sync result
   final int limit;
+
   /// Total items count in sync result
   @JsonKey(name: 'total_count')
   final int totalCount;
+
   /// Sync Token for the sync result
   @JsonKey(name: 'sync_token')
   final String syncToken;
+
   /// Pagination Token for the sync result
   @JsonKey(name: 'pagination_token')
   final String paginationToken;
