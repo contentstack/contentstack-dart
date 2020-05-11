@@ -7,12 +7,10 @@ import 'package:contentstack/src/image_transform.dart';
 import 'package:contentstack/src/sync/publishtype.dart';
 import 'package:http/http.dart';
 import 'package:contentstack/contentstack.dart';
-import 'package:logging/logging.dart';
 
 /// A stack is like a container that holds the content of your app.
 /// Learn more about [Stacks](https://www.contentstack.com/docs/developers/set-up-stack/about-stack/).
 class Stack {
-  final Logger log = Logger('Stack');
   Map<String, String> stackHeader = <String, String>{};
   final String _apiKey;
   final String _deliveryToken;

@@ -3,7 +3,8 @@ import 'package:contentstack/client.dart';
 
 /// This call fetches the latest version of a specific asset of a particular stack.
 /// Read more about
-/// Learn more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-a-single-asset).
+/// Learn more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-a-single-asset)
+///
 class Asset {
   final HttpClient _client;
   final String _uid;

@@ -7,7 +7,6 @@ import 'package:contentstack/src/image/fit.dart';
 import 'package:contentstack/src/image/format.dart';
 import 'package:contentstack/src/image/orientation.dart';
 import 'package:contentstack/src/query_params.dart';
-import 'package:logging/logging.dart';
 
 ///Image Delivery APIs retrieve, manipulate and/or convert the retrieved image file,
 ///and deliver it to your web or mobile properties.
@@ -15,7 +14,6 @@ import 'package:logging/logging.dart';
 class ImageTransformation {
   final String _imageUrl;
   final HttpClient client;
-  final Logger log = Logger('ImageTransformation');
   final Map<String, String> queryParameter = <String, String>{};
   final URLQueryParams query = URLQueryParams();
   ImageTransformation(this._imageUrl, this.client);
