@@ -47,7 +47,7 @@ class HttpClient extends http.BaseClient {
         return fromJson<T, K>(bodyJson['asset']);
       } else if (K == AssetModel && bodyJson.containsKey('assets')) {
         return fromJson<T, K>(bodyJson['assets']);
-      }else if (T == SyncResult && bodyJson.containsKey('items')) {
+      } else if (T == SyncResult && bodyJson.containsKey('items')) {
         return fromJson<T, K>(bodyJson);
       } else {
         return fromJson<T, K>(bodyJson);

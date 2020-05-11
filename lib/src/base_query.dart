@@ -5,7 +5,6 @@ import 'package:contentstack/src/enums/operations.dart';
 /// functions to query in Entry, Assets and content_type
 /// common query for asset & entry
 class BaseQuery {
-
   final Map<String, String> queryParameter = <String, String>{};
   final Map<String, dynamic> parameter = <String, dynamic>{};
 

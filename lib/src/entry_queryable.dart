@@ -182,5 +182,4 @@ class EntryQueryable {
       parameter[key] = value.toString();
     }
   }
-
 }
