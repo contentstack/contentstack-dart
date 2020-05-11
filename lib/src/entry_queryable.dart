@@ -1,5 +1,6 @@
 import 'package:contentstack/src/enums/include.dart';
 
+/// Applies Queries on [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
 class EntryQueryable {
   final Map<String, String> parameter = <String, String>{};
 
@@ -32,7 +33,7 @@ class EntryQueryable {
       for (final item in fieldUid) {
         referenceArray.add(item);
       }
-      parameter["only[BASE][]"] = referenceArray.toString();
+      parameter['only[BASE][]'] = referenceArray.toString();
     }
   }
 
@@ -53,7 +54,7 @@ class EntryQueryable {
       for (final item in fieldUid) {
         referenceArray.add(item);
       }
-      parameter["except[BASE][]"] = referenceArray.toString();
+      parameter['except[BASE][]'] = referenceArray.toString();
     }
   }
 
@@ -104,7 +105,7 @@ class EntryQueryable {
               referenceArray.add(item);
             }
           }
-          parameter["include[]"] = referenceArray.toString();
+          parameter['include[]'] = referenceArray.toString();
         }, only: (fieldUid) {
           final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
           if (fieldUid.fieldUidList != null &&
@@ -116,7 +117,7 @@ class EntryQueryable {
           referenceOnlyParam[referenceFieldUid] = referenceArray;
           //_include(referenceFieldUid);
           includeReference(referenceFieldUid);
-          parameter["only"] = referenceOnlyParam.toString();
+          parameter['only'] = referenceOnlyParam.toString();
         }, except: (fieldUid) {
           final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
           if (fieldUid.fieldUidList != null &&
@@ -128,11 +129,11 @@ class EntryQueryable {
           referenceOnlyParam[referenceFieldUid] = referenceArray;
           //_include(referenceFieldUid);
           includeReference(referenceFieldUid);
-          parameter["except"] = referenceOnlyParam.toString();
+          parameter['except'] = referenceOnlyParam.toString();
         });
       } else {
         //referenceArray.add(referenceFieldUid);
-        parameter["include[]"] = referenceFieldUid;
+        parameter['include[]'] = referenceFieldUid;
       }
     }
   }
@@ -147,8 +148,8 @@ class EntryQueryable {
   /// entry.includeContentType();
   ///
   void includeContentType() {
-    parameter["include_content_type"] = 'true';
-    parameter["include_global_field_schema"] = 'true';
+    parameter['include_content_type'] = 'true';
+    parameter['include_global_field_schema'] = 'true';
   }
 
   /// This method also includes the content type UIDs of the referenced entries returned in the response

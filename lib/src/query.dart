@@ -4,7 +4,12 @@ import 'package:contentstack/client.dart';
 import 'package:contentstack/src/base_query.dart';
 import 'package:contentstack/src/enums/operator.dart';
 import 'package:contentstack/src/enums/reference.dart';
+import 'package:contentstack/src/enums/include.dart' as include;
 
+
+/// Contentstack provides certain queries that you can use to fetch filtered results.
+/// You can use queries for Entries and Assets API requests.
+/// Learn more about [Query](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#queries)
 class Query extends BaseQuery {
 
   final HttpClient _client;
@@ -14,22 +19,22 @@ class Query extends BaseQuery {
   Query([this._client, this._contentTypeUid]) {
     queryParameter['environment'] = _client.stackHeaders['environment'];
     _path =
-        "/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries";
+        '/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries';
   }
 
   Map getQueryUrl() {
     if (parameter != null && parameter.isNotEmpty) {
       final stringify = json.encode(parameter);
-      queryParameter["query"] = stringify.toString();
+      queryParameter['query'] = stringify.toString();
       return queryParameter;
     }
     return queryParameter;
   }
 
-  Future find() async {
+  Future<T> find<T, K>() async{
     getQueryUrl();
-    final uri = Uri.https(_client.stack.endpoint, "$_path", queryParameter);
-    return _client.sendRequest(uri);
+    final uri = Uri.https(_client.stack.endpoint, _path, queryParameter);
+    return _client.sendRequest<T, K>(uri);
   }
 
   ///
@@ -82,17 +87,17 @@ class Query extends BaseQuery {
   ///
   /// final query = stack.contentType('room').entry().query();
   /// query.referenceSearch('fieldUid', QueryReference.include(query: query));
-  ///   await query.find().then((response){
-  ///       print(response);
-  ///   });
+  /// await query.find().then((response){
+  ///    print(response);
+  /// });
   ///
   void whereReference(String referenceUid, QueryReference reference) {
     if (referenceUid != null && referenceUid.isNotEmpty) {
       reference.when(include: (queryInstance) {
-        parameter[referenceUid] = {"\$in_query": queryInstance.query.parameter};
+        parameter[referenceUid] = {'\$in_query': queryInstance.query.parameter};
       }, notInclude: (queryInstance) {
         parameter[referenceUid] = {
-          "\$nin_query": queryInstance.query.parameter
+          '\$nin_query': queryInstance.query.parameter
         };
       });
     }
@@ -106,53 +111,43 @@ class Query extends BaseQuery {
   /// Get all entries that satisfy at least one of the given conditions provided
   /// in the '$or' query.
   ///
-  /// Example:
-  /// * operator OR
+  /// * {Example}: operator OR
   ///
-  /// test('test operator OR in Query', () async {
+  /// final stackInstance1 = Credential.stack();
+  /// final queryBase1 = stackInstance1.contentType('room').entry().query();
+  /// queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
   ///
-  ///      final stackInstance1 = Credential.stack();
-  ///      final queryBase1 = stackInstance1.contentType('room').entry().query();
-  ///      queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
+  /// final stackInstance2 = Credential.stack();
+  /// final queryBase2 = stackInstance2.contentType('room').entry().query();
+  /// queryBase2.where('attendee', QueryOperation.equals(value: 20));
   ///
-  ///      final stackInstance2 = Credential.stack();
-  ///      final queryBase2 = stackInstance2.contentType('room').entry().query();
-  ///      queryBase2.where('attendee', QueryOperation.equals(value: 20));
+  /// final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
+  /// query.operator(QueryOperator.or(queryObjects: listOfQuery));
+  /// await query.find().then((response){
+  ///    print(response.toString());
+  /// }).catchError((onError){
+  ///    print(onError);
+  /// });
   ///
-  ///      final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
-  ///      query.operator(QueryOperator.or(queryObjects: listOfQuery));
-  ///      await query.find().then((response){
-  ///        logger.fine(response);
-  ///        final completeUrl = query.getQueryUrl()['query'];
-  ///        print(response.toString());
-  ///      }).catchError((onError){
-  ///        print(onError);
-  ///      });
-  ///    });
+  /// 
   ///
+  /// * {Example}: And Operator:
   ///
-  /// Example:
+  /// final stackInstance1 = Credential.stack();
+  /// final queryBase1 = stackInstance1.contentType('room').entry().query();
+  /// queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
   ///
-  /// * And Operator:
-  /// test('test operator And in Query', () async {
-  ///      final stackInstance1 = Credential.stack();
-  ///      final queryBase1 = stackInstance1.contentType('room').entry().query();
-  ///      queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
+  /// final stackInstance2 = Credential.stack();
+  /// final queryBase2 = stackInstance2.contentType('room').entry().query();
+  /// queryBase2.where('attendee', QueryOperation.equals(value: 20));
   ///
-  ///      final stackInstance2 = Credential.stack();
-  ///      final queryBase2 = stackInstance2.contentType('room').entry().query();
-  ///      queryBase2.where('attendee', QueryOperation.equals(value: 20));
-  ///
-  ///      final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
-  ///      query.operator(QueryOperator.and(queryObjects: listOfQuery));
-  ///      await query.find().then((response){
-  ///        logger.fine(response);
-  ///        final completeUrl = query.getQueryUrl()['query'];
-  ///        print(response.toString());
-  ///      }).catchError((onError){
-  ///        print(onError);
-  ///      });
-  ///    });
+  /// final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
+  /// query.operator(QueryOperator.and(queryObjects: listOfQuery));
+  /// await query.find().then((response){
+  ///    print(response.toString());
+  /// }).catchError((onError){
+  ///    print(onError);
+  /// });
   ///
   void operator(QueryOperator operator) {
     operator.when(and: (and) {
@@ -163,7 +158,7 @@ class Query extends BaseQuery {
         for (final item in queryList) {
           emptyList.add(item.parameter);
         }
-        parameter["\$and"] = emptyList;
+        parameter['\$and'] = emptyList;
       }
     }, or: (or) {
       final List<Query> queryList =
@@ -173,8 +168,199 @@ class Query extends BaseQuery {
         for (final item in queryList) {
           emptyList.add(item.parameter);
         }
-        parameter["\$or"] = emptyList;
+        parameter['\$or'] = emptyList;
       }
     });
   }
+
+
+
+  //
+  //  Entry Queryable functions:
+  ///
+  /// [locale] is code of the language of which the entries needs to be included.
+  /// Only the entries published in this locale will be fetched.
+  ///
+  /// Example:
+  /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+  /// final query = stack.contentType("contentTypeUid").entry().query();
+  /// query.locale('en-eu');
+  ///
+  void locale(String locale) {
+    queryParameter['locale'] = locale;
+  }
+
+
+  /////////////////////////////////////////////////
+  //-------------[Entry Queryable]---------------//
+  /////////////////////////////////////////////////
+
+
+  /// Specifies an array of only keys in BASE object that would be included in the response.
+  /// [fieldUid] Array of the only reference keys to be included in response.
+  /// [Query] object, so you can chain this call.
+  ///
+  /// Example:
+  /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+  /// final query = stack.contentType("contentTypeUid").entry().query();
+  /// fieldUid is String type of List
+  /// query.only(fieldUid);
+  ///
+  void only(List<String> fieldUid) {
+    if (fieldUid != null && fieldUid.isNotEmpty) {
+      final List<String> referenceArray = [];
+      for (final item in fieldUid) {
+        referenceArray.add(item);
+      }
+      queryParameter['only[BASE][]'] = referenceArray.toString();
+    }
+  }
+
+  ///
+  /// Specifies list of field uids that would be excluded from the response.
+  /// [fieldUid] field uid  which get excluded from the response.
+  /// [Query] object, so you can chain this call.
+  ///
+  /// Example:
+  /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+  /// final query = stack.contentType("contentTypeUid").entry().query();
+  /// fieldUid is String type of List
+  /// query.except(fieldUid);
+  ///
+  void except(List<String> fieldUid) {
+    if (fieldUid != null && fieldUid.isNotEmpty) {
+      final List referenceArray = [];
+      for (final item in fieldUid) {
+        referenceArray.add(item);
+      }
+      queryParameter['except[BASE][]'] = referenceArray.toString();
+    }
+  }
+
+  ///
+  /// * Include Reference
+  /// When you fetch an entry of a content type that has a reference field,
+  /// by default, the content of the referred entry is not fetched.
+  /// It only fetches the UID of the referred entry, along with the content of
+  /// the specified entry.
+  ///
+  /// If you wish to fetch the content of the entry that is included in the reference field, you need to use the include[] parameter, and specify the UID of the reference field as value. This informs Contentstack that the request also includes fetching the entry used in the specified reference field.
+  /// Add a constraint that requires a particular reference key details.
+  /// [includeReference] provides three options, none, only and except
+  /// i.e accepts list of fieldUid
+  /// [referenceFieldUid] Key who has reference to some other class object.
+  /// Array of the only reference keys to be included in response.
+  ///
+  /// {Example 1}: Reference type None
+  ///
+  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
+  /// final query = stack.contentType('contentTypeUid').entry().query();
+  /// query.includeReference("referenceFieldUid", IncludeReference.none(fieldUidList: null));
+  /// await entry.fetch();
+  ///
+  /// {Example 2}: Reference type only
+  ///
+  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
+  /// final query = stack.contentType('contentTypeUid').entry().query();
+  /// final fieldUid = list of string type;
+  /// query.includeReference("referenceFieldUid", IncludeReference.only(fieldUidList: fieldUid));
+  ///
+  /// {Example 3}: Reference type except
+  ///
+  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
+  /// final query = stack.contentType('contentTypeUid').entry().query();
+  /// query.includeReference("referenceFieldUid", IncludeReference.except(fieldUidList: fieldUid));
+  ///
+  void includeReference(String referenceFieldUid,
+      {include.Include includeReferenceField}) {
+    if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
+      final List referenceArray = [];
+      if (includeReferenceField != null) {
+        includeReferenceField.when(none: (fieldUid) {
+          referenceArray.add(referenceFieldUid);
+          if (fieldUid.fieldUidList != null &&
+              fieldUid.fieldUidList.isNotEmpty) {
+            for (final item in fieldUid.fieldUidList) {
+              referenceArray.add(item);
+            }
+          }
+          queryParameter['include[]'] = referenceArray.toString();
+        }, only: (fieldUid) {
+          final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
+          if (fieldUid.fieldUidList != null &&
+              fieldUid.fieldUidList.isNotEmpty) {
+            for (final item in fieldUid.fieldUidList) {
+              referenceArray.add(item);
+            }
+          }
+          referenceOnlyParam[referenceFieldUid] = referenceArray;
+          //_include(referenceFieldUid);
+          includeReference(referenceFieldUid);
+          queryParameter['only'] = referenceOnlyParam.toString();
+        }, except: (fieldUid) {
+          final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
+          if (fieldUid.fieldUidList != null &&
+              fieldUid.fieldUidList.isNotEmpty) {
+            for (final item in fieldUid.fieldUidList) {
+              referenceArray.add(item);
+            }
+          }
+          referenceOnlyParam[referenceFieldUid] = referenceArray;
+          //_include(referenceFieldUid);
+          includeReference(referenceFieldUid);
+          queryParameter['except'] = referenceOnlyParam.toString();
+        });
+      } else {
+        queryParameter['include[]'] = referenceFieldUid;
+      }
+    }
+  }
+
+  ///
+  /// Include Content Type of all returned objects along with objects themselves.
+  /// return, [Query] so you can chain this call.
+  ///
+  /// Example:
+  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
+  /// final query = stack.contentType('contentTypeUid').entry().query();
+  /// query.includeContentType();
+  ///
+  void includeContentType() {
+    queryParameter['include_content_type'] = 'true';
+    queryParameter['include_global_field_schema'] = 'true';
+  }
+
+  /// This method also includes the content type UIDs of the referenced entries returned in the response
+  /// return [Query] so you can chain this call
+  ///
+  /// Example:
+  ///
+  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
+  /// final query = stack.contentType('contentTypeUid').entry().query();
+  /// query.includeReferenceContentTypeUID();
+  ///
+  void includeReferenceContentTypeUID() {
+    queryParameter['include_reference_content_type_uid'] = 'true';
+  }
+
+  ///
+  /// This method adds key and value to an Entry.
+  /// [key] The key as string which needs to be added to an Entry
+  /// [value] The value as string which needs to be added to an Entry
+  /// [Query] object, so you can chain this call.
+  ///
+  /// Example:
+  ///
+  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
+  /// final query = stack.contentType('contentTypeUid').entry().query();
+  /// entry.addParam(key, value);
+  ///
+  void addParam(String key, String value) {
+    if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
+      queryParameter[key] = value.toString();
+    }
+  }
+
+
+
 }

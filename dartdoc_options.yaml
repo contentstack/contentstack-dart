@@ -1,5 +1,7 @@
 dartdoc:
+    --exclude: 'client, dart:async,dart:collection,...,dart:ui'
     showUndocumentedCategories: true
+    examplePathPrefix: 'example/example.md'
     ignore:
         - ambiguous-doc-reference
     errors:
@@ -7,5 +9,6 @@ dartdoc:
     warnings:
         - tool-error
     exclude:
-        - lib/client.dart
-
+        - 'client'
+    favicon:
+        - 'logo.png'

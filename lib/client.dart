@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:contentstack/contentstack.dart';
-import 'package:contentstack/src/error/error.dart';
 import 'package:http/http.dart' as http;
 import 'package:contentstack/src/stack.dart';
 
@@ -18,25 +17,14 @@ class HttpClient extends http.BaseClient {
 
   HttpClient._internal(this._client, this.stackHeaders, this.stack);
 
-  /// Sends an HTTP request and asynchronously returns the response.
-  ///
-  /// Implementers should call [BaseRequest.finalize] to get the body of the
-  /// request as a [ByteStream]. They shouldn't make any assumptions about the
-  /// state of the stream; it could have data written to it asynchronously at a
-  /// later point, or it could already be closed when it's returned. Any
-  /// internal HTTP errors should be wrapped as [ClientException]s.
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    //request.headers.addAll(stackHeaders);
-    //request.headers['Content-Type'] = 'application/json';
-    //request.headers['sdk'] = 'contentstack-dart-v0.1.0';
     return _client.send(request);
   }
 
-  Future<dynamic> sendRequest(Uri uri) async {
-    stackHeaders.addAll(stackHeaders);
+  Future<T> sendRequest<T, K>(Uri uri) async {
     stackHeaders['Content-Type'] = 'application/json';
-    stackHeaders['sdk'] = 'contentstack-dart-v0.1.0';
+    stackHeaders['X-User-Agent'] = 'contentstack-dart/0.1.0';
     final response = await http.get(uri, headers: stackHeaders);
     Object bodyJson;
     try {
@@ -49,16 +37,35 @@ class HttpClient extends http.BaseClient {
       }
       rethrow;
     }
-    if (response.statusCode != 200) {
-      return Error.fromJson(bodyJson);
+    if (response.statusCode == 200) {
+      final Map bodyJson = jsonDecode(response.body);
+      if (T == EntryModel && bodyJson.containsKey('entry')) {
+        return fromJson<T, K>(bodyJson['entry']);
+      } else if (K == EntryModel && bodyJson.containsKey('entries')) {
+        return fromJson<T, K>(bodyJson['entries']);
+      } else if (T == AssetModel && bodyJson.containsKey('asset')) {
+        return fromJson<T, K>(bodyJson['asset']);
+      } else if (K == AssetModel && bodyJson.containsKey('assets')) {
+        return fromJson<T, K>(bodyJson['assets']);
+      }else if (T == SyncResult && bodyJson.containsKey('items')) {
+        return fromJson<T, K>(bodyJson);
+      } else {
+        return fromJson<T, K>(bodyJson);
+      }
+    } else {
+      return bodyJson;
     }
-
-    return bodyJson;
   }
 
   @override
   void close() => _client.close();
 
+  ///////////////////////////////////////
+  // generic objects as well as List of generic objects (from a JSON list response).
+  // First, you need to have a function that checks the type of the generic object
+  // and returns the result of the corresponding fromJson call
+  // code taken from:
+  // https://stackoverflow.com/questions/56271651/how-to-pass-a-generic-type-as-a-parameter-to-a-future-in-flutter
   ///////////////////////////////////////
 
   static T fromJson<T, K>(dynamic json) {
@@ -71,7 +78,7 @@ class HttpClient extends http.BaseClient {
     } else if (T == SyncResult) {
       return SyncResult.fromJson(json) as T;
     } else {
-      throw Exception("Unknown class");
+      return json;
     }
   }
 
@@ -79,8 +86,8 @@ class HttpClient extends http.BaseClient {
     if (jsonList == null) {
       return null;
     }
-    // ignore: prefer_collection_literals
-    final List<K> output = List();
+
+    final output = <K>[];
     // ignore: prefer_final_in_for_each
     for (Map<String, dynamic> json in jsonList) {
       output.add(fromJson(json));

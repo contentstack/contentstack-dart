@@ -3,25 +3,15 @@ import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/entry_queryable.dart';
 
-///
-/// An entry is the actual piece of content created
-/// using one of the defined content types.
-/// Read more about Entries.
-/// https://www.contentstack.com/docs/content-managers/work-with-entries/
-///
-/// All Entries:
-/// The Get all entries call fetches the list of all the entries of a
-/// particular content type
-///
-/// Single Entry:
-/// The Get a single entry request fetches a particular entry of a content type
-///
+///An entry is the actual piece of content created using one of
+///the defined content types. Learn more about Entries.
+/// Read more for details of [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
 class Entry extends EntryQueryable {
   Entry([this._uid, this._client, this._contentTypeUid]) {
     parameter['environment'] = _client.stackHeaders['environment'];
     if (_contentTypeUid != null && _contentTypeUid.isNotEmpty) {
       _path =
-          "/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries";
+          '/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries';
     }
   }
 
@@ -54,11 +44,11 @@ class Entry extends EntryQueryable {
   ///        expect('invalid url requested', onError.message);
   ///      });
   ///
-  Future fetch() async {
+  Future<T> fetch<T, K>() async {
     if (_uid == null) {
-      throw Exception("Provide entry uid to fetch single entry");
+      throw Exception('Provide entry uid to fetch single entry');
     }
-    final uri = Uri.https(_client.stack.endpoint, "$_path/$_uid", parameter);
-    return _client.sendRequest(uri);
+    final uri = Uri.https(_client.stack.endpoint, '$_path/$_uid', parameter);
+    return _client.sendRequest<T, K>(uri);
   }
 }

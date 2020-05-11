@@ -3,7 +3,7 @@ import 'package:contentstack/src/enums/operations.dart';
 ///
 /// This is base Query class that contains common
 /// functions to query in Entry, Assets and content_type
-///
+/// common query for asset & entry
 class BaseQuery {
 
   final Map<String, String> queryParameter = <String, String>{};
@@ -16,13 +16,13 @@ class BaseQuery {
       }, notEquals: (operation) {
         parameter[fieldUid] = {'\$ne': operation.value};
       }, includes: (operation) {
-        parameter[fieldUid] = {"\$in": operation.value};
+        parameter[fieldUid] = {'\$in': operation.value};
       }, excludes: (operation) {
-        parameter[fieldUid] = {"\$nin": operation.value};
+        parameter[fieldUid] = {'\$nin': operation.value};
       }, isLessThan: (operation) {
         parameter[fieldUid] = {'\$lt': operation.value};
       }, isLessThanOrEqual: (operation) {
-        parameter[fieldUid] = {"\$lte": operation.value};
+        parameter[fieldUid] = {'\$lte': operation.value};
       }, isGreaterThan: (operation) {
         parameter[fieldUid] = {'\$gt': operation.value};
       }, isGreaterThanOrEqual: (operation) {
@@ -49,7 +49,7 @@ class BaseQuery {
   /// query.skip(2);
   ///
   void skip(int skipCount) {
-    queryParameter["skip"] = skipCount.toString();
+    queryParameter['skip'] = skipCount.toString();
   }
 
   ///
@@ -64,7 +64,7 @@ class BaseQuery {
   /// query.limit(2);
   ///
   void limit(int limitCount) {
-    queryParameter["limit"] = limitCount.toString();
+    queryParameter['limit'] = limitCount.toString();
   }
 
   ///
@@ -79,7 +79,7 @@ class BaseQuery {
   /// query.orderByAscending('ascendingByKey');
   ///
   void orderByAscending(String key) {
-    queryParameter["asc"] = key.toString();
+    queryParameter['asc'] = key.toString();
   }
 
   ///
@@ -94,7 +94,7 @@ class BaseQuery {
   /// query.orderByDecending('descendingByKey');
   ///
   void orderByDescending(String key) {
-    queryParameter["desc"] = key.toString();
+    queryParameter['desc'] = key.toString();
   }
 
   ///

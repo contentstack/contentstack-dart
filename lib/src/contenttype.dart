@@ -4,13 +4,11 @@ import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/contenttype_query.dart';
 
 ///
-/// Content type defines the structure or schema of a page or a section of your
-/// web or mobile property. To create content for your application, you are
-/// required to first create a content type, and then create entries using the
-/// content type.
-///
-/// * Read more about Content Types.
-/// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#content-types
+/// Content type lets you define the structure or blueprint
+/// of a page or a section of your digital property.
+/// It is a form-like page that gives Content Managers
+/// an interface to input and upload content.
+/// * Read more about [ContentTypes](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#content-types).
 ///
 class ContentType {
   final String _contentTypeUid;
@@ -21,7 +19,7 @@ class ContentType {
   ContentType([this._contentTypeUid, this._client]) {
     _queryParameter['environment'] = _client.stackHeaders['environment'];
     if (_contentTypeUid != null && _contentTypeUid.isNotEmpty) {
-      urlPath = "/${_client.stack.apiVersion}/content_types/$_contentTypeUid";
+      urlPath = '/${_client.stack.apiVersion}/content_types/$_contentTypeUid';
     }
   }
 
@@ -71,7 +69,7 @@ class ContentType {
   /// final response = contentType.fetch(queryParameter);
   /// print(response);
   ///
-  Future fetch([Map<String, dynamic> queryParams]) {
+  Future<T> fetch<T, K>([Map<String, dynamic> queryParams]) {
     if (urlPath == null) {
       throw Exception('content_type_uid is missing');
     }
@@ -79,6 +77,6 @@ class ContentType {
       _queryParameter.addAll(queryParams);
     }
     final uri = Uri.https(_client.stack.endpoint, urlPath, _queryParameter);
-    return _client.sendRequest(uri);
+    return _client.sendRequest<T, K>(uri);
   }
 }
