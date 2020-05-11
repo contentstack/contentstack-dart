@@ -1,6 +1,5 @@
 name: contentstack
-description: >-
-  Contentstack is a headless CMS with an API-first approach that puts content
+description: Contentstack is a headless CMS with an API-first approach that puts content
   at the centre. It is designed to simplify the process of publication by
   separating code from content. In a world where content is consumed via
   countless channels and form factors across mobile, web and IoT.
@@ -11,7 +10,7 @@ description: >-
   With an architecture that’s extensible –
   but without the bloat of legacy CMS – Contentstack cuts down on infrastructure,
   maintenance, cost and complexity.
-version: 0.0.1
+version: 0.1.0
 homepage: https://github.com/contentstack/contentstack-dart
 documentation: https://www.contentstack.com/docs/platforms/dart/api-reference/
 
@@ -24,7 +23,6 @@ dependencies:
   json_annotation: ^3.0.1
   dartdoc: ^0.30.1
   logger: ^0.9.1
-  #package_info: ^0.4.0+16
   super_enum: ^0.4.2
 
 
