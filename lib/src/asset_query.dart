@@ -43,14 +43,30 @@ class AssetQuery extends BaseQuery {
   }
 
   ///
-  /// include the relative URLs of the assets in the response.
+  /// includes the relative URLs of the assets in the response
   ///
   void relativeUrls() {
     queryParameter['relative_urls'] = 'true';
   }
 
+  ///
+  /// To retrieve the count of entries, we have two parameters:
+  /// include_count (retrieves entries' details and their count)
+  /// and count (retrieves only the count of entries).
+  ///
+  /// Example: If you wish to know the total number of entries in
+  /// the a content type and also retrieve all the data.
+  ///
   void includeCount() {
     queryParameter['include_count'] = 'true';
+  }
+
+  ///
+  /// Include the fallback locale publish content,
+  /// if specified locale content is not publish.
+  ///
+  void includeFallback() {
+    queryParameter['include_fallback'] = 'true';
   }
 
   /// find is applicable for getting all the available assets based on the query

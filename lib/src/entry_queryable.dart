@@ -59,7 +59,7 @@ class EntryQueryable {
   }
 
   ///
-  /// * Include Reference
+  /// [Include Reference]
   /// When you fetch an entry of a content type that has a reference field,
   /// by default, the content of the referred entry is not fetched.
   /// It only fetches the UID of the referred entry, along with the content of
@@ -77,7 +77,8 @@ class EntryQueryable {
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
   /// entry.includeReference("referenceFieldUid", IncludeReference.none(fieldUidList: null));
-  /// await entry.fetch();
+  /// response = await entry.fetch();
+  /// prints(response)
   ///
   /// Example 2: Reference type only
   ///
@@ -85,12 +86,16 @@ class EntryQueryable {
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
   /// final fieldUid = list of string type;
   /// entry.includeReference("referenceFieldUid", IncludeReference.only(fieldUidList: fieldUid));
+  /// response = await entry.fetch();
+  /// prints(response)
   ///
   /// Example 3: Reference type except
   ///
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
   /// entry.includeReference("referenceFieldUid", IncludeReference.except(fieldUidList: fieldUid));
+  /// response = await entry.fetch();
+  /// prints(response)
   ///
   void includeReference(String referenceFieldUid,
       {Include includeReferenceField}) {

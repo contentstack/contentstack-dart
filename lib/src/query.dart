@@ -354,4 +354,16 @@ class Query extends BaseQuery {
       queryParameter[key] = value.toString();
     }
   }
+
+  ///
+  /// Include the fallback locale publish content,
+  /// if specified locale content is not publish.
+  ///
+  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
+  /// final query = stack.contentType('contentTypeUid').entry().query();
+  /// entry.includeFallback()
+  ///
+  void includeFallback() {
+    queryParameter['include_fallback'] = 'true';
+  }
 }

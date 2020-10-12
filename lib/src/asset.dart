@@ -46,6 +46,14 @@ class Asset {
     assetParameter['include_dimension'] = 'true';
   }
 
+  ///
+  /// Include the fallback locale publish content,
+  /// if specified locale content is not publish.
+  ///
+  void includeFallback() {
+    assetParameter['include_fallback'] = 'true';
+  }
+
   /// It fetch single asset data on the basis of the asset uid.
   Future<T> fetch<T, K>() {
     if (_uid == null || _uid.isEmpty) {

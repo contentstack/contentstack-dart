@@ -5,7 +5,6 @@ import 'package:logger/logger.dart';
 import 'credentials.dart';
 
 void main() {
-
   final logger = Logger(
     printer: PrettyPrinter(),
   );
@@ -44,12 +43,11 @@ void main() {
 
     test('test include_count is available', () async {
       final allContents = ct.query()..includeCount();
-      await allContents.find().then((response){
+      await allContents.find().then((response) {
         expect(11, response['count']);
-      }).catchError((error){
+      }).catchError((error) {
         expect('invalid response', error.message);
       });
-      
     });
 
     test('test contenttype query', () async {

@@ -9,7 +9,6 @@ import 'package:test/test.dart';
 import 'credentials.dart';
 
 void main() {
-
   final logger = Logger(
     printer: PrettyPrinter(),
   );
