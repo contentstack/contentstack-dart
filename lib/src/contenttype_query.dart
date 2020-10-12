@@ -15,8 +15,8 @@ class ContentTypeQuery extends BaseQuery {
   }
 
   ///
-  /// includeCount method facilitate to find the total count of
-  /// content types available in your stack
+  /// This method includes the includeCount method facilitate to
+  /// find the total count of content types available in your stack
   ///
   /// Example:
   /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
@@ -28,8 +28,15 @@ class ContentTypeQuery extends BaseQuery {
     queryParameter['include_count'] = 'true';
   }
 
+  /// This method includes the Global field's schema along with the content type schema
+  ///
+  /// Example:
+  /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  /// final contentTypeQuery = stack.contentType().query()
+  /// final response = contentTypeQuery.includeGlobalField().find();
+  /// print(response);
   void includeGlobalField() {
-    queryParameter['include_count'] = 'true';
+    queryParameter['include_global_field_schema'] = 'true';
   }
 
   /// This call returns comprehensive information of all the content types

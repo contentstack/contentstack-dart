@@ -170,14 +170,13 @@ class Stack {
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// response = stack.getContentTypes(queryParameters);
   ///
-
   Future<T> getContentTypes<T, K>(Map queryParameters) {
     final Uri uri = Uri.https(endpoint, '$apiVersion/content_types');
     return _client.sendRequest<T, K>(uri);
   }
 
   /////////////////////////////////////////////////
-  //-------------[Synchronization]---------------//
+  //    ---------[Synchronization]----------     //
   /////////////////////////////////////////////////
 
   /// * [contentTypeUid] -- You can also initialize sync with entries of

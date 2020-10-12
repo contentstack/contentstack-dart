@@ -1,16 +1,31 @@
+# CHANGELOG
 
-# [0.1.0] - Initial release
+## [0.1.1] - includeFallback Support Added
 
-## May-11-2020 -initial release
+### **Oct-21-2020 -initial release**
 
-### Initial release for the contentstack-dart-sdk for Content Delivery API
+**ENTRY** _includeFallback support added_
+
+**Query** _includeFallback support added_
+
+**Asset** _includeFallback support added_
+
+**AssetQuery** _includeFallback support added_
 
 -----------------------------
 
-# [0.0.1] - Beta release
+## [0.1.0] - Initial release
 
-## May-08-2020 -beta release
+### **May-11-2020 -initial release**
 
-### Beta release for the contentstack-dart-sdk for Content Delivery API
+#### _Initial release for the contentstack-dart-sdk for Content Delivery API_
+
+-----------------------------
+
+## [0.0.1] - Beta release
+
+### **May-08-2020 -beta release**
+
+#### _Beta release for the contentstack-dart-sdk for Content Delivery API_
 
 -----------------------------
