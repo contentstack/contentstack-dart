@@ -40,10 +40,14 @@ class Query extends BaseQuery {
   /// Scope is limited to this object and followed classes.
   /// [key] header name.
   /// [value] header value against given header name.
+  /// 
   /// Example:
+  /// 
+  /// ```dart
   /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
   /// final query = stack.contentType('content_type_uid').entry().query();
   /// query.setHeader('key', 'value');
+  /// ```
   ///
   void setHeader(String key, String value) {
     if (key.isNotEmpty && value.isNotEmpty) {
@@ -56,9 +60,12 @@ class Query extends BaseQuery {
   /// [key] custom header key
   ///
   /// Example:
+  /// 
+  /// ```dart
   /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
   /// final query = stack.contentType('content_type_uid').entry().query();
   /// query.removeHeader('key');
+  /// ```
   ///
   void removeHeader(String key) {
     if (_client.stackHeaders.containsKey(key)) {
@@ -83,11 +90,13 @@ class Query extends BaseQuery {
   /// and it accepts instance of Query
   /// Example:
   ///
+  /// ```dart
   /// final query = stack.contentType('room').entry().query();
   /// query.referenceSearch('fieldUid', QueryReference.include(query: query));
   /// await query.find().then((response){
   ///    print(response);
   /// });
+  /// ```
   ///
   void whereReference(String referenceUid, QueryReference reference) {
     if (referenceUid != null && referenceUid.isNotEmpty) {
@@ -111,14 +120,17 @@ class Query extends BaseQuery {
   ///
   /// * {Example}: operator OR
   ///
+  /// ```dart
   /// final stackInstance1 = Credential.stack();
   /// final queryBase1 = stackInstance1.contentType('room').entry().query();
   /// queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
-  ///
+  /// ```
+  /// ```dart
   /// final stackInstance2 = Credential.stack();
   /// final queryBase2 = stackInstance2.contentType('room').entry().query();
   /// queryBase2.where('attendee', QueryOperation.equals(value: 20));
-  ///
+  /// ```
+  /// ```dart
   /// final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
   /// query.operator(QueryOperator.or(queryObjects: listOfQuery));
   /// await query.find().then((response){
@@ -126,19 +138,22 @@ class Query extends BaseQuery {
   /// }).catchError((onError){
   ///    print(onError);
   /// });
-  ///
-  ///
+  /// ```
   ///
   /// * {Example}: And Operator:
   ///
+  /// ```dart
   /// final stackInstance1 = Credential.stack();
   /// final queryBase1 = stackInstance1.contentType('room').entry().query();
   /// queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
+  /// ```
   ///
+  /// ```dart
   /// final stackInstance2 = Credential.stack();
   /// final queryBase2 = stackInstance2.contentType('room').entry().query();
   /// queryBase2.where('attendee', QueryOperation.equals(value: 20));
-  ///
+  /// ```
+  /// ```dart
   /// final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
   /// query.operator(QueryOperator.and(queryObjects: listOfQuery));
   /// await query.find().then((response){
@@ -146,6 +161,7 @@ class Query extends BaseQuery {
   /// }).catchError((onError){
   ///    print(onError);
   /// });
+  /// ```
   ///
   void operator(QueryOperator operator) {
     operator.when(and: (and) {
@@ -178,9 +194,12 @@ class Query extends BaseQuery {
   /// Only the entries published in this locale will be fetched.
   ///
   /// Example:
+  /// 
+  /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.locale('en-eu');
+  /// ```
   ///
   void locale(String locale) {
     queryParameter['locale'] = locale;
@@ -195,10 +214,13 @@ class Query extends BaseQuery {
   /// [Query] object, so you can chain this call.
   ///
   /// Example:
+  /// 
+  /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// fieldUid is String type of List
   /// query.only(fieldUid);
+  /// ```
   ///
   void only(List<String> fieldUid) {
     if (fieldUid != null && fieldUid.isNotEmpty) {
@@ -216,10 +238,13 @@ class Query extends BaseQuery {
   /// [Query] object, so you can chain this call.
   ///
   /// Example:
+  /// 
+  /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// fieldUid is String type of List
   /// query.except(fieldUid);
+  /// ```
   ///
   void except(List<String> fieldUid) {
     if (fieldUid != null && fieldUid.isNotEmpty) {
@@ -247,23 +272,29 @@ class Query extends BaseQuery {
   ///
   /// {Example 1}: Reference type None
   ///
+  /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
   /// query.includeReference("referenceFieldUid", IncludeReference.none(fieldUidList: null));
   /// await entry.fetch();
+  /// ```
   ///
   /// {Example 2}: Reference type only
-  ///
+  /// 
+  /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
   /// final fieldUid = list of string type;
   /// query.includeReference("referenceFieldUid", IncludeReference.only(fieldUidList: fieldUid));
+  /// ```
   ///
   /// {Example 3}: Reference type except
-  ///
+  /// 
+  /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
   /// query.includeReference("referenceFieldUid", IncludeReference.except(fieldUidList: fieldUid));
+  /// ```
   ///
   void includeReference(String referenceFieldUid,
       {include.Include includeReferenceField}) {
@@ -315,9 +346,12 @@ class Query extends BaseQuery {
   /// return, [Query] so you can chain this call.
   ///
   /// Example:
+  /// 
+  /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
   /// query.includeContentType();
+  /// ```
   ///
   void includeContentType() {
     queryParameter['include_content_type'] = 'true';
@@ -328,10 +362,12 @@ class Query extends BaseQuery {
   /// return [Query] so you can chain this call
   ///
   /// Example:
-  ///
+  /// 
+  /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
   /// query.includeReferenceContentTypeUID();
+  /// ```
   ///
   void includeReferenceContentTypeUID() {
     queryParameter['include_reference_content_type_uid'] = 'true';
@@ -344,10 +380,12 @@ class Query extends BaseQuery {
   /// [Query] object, so you can chain this call.
   ///
   /// Example:
-  ///
+  /// 
+  /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
   /// entry.addParam(key, value);
+  /// ```
   ///
   void addParam(String key, String value) {
     if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
@@ -356,12 +394,16 @@ class Query extends BaseQuery {
   }
 
   ///
-  /// Include the fallback locale publish content,
-  /// if specified locale content is not publish.
-  ///
+  /// Retrieve the published content of the fallback locale if an entry is not
+  /// localized in specified locale.
+  /// 
+  /// Example
+  /// 
+  /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
   /// entry.includeFallback()
+  /// ```
   ///
   void includeFallback() {
     queryParameter['include_fallback'] = 'true';

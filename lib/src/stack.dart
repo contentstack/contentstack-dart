@@ -27,7 +27,10 @@ class Stack {
   /// var stack = contentstack.Stack('api_key', 'delivery_token', environment)
   ///
   /// Example:
+  ///
+  /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// ```
   ///
   Stack(this._apiKey, this._deliveryToken, this._environment,
       {this.apiVersion = 'v3',
@@ -68,8 +71,11 @@ class Stack {
   /// If you want get one contentType by their content_type_uid
   ///
   /// Example:
+  ///
+  /// ```dart
   /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// var contentType = stack.contentType('content_type_id');
+  /// ```
   ///
   ContentType contentType([String contentTypeId]) {
     return ContentType(contentTypeId, _client);
@@ -83,8 +89,11 @@ class Stack {
   /// [uid] assetUid
   ///
   /// Example:
+  ///
+  /// ```dart
   /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// var asset = stack.asset('uid');
+  /// ```
   ///
   Asset asset(String uid) {
     return Asset(uid, _client);
@@ -98,8 +107,11 @@ class Stack {
   /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#all-assets
   ///
   /// Example:
+  ///
+  /// ```dart
   /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  /// var asset = stack.assetQuery(');
+  /// var asset = stack.assetQuery();
+  /// ```
   ///
   AssetQuery assetQuery() {
     return AssetQuery(_client);
@@ -108,8 +120,13 @@ class Stack {
   ///
   /// removeHeader function is to Remove header by [headerKey]
   /// It requires header key to delete the header
-  ///  returns [Stack] Instance
+  /// returns [Stack] Instance
   ///
+  /// Example:
+  /// ```dart
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// stack = stack..removeHeader('headerKey');
+  /// ```
   void removeHeader(String headerKey) {
     if (headerKey != null) {
       if (stackHeader.containsKey(headerKey)) {
@@ -118,7 +135,14 @@ class Stack {
     }
   }
 
-  /// adds headers for the request
+  /// Adds headers for the request
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// stack = stack..setHeader('headerKey', 'headervalue');
+  /// ```
   void setHeader(String key, String value) {
     if (key.isNotEmpty && value.isNotEmpty) {
       stackHeader[key] = value;
@@ -126,18 +150,52 @@ class Stack {
   }
 
   /// It returns apiKey of the Stack
+  ///
+  /// Example
+  /// ```dart
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// var apiKey = stack.apiKey;
+  /// ```
   String get apiKey => _apiKey;
 
   /// It returns delivery token of the Stack
+  ///
+  /// Example
+  ///
+  /// ```dart
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// var deliveryToken = stack.deliveryToken;
+  /// ```
   String get deliveryToken => _deliveryToken;
 
   /// It returns delivery token of the Environment
+  ///
+  /// Example
+  ///
+  /// ```dart
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// var environment = stack.environment;
+  /// ```
   String get environment => _environment;
 
   /// It returns host of the Stack
+  ///
+  /// Example
+  ///
+  /// ```dart
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// var environment = stack.environment;
+  /// ```
   String get host => _host;
 
   /// It returns endpoint of the Stack
+  ///
+  /// Example
+  ///
+  /// ```dart
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// var environment = stack.environment;
+  /// ```
   String get endpoint => host;
 
   ///
@@ -151,8 +209,11 @@ class Stack {
   /// [imageUrl] is the required parameter
   ///
   /// Example:
+  ///
+  /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// imageTransformation = stack.imageTransform(imageUrl);
+  /// ```
   ///
   ImageTransformation imageTransform(String imageUrl) {
     return ImageTransformation(imageUrl, _client);
@@ -167,8 +228,11 @@ class Stack {
   /// returns list of content_types
   ///
   /// Example:
+  ///
+  /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// response = stack.getContentTypes(queryParameters);
+  /// ```
   ///
   Future<T> getContentTypes<T, K>(Map queryParameters) {
     final Uri uri = Uri.https(endpoint, '$apiVersion/content_types');
