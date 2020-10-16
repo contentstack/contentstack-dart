@@ -25,25 +25,13 @@ class Entry extends EntryQueryable {
     return Query(_client, _contentTypeUid);
   }
 
-  ///
-  /// Include the fallback locale publish content,
-  /// if specified locale content is not publish.
-  ///
-  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
-  /// final query = stack.contentType('contentTypeUid').entry();
-  /// entry.includeFallback()
-  ///
-  void includeFallback() {
-    parameter['include_fallback'] = 'true';
-  }
-
   /// The Get a single entry request fetches a particular entry of a content type.
-  ///
   /// Example:
   ///
+  /// ```dart
   /// import 'package:contentstack/contentstack.dart' as contentstack;
-  /// final contentstack.Stack stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  /// entry = stack.contentType('faq').entry(entryUid: Credential.entryUid);
+  /// final contentstack.Stack stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  /// entry = stack.contentType('contentType').entry(entryUid: 'entryUid');
   /// entry.includeReference('categories');
   ///      await entry.fetch().then((response) {
   ///        if(response is Error){
@@ -54,6 +42,7 @@ class Entry extends EntryQueryable {
   ///      }).catchError((onError) {
   ///        expect('invalid url requested', onError.message);
   ///      });
+  /// ```
   ///
   Future<T> fetch<T, K>() async {
     if (_uid == null) {

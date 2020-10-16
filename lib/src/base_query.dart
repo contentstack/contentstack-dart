@@ -43,9 +43,11 @@ class BaseQuery {
   /// skip specifies the number of objects to skip in the response.
   /// Example:
   ///
+  /// ```dart
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.skip(2);
+  /// ```
   ///
   void skip(int skipCount) {
     queryParameter['skip'] = skipCount.toString();
@@ -58,9 +60,11 @@ class BaseQuery {
   /// The limit parameter can be used for pagination, limit specifies the number of objects to limit to in the response.
   ///
   /// Example:
+  /// ```dart
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.limit(2);
+  /// ```
   ///
   void limit(int limitCount) {
     queryParameter['limit'] = limitCount.toString();
@@ -73,9 +77,11 @@ class BaseQuery {
   /// you can chain this call by using double dot
   ///
   /// Example:
+  /// ```dart
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.orderByAscending('ascendingByKey');
+  /// ```
   ///
   void orderByAscending(String key) {
     queryParameter['asc'] = key.toString();
@@ -88,9 +94,11 @@ class BaseQuery {
   /// you can chain this call by using double dot
   ///
   /// Example:
+  /// ```dart
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.orderByDecending('descendingByKey');
+  /// ```
   ///
   void orderByDescending(String key) {
     queryParameter['desc'] = key.toString();
@@ -102,9 +110,11 @@ class BaseQuery {
   /// [value] The value as string which needs to be added to the Query
   ///
   /// Example:
+  /// ```dart
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.param('key', 'value');
+  /// ```
   ///
   void param(String key, String value) {
     if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
@@ -117,9 +127,11 @@ class BaseQuery {
   /// [parameters] The key and value pair that will be added to the Query
   ///
   /// Example:
+  /// ```dart
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.addParam({key: value, key1: value2});
+  /// ```
   ///
   void addParams(Map parameters) {
     if (parameters != null && parameters.isNotEmpty) {
@@ -135,9 +147,11 @@ class BaseQuery {
   /// [value] value for the query
   ///
   /// Example:
+  /// ```dart
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.addQuery("query_param_key", "query_param_value");
+  /// ```
   ///
   void query(String key, String value) {
     if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
@@ -150,9 +164,11 @@ class BaseQuery {
   /// [parameters] The key and value pair that will be added to the Query
   ///
   /// Example:
+  /// ```dart
   /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.addQuery("query_param_key", "query_param_value");
+  /// ```
   ///
   void addQuery(Map parameters) {
     if (parameters != null && parameters.isNotEmpty) {

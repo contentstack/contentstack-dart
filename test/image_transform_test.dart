@@ -439,7 +439,11 @@ void main() {
     test('canvas by Offset in ImageTransformation API Request', () async {
       imageTransformation.fit(200, 100, Fit.crop());
       await imageTransformation.fetch().then((response) {
-        expect('80', response.query.toString());
+        if (response['error_code'] == 200) {
+          expect('80', response.query.toString());
+        } else {
+          expect(178, response['error_code']);
+        }
       }).catchError((onError) {
         expect('Unexpected character', onError.message.toString());
       });
