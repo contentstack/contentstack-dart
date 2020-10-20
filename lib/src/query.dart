@@ -6,7 +6,8 @@ import 'package:contentstack/src/enums/operator.dart';
 import 'package:contentstack/src/enums/reference.dart';
 import 'package:contentstack/src/enums/include.dart' as include;
 
-/// Contentstack provides certain queries that you can use to fetch filtered results.
+/// Contentstack provides certain queries that you
+/// can use to fetch filtered results.
 /// You can use queries for Entries and Assets API requests.
 /// Learn more about [Query](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#queries)
 class Query extends BaseQuery {
@@ -40,11 +41,11 @@ class Query extends BaseQuery {
   /// Scope is limited to this object and followed classes.
   /// [key] header name.
   /// [value] header value against given header name.
-  /// 
+  ///
   /// Example:
-  /// 
+  ///
   /// ```dart
-  /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final query = stack.contentType('content_type_uid').entry().query();
   /// query.setHeader('key', 'value');
   /// ```
@@ -60,9 +61,9 @@ class Query extends BaseQuery {
   /// [key] custom header key
   ///
   /// Example:
-  /// 
+  ///
   /// ```dart
-  /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final query = stack.contentType('content_type_uid').entry().query();
   /// query.removeHeader('key');
   /// ```
@@ -82,7 +83,8 @@ class Query extends BaseQuery {
   /// * Reference Search Not-equals:
   /// Get entries having values based on referenced fields.
   /// This query works the opposite of $in_query and retrieves
-  /// all entries that does not satisfy query conditions made on referenced fields.
+  /// all entries that does not satisfy query conditions
+  /// made on referenced fields.
   ///
   /// * [referenceUid] is Reference field
   /// * [reference] It accepts Enum type
@@ -190,13 +192,14 @@ class Query extends BaseQuery {
   //
   //  Entry Queryable functions:
   ///
-  /// [locale] is code of the language of which the entries needs to be included.
+  /// [locale] is code of the language of which the
+  /// entries needs to be included.
   /// Only the entries published in this locale will be fetched.
   ///
   /// Example:
-  /// 
+  ///
   /// ```dart
-  /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.locale('en-eu');
   /// ```
@@ -209,14 +212,15 @@ class Query extends BaseQuery {
   //-------------[Entry Queryable]---------------//
   /////////////////////////////////////////////////
 
-  /// Specifies an array of only keys in BASE object that would be included in the response.
+  /// Specifies an array of only keys in BASE object
+  /// that would be included in the response.
   /// [fieldUid] Array of the only reference keys to be included in response.
   /// [Query] object, so you can chain this call.
   ///
   /// Example:
-  /// 
+  ///
   /// ```dart
-  /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// fieldUid is String type of List
   /// query.only(fieldUid);
@@ -238,9 +242,9 @@ class Query extends BaseQuery {
   /// [Query] object, so you can chain this call.
   ///
   /// Example:
-  /// 
+  ///
   /// ```dart
-  /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// fieldUid is String type of List
   /// query.except(fieldUid);
@@ -263,7 +267,11 @@ class Query extends BaseQuery {
   /// It only fetches the UID of the referred entry, along with the content of
   /// the specified entry.
   ///
-  /// If you wish to fetch the content of the entry that is included in the reference field, you need to use the include[] parameter, and specify the UID of the reference field as value. This informs Contentstack that the request also includes fetching the entry used in the specified reference field.
+  /// If you wish to fetch the content of the entry that is included in
+  /// the reference field, you need to use the include[] parameter,
+  /// and specify the UID of the reference field as value.
+  /// This informs Contentstack that the request also includes
+  /// fetching the entry used in the specified reference field.
   /// Add a constraint that requires a particular reference key details.
   /// [includeReference] provides three options, none, only and except
   /// i.e accepts list of fieldUid
@@ -275,25 +283,28 @@ class Query extends BaseQuery {
   /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
-  /// query.includeReference("referenceFieldUid", IncludeReference.none(fieldUidList: null));
+  /// query.includeReference("referenceFieldUid",
+  ///       IncludeReference.none(fieldUidList: null));
   /// await entry.fetch();
   /// ```
   ///
   /// {Example 2}: Reference type only
-  /// 
+  ///
   /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
   /// final fieldUid = list of string type;
-  /// query.includeReference("referenceFieldUid", IncludeReference.only(fieldUidList: fieldUid));
+  /// query.includeReference("referenceFieldUid",
+  ///       IncludeReference.only(fieldUidList: fieldUid));
   /// ```
   ///
   /// {Example 3}: Reference type except
-  /// 
+  ///
   /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
-  /// query.includeReference("referenceFieldUid", IncludeReference.except(fieldUidList: fieldUid));
+  /// query.includeReference("referenceFieldUid",
+  ///       IncludeReference.except(fieldUidList: fieldUid));
   /// ```
   ///
   void includeReference(String referenceFieldUid,
@@ -342,11 +353,11 @@ class Query extends BaseQuery {
   }
 
   ///
-  /// Include Content Type of all returned objects along with objects themselves.
-  /// return, [Query] so you can chain this call.
+  /// Include Content Type of all returned objects along with objects
+  /// themselves. return, [Query] so you can chain this call.
   ///
   /// Example:
-  /// 
+  ///
   /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
@@ -358,11 +369,12 @@ class Query extends BaseQuery {
     queryParameter['include_global_field_schema'] = 'true';
   }
 
-  /// This method also includes the content type UIDs of the referenced entries returned in the response
+  /// This method also includes the content type
+  /// UIDs of the referenced entries returned in the response
   /// return [Query] so you can chain this call
   ///
   /// Example:
-  /// 
+  ///
   /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
@@ -380,7 +392,7 @@ class Query extends BaseQuery {
   /// [Query] object, so you can chain this call.
   ///
   /// Example:
-  /// 
+  ///
   /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();
@@ -396,9 +408,9 @@ class Query extends BaseQuery {
   ///
   /// Retrieve the published content of the fallback locale if an entry is not
   /// localized in specified locale.
-  /// 
+  ///
   /// Example
-  /// 
+  ///
   /// ```dart
   /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
   /// final query = stack.contentType('contentTypeUid').entry().query();

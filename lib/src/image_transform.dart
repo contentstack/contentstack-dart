@@ -18,9 +18,12 @@ class ImageTransformation {
   final URLQueryParams query = URLQueryParams();
   ImageTransformation(this._imageUrl, this.client);
 
-  /// The auto function lets you enable the functionality that automates certain image optimization features.
-  /// As of now, there is only one possible value for this field, i.e., webp. When the auto parameter is set to webp,
-  /// it enables WebP image support. WebP images have higher compression rate with minimum loss of quality.
+  /// The auto function lets you enable the functionality that automates
+  /// certain image optimization features.
+  /// As of now, there is only one possible value for this field, i.e.,
+  /// webp. When the auto parameter is set to webp,
+  /// it enables WebP image support. WebP images have higher compression
+  /// rate with minimum loss of quality.
 
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#automate-optimization
@@ -42,10 +45,14 @@ class ImageTransformation {
     }
   }
 
-  /// The quality function lets you control the compression level of images that have Lossy file format.
-  /// The value for this parameters can be entered in any whole number (taken as a percentage)
-  /// between 1 and 100. The lower the number, the smaller will be file size and lower quality, and vice versa.
-  /// If the source image file is not of Lossy file format, this parameter will be ignored.
+  /// The quality function lets you control the compression level of
+  /// images that have Lossy file format.
+  /// The value for this parameters can be entered
+  /// in any whole number (taken as a percentage)
+  /// between 1 and 100. The lower the number, the smaller
+  /// will be file size and lower quality, and vice versa.
+  /// If the source image file is not of Lossy file format,
+  /// this parameter will be ignored.
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#quality
@@ -62,8 +69,10 @@ class ImageTransformation {
     query.append('quality', quality.toString());
   }
 
-  /// The format function lets you converts a given image from one format to another.
-  /// The formats that the source image can be converted to are gif, png, jpg (for JPEG),
+  /// The format function lets you converts a given image
+  /// from one format to another.
+  /// The formats that the source image can be converted
+  /// to are gif, png, jpg (for JPEG),
   /// pjpg (for Progressive JPEG), webp, webpll (Lossless), and webply (Lossy).
   ///
   /// for more details read documentation:
@@ -95,13 +104,17 @@ class ImageTransformation {
     });
   }
 
-  /// this function lets you dynamically resize the width of the output image by specifying pixels or percentage values
+  /// this function lets you dynamically resize the
+  /// width of the output image by specifying pixels or percentage values
   /// for more details read documentation:
-  /// The disable function disables the functionality that is enabled by default.
-  /// For instance, upscale is always enabled, in which the image is upscaled
-  /// if the output image (by specifying the width or height) is bigger than the source image.
+  /// The disable function disables the functionality
+  /// that is enabled by default. For instance, upscale is always
+  /// enabled, in which the image is upscaled
+  /// if the output image (by specifying the width or height)
+  /// is bigger than the source image.
   /// To disable this feature, you can use the query ?disable=upscale.
-  /// This ensures that even if the specified height or width is much bigger than the actual image,
+  /// This ensures that even if the specified height or width
+  /// is much bigger than the actual image,
   /// it will not be rendered disproportionately.
   ///
   /// For more details, Read documentation:
@@ -112,7 +125,8 @@ class ImageTransformation {
   /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response = await imageTransformation.resize(width: 100, disable: true ).fetch();
+  /// final response =
+  ///       await imageTransformation.resize(width:100,disable:true).fetch();
   /// ```
   void resize({int width, int height, bool disable}) {
     if (width != null) {
@@ -128,7 +142,8 @@ class ImageTransformation {
   }
 
   void crop(String cropValue) {
-    // checks if cropRatio is not null then takes height, width and cropRatio as prams
+    // checks if cropRatio is not null then takes height,
+    // width and cropRatio as prams
     // else it takes crop params and comas separated width & height
     query.append('crop', cropValue);
   }
@@ -136,16 +151,20 @@ class ImageTransformation {
   /// The crop function allows you to remove pixels from an image.
   /// You can crop an image by specifying the height and width in
   /// pixels or percentage value, or defining height and width in aspect ratio.
-  /// You can also define a sub region (i.e., define the starting point for crop)
+  /// You can also define a sub region (i.e., define
+  /// the starting point for crop)
   /// before cropping the image, or you can offset the image on its
-  /// X and Y axis (i.e., define the centre point of the crop) before cropping the image.
+  /// X and Y axis (i.e., define the centre point of the crop)
+  /// before cropping the image.
 
-  /// You can set the X-axis and Y-axis position of the top left corner of the crop by
+  /// You can set the X-axis and Y-axis position of the
+  /// top left corner of the crop by
   /// using the query ?crop={width_value},{height_value},x{value},y{value}.
   /// This lets you define the starting point of the crop region.
   /// The x-axis value and y-axis value can be defined in pixels or percentage.
   ///
-  /// An example of this would be ?crop=300,400,x150,y75 or ?crop=300,400,x0.50,y0.60.
+  /// An `example` of this would be
+  /// ?crop=300,400,x150,y75 or ?crop=300,400,x0.50,y0.60.
   /// Compulsory parameters [width] and [height]
   /// Optional parameters: [region]
   /// Optional parameters: [offset]
@@ -157,7 +176,8 @@ class ImageTransformation {
   /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response = await imageTransformation.cropBy(150, 100, cropRatio: '1:3').fetch();
+  /// final response = await imageTransformation.
+  ///                   cropBy(150, 100, cropRatio: '1:3').fetch();
   /// log.fine(response);
   /// ```
   ///
@@ -170,8 +190,9 @@ class ImageTransformation {
   /// log.fine(response);
   /// ```
   void cropBy(int width, int height, {String region, String offset}) {
-    // checks if cropRatio is not null then takes height, width and cropRatio as prams
-    // else it takes crop params and comas separated width & height
+    /// checks if cropRatio is not null then takes height, width and
+    /// cropRatio as prams else it takes crop params and comas
+    /// separated width & height
     final cropLRBL = [];
     if (width != null) {
       cropLRBL.add(width);
@@ -189,10 +210,12 @@ class ImageTransformation {
     query.append('crop', commaSeparated);
   }
 
-  ///This parameter enables you to fit the given image properly within the specified height and width.
-  ///You need to provide values for the height, width and fit parameters.
-  ///The two available values for the fit parameter are bounds and crop.
-  ///fit accepts optional parameters [width], [height]  of type [int] and fir of type [Fit]
+  /// This parameter enables you to fit the given image
+  /// properly within the specified height and width.
+  /// You need to provide values for the height, width and fit parameters.
+  /// The two available values for the fit parameter are bounds and crop.
+  /// fit accepts optional parameters [width], [height]
+  /// of type [int] and fir of type [Fit]
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#fit-mode
@@ -202,7 +225,8 @@ class ImageTransformation {
   /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response = await imageTransformation.fitBy(  250,  250, Fit.crop).fetch();
+  /// final response = await imageTransformation.
+  ///                  fitBy(  250,  250, Fit.crop).fetch();
   /// ```
   ///
 
@@ -227,8 +251,9 @@ class ImageTransformation {
   ///This is especially useful for removing border or white spaces
   ///that the downloaded images usually come with.
   ///The value for this parameter can be given in pixels or percentage.
-  ///You can specify values for [top], [right], [bottom], and [left] edges of an image.
-  ///For example, to trim the top edge by 25px, right edge by 50px, bottom edge by 75px and left edge by 100
+  ///You can specify values for [top], [right], [bottom], and [left]
+  ///edges of an image. For example, to trim the top edge by 25px, right edge
+  ///by 50px, bottom edge by 75px and left edge by 100
   /// provide [trim] as comma separated value like, 25,50,75,100
   ///
   /// For more details, Read documentation:
@@ -259,8 +284,9 @@ class ImageTransformation {
     query.append('trim', joinedValue);
   }
 
-  ///The orient parameter lets you control the cardinal orientation of the given image.
-  ///Using this parameter, you can orient the image right or left, flip horizontally
+  ///The orient parameter lets you control the cardinal
+  ///orientation of the given image. Using this parameter, you can orient
+  ///the image right or left, flip horizontally
   ///or vertically or both, and do a lot more. It can automatically correct the
   ///orientation of the image if the source image contains orientation details
   ///within its EXIF data (Exchangeable Image File Format).
@@ -275,7 +301,8 @@ class ImageTransformation {
   /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response = await imageTransformation.orientation(Orientation.vertically).fetch();
+  /// final response = await imageTransformation
+  ///                  .orientation(Orientation.vertically).fetch();
   /// ```
   void orientation(Orientation orient) {
     //  toDefault = '1';
@@ -308,10 +335,14 @@ class ImageTransformation {
   }
 
   /// The overlay parameter allows you to put one image on top of another.
-  /// You need to specify the relative URL of the image as value for this parameter.
-  /// By default, the cropping alignment will be middle, center. See overlay-align for more details.
-  /// It accepts [overlayUrl]  as a parameter to put one [overlayUrl] on top of [_imageUrl]
-  /// There are optional params also like [overlayAlign], [overlayRepeat], [overlayWidth], [overlayHeight]
+  /// You need to specify the relative URL of the image as
+  /// value for this parameter.
+  /// By default, the cropping alignment will be middle,
+  /// center. See overlay-align for more details.
+  /// It accepts [overlayUrl]  as a parameter to put one
+  /// [overlayUrl] on top of [_imageUrl]
+  /// There are optional params also like [overlayAlign],
+  /// [overlayRepeat], [overlayWidth], [overlayHeight]
   /// Fr more details read the documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#overlay
   ///
@@ -322,7 +353,8 @@ class ImageTransformation {
   /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response = await imageTransformation.overlay('overlayUrl', overlayWidth: '').fetch();
+  /// final response = await imageTransformation.
+  ///                   overlay('overlayUrl', overlayWidth: '').fetch();
   /// ```
   ///
   void overlay(String overlayUrl,
@@ -350,8 +382,10 @@ class ImageTransformation {
   /// This is useful if you want to add whitespace or border to an image.
   /// The value for this parameter can be given in pixels or percentage.
   ///
-  /// You can specify values for top, right, bottom, and left padding for an image.
-  /// For example, to add padding to the top edge by 25px, right edge by 50px, bottom edge by 75px and left edge by 100,
+  /// You can specify values for top, right, bottom, and left
+  /// padding for an image.
+  /// For example, to add padding to the top edge by 25px,
+  /// right edge by 50px, bottom edge by 75px and left edge by 100,
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#pad
@@ -361,14 +395,16 @@ class ImageTransformation {
   /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response = await imageTransformation.padding("25,50,75,100").fetch();
+  /// final response = await imageTransformation.
+  ///                        padding("25,50,75,100").fetch();
   /// ```
   ///
   void padding(String padding) {
     query.append('pad', padding);
   }
 
-  /// You can either specify all the four padding values (top, right, bottom, and left)
+  /// You can either specify all the four padding
+  /// values (top, right, bottom, and left)
   /// or combine two or more values
   //  top, right, bottom, left
   ///
@@ -377,16 +413,19 @@ class ImageTransformation {
   /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response = await imageTransformation.addPadding("25,50,75,100").fetch();
+  /// final response = await imageTransformation.
+  ///                         addPadding("25,50,75,100").fetch();
   /// ```
   void overlayPadding(String overlayPadding) {
     query.append('overlay-pad', overlayPadding);
   }
 
   ///The bg-color function lets you set a backgroud color for the given image.
-  ///This is useful when applying padding or for replacing the transparent pixels of an image.
+  ///This is useful when applying padding or for replacing
+  ///the transparent pixels of an image.
   ///There are three possible types of values for this [bgColor] is string .
-  ///It can accept hexadecimal, combination of (Red, Blue, Green) and (Red, Blue, Green, Alpha).
+  ///It can accept hexadecimal, combination of (Red, Blue, Green)
+  ///and (Red, Blue, Green, Alpha).
   ///
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#background-color
@@ -402,7 +441,8 @@ class ImageTransformation {
     query.append('bg-color', bgColor);
   }
 
-  ///To implement the device pixel ratio functionality of the Image Delivery API, you require two parameters "dpr" and "height or width".
+  ///To implement the device pixel ratio functionality of the
+  ///Image Delivery API, you require two parameters "dpr" and "height or width".
   ///For more details read the documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#set-device-pixel-ratio
   ///
@@ -422,8 +462,9 @@ class ImageTransformation {
   }
 
   ///
-  /// The blur parameter allows you to decrease the focus and clarity of a given image.
-  /// To specify the extent to which you need to increase the blurriness of an image,
+  /// The blur parameter allows you to decrease the focus and
+  /// clarity of a given image. To specify the extent
+  /// to which you need to increase the blurriness of an image,
   /// use any decimal number (float) between 1 and 1000.
   ///
   /// For more details, Read documentation:
@@ -441,9 +482,9 @@ class ImageTransformation {
     query.append('blur', blur.toString());
   }
 
-  ///The frame parameter fetches the first frame from an animated GIF
-  ///(Graphics Interchange Format) file that comprises a sequence of moving images.
-  /// For more details, Read documentation:
+  /// The frame parameter fetches the first frame from an animated GIF
+  /// (Graphics Interchange Format) file that comprises
+  /// a sequence of moving images. For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#frame
   ///
   /// Example:
@@ -458,10 +499,10 @@ class ImageTransformation {
     query.append('frame', frame.toString());
   }
 
-  ///The frame parameter fetches the first frame from an animated GIF
-  ///(Graphics Interchange Format) file that comprises a sequence of moving images.
-  ///Increase the sharpness of a given image by amount, radius and threshold
-  /// For more details, Read documentation:
+  /// The frame parameter fetches the first frame from an animated GIF
+  /// (Graphics Interchange Format) file that comprises a sequence
+  /// of moving images. increase the sharpness of a given image by amount,
+  /// radius and threshold For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#sharpen
   ///
   /// Example:
@@ -476,10 +517,11 @@ class ImageTransformation {
     query.append('sharpen', 'a$amount,r$radius,t$threshold');
   }
 
-  ///The saturation parameter allows you to increase or decrease the intensity
+  /// The saturation parameter allows you to increase or decrease the intensity
   /// of the colors in a given image. To specify the saturation
   /// for an image, use a whole number (integer) between -100 and 100.
-  /// You can also define saturation using any decimal number between -100.00 and 100.00
+  /// You can also define saturation using any decimal
+  /// number between -100.00 and 100.00
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#saturation
   ///
@@ -498,9 +540,11 @@ class ImageTransformation {
   /// The contrast parameter allows you to increase or decrease
   /// the difference between the darkest and lightest tones in a given image.
   /// To specify contrast for an image, use a whole number (integer)
-  /// between -100 and 100. You can also define contrast using any decimal number between -100.00 and 100.00.
+  /// between -100 and 100. You can also define contrast
+  /// using any decimal number between -100.00 and 100.00.
   ///
-  /// To increase the value of the contrast parameter of an image, pass a positive value or negative value
+  /// To increase the value of the contrast parameter of an
+  /// image, pass a positive value or negative value
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#contrast
   ///
@@ -518,10 +562,12 @@ class ImageTransformation {
 
   /// The brightness parameter allows you to increase or decrease the intensity
   /// with which an image reflects or radiates perceived light.
-  /// To specify brightness for an image, use a whole number (integer) between -100 and 100.
-  /// You can also define brightness using any decimal number between -100.00 and 100.00
-  ///
-  /// To increase the value of the brightness parameter of an image, pass a positive value or negative value
+  /// To specify brightness for an image, use a whole number (integer)
+  /// between -100 and 100.
+  /// You can also define brightness using any decimal number
+  /// between -100.00 and 100.00
+  /// To increase the value of the brightness parameter of an image,
+  /// pass a positive value or negative value
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#brightness
   ///
@@ -539,7 +585,8 @@ class ImageTransformation {
   ///
   /// The resize-filter parameter allows you to use the resizing
   /// filter to increase or decrease the number of pixels in a given image.
-  /// This parameter resizes the given image without adding or removing any data from it.
+  /// This parameter resizes the given image without adding or
+  /// removing any data from it.
   ///
   /// The following values are acceptable for the resize-filter parameter
   /// For more details, Read documentation:
@@ -550,7 +597,8 @@ class ImageTransformation {
   /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response =  imageTransformation.resizeFilter(width: 20, height: 40, filter: Filter.bilinear);
+  /// final response =  imageTransformation.
+  ///       resizeFilter(width: 20, height: 40, filter: Filter.bilinear);
   /// ```
   ///
   void resizeFilter({int width, int height, Filter filter}) {
@@ -574,14 +622,17 @@ class ImageTransformation {
   }
 
   ///
-  /// The canvas parameter allows you to increase the size of the canvas that surrounds an image.
-  /// You can specify the height and width of the canvas area in pixels or percentage or define the
-  /// height and width of the aspect ratio of the canvas. You can also define the starting point for
+  /// The canvas parameter allows you to increase the size of the canvas that
+  /// surrounds an image. You can specify the height and width of
+  /// the canvas area in pixels or percentage or define the
+  /// height and width of the aspect ratio of the canvas. You can also define
+  /// the starting point for
   /// the canvas area or offset the canvas on its X and Y axis.
   ///
-  /// [canvasValue] could be in the type of  string, It could be in the format of
-  /// dimension: [700,800],
-  /// ratio: 2:3 , sub-region: [700,800,x0.50,y0.60],  or offset :[ 700,800,offset-x0.65,offset-y0.80]
+  /// [canvasValue] could be in the type of string,
+  /// It could be in the format of dimension: [700,800]
+  /// ratio: 2:3 , sub-region: [700,800,x0.50,y0.60],
+  /// or offset :[ 700,800,offset-x0.65,offset-y0.80]
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#canvas
   ///
@@ -614,7 +665,8 @@ class ImageTransformation {
   /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response =  imageTransformation.canvas('700,800,offset-x0.65,offset-y0.80');
+  /// final response =  imageTransformation.
+  ///                   canvas('700,800,offset-x0.65,offset-y0.80');
   /// ```
   ///
   void canvas(String canvasValue) {

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:contentstack/contentstack.dart';
+
 import 'package:http/http.dart' as http;
+
+import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/stack.dart';
 
 class HttpClient extends http.BaseClient {
@@ -15,6 +17,7 @@ class HttpClient extends http.BaseClient {
     return HttpClient._internal(stackClient, headers, stack);
   }
 
+  /// This is used for the _internal constructure
   HttpClient._internal(this._client, this.stackHeaders, this.stack);
 
   @override
@@ -22,9 +25,11 @@ class HttpClient extends http.BaseClient {
     return _client.send(request);
   }
 
+  ///
+  /// Makes `GET` Request based on uri request
   Future<T> sendRequest<T, K>(Uri uri) async {
     stackHeaders['Content-Type'] = 'application/json';
-    stackHeaders['X-User-Agent'] = 'contentstack-dart/0.1.0';
+    stackHeaders['X-User-Agent'] = 'contentstack-dart/0.1.1';
     final response = await http.get(uri, headers: stackHeaders);
     Object bodyJson;
     try {
@@ -60,14 +65,12 @@ class HttpClient extends http.BaseClient {
   @override
   void close() => _client.close();
 
-  ///////////////////////////////////////
-  // generic objects as well as List of generic objects (from a JSON list response).
-  // First, you need to have a function that checks the type of the generic object
-  // and returns the result of the corresponding fromJson call
-  // code taken from:
-  // https://stackoverflow.com/questions/56271651/how-to-pass-a-generic-type-as-a-parameter-to-a-future-in-flutter
-  ///////////////////////////////////////
-
+  /// generic objects as well as List of generic objects
+  /// (from a JSON list response).
+  /// First, you need to have a function that checks the type  of the
+  /// generic object and returns the result of the corresponding fromJson call
+  /// code taken from:
+  /// https://stackoverflow.com/questions/56271651/how-to-pass-a-generic-type-as-a-parameter-to-a-future-in-flutter
   static T fromJson<T, K>(dynamic json) {
     if (json is Iterable) {
       return _fromJsonList<K>(json) as T;

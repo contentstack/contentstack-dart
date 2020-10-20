@@ -2,30 +2,31 @@
 
 ## [0.1.1] - includeFallback Support Added
 
-### **Oct-21-2020 -initial release**
+##### __Oct-21-2020 -initial release__
 
-**ENTRY** _includeFallback support added_
-
-**Query** _includeFallback support added_
-
-**Asset** _includeFallback support added_
-
-**AssetQuery** _includeFallback support added_
+- **asset**
+  - _includeFallback_ function added
+- **asset_query**
+  - _includeFallback_ function added
+- **entry**
+  - _includeFallback_ function added
+- **query**
+  - _includeFallback_ function added
 
 -----------------------------
 
 ## [0.1.0] - Initial release
 
-### **May-11-2020 -initial release**
+##### __May-11-2020 -initial release__
 
-#### _Initial release for the contentstack-dart-sdk for Content Delivery API_
+#### Initial release for the contentstack-dart-sdk for Content Delivery API
 
 -----------------------------
 
 ## [0.0.1] - Beta release
 
-### **May-08-2020 -beta release**
+##### **May-08-2020 -beta release**
 
-#### _Beta release for the contentstack-dart-sdk for Content Delivery API_
+#### Beta release for the contentstack-dart-sdk for Content Delivery API
 
 -----------------------------

@@ -24,20 +24,25 @@ class ContentType {
   }
 
   ///
-  /// This function provide option to  get single entry as well as all the entries.
-  /// [entryUid] is Optional, If [entryUid]  Provided it fetches related entry of a respected content type
+  /// This function provide option to  get single entry as well as
+  /// all the entries. [entryUid] is Optional, If [entryUid]
+  /// Provided it fetches related entry of a respected content type
   /// Read more about single entry:
   /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#single-entry
   ///
-  /// if [entryUid] not provided ,Get all entries call fetches the list of all the entries of a particular content type.
-  /// It also returns the content of each entry in JSON format. You can also specify the environment
+  /// if [entryUid] not provided ,Get all entries call fetches the list of
+  /// all the entries of a particular content type.
+  /// It also returns the content of each entry in JSON format.
+  /// You can also specify the environment
   /// and locale of which you wish to get the entries.
   /// /// Read more about entries:
   /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#all-entries
   ///
   /// ```dart
-  /// final entry = stack.contentType('content_type_uid').entry(entryUid: 'entry_uid');
-  /// print(entry);
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
+  /// final contentType = stack.contentType('content_type_uid');
+  /// final entry = contentType.entry(entryUid: 'entry_uid');
+  /// 
   /// ```
   ///
   Entry entry({String entryUid}) {

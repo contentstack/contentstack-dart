@@ -5,13 +5,14 @@ class EntryQueryable {
   final Map<String, String> parameter = <String, String>{};
 
   ///
-  /// [locale] is code of the language of which the entries needs to be included.
+  /// [locale] is code of the `language` of which the
+  /// entries needs to be included.
   /// Only the entries published in this locale will be fetched.
   ///
   /// Example:
   ///
   /// ```dart
-  /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
   /// entry.locale('en-eu');
   /// ```
@@ -20,14 +21,15 @@ class EntryQueryable {
     parameter['locale'] = locale;
   }
 
-  /// Specifies an array of only keys in BASE object that would be included in the response.
+  /// Specifies an array of only keys in BASE object that
+  /// would be included in the response.
   /// [fieldUid] Array of the only reference keys to be included in response.
   /// [EntryQueryable] object, so you can chain this call.
   ///
   /// Example:
   ///
   /// ```dart
-  /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
   /// fieldUid is String type of List
   /// entry.only(fieldUid);
@@ -51,7 +53,7 @@ class EntryQueryable {
   /// Example:
   ///
   /// ```dart
-  /// final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
   /// fieldUid is String type of List
   /// entry.except(fieldUid);
@@ -74,7 +76,11 @@ class EntryQueryable {
   /// It only fetches the UID of the referred entry, along with the content of
   /// the specified entry.
   ///
-  /// If you wish to fetch the content of the entry that is included in the reference field, you need to use the include[] parameter, and specify the UID of the reference field as value. This informs Contentstack that the request also includes fetching the entry used in the specified reference field.
+  /// If you wish to fetch the content of the entry that is included in
+  /// the reference field, you need to use the include[] parameter,
+  ///  and specify the UID of the reference field as value.
+  /// This informs Contentstack that the request also includes
+  /// fetching the entry used in the specified reference field.
   /// Add a constraint that requires a particular reference key details.
   /// includeReference provides three options, none, only and except
   /// i.e accepts list of fieldUid
@@ -86,7 +92,8 @@ class EntryQueryable {
   /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
-  /// entry.includeReference("referenceFieldUid", IncludeReference.none(fieldUidList: null));
+  /// entry.includeReference("referenceFieldUid",
+  ///       IncludeReference.none(fieldUidList: null));
   /// response = await entry.fetch();
   /// prints(response)
   /// ```
@@ -97,7 +104,8 @@ class EntryQueryable {
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
   /// final fieldUid = list of string type;
-  /// entry.includeReference("referenceFieldUid", IncludeReference.only(fieldUidList: fieldUid));
+  /// entry.includeReference("referenceFieldUid",
+  ///       IncludeReference.only(fieldUidList: fieldUid));
   /// response = await entry.fetch();
   /// prints(response)
   /// ```
@@ -106,7 +114,8 @@ class EntryQueryable {
   /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
-  /// entry.includeReference("referenceFieldUid", IncludeReference.except(fieldUidList: fieldUid));
+  /// entry.includeReference("referenceFieldUid",
+  ///       IncludeReference.except(fieldUidList: fieldUid));
   /// response = await entry.fetch();
   /// prints(response)
   /// ```
@@ -158,12 +167,13 @@ class EntryQueryable {
   }
 
   ///
-  /// Include Content Type of all returned objects along with objects themselves.
+  /// Include Content Type of all
+  /// returned objects along with objects themselves.
   /// return, [EntryQueryable] so you can chain this call.
   ///
   /// Example:
   /// ```dart
-  /// Stack stack = contentstack.stack("apiKey", "deliveryToken", "environment");
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final entry  = stack.contentType("contentTypeUid").entry("entryUid");
   /// entry.includeContentType();
   /// ```
@@ -173,13 +183,14 @@ class EntryQueryable {
     parameter['include_global_field_schema'] = 'true';
   }
 
-  /// This method also includes the content type UIDs of the referenced entries returned in the response
+  /// This method also includes the content type
+  /// UIDs of the referenced entries returned in the response
   /// return [EntryQueryable] so you can chain this call
   ///
   /// Example:
   ///
   /// ```dart
-  /// Stack stack = contentstack.stack("apiKey", "deliveryToken", "environment");
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final entry  = stack.contentType("contentTypeUid").entry("entryUid");
   /// entry.includeReferenceContentTypeUID();
   /// ```
@@ -197,7 +208,7 @@ class EntryQueryable {
   /// Example:
   ///
   /// ```dart
-  /// Stack stack = contentstack.stack("apiKey", "deliveryToken", "environment");
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final entry  = stack.contentType("contentTypeUid").entry("entryUid");
   /// entry.addParam(key, value);
   /// '''

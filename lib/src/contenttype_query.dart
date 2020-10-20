@@ -20,7 +20,7 @@ class ContentTypeQuery extends BaseQuery {
   ///
   /// Example:
   /// ```dart
-  /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final contentTypeQuery = stack.contentType().query()
   /// final response = contentTypeQuery.includeCount().find();
   /// print(response);
@@ -30,12 +30,13 @@ class ContentTypeQuery extends BaseQuery {
     queryParameter['include_count'] = 'true';
   }
 
-  /// This method includes the Global field's schema along with the content type schema
+  /// This method includes the Global field's schema 
+  /// along with the content type schema
   ///
   /// Example:
   /// 
   /// ```dart
-  /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final contentTypeQuery = stack.contentType().query()
   /// final response = contentTypeQuery.includeGlobalField().find();
   /// print(response);
@@ -50,7 +51,7 @@ class ContentTypeQuery extends BaseQuery {
   /// Example:
   /// 
   /// ```dart
-  /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final contentTypeQuery = stack.contentType().query()
   /// final response = contentTypeQuery.includeCount().find();
   /// print(response);
