@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
-
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/stack.dart';
+import 'package:http/http.dart' as http;
 
 class HttpClient extends http.BaseClient {
   final http.Client _client;
@@ -19,6 +18,9 @@ class HttpClient extends http.BaseClient {
 
   /// This is used for the _internal constructure
   HttpClient._internal(this._client, this.stackHeaders, this.stack);
+
+  @override
+  void close() => _client.close();
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
@@ -61,9 +63,6 @@ class HttpClient extends http.BaseClient {
       return bodyJson;
     }
   }
-
-  @override
-  void close() => _client.close();
 
   /// generic objects as well as List of generic objects
   /// (from a JSON list response).

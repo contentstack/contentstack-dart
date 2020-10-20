@@ -5,43 +5,21 @@ class EntryQueryable {
   final Map<String, String> parameter = <String, String>{};
 
   ///
-  /// [locale] is code of the `language` of which the
-  /// entries needs to be included.
-  /// Only the entries published in this locale will be fetched.
-  ///
-  /// Example:
-  ///
-  /// ```dart
-  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
-  /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
-  /// entry.locale('en-eu');
-  /// ```
-  ///
-  void locale(String locale) {
-    parameter['locale'] = locale;
-  }
-
-  /// Specifies an array of only keys in BASE object that
-  /// would be included in the response.
-  /// [fieldUid] Array of the only reference keys to be included in response.
+  /// This method adds key and value to an Entry.
+  /// [key] The key as string which needs to be added to an Entry
+  /// [value] The value as string which needs to be added to an Entry
   /// [EntryQueryable] object, so you can chain this call.
   ///
   /// Example:
   ///
   /// ```dart
   /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
-  /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
-  /// fieldUid is String type of List
-  /// entry.only(fieldUid);
+  /// final entry  = stack.contentType("contentTypeUid").entry("entryUid");
+  /// entry.addParam(key, value);
   /// ```
-  ///
-  void only(List<String> fieldUid) {
-    if (fieldUid != null && fieldUid.isNotEmpty) {
-      final List referenceArray = [];
-      for (final item in fieldUid) {
-        referenceArray.add(item);
-      }
-      parameter['only[BASE][]'] = referenceArray.toString();
+  void addParam(String key, String value) {
+    if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
+      parameter[key] = value.toString();
     }
   }
 
@@ -67,6 +45,35 @@ class EntryQueryable {
       }
       parameter['except[BASE][]'] = referenceArray.toString();
     }
+  }
+
+  ///
+  /// Include Content Type of all
+  /// returned objects along with objects themselves.
+  /// return, [EntryQueryable] so you can chain this call.
+  ///
+  /// Example:
+  /// ```dart
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
+  /// final entry  = stack.contentType("contentTypeUid").entry("entryUid");
+  /// entry.includeContentType();
+  /// ```
+  ///
+  void includeContentType() {
+    parameter['include_content_type'] = 'true';
+    parameter['include_global_field_schema'] = 'true';
+  }
+
+  ///
+  /// Retrieve the published content of the fallback locale if an entry is not
+  /// localized in specified locale.
+  /// ```dart
+  /// final stack = contentstack.Stack('apiKey, 'deliveryKey', 'environment);
+  /// final entry = stack.contentType('contentType').entry()..includeFallback();
+  /// ```
+  ///
+  void includeFallback() {
+    parameter['include_fallback'] = 'true';
   }
 
   ///
@@ -166,23 +173,6 @@ class EntryQueryable {
     }
   }
 
-  ///
-  /// Include Content Type of all
-  /// returned objects along with objects themselves.
-  /// return, [EntryQueryable] so you can chain this call.
-  ///
-  /// Example:
-  /// ```dart
-  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
-  /// final entry  = stack.contentType("contentTypeUid").entry("entryUid");
-  /// entry.includeContentType();
-  /// ```
-  ///
-  void includeContentType() {
-    parameter['include_content_type'] = 'true';
-    parameter['include_global_field_schema'] = 'true';
-  }
-
   /// This method also includes the content type
   /// UIDs of the referenced entries returned in the response
   /// return [EntryQueryable] so you can chain this call
@@ -200,34 +190,43 @@ class EntryQueryable {
   }
 
   ///
-  /// This method adds key and value to an Entry.
-  /// [key] The key as string which needs to be added to an Entry
-  /// [value] The value as string which needs to be added to an Entry
+  /// [locale] is code of the `language` of which the
+  /// entries needs to be included.
+  /// Only the entries published in this locale will be fetched.
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
+  /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
+  /// entry.locale('en-eu');
+  /// ```
+  ///
+  void locale(String locale) {
+    parameter['locale'] = locale;
+  }
+
+  /// Specifies an array of only keys in BASE object that
+  /// would be included in the response.
+  /// [fieldUid] Array of the only reference keys to be included in response.
   /// [EntryQueryable] object, so you can chain this call.
   ///
   /// Example:
   ///
   /// ```dart
   /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
-  /// final entry  = stack.contentType("contentTypeUid").entry("entryUid");
-  /// entry.addParam(key, value);
-  /// '''
-  ///
-  void addParam(String key, String value) {
-    if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
-      parameter[key] = value.toString();
-    }
-  }
-
-  ///
-  /// Retrieve the published content of the fallback locale if an entry is not
-  /// localized in specified locale.
-  /// ```dart
-  /// final stack = contentstack.Stack('apiKey, 'deliveryKey', 'environment);
-  /// final entry = stack.contentType('contentType').entry()..includeFallback();
+  /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
+  /// fieldUid is String type of List
+  /// entry.only(fieldUid);
   /// ```
   ///
-  void includeFallback() {
-    parameter['include_fallback'] = 'true';
+  void only(List<String> fieldUid) {
+    if (fieldUid != null && fieldUid.isNotEmpty) {
+      final List referenceArray = [];
+      for (final item in fieldUid) {
+        referenceArray.add(item);
+      }
+      parameter['only[BASE][]'] = referenceArray.toString();
+    }
   }
 }

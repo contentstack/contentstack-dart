@@ -1,5 +1,6 @@
 import 'dart:async';
-import "package:contentstack/client.dart";
+
+import 'package:contentstack/client.dart';
 import 'package:contentstack/src/base_query.dart';
 
 /// This call fetches the list of all the assets of a particular stack.
@@ -33,55 +34,17 @@ class AssetQuery extends BaseQuery {
     queryParameter['environment'] = environment;
   }
 
-  ///
-  /// Specify the version number of the asset that you wish to retrieve.
-  /// If the version is not specified, the details of the latest 
-  /// version will be retrieved.
-  /// To retrieve a specific version, keep the environment parameter blank.
-  /// [version] required
-  ///
+  /// find is applicable for getting all the available assets based on the query
   /// ```dart
   /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  /// final asset = stack.assetQuery()..version(3);
-  /// await asset.find().then((response) {
+  /// await stack.assetQuery().find().then((response) {
   ///   print(response);
   /// }).catchError((error) {
   ///   print(error['error_code']);
   /// });
-  ///
-  void version(int version) {
-    queryParameter['version'] = version.toString();
-  }
-
-  ///
-  /// include the dimensions (height and width) of the image in the response.
-  /// Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD.
-  ///
-  /// ```dart
-  /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  /// final asset = stack.assetQuery()..includeDimension();
-  /// await asset.find().then((response) {
-  ///   print(response);
-  /// }).catchError((error) {
-  ///   print(error['error_code']);
-  /// });
-  void includeDimension() {
-    queryParameter['include_dimension'] = 'true';
-  }
-
-  ///
-  /// includes the relative URLs of the assets in the response
-  ///
-  /// ```dart
-  /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  /// final asset = stack.assetQuery()..relativeUrls();
-  /// await asset.find().then((response) {
-  ///   print(response);
-  /// }).catchError((error) {
-  ///   print(error['error_code']);
-  /// });
-  void relativeUrls() {
-    queryParameter['relative_urls'] = 'true';
+  Future<T> find<T, K>() async {
+    final uri = Uri.https(_client.stack.endpoint, _urlPath, queryParameter);
+    return _client.sendRequest<T, K>(uri);
   }
 
   ///
@@ -105,6 +68,22 @@ class AssetQuery extends BaseQuery {
   }
 
   ///
+  /// include the dimensions (height and width) of the image in the response.
+  /// Supported image types: JPG, GIF, PNG, WebP, BMP, TIFF, SVG, and PSD.
+  ///
+  /// ```dart
+  /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// final asset = stack.assetQuery()..includeDimension();
+  /// await asset.find().then((response) {
+  ///   print(response);
+  /// }).catchError((error) {
+  ///   print(error['error_code']);
+  /// });
+  void includeDimension() {
+    queryParameter['include_dimension'] = 'true';
+  }
+
+  ///
   /// Retrieve the published content of the fallback locale if an entry is not
   /// localized in specified locale.
   ///
@@ -120,16 +99,38 @@ class AssetQuery extends BaseQuery {
     queryParameter['include_fallback'] = 'true';
   }
 
-  /// find is applicable for getting all the available assets based on the query
+  ///
+  /// includes the relative URLs of the assets in the response
+  ///
   /// ```dart
   /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  /// await stack.assetQuery().find().then((response) {
+  /// final asset = stack.assetQuery()..relativeUrls();
+  /// await asset.find().then((response) {
   ///   print(response);
   /// }).catchError((error) {
   ///   print(error['error_code']);
   /// });
-  Future<T> find<T, K>() async {
-    final uri = Uri.https(_client.stack.endpoint, _urlPath, queryParameter);
-    return _client.sendRequest<T, K>(uri);
+  void relativeUrls() {
+    queryParameter['relative_urls'] = 'true';
+  }
+
+  ///
+  /// Specify the version number of the asset that you wish to retrieve.
+  /// If the version is not specified, the details of the latest 
+  /// version will be retrieved.
+  /// To retrieve a specific version, keep the environment parameter blank.
+  /// [version] required
+  ///
+  /// ```dart
+  /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// final asset = stack.assetQuery()..version(3);
+  /// await asset.find().then((response) {
+  ///   print(response);
+  /// }).catchError((error) {
+  ///   print(error['error_code']);
+  /// });
+  ///
+  void version(int version) {
+    queryParameter['version'] = version.toString();
   }
 }
