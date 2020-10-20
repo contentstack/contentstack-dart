@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:contentstack/client.dart';
+import "package:contentstack/client.dart";
 import 'package:contentstack/src/base_query.dart';
 
 /// This call fetches the list of all the assets of a particular stack.
