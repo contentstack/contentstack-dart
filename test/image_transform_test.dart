@@ -1,10 +1,12 @@
+import 'package:logger/logger.dart';
+import 'package:test/test.dart';
+
+import 'package:contentstack/src/image/filter.dart';
 import 'package:contentstack/src/image/fit.dart';
 import 'package:contentstack/src/image/format.dart';
 import 'package:contentstack/src/image/orientation.dart';
 import 'package:contentstack/src/image_transform.dart';
-import 'package:contentstack/src/image/filter.dart';
-import 'package:logger/logger.dart';
-import 'package:test/test.dart';
+
 import 'credentials.dart';
 
 void main() {

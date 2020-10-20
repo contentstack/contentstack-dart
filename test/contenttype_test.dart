@@ -1,7 +1,9 @@
-import 'package:contentstack/src/contenttype_query.dart';
-import 'package:test/test.dart';
-import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:logger/logger.dart';
+import 'package:test/test.dart';
+
+import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:contentstack/src/contenttype_query.dart';
+
 import 'credentials.dart';
 
 void main() {

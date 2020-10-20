@@ -1,9 +1,11 @@
+import 'package:logger/logger.dart';
+import 'package:test/test.dart';
+
 import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/query_params.dart';
 import 'package:contentstack/src/sync/publishtype.dart';
-import 'package:logger/logger.dart';
-import 'package:test/test.dart';
+
 import 'credentials.dart';
 
 void main() {
