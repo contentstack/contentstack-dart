@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/entry_queryable.dart';
@@ -7,12 +8,11 @@ import 'package:contentstack/src/entry_queryable.dart';
 /// the defined `contenttypes`. Learn more about Entries.
 /// Read more for details of [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
 class Entry extends EntryQueryable {
-
   final HttpClient _client;
   final String _contentTypeUid;
   String _path;
   final String _uid;
-  
+
   ///
   /// An `Entry` is the actual piece of content created using one of
   /// the defined `contenttypes`. Learn more about Entries.
@@ -25,21 +25,14 @@ class Entry extends EntryQueryable {
     }
   }
 
-  
-
-  /// Applies query on entries
-  Query query() {
-    return Query(_client, _contentTypeUid);
-  }
-
-  /// The Get a `single entry` request fetches a particular 
+  /// The Get a `single entry` request fetches a particular
   /// entry of a content type.
-  /// 
+  ///
   /// Example:
   ///
   /// ```dart
   /// import 'package:contentstack/contentstack.dart' as contentstack;
-  /// final contentstack.Stack stack = 
+  /// final contentstack.Stack stack =
   /// contentstack.Stack('apiKey', 'deliveryToken', 'environment');
   /// entry = stack.contentType('contentType').entry(entryUid: 'entryUid');
   /// entry.includeReference('categories');
@@ -60,5 +53,10 @@ class Entry extends EntryQueryable {
     }
     final uri = Uri.https(_client.stack.endpoint, '$_path/$_uid', parameter);
     return _client.sendRequest<T, K>(uri);
+  }
+
+  /// Applies query on entries
+  Query query() {
+    return Query(_client, _contentTypeUid);
   }
 }

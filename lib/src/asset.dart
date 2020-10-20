@@ -1,7 +1,8 @@
 import 'dart:async';
+
 import 'package:contentstack/client.dart';
 
-/// This call fetches the latest version of a specific 
+/// This call fetches the latest version of a specific
 /// `asset` of a particular stack.
 /// Read more about
 /// Learn more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-a-single-asset)
@@ -10,6 +11,7 @@ class Asset {
   final HttpClient _client;
   final String _uid;
   String _urlPath;
+
   final Map<String, String> assetParameter = <String, String>{};
 
   /// * [_uid] assetUid:
@@ -46,23 +48,22 @@ class Asset {
     assetParameter['environment'] = environment;
   }
 
-  ///
-  /// Specify the version number of the asset that you wish to retrieve.
-  /// If the version is not specified, 
-  /// the details of the latest version will be retrieved.
-  /// To retrieve a specific version, keep the environment parameter blank.
-  /// [version] required
+  /// It fetch single asset data on the basis of the asset uid.
   ///
   /// ```dart
   /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  /// final asset = stack.asset(asset_uid)..version(2);
   /// asset.fetch<AssetModel, void>().then((response) {
   ///   print(response);
   /// }).catchError((error) {
   ///   print(error['error_code']);
   /// });
-  void version(int version) {
-    assetParameter['version'] = version.toString();
+  Future<T> fetch<T, K>() {
+    if (_uid == null || _uid.isEmpty) {
+      throw Exception('Provide asset uid to fetch single entry');
+    }
+    final uri =
+        Uri.https(_client.stack.endpoint, '$_urlPath/$_uid', assetParameter);
+    return _client.sendRequest<T, K>(uri);
   }
 
   ///
@@ -97,21 +98,22 @@ class Asset {
     assetParameter['include_fallback'] = 'true';
   }
 
-  /// It fetch single asset data on the basis of the asset uid.
+  ///
+  /// Specify the version number of the asset that you wish to retrieve.
+  /// If the version is not specified,
+  /// the details of the latest version will be retrieved.
+  /// To retrieve a specific version, keep the environment parameter blank.
+  /// [version] required
   ///
   /// ```dart
   /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// final asset = stack.asset(asset_uid)..version(2);
   /// asset.fetch<AssetModel, void>().then((response) {
   ///   print(response);
   /// }).catchError((error) {
   ///   print(error['error_code']);
   /// });
-  Future<T> fetch<T, K>() {
-    if (_uid == null || _uid.isEmpty) {
-      throw Exception('Provide asset uid to fetch single entry');
-    }
-    final uri =
-        Uri.https(_client.stack.endpoint, '$_urlPath/$_uid', assetParameter);
-    return _client.sendRequest<T, K>(uri);
+  void version(int version) {
+    assetParameter['version'] = version.toString();
   }
 }

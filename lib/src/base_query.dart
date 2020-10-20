@@ -8,49 +8,42 @@ class BaseQuery {
   final Map<String, String> queryParameter = <String, String>{};
   final Map<String, dynamic> parameter = <String, dynamic>{};
 
-  void where(String fieldUid, QueryOperation queryOperation) {
-    if (fieldUid != null && fieldUid.isNotEmpty) {
-      queryOperation.when(equals: (operation) {
-        parameter[fieldUid] = operation.value;
-      }, notEquals: (operation) {
-        parameter[fieldUid] = {'\$ne': operation.value};
-      }, includes: (operation) {
-        parameter[fieldUid] = {'\$in': operation.value};
-      }, excludes: (operation) {
-        parameter[fieldUid] = {'\$nin': operation.value};
-      }, isLessThan: (operation) {
-        parameter[fieldUid] = {'\$lt': operation.value};
-      }, isLessThanOrEqual: (operation) {
-        parameter[fieldUid] = {'\$lte': operation.value};
-      }, isGreaterThan: (operation) {
-        parameter[fieldUid] = {'\$gt': operation.value};
-      }, isGreaterThanOrEqual: (operation) {
-        parameter[fieldUid] = {'\$gte': operation.value};
-      }, exists: (operation) {
-        parameter[fieldUid] = {'\$exists': operation.value};
-      }, matches: (operation) {
-        parameter[fieldUid] = {'\$regex': operation.regex};
+  ///
+  /// This method adds key and value to an Entry.
+  /// [parameters] The key and value pair that will be added to the Query
+  ///
+  /// Example:
+  /// ```dart
+  /// var stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
+  /// var query = stack.contentType("contentTypeUid").entry().query();
+  /// query.addParam({key: value, key1: value2});
+  /// ```
+  ///
+  void addParams(Map parameters) {
+    if (parameters != null && parameters.isNotEmpty) {
+      parameters.forEach((key, value) {
+        queryParameter[key] = value;
       });
     }
   }
 
   ///
-  /// The number of objects to skip before returning any.
-  /// [skipCount] No of objects to skip from returned objects
-  /// you can chain this call using double dot.
+  /// Add a custom query against specified key.
+  /// [parameters] The key and value pair that will be added to the Query
   ///
-  /// The skip parameter can be used for pagination,
-  /// skip specifies the number of objects to skip in the response.
   /// Example:
-  ///
   /// ```dart
-  /// var stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
-  /// var query = stack.contentType("contentTypeUid").entry().query();
-  /// query.skip(2);
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
+  /// final query = stack.contentType("contentTypeUid").entry().query();
+  /// query.addQuery("query_param_key", "query_param_value");
   /// ```
   ///
-  void skip(int skipCount) {
-    queryParameter['skip'] = skipCount.toString();
+  void addQuery(Map parameters) {
+    if (parameters != null && parameters.isNotEmpty) {
+      parameters.forEach((key, value) {
+        parameter[key] = value;
+      });
+    }
   }
 
   ///
@@ -125,25 +118,6 @@ class BaseQuery {
   }
 
   ///
-  /// This method adds key and value to an Entry.
-  /// [parameters] The key and value pair that will be added to the Query
-  ///
-  /// Example:
-  /// ```dart
-  /// var stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
-  /// var query = stack.contentType("contentTypeUid").entry().query();
-  /// query.addParam({key: value, key1: value2});
-  /// ```
-  ///
-  void addParams(Map parameters) {
-    if (parameters != null && parameters.isNotEmpty) {
-      parameters.forEach((key, value) {
-        queryParameter[key] = value;
-      });
-    }
-  }
-
-  ///
   /// Add a custom query against specified key.
   /// [key] key for the query
   /// [value] value for the query
@@ -162,20 +136,46 @@ class BaseQuery {
   }
 
   ///
-  /// Add a custom query against specified key.
-  /// [parameters] The key and value pair that will be added to the Query
+  /// The number of objects to skip before returning any.
+  /// [skipCount] No of objects to skip from returned objects
+  /// you can chain this call using double dot.
   ///
+  /// The skip parameter can be used for pagination,
+  /// skip specifies the number of objects to skip in the response.
   /// Example:
+  ///
   /// ```dart
-  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
-  /// final query = stack.contentType("contentTypeUid").entry().query();
-  /// query.addQuery("query_param_key", "query_param_value");
+  /// var stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
+  /// var query = stack.contentType("contentTypeUid").entry().query();
+  /// query.skip(2);
   /// ```
   ///
-  void addQuery(Map parameters) {
-    if (parameters != null && parameters.isNotEmpty) {
-      parameters.forEach((key, value) {
-        parameter[key] = value;
+  void skip(int skipCount) {
+    queryParameter['skip'] = skipCount.toString();
+  }
+
+  void where(String fieldUid, QueryOperation queryOperation) {
+    if (fieldUid != null && fieldUid.isNotEmpty) {
+      queryOperation.when(equals: (operation) {
+        parameter[fieldUid] = operation.value;
+      }, notEquals: (operation) {
+        parameter[fieldUid] = {'\$ne': operation.value};
+      }, includes: (operation) {
+        parameter[fieldUid] = {'\$in': operation.value};
+      }, excludes: (operation) {
+        parameter[fieldUid] = {'\$nin': operation.value};
+      }, isLessThan: (operation) {
+        parameter[fieldUid] = {'\$lt': operation.value};
+      }, isLessThanOrEqual: (operation) {
+        parameter[fieldUid] = {'\$lte': operation.value};
+      }, isGreaterThan: (operation) {
+        parameter[fieldUid] = {'\$gt': operation.value};
+      }, isGreaterThanOrEqual: (operation) {
+        parameter[fieldUid] = {'\$gte': operation.value};
+      }, exists: (operation) {
+        parameter[fieldUid] = {'\$exists': operation.value};
+      }, matches: (operation) {
+        parameter[fieldUid] = {'\$regex': operation.regex};
       });
     }
   }
