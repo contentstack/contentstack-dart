@@ -10,9 +10,8 @@ class Credential {
   static const String entryUid = 'blt53ca1231625bdde4';
 
   static contentstack.Stack stack() {
-    final contentstack.Stack stack = contentstack.Stack(
-        apiKey, deliveryToken, environment,
-        region: contentstack.Region.us);
+    final contentstack.Stack stack =
+        contentstack.Stack(apiKey, deliveryToken, environment);
     return stack;
   }
 }

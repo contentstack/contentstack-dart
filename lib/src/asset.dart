@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:contentstack/client.dart';
 
-/// This call fetches the latest version of a specific asset of a particular stack.
+/// This call fetches the latest version of a specific 
+/// `asset` of a particular stack.
 /// Read more about
 /// Learn more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-a-single-asset)
 ///
@@ -47,7 +48,8 @@ class Asset {
 
   ///
   /// Specify the version number of the asset that you wish to retrieve.
-  /// If the version is not specified, the details of the latest version will be retrieved.
+  /// If the version is not specified, 
+  /// the details of the latest version will be retrieved.
   /// To retrieve a specific version, keep the environment parameter blank.
   /// [version] required
   ///

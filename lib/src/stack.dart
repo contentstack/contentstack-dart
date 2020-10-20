@@ -21,8 +21,10 @@ class Stack {
   HttpClient _client;
 
   ///
-  /// Create a new Stack instance with stack's apikey, token, environment name and Optional parameters like.
-  /// Throws an [ArgumentError] if [apiKey], [deliveryToken] and [environment] is not passed.
+  /// Create a new Stack instance with stack's apikey, token, 
+  /// environment name and Optional parameters like.
+  /// Throws an [ArgumentError] if [apiKey], [deliveryToken] 
+  /// and [environment] is not passed.
   /// import 'package:contentstack/contentstack.dart' as contentstack;
   /// var stack = contentstack.Stack('api_key', 'delivery_token', environment)
   ///
@@ -200,9 +202,11 @@ class Stack {
 
   ///
   /// The Image Delivery API is used to retrieve, manipulate and/or convert image
-  /// files of your Contentstack account and deliver it to your web or mobile properties.
+  /// files of your Contentstack account and deliver it to your 
+  /// web or mobile properties.
   /// {Supported input formats}:  JPEG, PNG, WEBP, GIF
-  /// {Supported output formats}: JPEG (baseline & progressive), PNG, WEBP (lossy & lossless), GIF
+  /// {Supported output formats}: JPEG (baseline & progressive), 
+  /// PNG, WEBP (lossy & lossless), GIF
   /// Read documentation for more details:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#limitations-with-optimizing-image
   ///
@@ -246,19 +250,23 @@ class Stack {
   /// * [contentTypeUid] -- You can also initialize sync with entries of
   /// only specific content_type. To do this, use syncContentType and specify
   /// the content type uid as its value. However, if you do this,
-  /// the subsequent syncs will only include the entries of the specified content_type.
+  /// the subsequent syncs will only include the entries of the 
+  /// specified content_type.
   ///
   /// * [fromDate] -- You can also initialize sync with entries published
   /// after a specific date. To do this, use from_date
   /// and specify the start date as its value.
   ///
-  /// * [locale] -- You can also initialize sync with entries of only specific locales.
+  /// * [locale] -- You can also initialize sync with entries of 
+  /// only specific locales.
   /// To do this, use syncLocale and specify the locale code as its value.
   /// However, if you do this, the subsequent syncs will only include
   /// the entries of the specified locales.
   ///
-  /// * [publishType] -- Use the type parameter to get a specific type of content.
-  /// If you do not specify any value, it will bring all published entries and published assets.
+  /// * [publishType] -- Use the type parameter 
+  /// to get a specific type of content.
+  /// If you do not specify any value, 
+  /// it will bring all published entries and published assets.
   ///
   /// Returns: List Of [SyncResult]
   ///
@@ -306,11 +314,16 @@ class Stack {
   }
 
   ///
-  /// If the result of the initial sync (or subsequent sync) contains more than 100 records, the response would be
-  /// paginated. It provides pagination token in the response. However, you do not have to use the pagination token
-  /// manually to get the next batch, the SDK does that automatically until the sync is complete. Pagination token
-  /// can be used in case you want to fetch only selected batches. It is especially useful if the sync process is
-  /// interrupted midway (due to network issues, etc.). In such cases, this token can be used to restart the sync
+  /// If the result of the initial sync (or subsequent sync) 
+  /// contains more than 100 records, the response would be
+  /// paginated. It provides pagination token in the response. 
+  /// However, you do not have to use the pagination token
+  /// manually to get the next batch, the SDK does that 
+  /// automatically until the sync is complete. Pagination token
+  /// can be used in case you want to fetch only selected batches. 
+  /// It is especially useful if the sync process is
+  /// interrupted midway (due to network issues, etc.). In such cases, 
+  /// this token can be used to restart the sync
   /// process from where it was interrupted.
   ///
   Future<T> paginationToken<T, K>(String paginationToken) {
@@ -324,7 +337,7 @@ class Stack {
   ///
   /// You can use the sync token (that you receive after initial sync)
   /// to get the updated content next time.
-  /// The sync token fetches only the content that was added after your last sync,
+  /// sync token fetches only the content that was added after your last sync,
   /// and the details of the content that was deleted or updated.
   ///
   ///

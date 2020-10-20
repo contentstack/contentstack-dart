@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-10-16 19:15:55</td>
+            <td class="headerValue">2020-10-19 01:12:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -69,11 +69,11 @@
 <a name="7"><span class="lineNum">       7 </span>            : /// the defined content types. Learn more about Entries.</a>
 <a name="8"><span class="lineNum">       8 </span>            : /// Read more for details of [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)</a>
 <a name="9"><span class="lineNum">       9 </span>            : class Entry extends EntryQueryable {</a>
-<a name="10"><span class="lineNum">      10 </span><span class="lineCov">          1 :   Entry([this._uid, this._client, this._contentTypeUid]) {</span></a>
-<a name="11"><span class="lineNum">      11 </span><span class="lineCov">          5 :     parameter['environment'] = _client.stackHeaders['environment'];</span></a>
-<a name="12"><span class="lineNum">      12 </span><span class="lineCov">          3 :     if (_contentTypeUid != null &amp;&amp; _contentTypeUid.isNotEmpty) {</span></a>
-<a name="13"><span class="lineNum">      13 </span><span class="lineCov">          1 :       _path =</span></a>
-<a name="14"><span class="lineNum">      14 </span><span class="lineCov">          5 :           '/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries';</span></a>
+<a name="10"><span class="lineNum">      10 </span><span class="lineCov">          2 :   Entry([this._uid, this._client, this._contentTypeUid]) {</span></a>
+<a name="11"><span class="lineNum">      11 </span><span class="lineCov">         10 :     parameter['environment'] = _client.stackHeaders['environment'];</span></a>
+<a name="12"><span class="lineNum">      12 </span><span class="lineCov">          6 :     if (_contentTypeUid != null &amp;&amp; _contentTypeUid.isNotEmpty) {</span></a>
+<a name="13"><span class="lineNum">      13 </span><span class="lineCov">          2 :       _path =</span></a>
+<a name="14"><span class="lineNum">      14 </span><span class="lineCov">         10 :           '/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries';</span></a>
 <a name="15"><span class="lineNum">      15 </span>            :     }</a>
 <a name="16"><span class="lineNum">      16 </span>            :   }</a>
 <a name="17"><span class="lineNum">      17 </span>            : </a>

@@ -230,27 +230,21 @@ void main() {
       expect('orient=6', response.query.toString());
     });
 
-    test(
-        'orientation horizontallyAndRotate90DegreeLeft in ImageTransformation check params',
-        () {
+    test('orientation horizontallyAndRotate90DegreeLeft', () {
       final response = imageTransformation
         ..orientation(Orientation.horizontallyAndRotate90DegreeLeft())
         ..getUrl();
       expect('orient=5', response.query.toString());
     });
 
-    test(
-        'orientation horizontallyAndRotate90DegreesRight in ImageTransformation check params',
-        () {
+    test('orientation horizontallyAndRotate90DegreesRight', () {
       final response = imageTransformation
         ..orientation(Orientation.horizontallyAndRotate90DegreesRight())
         ..getUrl();
       expect('orient=7', response.query.toString());
     });
 
-    test(
-        'orientation horizontallyAndVertically in ImageTransformation check params',
-        () {
+    test('orientation horizontallyAndVertically', () {
       final response = imageTransformation
         ..orientation(Orientation.horizontallyAndVertically())
         ..getUrl();

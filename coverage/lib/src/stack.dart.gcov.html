@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-10-16 19:15:55</td>
+            <td class="headerValue">2020-10-19 01:12:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -94,36 +94,36 @@
 <a name="32"><span class="lineNum">      32 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
 <a name="33"><span class="lineNum">      33 </span>            :   /// ```</a>
 <a name="34"><span class="lineNum">      34 </span>            :   ///</a>
-<a name="35"><span class="lineNum">      35 </span><span class="lineCov">          1 :   Stack(this._apiKey, this._deliveryToken, this._environment,</span></a>
+<a name="35"><span class="lineNum">      35 </span><span class="lineCov">          6 :   Stack(this._apiKey, this._deliveryToken, this._environment,</span></a>
 <a name="36"><span class="lineNum">      36 </span>            :       {this.apiVersion = 'v3',</a>
 <a name="37"><span class="lineNum">      37 </span>            :       this.region = Region.us,</a>
 <a name="38"><span class="lineNum">      38 </span>            :       String host = 'cdn.contentstack.io',</a>
 <a name="39"><span class="lineNum">      39 </span>            :       BaseClient client})</a>
-<a name="40"><span class="lineNum">      40 </span><span class="lineCov">          1 :       : _host = (region == Region.us)</span></a>
+<a name="40"><span class="lineNum">      40 </span><span class="lineCov">          6 :       : _host = (region == Region.us)</span></a>
 <a name="41"><span class="lineNum">      41 </span>            :             ? host</a>
 <a name="42"><span class="lineNum">      42 </span><span class="lineCov">          1 :             : (host == 'cdn.contentstack.io'</span></a>
 <a name="43"><span class="lineNum">      43 </span>            :                 ? 'eu-cdn.contentstack.com'</a>
 <a name="44"><span class="lineNum">      44 </span><span class="lineCov">          1 :                 : 'eu-$host') {</span></a>
 <a name="45"><span class="lineNum">      45 </span>            :     // final blank = s == null || s.trim() == '';</a>
-<a name="46"><span class="lineNum">      46 </span><span class="lineCov">          4 :     if (_apiKey.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">         24 :     if (_apiKey.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {</span></a>
 <a name="47"><span class="lineNum">      47 </span><span class="lineCov">          1 :       throw ArgumentError.notNull('APIkey');</span></a>
 <a name="48"><span class="lineNum">      48 </span>            :     }</a>
 <a name="49"><span class="lineNum">      49 </span>            : </a>
-<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          4 :     if (_deliveryToken.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">         24 :     if (_deliveryToken.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {</span></a>
 <a name="51"><span class="lineNum">      51 </span><span class="lineCov">          1 :       throw ArgumentError.notNull('deliveryToken');</span></a>
 <a name="52"><span class="lineNum">      52 </span>            :     }</a>
 <a name="53"><span class="lineNum">      53 </span>            : </a>
-<a name="54"><span class="lineNum">      54 </span><span class="lineCov">          4 :     if (_environment.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">         24 :     if (_environment.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {</span></a>
 <a name="55"><span class="lineNum">      55 </span><span class="lineCov">          1 :       throw ArgumentError.notNull('environment');</span></a>
 <a name="56"><span class="lineNum">      56 </span>            :     }</a>
 <a name="57"><span class="lineNum">      57 </span>            : </a>
-<a name="58"><span class="lineNum">      58 </span><span class="lineCov">          2 :     stackHeader = {</span></a>
-<a name="59"><span class="lineNum">      59 </span><span class="lineCov">          1 :       'api_key': _apiKey,</span></a>
-<a name="60"><span class="lineNum">      60 </span><span class="lineCov">          1 :       'access_token': _deliveryToken,</span></a>
-<a name="61"><span class="lineNum">      61 </span><span class="lineCov">          1 :       'environment': _environment,</span></a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">         12 :     stackHeader = {</span></a>
+<a name="59"><span class="lineNum">      59 </span><span class="lineCov">          6 :       'api_key': _apiKey,</span></a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">          6 :       'access_token': _deliveryToken,</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">          6 :       'environment': _environment,</span></a>
 <a name="62"><span class="lineNum">      62 </span>            :     };</a>
 <a name="63"><span class="lineNum">      63 </span>            : </a>
-<a name="64"><span class="lineNum">      64 </span><span class="lineCov">          3 :     _client = HttpClient(stackHeader, client: client, stack: this);</span></a>
+<a name="64"><span class="lineNum">      64 </span><span class="lineCov">         18 :     _client = HttpClient(stackHeader, client: client, stack: this);</span></a>
 <a name="65"><span class="lineNum">      65 </span>            :   }</a>
 <a name="66"><span class="lineNum">      66 </span>            : </a>
 <a name="67"><span class="lineNum">      67 </span>            :   ///</a>
@@ -139,8 +139,8 @@
 <a name="77"><span class="lineNum">      77 </span>            :   /// var contentType = stack.contentType('content_type_id');</a>
 <a name="78"><span class="lineNum">      78 </span>            :   /// ```</a>
 <a name="79"><span class="lineNum">      79 </span>            :   ///</a>
-<a name="80"><span class="lineNum">      80 </span><span class="lineCov">          1 :   ContentType contentType([String contentTypeId]) {</span></a>
-<a name="81"><span class="lineNum">      81 </span><span class="lineCov">          2 :     return ContentType(contentTypeId, _client);</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">          4 :   ContentType contentType([String contentTypeId]) {</span></a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">          8 :     return ContentType(contentTypeId, _client);</span></a>
 <a name="82"><span class="lineNum">      82 </span>            :   }</a>
 <a name="83"><span class="lineNum">      83 </span>            : </a>
 <a name="84"><span class="lineNum">      84 </span>            :   ///</a>
@@ -248,7 +248,7 @@
 <a name="186"><span class="lineNum">     186 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
 <a name="187"><span class="lineNum">     187 </span>            :   /// var environment = stack.environment;</a>
 <a name="188"><span class="lineNum">     188 </span>            :   /// ```</a>
-<a name="189"><span class="lineNum">     189 </span><span class="lineCov">          2 :   String get host =&gt; _host;</span></a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">         10 :   String get host =&gt; _host;</span></a>
 <a name="190"><span class="lineNum">     190 </span>            : </a>
 <a name="191"><span class="lineNum">     191 </span>            :   /// It returns endpoint of the Stack</a>
 <a name="192"><span class="lineNum">     192 </span>            :   ///</a>
@@ -258,7 +258,7 @@
 <a name="196"><span class="lineNum">     196 </span>            :   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);</a>
 <a name="197"><span class="lineNum">     197 </span>            :   /// var environment = stack.environment;</a>
 <a name="198"><span class="lineNum">     198 </span>            :   /// ```</a>
-<a name="199"><span class="lineNum">     199 </span><span class="lineCov">          2 :   String get endpoint =&gt; host;</span></a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">         10 :   String get endpoint =&gt; host;</span></a>
 <a name="200"><span class="lineNum">     200 </span>            : </a>
 <a name="201"><span class="lineNum">     201 </span>            :   ///</a>
 <a name="202"><span class="lineNum">     202 </span>            :   /// The Image Delivery API is used to retrieve, manipulate and/or convert image</a>
@@ -407,7 +407,7 @@
 <a name="345"><span class="lineNum">     345 </span>            : /// where your organization's data resides</a>
 <a name="346"><span class="lineNum">     346 </span>            : /// * Default [Region](https://www.contentstack.com/docs/developers/contentstack-regions/about-regions/) is: US</a>
 <a name="347"><span class="lineNum">     347 </span>            : // Contact our support team at support@contentstack.com for more details.</a>
-<a name="348"><span class="lineNum">     348 </span><span class="lineCov">          3 : enum Region { us, eu }</span></a>
+<a name="348"><span class="lineNum">     348 </span><span class="lineCov">         18 : enum Region { us, eu }</span></a>
 </pre>
       </td>
     </tr>

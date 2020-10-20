@@ -3,6 +3,7 @@ import 'package:contentstack/src/enums/include.dart';
 import 'package:test/test.dart';
 import 'credentials.dart';
 
+
 void main() {
   group('Entry functinal testcases', () {
     Entry entry;
@@ -97,6 +98,7 @@ void main() {
 
     test('find the entry response with locale', () async {
       entry.locale('en-us');
+      // ignore: prefer_void_to_null
       await entry.fetch<EntryModel, Null>().then((response) {
         expect('en-us', response.locale);
       }).catchError((onError) {

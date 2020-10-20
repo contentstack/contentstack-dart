@@ -44,8 +44,8 @@ class BaseQuery {
   /// Example:
   ///
   /// ```dart
-  /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
-  /// final query = stack.contentType("contentTypeUid").entry().query();
+  /// var stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
+  /// var query = stack.contentType("contentTypeUid").entry().query();
   /// query.skip(2);
   /// ```
   ///
@@ -57,12 +57,13 @@ class BaseQuery {
   /// A limit on the number of objects to return.
   /// [limitCount] No of objects to limit
   /// you can chain this call by using double dot
-  /// The limit parameter can be used for pagination, limit specifies the number of objects to limit to in the response.
+  /// The limit parameter can be used for pagination,
+  /// limit specifies the number of objects to limit to in the response.
   ///
   /// Example:
   /// ```dart
-  /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
-  /// final query = stack.contentType("contentTypeUid").entry().query();
+  /// var stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
+  /// var query = stack.contentType("contentTypeUid").entry().query();
   /// query.limit(2);
   /// ```
   ///
@@ -78,8 +79,8 @@ class BaseQuery {
   ///
   /// Example:
   /// ```dart
-  /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
-  /// final query = stack.contentType("contentTypeUid").entry().query();
+  /// var stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
+  /// var query = stack.contentType("contentTypeUid").entry().query();
   /// query.orderByAscending('ascendingByKey');
   /// ```
   ///
@@ -95,8 +96,8 @@ class BaseQuery {
   ///
   /// Example:
   /// ```dart
-  /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
-  /// final query = stack.contentType("contentTypeUid").entry().query();
+  /// var stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
+  /// var query = stack.contentType("contentTypeUid").entry().query();
   /// query.orderByDecending('descendingByKey');
   /// ```
   ///
@@ -110,8 +111,9 @@ class BaseQuery {
   /// [value] The value as string which needs to be added to the Query
   ///
   /// Example:
+  ///
   /// ```dart
-  /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
+  /// var stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.param('key', 'value');
   /// ```
@@ -128,8 +130,8 @@ class BaseQuery {
   ///
   /// Example:
   /// ```dart
-  /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
-  /// final query = stack.contentType("contentTypeUid").entry().query();
+  /// var stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
+  /// var query = stack.contentType("contentTypeUid").entry().query();
   /// query.addParam({key: value, key1: value2});
   /// ```
   ///
@@ -148,7 +150,7 @@ class BaseQuery {
   ///
   /// Example:
   /// ```dart
-  /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.addQuery("query_param_key", "query_param_value");
   /// ```
@@ -165,7 +167,7 @@ class BaseQuery {
   ///
   /// Example:
   /// ```dart
-  /// final stack = contentstack.Stack( "apiKey", "deliveryToken", "environment");
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final query = stack.contentType("contentTypeUid").entry().query();
   /// query.addQuery("query_param_key", "query_param_value");
   /// ```

@@ -35,7 +35,8 @@ class AssetQuery extends BaseQuery {
 
   ///
   /// Specify the version number of the asset that you wish to retrieve.
-  /// If the version is not specified, the details of the latest version will be retrieved.
+  /// If the version is not specified, the details of the latest 
+  /// version will be retrieved.
   /// To retrieve a specific version, keep the environment parameter blank.
   /// [version] required
   ///
@@ -128,7 +129,7 @@ class AssetQuery extends BaseQuery {
   ///   print(error['error_code']);
   /// });
   Future<T> find<T, K>() async {
-    final uri = Uri.https(_client.stack.endpoint, '$_urlPath', queryParameter);
+    final uri = Uri.https(_client.stack.endpoint, _urlPath, queryParameter);
     return _client.sendRequest<T, K>(uri);
   }
 }
