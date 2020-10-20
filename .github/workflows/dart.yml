@@ -16,5 +16,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: pub get
+    - name: Install dependencies flutter
+      run: flutter pub get
+    - name: Install build_runner
+      run: flutter pub run build_runner build
     - name: Run tests
       run: pub run test
