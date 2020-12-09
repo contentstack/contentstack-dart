@@ -96,7 +96,7 @@ class AssetQuery extends BaseQuery {
   ///   print(error['error_code']);
   /// });
   void includeFallback() {
-    queryParameter['include_fallback'] = 'true';
+    queryParameter['include_fallback'] = true.toString();
   }
 
   ///
@@ -116,7 +116,7 @@ class AssetQuery extends BaseQuery {
 
   ///
   /// Specify the version number of the asset that you wish to retrieve.
-  /// If the version is not specified, the details of the latest 
+  /// If the version is not specified, the details of the latest
   /// version will be retrieved.
   /// To retrieve a specific version, keep the environment parameter blank.
   /// [version] required

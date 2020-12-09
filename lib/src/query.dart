@@ -111,7 +111,7 @@ class Query extends BaseQuery {
   /// ```
   ///
   void includeFallback() {
-    queryParameter['include_fallback'] = 'true';
+    queryParameter['include_fallback'] = true.toString();
   }
 
   //
