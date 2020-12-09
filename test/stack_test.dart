@@ -1,14 +1,16 @@
+import 'package:logger/logger.dart';
+import 'package:test/test.dart';
+
 import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/query_params.dart';
 import 'package:contentstack/src/sync/publishtype.dart';
-import 'package:logger/logger.dart';
-import 'package:test/test.dart';
+
 import 'credentials.dart';
 
 void main() {
   //final Logger log = Logger('Stack');
-  var logger = Logger(
+  final logger = Logger(
     printer: PrettyPrinter(),
   );
   group('functional testcases for stack', () {
@@ -121,6 +123,7 @@ void main() {
     test('testcases content_type_uid is missing', () async {
       try {
         final contentType = stack.contentType('application_theme');
+        // ignore: cascade_invocations
         contentType.urlPath = null;
         await contentType.fetch().then((response) {}).catchError((error) {});
       } catch (e) {
@@ -157,14 +160,16 @@ void main() {
     });
 
     test('sync token response', () async {
-      final response = stack.syncToken<SyncResult, Null>('blta2662861c53ebf7cab51e7');
+      final response =
+          stack.syncToken<SyncResult, Null>('blta2662861c53ebf7cab51e7');
       await response.then((response) {
         expect(34, response.totalCount);
       });
     });
 
     test('pagination token response', () async {
-      final response = stack.paginationToken<SyncResult, Null>('blt233312100c58dbf9a56bfa');
+      final response =
+          stack.paginationToken<SyncResult, Null>('blt233312100c58dbf9a56bfa');
       await response.then((response) {
         logger.w('sync token ${response.syncToken}');
         //expect('blt5dd141299bb56309f793a6', response.syncToken);
@@ -245,7 +250,6 @@ void main() {
       });
     });
 
-
     test('sync with multiple params content_type_uid', () async {
       await stack.sync(contentTypeUid: 'testuid').then((response) {
         final error = contentstack.Error.fromJson(response);
@@ -253,13 +257,9 @@ void main() {
         expect(error.errorMessage, response['error_message']);
       });
     });
-
-
-
   });
 
   group('testcase for URLQueryParams', () {
-
     test('test query_params', () {
       final params = URLQueryParams()..append('key', 'value');
       final url = params.toUrl('cdn.contentstack.io/');
@@ -267,7 +267,8 @@ void main() {
     });
 
     test('query_params', () {
-      final params = URLQueryParams()..append('key', 'value')
+      final params = URLQueryParams()
+        ..append('key', 'value')
         ..append('key1', 'value1')
         ..remove('key');
       final url = params.toUrl('cdn.contentstack.io');

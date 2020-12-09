@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/contenttype_query.dart';
@@ -24,36 +25,29 @@ class ContentType {
   }
 
   ///
-  /// This function provide option to  get single entry as well as all the entries.
-  /// [entryUid] is Optional, If [entryUid]  Provided it fetches related entry of a respected content type
+  /// This function provide option to  get single entry as well as
+  /// all the entries. [entryUid] is Optional, If [entryUid]
+  /// Provided it fetches related entry of a respected content type
   /// Read more about single entry:
   /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#single-entry
-
-  /// if [entryUid] not provided ,Get all entries call fetches the list of all the entries of a particular content type.
-  /// It also returns the content of each entry in JSON format. You can also specify the environment
+  ///
+  /// if [entryUid] not provided ,Get all entries call fetches the list of
+  /// all the entries of a particular content type.
+  /// It also returns the content of each entry in JSON format.
+  /// You can also specify the environment
   /// and locale of which you wish to get the entries.
   /// /// Read more about entries:
   /// https://www.contentstack.com/docs/developers/apis/content-delivery-api/#all-entries
   ///
-  /// final entry = stack.contentType('content_type_uid').entry(entryUid: 'entry_uid');
-  /// print(entry);
+  /// ```dart
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
+  /// final contentType = stack.contentType('content_type_uid');
+  /// final entry = contentType.entry(entryUid: 'entry_uid');
+  ///
+  /// ```
   ///
   Entry entry({String entryUid}) {
     return Entry(entryUid, _client, _contentTypeUid);
-  }
-
-  ///
-  /// Query on ContentType
-  /// This call returns comprehensive information of all the content types
-  /// available in a particular stack in your account
-  ///
-  /// Example:
-  /// final contentTypeQuery = stack.contentType().query();
-  /// final response = contentTypeQuery.find();
-  /// print(response);
-  ///
-  ContentTypeQuery query() {
-    return ContentTypeQuery(_client);
   }
 
   ///
@@ -62,12 +56,15 @@ class ContentType {
   /// [queryParams] query parameters
   ///
   /// Example:
+  ///
+  /// ```dart
   /// final contentType = stack.contentType("content_type_uid");
   /// final Map<String, dynamic> queryParameter = <String,dynamic>{};
   /// queryParameter["include_snippet_schema"] = true;
   /// queryParameter["limit"] = 3;
   /// final response = contentType.fetch(queryParameter);
   /// print(response);
+  /// ```
   ///
   Future<T> fetch<T, K>([Map<String, dynamic> queryParams]) {
     if (urlPath == null) {
@@ -78,5 +75,22 @@ class ContentType {
     }
     final uri = Uri.https(_client.stack.endpoint, urlPath, _queryParameter);
     return _client.sendRequest<T, K>(uri);
+  }
+
+  ///
+  /// Query on ContentType
+  /// This call returns comprehensive information of all the content types
+  /// available in a particular stack in your account
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// final contentTypeQuery = stack.contentType().query();
+  /// final response = contentTypeQuery.find();
+  /// print(response);
+  /// ```
+  ///
+  ContentTypeQuery query() {
+    return ContentTypeQuery(_client);
   }
 }

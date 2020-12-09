@@ -1,6 +1,6 @@
-import 'package:contentstack/src/models/assetmodel.dart';
 import 'package:test/test.dart';
 import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:contentstack/src/models/assetmodel.dart';
 import 'credentials.dart';
 
 void main() {
@@ -10,16 +10,17 @@ void main() {
       stack = Credential.stack();
     });
 
-
     test('testcase asset title', () async {
-      final asset = stack.asset(Credential.assetUid)..environment('development');
-      await asset.fetch<AssetModel, Null>().then((response) {
+      final asset = stack.asset(Credential.assetUid)
+        ..environment('development');
+      await asset.fetch<AssetModel, void>().then((response) {
         expect('images_(2).jpg', response.title);
       });
     });
 
     test('testcase asset environment', () async {
-      final asset = stack.asset(Credential.assetUid)..environment('development');
+      final asset = stack.asset(Credential.assetUid)
+        ..environment('development');
       final params = asset.assetParameter;
       expect('{environment: development}', params.toString());
     });
@@ -85,21 +86,56 @@ void main() {
     });
 
     test('testcase assetquery query on asset', () async {
-      final asset = stack.assetQuery()..includeCount()..relativeUrls();
+      final asset = stack.assetQuery()
+        ..includeCount()
+        ..relativeUrls();
       await asset.find<List<AssetModel>, AssetModel>().then((response) {
-        expect('/v3/assets/bltc94709340b84bdd2/bltb2291d913f97e9cb/5e9007ed89d7817e9320a769/images_(2).jpg', response[7].url);
+        expect(
+            '/v3/assets/bltc94709340b84bdd2/bltb2291d913f97e9cb/5e9007ed89d7817e9320a769/images_(2).jpg',
+            response[7].url);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
     });
 
     test('testcase asset find chaining the functions', () async {
-      final asset = stack.assetQuery()..version(4)..relativeUrls()..includeDimension();
+      final asset = stack.assetQuery()
+        ..version(4)
+        ..relativeUrls()
+        ..includeDimension();
       await asset.find().then((response) {
         expect(0, response['assets'].length);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
     });
+
+    test('includeFallback unit testcase match key', () {
+      final asset = stack.assetQuery()..includeFallback();
+      expect(true, asset.queryParameter.containsKey('include_fallback'));
+      expect('true', asset.queryParameter['include_fallback']);
+    });
+
+    // test('testcase asset include fallback', () async {
+    //   var language = 'en-us';
+    //   final asset = stack.assetQuery()..includeFallback();
+    //   await asset.find().then((response) {
+    //     expect(0, response['assets'].length);
+    //   }).catchError((error) {
+    //     expect(422, error['error_code']);
+    //   });
+    // });
+
+    // test('testcase asset include fallback with locale', () async {
+    //   var language = 'en-us';
+    //   final asset = stack.assetQuery()
+    //     ..includeFallback()
+    //     ..param('locale', 'en-us');
+    //   await asset.find().then((response) {
+    //     expect(0, response['assets'].length);
+    //   }).catchError((error) {
+    //     expect(422, error['error_code']);
+    //   });
+    // });
   });
 }

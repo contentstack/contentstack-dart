@@ -3,16 +3,25 @@
 
 ## Dart SDK for Contentstack
 
-![Coverage](https://github.com/contentstack/contentstack-dart/blob/development/coverage_badge.svg?sanitize=true)
+![version](https://img.shields.io/github/v/release/contentstack/contentstack-dart)
+![Coverage](https://raw.githubusercontent.com/contentstack/contentstack-dart/ae680c33d9efe68938bde585f72b12cca442c7a7/coverage_badge.svg)
 ![Dart CI](https://github.com/contentstack/contentstack-dart/workflows/Dart%20CI/badge.svg)
+![dartdoc](https://img.shields.io/badge/dartdoc-latest-<green>.svg)
 
-Contentstack is a headless CMS with an API-first approach.
+![issues](https://img.shields.io/github/issues/contentstack/contentstack-dart)
+![fork](https://img.shields.io/github/forks/contentstack/contentstack-dart)
+![starts](https://img.shields.io/github/stars/contentstack/contentstack-dart)
+![license](https://img.shields.io/github/license/contentstack/contentstack-dart)
+![tweet](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fcontentstack%2Fcontentstack-dart%2Ftree%2Fdevelopment)
+
+
+`Contentstack` is a headless CMS with an API-first approach.
 It is a CMS that developers can use to build powerful cross-platform applications
 in their favorite languages. Build your application frontend, and Contentstack will
 take care of the rest.
 [Read More](https://www.contentstack.com/).
 
-Contentstack provides Dart SDK to build application on top of Dart.
+Contentstack provides `Dart SDK` to build application on top of Dart.
 Given below is the detailed guide and helpful resources to get started with our Dart SDK.
 
 ### Prerequisite
@@ -22,7 +31,7 @@ You can install it from [here](https://dart.dev/get-dart).
 
 ### Setup and Installation
 
-To use the Contentstack Dart SDK to your existing project, perform the steps given below:
+To use the Contentstack Dart SDK to your existing project, perform the `steps` given below:
 
 **Install Dart Package**
 
@@ -33,29 +42,29 @@ dependencies:
 
 ### Key Concepts for using Contentstack
 
-#### Stack
+#### `Stack`
 
 A stack is like a container that holds the content of your app.
 Learn more about [Stacks](https://www.contentstack.com/docs/developers/set-up-stack/about-stack/).
 
-#### Content Type
+#### `Content Type`
 
 Content type lets you define the structure or blueprint of a page or a section of your digital property.
 It is a form-like page that gives Content Managers an interface to input and upload content.
 [Read more](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#content-types).
 
-#### Entry
+#### `Entry`
 
 An entry is the actual piece of content created using one of the defined content types.
 Learn more about [Entries](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries).
 
-#### Asset
+#### `Asset`
 
 Assets refer to all the media files (images, videos, PDFs, audio files, and so on) uploaded to Contentstack.
 These files can be used in multiple entries.
 Read more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#assets).
 
-#### Environment
+#### `Environment`
 
 A publishing environment corresponds to one or more deployment servers or a content delivery
 destination where the entries need to be published.
@@ -63,12 +72,12 @@ Learn how to work with [Environments](https://www.contentstack.com/docs/develope
 
 ### Contentstack Dart SDK: 5-minute Quickstart
 
-#### Initializing your SDK
+#### __Initializing your SDK__
 
 To initialize the SDK, specify application  API key, access token, and environment name of the stack
 as shown in the snippet given below (config is optional):
 
-```bash
+```dart
 import 'package:contentstack/contentstack.dart' as contentstack;
 
 final stack = Contentstack.stack(apiKey, deliveryToken, environment);
@@ -81,7 +90,7 @@ top panel navigation, go to Settings & Stack to view the API Key and Access Toke
 
 To retrieve a single entry from a content type use the code snippet given below:
 
-```bash
+```dart
 import 'package:contentstack/contentstack.dart' as contentstack;
 
 final stack = contentstack.Stack(apiKey, deliveryToken, environment);
@@ -97,7 +106,7 @@ final entry = stack.contentType('contentTypeUid').entry(entryUid: 'entryUid');
 
 To retrieve multiple entries of a particular content type, use the code snippet given below:
 
-```bash
+```dart
 import 'package:contentstack/contentstack.dart' as contentstack;
 
 final stack = contentstack.Stack(apiKey, deliveryToken, environment);
@@ -130,21 +139,21 @@ There are several more parameters that you can use for your images.
 
 You can use the Image Delivery API functions in this SDK as well. Here are a few examples of its usage in the SDK.
 
-```bash
+```dart
 import 'package:contentstack/contentstack.dart' as contentstack;
 
 final stack = contentstack.Stack(apiKey, deliveryToken, environment);
 imageTransformation = stack.imageTransform(imageUrl);
 
-#set the image quality to 100
+##set the image quality to 100
 imageParams = {'quality': 100}
 final imageUrl = imageTransformation..canvas(imageParams)..getUrl();
 
-#resize the image by specifying width and height
+##resize the image by specifying width and height
 imageParams = {'width': 100, 'height': 100}
 final response = imageTransformation..canvas(imageParams)..getUrl();
 
-#enable auto optimization for the image
+##enable auto optimization for the image
 imageParams = {'auto': 'webp'}
 final response = imageTransformation..canvas(imageParams)..getUrl();
 ```
@@ -157,10 +166,10 @@ final response = imageTransformation..canvas(imageParams)..getUrl();
 
 ### The MIT License (MIT)
 
-MIT License
+`MIT License`
 
 Copyright (c) 2012 - 2020
-[Contentstack](https://www.contentstack.com/). All rights reserved.
+[`Contentstack`](https://www.contentstack.com/). All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

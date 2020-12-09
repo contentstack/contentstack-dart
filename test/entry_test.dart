@@ -1,10 +1,11 @@
+import 'package:test/test.dart';
+
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/enums/include.dart';
-import 'package:test/test.dart';
+
 import 'credentials.dart';
 
 void main() {
-
   group('Entry functinal testcases', () {
     Entry entry;
     setUp(() {
@@ -22,7 +23,9 @@ void main() {
     });
 
     test('test the locale', () {
-      entry..locale('en-us')..addParam('testKey', 'testValue123');
+      entry
+        ..locale('en-us')
+        ..addParam('testKey', 'testValue123');
       expect(true, entry.parameter.containsKey('locale'));
     });
 
@@ -94,10 +97,9 @@ void main() {
       entry = stack.contentType('faq').entry(entryUid: Credential.entryUid);
     });
 
-
-
     test('find the entry response with locale', () async {
       entry.locale('en-us');
+      // ignore: prefer_void_to_null
       await entry.fetch<EntryModel, Null>().then((response) {
         expect('en-us', response.locale);
       }).catchError((onError) {
@@ -105,16 +107,10 @@ void main() {
       });
     });
 
-
-
-
-
-
-
-
-
     test('test entry response with version', () async {
-      entry..locale('en-us')..addParam('version', '1');
+      entry
+        ..locale('en-us')
+        ..addParam('version', '1');
       await entry.fetch<EntryModel, Null>().then((response) {
         expect(1, response.version);
       });
@@ -149,7 +145,8 @@ void main() {
 
     test('find the includeReference default with list objects', () async {
       const List<String> fieldUID = ['title', 'attendee', 'created_at'];
-      entry.includeReference('categories', includeReferenceField: Include.none(fieldUidList: fieldUID));
+      entry.includeReference('categories',
+          includeReferenceField: Include.none(fieldUidList: fieldUID));
       await entry.fetch().then((response) {
         expect(141, response['error_code']);
       }).catchError((onError) {
@@ -160,11 +157,11 @@ void main() {
     test('find the includeReference with only API call', () async {
       entry.locale('en-us');
       const List<String> fieldUID = ['price', 'orange', 'mango'];
-      entry.includeReference('categories', includeReferenceField: Include.only(fieldUidList: fieldUID));
-      await entry.fetch().then((response){
+      entry.includeReference('categories',
+          includeReferenceField: Include.only(fieldUidList: fieldUID));
+      await entry.fetch().then((response) {
         expect(141, response['error_code']);
       });
-
     });
 
     test('find the includeReference except API call', () async {
@@ -172,12 +169,12 @@ void main() {
       const List<String> fieldUID = ['price', 'orange', 'mango'];
       entry.includeReference('categories',
           includeReferenceField: Include.except(fieldUidList: fieldUID));
-      await entry.fetch().then((response){
-        expect("The requested object doesn't exist.", response['error_message']);
-      }).catchError((error){
+      await entry.fetch().then((response) {
+        expect(
+            "The requested object doesn't exist.", response['error_message']);
+      }).catchError((error) {
         expect('Invalid reponse.', error.message);
       });
-
     });
 
     test('find the includeContentType except API call', () async {
@@ -202,6 +199,12 @@ void main() {
       await entry.fetch().then((response) {
         expect(true, response.containsKey('content_type'));
       });
+    });
+
+    test('includeFallback unit testcase match key', () {
+      entry.includeFallback();
+      expect(true, entry.parameter.containsKey('include_fallback'));
+      expect('true', entry.parameter['include_fallback']);
     });
   });
 }

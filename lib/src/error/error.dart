@@ -1,7 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'error.g.dart';
 
-/// If there is something wrong with the API request, Contentstack returns an error.
+/// If there is something wrong with the API request, 
+/// Contentstack returns an error.
 /// Learn more about [Errors](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#errors).
 @JsonSerializable(createFactory: true)
 class Error implements Exception {
