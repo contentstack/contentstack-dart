@@ -1,8 +1,6 @@
 import 'package:test/test.dart';
-
 import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/src/models/assetmodel.dart';
-
 import 'credentials.dart';
 
 void main() {
@@ -110,6 +108,12 @@ void main() {
       }).catchError((error) {
         expect(422, error['error_code']);
       });
+    });
+
+    test('includeFallback unit testcase match key', () {
+      final asset = stack.assetQuery()..includeFallback();
+      expect(true, asset.queryParameter.containsKey('include_fallback'));
+      expect('true', asset.queryParameter['include_fallback']);
     });
 
     // test('testcase asset include fallback', () async {

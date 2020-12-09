@@ -7,9 +7,7 @@ import 'package:contentstack/src/contenttype_query.dart';
 import 'credentials.dart';
 
 void main() {
-  final logger = Logger(
-    printer: PrettyPrinter(),
-  );
+  final logger = Logger(printer: PrettyPrinter());
   group('testcase contenttype functional testing', () {
     contentstack.ContentType contentType;
     setUp(() async {
@@ -20,7 +18,6 @@ void main() {
     test('test network call for content type', () async {
       final map = {'key': 'value'};
       final response = await contentType.fetch(map);
-      //expect(true, contentType.toString());
       logger.i(response);
     });
 

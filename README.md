@@ -145,15 +145,15 @@ import 'package:contentstack/contentstack.dart' as contentstack;
 final stack = contentstack.Stack(apiKey, deliveryToken, environment);
 imageTransformation = stack.imageTransform(imageUrl);
 
-#set the image quality to 100
+##set the image quality to 100
 imageParams = {'quality': 100}
 final imageUrl = imageTransformation..canvas(imageParams)..getUrl();
 
-#resize the image by specifying width and height
+##resize the image by specifying width and height
 imageParams = {'width': 100, 'height': 100}
 final response = imageTransformation..canvas(imageParams)..getUrl();
 
-#enable auto optimization for the image
+##enable auto optimization for the image
 imageParams = {'auto': 'webp'}
 final response = imageTransformation..canvas(imageParams)..getUrl();
 ```

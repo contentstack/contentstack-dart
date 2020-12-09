@@ -11,9 +11,7 @@ import 'package:contentstack/src/models/entrymodel.dart';
 import 'credentials.dart';
 
 void main() {
-  final logger = Logger(
-    printer: PrettyPrinter(),
-  );
+  final logger = Logger(printer: PrettyPrinter());
 
   group('testcases for functional base queries', () {
     contentstack.Query query;
@@ -26,7 +24,6 @@ void main() {
       final params = query.getQueryUrl();
       expect(true, params.containsKey('environment'));
       final key = params['environment'];
-      logger.i(key);
       expect(Credential.environment, key);
     });
 
@@ -163,7 +160,6 @@ void main() {
   });
 
   group('testcases for API queries', () {
-    // Note: Below testcase are not correct (Re-write required)
     contentstack.Query query;
     contentstack.Stack stack;
 
@@ -175,7 +171,6 @@ void main() {
     test('test length of the entry of respected contentType', () async {
       final response = query.find();
       await response.then((response) {
-        logger.i('query response: $response');
         expect(29, response['entries'].length);
       });
     });
@@ -189,18 +184,12 @@ void main() {
     });
 
     test('test notContainedIn in Query', () async {
-      // first get all the entries available,
-      // find the length
       await query.find().then((response) async {
-        // queryLength is total length of entry
         final queryLength = response['entries'].length;
-        // arrayValue that should be removed from the entries
-        // find the length
         final List<String> arrayValue = ['Room 13', 'Room 14', 'Room 17'];
         query.where('title', QueryOperation.excludes(value: arrayValue));
         await query.find().then((response) {
           final queryMap = response['entries'].length;
-          // check the length of the query now.
           final ninQueryLength = queryLength - arrayValue.length;
           expect(ninQueryLength, queryMap);
         });
@@ -257,7 +246,6 @@ void main() {
     test('test isLessThanOrEqual in Query', () async {
       query.where('attendee', QueryOperation.isLessThanOrEqual(value: 50));
       await query.find().then((response) {
-        //logger.fine(response);
         final List listOfEntry = response['entries'];
         // ignore: prefer_final_in_for_each
         for (var entry in listOfEntry) {
@@ -271,7 +259,6 @@ void main() {
     test('test isGreaterThan in Query', () async {
       query.where('attendee', QueryOperation.isGreaterThan(value: 50));
       await query.find().then((response) {
-        //logger.fine(response);
         final List listOfEntry = response['entries'];
         for (final entry in listOfEntry) {
           expect(true, entry['attendee'] > 50);
@@ -284,10 +271,8 @@ void main() {
     test('test isGreaterThanOrEqual in Query', () async {
       query.where('attendee', QueryOperation.isGreaterThanOrEqual(value: 70));
       await query.find().then((response) {
-        //logger.fine(response);
         final List listOfEntry = response['entries'];
         for (final entry in listOfEntry) {
-          //print(entry['attendee']);
           expect(true, entry['attendee'] >= 70);
         }
       }).catchError((onError) {
@@ -298,9 +283,7 @@ void main() {
     test('test exists in Query', () async {
       query.where('attendee', QueryOperation.exists(value: true));
       await query.find().then((response) {
-        //logger.fine(response);
         final List listOfEntry = response['entries'];
-        // ignore: avoid_print
         print(listOfEntry.length);
         expect(29, listOfEntry.length);
       }).catchError((onError) {
@@ -311,9 +294,7 @@ void main() {
     test('test matches in Query', () async {
       query.where('title', QueryOperation.matches(regex: 'Room'));
       await query.find().then((response) {
-        //logger.fine(response);
         final List listOfEntry = response['entries'];
-        //print(listOfEntry.length);
         expect(29, listOfEntry.length);
       }).catchError((onError) {
         expect('Error Occured', onError.message);
@@ -363,7 +344,6 @@ void main() {
       final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
       query.operator(QueryOperator.and(queryObjects: listOfQuery));
       await query.find().then((response) {
-        logger.i(response);
         final completeUrl = query.getQueryUrl()['query'];
         //print(response.toString());
         expect('{\"\$and\":[{\"title\":\"Room 13\"},{\"attendee\":20}]}',
@@ -387,7 +367,6 @@ void main() {
       final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
       query.operator(QueryOperator.or(queryObjects: listOfQuery));
       await query.find().then((response) {
-        logger.i(response);
         final completeUrl = query.getQueryUrl()['query'];
         //(response.toString());
         expect('{\"\$or\":[{\"title\":\"Room 13\"},{\"attendee\":20}]}',
@@ -464,7 +443,6 @@ void main() {
         ..locale('en-us')
         ..only(['price_in_usd']);
       final result = query.getQueryUrl();
-      //logger.i('message: ${query.getQueryUrl()}');
       expect('[price_in_usd]', result['only[BASE][]']);
     });
 
@@ -488,7 +466,6 @@ void main() {
         ..includeReferenceContentTypeUID()
         ..addParam('key', 'value');
       final result = query.getQueryUrl();
-      //logger.i('message: ${query.getQueryUrl()}');
       expect('development', result['environment']);
       expect('en-us', result['locale']);
       expect('[referenceFieldUid, uifield1, uifield2, uifield3]',
@@ -508,7 +485,6 @@ void main() {
             includeReferenceField:
                 include.Include.only(fieldUidList: uiFieldList));
       final result = query.getQueryUrl();
-      logger.i('message: ${query.getQueryUrl()}');
       expect('referenceFieldUid', result['include[]']);
       expect('{referenceFieldUid: [uifield1, uifield2, uifield3]}',
           result['only']);
@@ -522,10 +498,29 @@ void main() {
             includeReferenceField:
                 include.Include.except(fieldUidList: uiFieldList));
       final result = query.getQueryUrl();
-      logger.i('message: ${query.getQueryUrl()}');
       expect('referenceFieldUid', result['include[]']);
       expect('{referenceFieldUid: [uifield1, uifield2, uifield3]}',
           result['except']);
+    });
+
+    test('includeFallback unit testcase match key', () {
+      query
+        ..locale('en-us')
+        ..includeFallback()
+        ..find();
+      expect(true, query.queryParameter.containsKey('include_fallback'));
+      expect('true', query.queryParameter['include_fallback']);
+    });
+
+    test('includeFallback api test', () {
+      query
+        ..locale('en-gb')
+        ..includeFallback();
+      query.find().then((response) {
+        logger.i(response.toString());
+      }).catchError((onError) {
+        logger.i(onError.toString());
+      });
     });
   });
 }

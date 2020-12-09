@@ -16,7 +16,6 @@ class HttpClient extends http.BaseClient {
     return HttpClient._internal(stackClient, headers, stack);
   }
 
-  /// This is used for the _internal constructure
   HttpClient._internal(this._client, this.stackHeaders, this.stack);
 
   @override
@@ -27,8 +26,6 @@ class HttpClient extends http.BaseClient {
     return _client.send(request);
   }
 
-  ///
-  /// Makes `GET` Request based on uri request
   Future<T> sendRequest<T, K>(Uri uri) async {
     stackHeaders['Content-Type'] = 'application/json';
     stackHeaders['X-User-Agent'] = 'contentstack-dart/0.1.1';

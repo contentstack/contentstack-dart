@@ -200,5 +200,11 @@ void main() {
         expect(true, response.containsKey('content_type'));
       });
     });
+
+    test('includeFallback unit testcase match key', () {
+      entry.includeFallback();
+      expect(true, entry.parameter.containsKey('include_fallback'));
+      expect('true', entry.parameter['include_fallback']);
+    });
   });
 }

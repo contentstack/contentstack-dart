@@ -10,9 +10,7 @@ import 'package:contentstack/src/image_transform.dart';
 import 'credentials.dart';
 
 void main() {
-  var logger = Logger(
-    printer: PrettyPrinter(),
-  );
+  var logger = Logger(printer: PrettyPrinter());
 
   group('ImageTransformation functional testcases', () {
     const imageUrl =
@@ -29,14 +27,12 @@ void main() {
         ..auto(auto: 'webp')
         ..getUrl();
       logger.i(response);
-      //expect(true, response.contains('?auto=webp'));
     });
 
     test('formate in ImageTransformation', () {
       final response = imageTransformation
         ..auto(format: 'pjpg')
         ..getUrl();
-      logger.i(response);
       expect('formate=pjpg', response.query.toString());
     });
 
@@ -44,7 +40,6 @@ void main() {
       final response = imageTransformation
         ..auto(auto: 'webp', format: 'pjpg')
         ..getUrl();
-      logger.i(response);
       expect('auto=webp&formate=pjpg', response.query.toString());
     });
 
