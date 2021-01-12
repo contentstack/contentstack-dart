@@ -65,7 +65,8 @@ void main() {
     test('test asset environment', () async {
       final asset = stack.assetQuery()..environment('development');
       await asset.find().then((response) {
-        expect('images_(2).jpg', response['assets'][7]['filename']);
+        expect('if_icon-72-lightning_316154_(1).png',
+            response['assets'][7]['filename']);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -81,7 +82,7 @@ void main() {
     test('testcase asset fetch dimension of the asset', () async {
       final asset = stack.assetQuery()..includeDimension();
       await asset.find().then((response) {
-        expect(171, response['assets'][7]['dimension']['height']);
+        expect(50, response['assets'][7]['dimension']['height']);
       });
     });
 
@@ -91,7 +92,7 @@ void main() {
         ..relativeUrls();
       await asset.find<List<AssetModel>, AssetModel>().then((response) {
         expect(
-            '/v3/assets/bltc94709340b84bdd2/bltb2291d913f97e9cb/5e9007ed89d7817e9320a769/images_(2).jpg',
+            '/v3/assets/bltc94709340b84bdd2/bltbac3c14819c8da59/5e9007ed16db9607e2b7e0d2/if_icon-72-lightning_316154_(1).png',
             response[7].url);
       }).catchError((error) {
         expect(422, error['error_code']);
