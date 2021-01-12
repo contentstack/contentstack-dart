@@ -1,7 +1,8 @@
+## Below is a list of people and organizations that have contributed to the
 
-# Below is a list of people and organizations that have contributed to the
 
-# Contentstack-Dart project. Names should be added to the list like so
+[Contentstack LLC](http://contentstack.com/).
 
-Contentstack LLC.
-Shailesh Mishra <mobile@contentstack.com>
+Contentstack <mobile@contentstack.com>
+
+Shailesh Mishra <shailesh.mishra@contentstack.com>
