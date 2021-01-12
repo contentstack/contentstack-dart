@@ -117,26 +117,26 @@ void main() {
       expect('true', asset.queryParameter['include_fallback']);
     });
 
-    // test('testcase asset include fallback', () async {
-    //   var language = 'en-us';
-    //   final asset = stack.assetQuery()..includeFallback();
-    //   await asset.find().then((response) {
-    //     expect(0, response['assets'].length);
-    //   }).catchError((error) {
-    //     expect(422, error['error_code']);
-    //   });
-    // });
+    test('testcase asset include fallback', () async {
+      var language = 'en-us';
+      final asset = stack.assetQuery()..includeFallback();
+      await asset.find().then((response) {
+        expect(9, response['assets'].length);
+      }).catchError((error) {
+        expect(422, error['error_code']);
+      });
+    });
 
-    // test('testcase asset include fallback with locale', () async {
-    //   var language = 'en-us';
-    //   final asset = stack.assetQuery()
-    //     ..includeFallback()
-    //     ..param('locale', 'en-us');
-    //   await asset.find().then((response) {
-    //     expect(0, response['assets'].length);
-    //   }).catchError((error) {
-    //     expect(422, error['error_code']);
-    //   });
-    // });
+    test('testcase asset include fallback with locale', () async {
+      var language = 'en-us';
+      final asset = stack.assetQuery()
+        ..includeFallback()
+        ..param('locale', 'en-us');
+      await asset.find().then((response) {
+        expect(8, response['assets'].length);
+      }).catchError((error) {
+        expect(422, error['error_code']);
+      });
+    });
   });
 }

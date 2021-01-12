@@ -26,7 +26,7 @@ void main() {
       final response = imageTransformation
         ..auto(auto: 'webp')
         ..getUrl();
-      logger.i(response);
+      expect('auto=webp', response.query.toString());
     });
 
     test('formate in ImageTransformation', () {

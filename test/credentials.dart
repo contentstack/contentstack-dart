@@ -27,7 +27,6 @@ class Credential {
   static const assetUid =
       'bltb2291d913f97e9cb'; //env['assetUid']; //env['assetUid'];
   static const apiKey = 'bltc94709340b84bdd2'; //env['apiKey'];
-  static const accessToken = 'blt4cb0db9f9139b604'; //env['accessToken'];
   static const deliveryToken =
       'csd2e69747f83e59e327d19962'; //env['deliveryToken'];
   static const environment = 'development'; //env['environment']
@@ -38,4 +37,19 @@ class Credential {
         contentstack.Stack(apiKey, deliveryToken, environment);
     return stack;
   }
+
+  // static const assetUid =
+  //     'blt248186b6988680bb'; //env['assetUid']; //env['assetUid'];
+  // static const apiKey = 'blt17b2fe54d8a84937'; //env['apiKey'];
+  // static const deliveryToken =
+  //     'cs8145a0c688eb581449b670c9'; //env['deliveryToken'];
+  // static const environment = 'development'; //env['environment']
+  // static const entryUid = 'blt189589a98b8b744a'; //env['entryUid'];
+
+  // static contentstack.Stack stack() {
+  //   final contentstack.Stack stack = contentstack.Stack(
+  //       apiKey, deliveryToken, environment,
+  //       host: 'dev-delivery-api.contentstack.com');
+  //   return stack;
+  // }
 }

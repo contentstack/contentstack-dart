@@ -18,7 +18,7 @@ void main() {
     test('test network call for content type', () async {
       final map = {'key': 'value'};
       final response = await contentType.fetch(map);
-      logger.i(response);
+      expect(15, response['content_type']['schema'].length);
     });
 
     test('test ContentTypeQuery instance', () {

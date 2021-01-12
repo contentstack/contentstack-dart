@@ -155,7 +155,11 @@ void main() {
 
     test('testcase setHeader for the query class', () async {
       query.setHeader('key', 'value');
-      await query.find().then(logger.i).catchError(logger.e);
+      await query.find().then((response) {
+        expect(3, response['entries'].length);
+      }).catchError((onError) {
+        print(onError);
+      });
     });
   });
 
@@ -401,8 +405,6 @@ void main() {
         int oldAttendee;
         int counter = 0;
         for (final item in ascList) {
-          // ignore: avoid_print
-          print(item['attendee']);
           if (counter != 0) {
             final newValue = item['attendee'];
             oldAttendee = item['attendee'];
@@ -517,7 +519,7 @@ void main() {
         ..locale('en-gb')
         ..includeFallback();
       query.find().then((response) {
-        logger.i(response.toString());
+        expect(29, response['entries'].length);
       }).catchError((onError) {
         logger.i(onError.toString());
       });
