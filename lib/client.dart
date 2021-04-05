@@ -9,6 +9,8 @@ class HttpClient extends http.BaseClient {
   final http.Client _client;
   final Stack stack;
   final Map<String, String> stackHeaders;
+  // Request timout period 30 Seconds
+  static const timeout = 30;
 
   factory HttpClient(Map<String, String> headers,
       {http.Client client, Stack stack}) {
@@ -29,7 +31,9 @@ class HttpClient extends http.BaseClient {
   Future<T> sendRequest<T, K>(Uri uri) async {
     stackHeaders['Content-Type'] = 'application/json';
     stackHeaders['X-User-Agent'] = 'contentstack-dart/0.1.1';
-    final response = await http.get(uri, headers: stackHeaders);
+    final response = await http
+        .get(uri, headers: stackHeaders)
+        .timeout(const Duration(seconds: timeout));
     Object bodyJson;
     try {
       bodyJson = jsonDecode(response.body);
