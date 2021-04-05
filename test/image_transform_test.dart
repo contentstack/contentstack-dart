@@ -1,16 +1,21 @@
-import 'package:logger/logger.dart';
+import 'package:contentstack/contentstack.dart';
 import 'package:test/test.dart';
-
 import 'package:contentstack/src/image/filter.dart';
 import 'package:contentstack/src/image/fit.dart';
 import 'package:contentstack/src/image/format.dart';
 import 'package:contentstack/src/image/orientation.dart';
 import 'package:contentstack/src/image_transform.dart';
-
-import 'credentials.dart';
+import 'package:dotenv/dotenv.dart' show load, env;
 
 void main() {
-  var logger = Logger(printer: PrettyPrinter());
+  //var logger = Logger(printer: PrettyPrinter());
+
+  load();
+  final apiKey = env['apiKey'];
+  final host = env['host'];
+  final deliveryToken = env['deliveryToken'];
+  final environment = env['environment'];
+  final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
 
   group('ImageTransformation functional testcases', () {
     const imageUrl =
@@ -18,7 +23,6 @@ void main() {
     ImageTransformation imageTransformation;
 
     setUp(() {
-      final stack = Credential.stack();
       imageTransformation = stack.imageTransform(imageUrl);
     });
 

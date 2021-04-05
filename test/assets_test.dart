@@ -1,32 +1,64 @@
-import 'package:test/test.dart';
 import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:contentstack/src/asset_query.dart';
 import 'package:contentstack/src/models/assetmodel.dart';
-import 'credentials.dart';
+import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:test/test.dart';
+import 'package:contentstack/contentstack.dart';
 
 void main() {
+  load();
+  final apiKey = env['apiKey'];
+  final host = env['host'];
+  final deliveryToken = env['deliveryToken'];
+  final environment = env['environment'];
+  final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
+
   group('testcases for asset the functional implementation', () {
-    contentstack.Stack stack;
-    setUp(() {
-      stack = Credential.stack();
+    var assetUid = '';
+    setUp(() async {
+      final AssetQuery assetQuery = stack.assetQuery();
+      await assetQuery.find().then((response) {
+        prints('response $response');
+        final List assets = response['assets'];
+        for (final item in assets) {
+          if (item['title'] == 'images_(2).jpg') {
+            assetUid = item['uid'];
+            prints(assetUid);
+          }
+        }
+      });
     });
 
+    test('test for asset uid', () async {
+      final AssetQuery assetQuery = stack.assetQuery();
+      await assetQuery.find().then((response) {
+        prints('response $response');
+        final List assets = response['assets'];
+        for (final item in assets) {
+          if (item['title'] == 'images_(2).jpg') {
+            assetUid = item['uid'];
+            prints(assetUid);
+          }
+        }
+      }).catchError((error) {
+        prints('error ${error.toString()}');
+      });
+    });
     test('testcase asset title', () async {
-      final asset = stack.asset(Credential.assetUid)
-        ..environment('development');
+      final asset = stack.asset(assetUid)..environment('development');
       await asset.fetch<AssetModel, void>().then((response) {
         expect('images_(2).jpg', response.title);
       });
     });
 
     test('testcase asset environment', () async {
-      final asset = stack.asset(Credential.assetUid)
-        ..environment('development');
+      final asset = stack.asset(assetUid)..environment('development');
       final params = asset.assetParameter;
       expect('{environment: development}', params.toString());
     });
 
     test('testcase asset fetch version', () async {
-      final asset = stack.asset(Credential.assetUid)..version(4);
+      final asset = stack.asset(assetUid)..version(4);
       await asset.fetch().then((response) {
         expect('images_(2).jpg', response['asset']['filename']);
       }).catchError((error) {
@@ -35,9 +67,9 @@ void main() {
     });
 
     test('testcase asset fetch dimension of the asset', () async {
-      final asset = stack.asset(Credential.assetUid);
+      final asset = stack.asset(assetUid);
       await asset.fetch().then((response) {
-        expect('bltb2291d913f97e9cb', response['asset']['uid']);
+        expect(assetUid, response['asset']['uid']);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -45,7 +77,7 @@ void main() {
 
     test('testcase asset set to model', () async {
       try {
-        final asset = stack.asset(Credential.assetUid)..includeDimension();
+        final asset = stack.asset(assetUid)..includeDimension();
         await asset.fetch().then((response) {
           final model = contentstack.AssetModel.fromJson(response['asset']);
           expect('{height: 171, width: 294}', model.dimension.toString());
@@ -57,16 +89,11 @@ void main() {
   });
 
   group('testases for asset query', () {
-    contentstack.Stack stack;
-    setUp(() {
-      stack = Credential.stack();
-    });
-
     test('test asset environment', () async {
       final asset = stack.assetQuery()..environment('development');
       await asset.find().then((response) {
         expect('if_icon-72-lightning_316154_(1).png',
-            response['assets'][7]['filename']);
+            response['assets'][2]['filename']);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -82,7 +109,7 @@ void main() {
     test('testcase asset fetch dimension of the asset', () async {
       final asset = stack.assetQuery()..includeDimension();
       await asset.find().then((response) {
-        expect(50, response['assets'][7]['dimension']['height']);
+        expect(50, response['assets'][2]['dimension']['height']);
       });
     });
 
@@ -92,7 +119,7 @@ void main() {
         ..relativeUrls();
       await asset.find<List<AssetModel>, AssetModel>().then((response) {
         expect(
-            '/v3/assets/bltc94709340b84bdd2/bltbac3c14819c8da59/5e9007ed16db9607e2b7e0d2/if_icon-72-lightning_316154_(1).png',
+            '/v3/assets/blt9d12a7ff0b3c1ae4/blt9befdd164a7fb164/60213c4a1628d84d93e44444/images_(3).jpg',
             response[7].url);
       }).catchError((error) {
         expect(422, error['error_code']);

@@ -114,6 +114,21 @@ class Query extends BaseQuery {
     queryParameter['include_fallback'] = true.toString();
   }
 
+  ///
+  /// includeEmbeddedItems instance of Query
+  /// Include Embedded Objects (Entries and Assets) along with entry/entries details
+  ///
+  /// [Example for Entry class]
+  /// ```
+  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
+  /// final query = stack.contentType('contentTypeUid').entry().query();
+  /// query = query.includeEmbeddedItems()
+  /// ```
+  ///
+  void includeEmbeddedItems() {
+    queryParameter['include_embedded_items'] = 'BASE';
+  }
+
   //
   //  Entry Queryable functions:
   ///

@@ -1,30 +1,30 @@
 import 'package:logger/logger.dart';
 import 'package:test/test.dart';
 
-import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/enums/include.dart' as include;
 import 'package:contentstack/src/enums/operations.dart';
 import 'package:contentstack/src/enums/operator.dart';
 import 'package:contentstack/src/enums/reference.dart';
 import 'package:contentstack/src/models/entrymodel.dart';
-
-import 'credentials.dart';
+import 'package:dotenv/dotenv.dart' show load, env;
 
 void main() {
   final logger = Logger(printer: PrettyPrinter());
 
+  load();
+  final apiKey = env['apiKey'];
+  final host = env['host'];
+  final deliveryToken = env['deliveryToken'];
+  final environment = env['environment'];
+  final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
+  final Query query = stack.contentType('room').entry().query();
   group('testcases for functional base queries', () {
-    contentstack.Query query;
-    setUp(() {
-      final contentstack.Stack stack = Credential.stack();
-      query = stack.contentType('room').entry().query();
-    });
-
     test('test environment is availabe to the url', () {
       final params = query.getQueryUrl();
       expect(true, params.containsKey('environment'));
-      final key = params['environment'];
-      expect(Credential.environment, key);
+      final envKey = params['environment'];
+      expect(environment, envKey);
     });
 
     test('test where equals Operation', () async {
@@ -147,9 +147,8 @@ void main() {
   });
 
   group('functional testcases for the Query class', () {
-    contentstack.Query query;
+    Query query;
     setUp(() {
-      final contentstack.Stack stack = Credential.stack();
       query = stack.contentType('faq').entry().query();
     });
 
@@ -157,18 +156,16 @@ void main() {
       query.setHeader('key', 'value');
       await query.find().then((response) {
         expect(3, response['entries'].length);
+        // ignore: unnecessary_lambdas
       }).catchError((onError) {
-        print(onError);
+        prints(onError);
       });
     });
   });
 
   group('testcases for API queries', () {
-    contentstack.Query query;
-    contentstack.Stack stack;
-
+    Query query;
     setUp(() {
-      stack = Credential.stack();
       query = stack.contentType('room').entry().query();
     });
 
@@ -306,8 +303,7 @@ void main() {
     });
 
     test('test whereReference in Query', () async {
-      final stackInstance = Credential.stack();
-      final queryBase = stackInstance.contentType('room').entry().query();
+      final queryBase = stack.contentType('room').entry().query();
       // ignore: cascade_invocations
       queryBase.where('title', QueryOperation.equals(value: 'Room 14'));
       query.whereReference('brand', QueryReference.include(query: queryBase));
@@ -321,8 +317,7 @@ void main() {
     });
 
     test('test whereReference NinQuery', () async {
-      final stackInstance = Credential.stack();
-      final queryBase = stackInstance.contentType('room').entry().query();
+      final queryBase = stack.contentType('room').entry().query();
       // ignore: cascade_invocations
       queryBase.where('title', QueryOperation.equals(value: 'Room 14'));
       query.whereReference(
@@ -335,17 +330,16 @@ void main() {
     });
 
     test('test operator And in Query', () async {
-      final stackInstance1 = Credential.stack();
-      final queryBase1 = stackInstance1.contentType('room').entry().query();
+      final queryBase1 = stack.contentType('room').entry().query();
       // ignore: cascade_invocations
       queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
 
-      final stackInstance2 = Credential.stack();
+      final stackInstance2 = stack;
       final queryBase2 = stackInstance2.contentType('room').entry().query();
       // ignore: cascade_invocations
       queryBase2.where('attendee', QueryOperation.equals(value: 20));
 
-      final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
+      final List<Query> listOfQuery = [queryBase1, queryBase2];
       query.operator(QueryOperator.and(queryObjects: listOfQuery));
       await query.find().then((response) {
         final completeUrl = query.getQueryUrl()['query'];
@@ -358,17 +352,17 @@ void main() {
     });
 
     test('test operator OR in Query', () async {
-      final stackInstance1 = Credential.stack();
+      final stackInstance1 = stack;
       final queryBase1 = stackInstance1.contentType('room').entry().query();
       // ignore: cascade_invocations
       queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
 
-      final stackInstance2 = Credential.stack();
+      final stackInstance2 = stack;
       final queryBase2 = stackInstance2.contentType('room').entry().query();
       // ignore: cascade_invocations
       queryBase2.where('attendee', QueryOperation.equals(value: 20));
 
-      final List<contentstack.Query> listOfQuery = [queryBase1, queryBase2];
+      final List<Query> listOfQuery = [queryBase1, queryBase2];
       query.operator(QueryOperator.or(queryObjects: listOfQuery));
       await query.find().then((response) {
         final completeUrl = query.getQueryUrl()['query'];
@@ -422,11 +416,8 @@ void main() {
   });
 
   group('testcases for entry queryable', () {
-    contentstack.Query query;
-    contentstack.Stack stack;
-
+    Query query;
     setUp(() {
-      stack = Credential.stack();
       query = stack.contentType('room').entry().query();
     });
 
@@ -521,7 +512,7 @@ void main() {
       query.find().then((response) {
         expect(29, response['entries'].length);
       }).catchError((onError) {
-        logger.i(onError.toString());
+        prints(onError.toString());
       });
     });
   });

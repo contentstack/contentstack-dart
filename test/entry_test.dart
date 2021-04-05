@@ -1,16 +1,30 @@
 import 'package:test/test.dart';
-
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/enums/include.dart';
-
-import 'credentials.dart';
+import 'package:dotenv/dotenv.dart' show load, env;
 
 void main() {
+  load();
+  final apiKey = env['apiKey'];
+  final host = env['host'];
+  final deliveryToken = env['deliveryToken'];
+  final environment = env['environment'];
+  var entryUid;
+  final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
+  final Query query = stack.contentType('faq').entry().query();
+  final Entry entry = stack.contentType('faq').entry(entryUid: entryUid);
+
   group('Entry functinal testcases', () {
-    Entry entry;
-    setUp(() {
-      final Stack stack = Credential.stack();
-      entry = stack.contentType('faq').entry(entryUid: Credential.entryUid);
+    test('test find entryUid', () async {
+      await query.find().then((response) {
+        final entries = response['entries'];
+        for (final item in entries) {
+          if (item['title'] == 'MEALS') {
+            entryUid = item['uid'];
+            continue;
+          }
+        }
+      });
     });
 
     test('test if parameters are not empty', () {
@@ -89,17 +103,19 @@ void main() {
   /////////////////////////////////////////////////////////////////////////////
 
   group('Entry API testcases', () {
-    Entry entry;
-    Stack stack;
-
-    setUp(() {
-      stack = Credential.stack();
-      entry = stack.contentType('faq').entry(entryUid: Credential.entryUid);
+    test('test find entryUid', () async {
+      await query.find().then((response) {
+        final entries = response['entries'];
+        for (final item in entries) {
+          if (item['title'] == 'MEALS') {
+            entryUid = item['uid'];
+          }
+        }
+      });
     });
 
     test('find the entry response with locale', () async {
       entry.locale('en-us');
-      // ignore: prefer_void_to_null
       await entry.fetch<EntryModel, Null>().then((response) {
         expect('en-us', response.locale);
       }).catchError((onError) {
@@ -121,7 +137,7 @@ void main() {
       const List<String> fieldUID = ['price', 'title'];
       entry.only(fieldUID);
       await entry.fetch<EntryModel, Null>().then((response) {
-        expect('blt53ca1231625bdde4', response.uid);
+        expect('blt3ffedc5e2cef6d8c', response.uid);
       });
     });
 

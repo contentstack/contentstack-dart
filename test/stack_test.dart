@@ -1,29 +1,29 @@
 import 'package:logger/logger.dart';
 import 'package:test/test.dart';
-
-import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:dotenv/dotenv.dart' show load, env;
 import 'package:contentstack/contentstack.dart';
+import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/src/query_params.dart';
 import 'package:contentstack/src/sync/publishtype.dart';
 
-import 'credentials.dart';
-
 void main() {
-  //final Logger log = Logger('Stack');
   final logger = Logger(
     printer: PrettyPrinter(),
   );
-  group('functional testcases for stack', () {
-    contentstack.Stack stack;
-    setUp(() {
-      stack = Credential.stack();
-    });
 
+  load();
+  final apiKey = env['apiKey'];
+  final host = env['host'];
+  final deliveryToken = env['deliveryToken'];
+  final environment = env['environment'];
+  final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
+
+  group('functional testcases for stack', () {
     test('check stack credentials', () {
-      expect(stack.apiKey, Credential.apiKey);
-      expect(stack.deliveryToken, Credential.deliveryToken);
-      expect(stack.environment, Credential.environment);
-      expect(stack.host, equals('cdn.contentstack.io'));
+      expect(stack.apiKey, apiKey);
+      expect(stack.deliveryToken, deliveryToken);
+      expect(stack.environment, environment);
+      expect(stack.host, host);
     });
 
     test('Stack initialization with Host', () {
@@ -97,12 +97,6 @@ void main() {
   });
 
   group('Group of testcases for ContentType', () {
-    contentstack.Stack stack;
-
-    setUp(() {
-      stack = Credential.stack();
-    });
-
     test('test contenttype urlPath', () {
       final contentType = stack.contentType('application_theme');
       expect('/v3/content_types/application_theme', contentType.urlPath);
@@ -143,11 +137,6 @@ void main() {
   });
 
   group('testcases for API Synchronization', () {
-    contentstack.Stack stack;
-    setUp(() {
-      stack = Credential.stack();
-    });
-
     test('sync initialisation response', () async {
       final response = stack.sync<SyncResult, Null>(locale: 'en-us');
       await response.then((response) {

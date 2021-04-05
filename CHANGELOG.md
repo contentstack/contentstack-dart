@@ -1,8 +1,23 @@
 # CHANGELOG
 
+## `v0.2.0 - Support of IncludeEmbeddedItems()`
+
+### __APR-05-2021__
+
+#### v0.2.0 New Features
+
+• `Entry` - IncludeEmbeddedItems method added
+
+• `Query` - IncludeEmbeddedItems method added
+
+_______________________
+
 ## `v0.1.1 - Publish content fallback`
-##### __Dec-08-2020__
-#### New Features:
+
+### __Dec-08-2020__
+
+#### v0.1.1 New Features
+
 • `Entry` - Publish fallback method added
 
 • `Query` - Publish fallback method added
@@ -11,15 +26,20 @@
 
 • `Assets` - Publish fallback method added
 
------------------------------
+_______________________
 
 ## `v0.1.0 - Initial release`
-##### __May-11-2020__
+
+### __May-11-2020__
+
 #### Initial release for the contentstack-dart-sdk for Content Delivery API
 
------------------------------
+_______________________
 
 ## `v0.0.1 - Beta release`
-##### __May-08-2020__
+
+### __May-08-2020__
+
 #### Beta release for the contentstack-dart-sdk for Content Delivery API
------------------------------
+
+_______________________
