@@ -515,5 +515,12 @@ void main() {
         prints(onError.toString());
       });
     });
+
+    test('include_embedded_objects unit test', () {
+      query.includeEmbeddedItems();
+      final bool isEmbeddedObj =
+          query.queryParameter.containsKey('include_embedded_items[]');
+      expect(true, isEmbeddedObj);
+    });
   });
 }

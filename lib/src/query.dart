@@ -126,7 +126,7 @@ class Query extends BaseQuery {
   /// ```
   ///
   void includeEmbeddedItems() {
-    queryParameter['include_embedded_items'] = 'BASE';
+    queryParameter['include_embedded_items[]'] = 'BASE';
   }
 
   //

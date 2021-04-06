@@ -222,5 +222,10 @@ void main() {
       expect(true, entry.parameter.containsKey('include_fallback'));
       expect('true', entry.parameter['include_fallback']);
     });
+
+    test('include_embedded_objects unit testcase', () {
+      entry.includeEmbeddedItems();
+      expect(true, entry.parameter.containsKey('include_embedded_items[]'));
+    });
   });
 }
