@@ -33,6 +33,7 @@ test/.test_coverage.dart/
 .pub-cache/
 .pub/
 build/
+coverage/
 
 # Android related
 **/android/**/gradle-wrapper.jar

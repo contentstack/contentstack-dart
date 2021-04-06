@@ -34,13 +34,17 @@ To integrate your Flutter project with Contentstack, install the pub dependency 
 
 Add this to your package's pubspec.yaml file:
 
-    dependencies:
-      contentstack: any
+```dart
+dependencies:
+  contentstack: any
+```
 
 You can install packages from the command line:
 with Flutter:
 
-    $ flutter pub get
+```dart
+$ flutter pub get
+```
 
 ### Import package
 
@@ -52,92 +56,108 @@ Now in your dart or flutter code, you can use
 
 To initialize the SDK, specify application context, stack’s API Key, delivery token, and name of the environment where will publish your content, as shown in the snippet below:
 
-    import 'package:contentstack/contentstack.dart' as contentstack;
-
-    final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
-
+```dart
+import 'package:contentstack/contentstack.dart' as contentstack;
+final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
+```
 ## Basic Queries
 
 To retrieve a single entry from a content type use the code snippet given below:
 
 ### Make call to get single entry by entry uid
 
-        final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
-        final entry = stack.contentType('content_type_uid').entry(entryUid: 'entry_uid');
-        await entry.fetch().then((response) {
-          print(response.toString());
-        }).catchError((error) {
-          print(error.message.toString());
-        });
+```dart
+final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+final entry = stack.contentType('content_type_uid').entry(entryUid: 'entry_uid');
+await entry.fetch().then((response) {
+    print(response.toString());
+}).catchError((error) {
+    print(error.message.toString());
+});
+```
 
 Or, You can get generic objects as well
 
-        final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
-        final entry = stack.contentType('content_type_uid').entry(entryUid: 'entry_uid');
-        await entry.fetch<EntryModel, Null>().then((response) {
-          print(response.title);
-        }).catchError((error) {
-          print(error.message.toString());
-        });
+```dart
+final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+final entry = stack.contentType('content_type_uid').entry(entryUid: 'entry_uid');
+await entry.fetch<EntryModel, Null>().then((response) {
+    print(response.title);
+}).catchError((error) {
+    print(error.message.toString());
+});
+
+```
 
 ### Get Multiple Entries
 
 To retrieve multiple entries of a particular content type, use the code snippet given below:
 
-        final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
-        final query = stack.contentType('content_type_uid').entry().query();
-        await query.find().then((response) {
-          print(response.toString());
-        }).catchError((error) {
-          print(error.message.toString());
-        });
+```dart
+  final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  final query = stack.contentType('content_type_uid').entry().query();
+  await query.find().then((response) {
+      print(response.toString());
+  }).catchError((error) {
+     print(error.message.toString());
+});
+```
 
 Or, You can get List of generic objects
 
-        final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
-        final query = stack.contentType('content_type_uid').entry().query();
-        await query.find<List<EntryModel>, EntryModel>().then((response) {
-          print(response.toString());
-        }).catchError((error) {
-          print(error.message.toString());
-        });
+```dart
+final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+final query = stack.contentType('content_type_uid').entry().query();
+await query.find<List<EntryModel>, EntryModel>().then((response) {
+    print(response.toString());
+}).catchError((error) {
+    print(error.message.toString());
+});
+```
 
 ### Make call to get single asset by asset uid
 
-          final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
-          await stack.asset('asset_uid').fetch().then((response) {
-            print(response.toString());
-          }).catchError((error) {
-            print(error.message.toString());
-          });
+```dart
+final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  await stack.asset('asset_uid').fetch().then((response) {
+      print(response.toString());
+  }).catchError((error) {
+      print(error.message.toString());
+  });
+```
 
 Or, You can get generic objects as well
 
-          final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
-          await stack.asset('asset_uid').fetch<AssetModel, Null>().then((response) {
-            print(response.toString());
-          }).catchError((error) {
-            print(error.message.toString());
-          });
+```dart
+final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  await stack.asset('asset_uid').fetch<AssetModel, Null>().then((response) {
+      print(response.toString());
+  }).catchError((error) {
+      print(error.message.toString());
+  });
+```
 
 ### Make call to apply query on asset
 
-        final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
-        final assetQuery = stack.assetQuery();
-        assetQuery..includeDimension()..relativeUrls();
-        await assetQuery.find().then((response) {
-          print(response.toString());
-        }).catchError((error) {
-          print(error.message.toString());
-        });
+```dart
+final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+final assetQuery = stack.assetQuery();
+assetQuery..includeDimension()..relativeUrls();
+  await assetQuery.find().then((response) {
+      print(response.toString());
+  }).catchError((error) {
+      print(error.message.toString());
+  });
+```
 
 Or, You can get List of generic objects
 
-        final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
-        final assetQuery = stack.assetQuery();
-        assetQuery..includeDimension()..relativeUrls();
-        await assetQuery.find<List<AssetModel>, Null>().then((response) {
-          print(response.toString());
-        }).catchError((error) {
-          print(error.message.toString());
-        });
+```dart
+final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+final assetQuery = stack.assetQuery();
+assetQuery..includeDimension()..relativeUrls();
+await assetQuery.find<List<AssetModel>, Null>().then((response) {
+    print(response.toString());
+  }).catchError((error) {
+    print(error.message.toString());
+  });
