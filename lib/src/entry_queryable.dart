@@ -88,7 +88,7 @@ class EntryQueryable {
   /// ```
   ///
   void includeEmbeddedItems() {
-    parameter['include_embedded_items'] = 'BASE';
+    parameter['include_embedded_items[]'] = 'BASE';
   }
 
   ///
