@@ -1,29 +1,29 @@
 import 'package:logger/logger.dart';
 import 'package:test/test.dart';
-
-import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:dotenv/dotenv.dart' show load, env;
 import 'package:contentstack/contentstack.dart';
+import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/src/query_params.dart';
 import 'package:contentstack/src/sync/publishtype.dart';
 
-import 'credentials.dart';
-
 void main() {
-  //final Logger log = Logger('Stack');
   final logger = Logger(
     printer: PrettyPrinter(),
   );
-  group('functional testcases for stack', () {
-    contentstack.Stack stack;
-    setUp(() {
-      stack = Credential.stack();
-    });
 
+  load();
+  final apiKey = env['apiKey'];
+  final host = env['host'];
+  final deliveryToken = env['deliveryToken'];
+  final environment = env['environment'];
+  final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
+
+  group('functional testcases for stack', () {
     test('check stack credentials', () {
-      expect(stack.apiKey, Credential.apiKey);
-      expect(stack.deliveryToken, Credential.deliveryToken);
-      expect(stack.environment, Credential.environment);
-      expect(stack.host, equals('cdn.contentstack.io'));
+      expect(stack.apiKey, apiKey);
+      expect(stack.deliveryToken, deliveryToken);
+      expect(stack.environment, environment);
+      expect(stack.host, host);
     });
 
     test('Stack initialization with Host', () {
@@ -78,7 +78,7 @@ void main() {
       if (resp is Map) {
         expect(true, resp.containsKey('content_types'));
       }
-      logger.i(resp);
+      //logger.i(resp);
     });
 
     test('testcases setHeader', () {
@@ -97,12 +97,6 @@ void main() {
   });
 
   group('Group of testcases for ContentType', () {
-    contentstack.Stack stack;
-
-    setUp(() {
-      stack = Credential.stack();
-    });
-
     test('test contenttype urlPath', () {
       final contentType = stack.contentType('application_theme');
       expect('/v3/content_types/application_theme', contentType.urlPath);
@@ -143,19 +137,13 @@ void main() {
   });
 
   group('testcases for API Synchronization', () {
-    contentstack.Stack stack;
-    setUp(() {
-      stack = Credential.stack();
-    });
-
     test('sync initialisation response', () async {
       final response = stack.sync<SyncResult, Null>(locale: 'en-us');
       await response.then((response) {
-        //logger.i('Data set success $response');
         expect(123, response.totalCount);
         expect(null, response.syncToken);
-        //expect('blt233312100c58dbf9a56bfa', response.paginationToken);
-        logger.w('PaginationToken: ${response.paginationToken}');
+        //expect('bltd0057e4d71a3c73edb67f0', response.paginationToken);
+        logger.d(response.paginationToken);
       });
     });
 
@@ -171,8 +159,8 @@ void main() {
       final response =
           stack.paginationToken<SyncResult, Null>('blt233312100c58dbf9a56bfa');
       await response.then((response) {
-        logger.w('sync token ${response.syncToken}');
-        //expect('blt5dd141299bb56309f793a6', response.syncToken);
+        logger.d(response.syncToken);
+        //expect('blt6f2199c246a2d93fb743f6', response.syncToken);
       });
     });
 
@@ -202,7 +190,6 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.assetDeleted());
       await response.then((response) {
-        //logger.i('Data set success $response');
         expect(100, response['items'].length);
       });
     });
@@ -213,7 +200,6 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.entryPublished());
       await response.then((response) {
-        //logger.i('Data set success $response');
         expect(100, response['items'].length);
       });
     });
@@ -224,7 +210,6 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.entryUnpublished());
       await response.then((response) {
-        //logger.i('Data set success $response');
         expect(100, response['items'].length);
       });
     });
@@ -235,7 +220,6 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.entryDeleted());
       await response.then((response) {
-        //logger.i('Data set success $response');
         expect(100, response['items'].length);
       });
     });

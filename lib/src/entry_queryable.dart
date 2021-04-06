@@ -77,6 +77,21 @@ class EntryQueryable {
   }
 
   ///
+  /// includeEmbeddedItems instance of Entry
+  /// Include Embedded Objects (Entries and Assets) along with entry/entries details
+  ///
+  /// [Example for Entry class]
+  /// ```
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
+  /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
+  /// entry = entry.includeEmbeddedItems()
+  /// ```
+  ///
+  void includeEmbeddedItems() {
+    parameter['include_embedded_items[]'] = 'BASE';
+  }
+
+  ///
   /// Include Reference:
   /// When you fetch an entry of a content type that has a reference field,
   /// by default, the content of the referred entry is not fetched.

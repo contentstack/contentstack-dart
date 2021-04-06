@@ -35,7 +35,7 @@ To use the Contentstack Dart SDK to your existing project, perform the `steps` g
 
 **Install Dart Package**
 
-```bash
+```Dart
 dependencies:
   contentstack: any
 ```
