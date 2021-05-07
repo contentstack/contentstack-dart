@@ -47,24 +47,24 @@ dependencies:
 A stack is like a container that holds the content of your app.
 Learn more about [Stacks](https://www.contentstack.com/docs/developers/set-up-stack/about-stack/).
 
-#### `Content Type`
+#### Content Type
 
 Content type lets you define the structure or blueprint of a page or a section of your digital property.
 It is a form-like page that gives Content Managers an interface to input and upload content.
 [Read more](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#content-types).
 
-#### `Entry`
+#### Entry
 
 An entry is the actual piece of content created using one of the defined content types.
 Learn more about [Entries](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries).
 
-#### `Asset`
+#### Asset
 
 Assets refer to all the media files (images, videos, PDFs, audio files, and so on) uploaded to Contentstack.
 These files can be used in multiple entries.
 Read more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#assets).
 
-#### `Environment`
+#### Environment
 
 A publishing environment corresponds to one or more deployment servers or a content delivery
 destination where the entries need to be published.
@@ -168,7 +168,7 @@ final response = imageTransformation..canvas(imageParams)..getUrl();
 
 `MIT License`
 
-Copyright (c) 2012 - 2020
+Copyright (c) 2012 - 2021
 [`Contentstack`](https://www.contentstack.com/). All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
