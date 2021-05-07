@@ -88,12 +88,12 @@ void main() {
     });
   });
 
-  group('testases for asset query', () {
+  group('testcases for asset query', () {
     test('test asset environment', () async {
       final asset = stack.assetQuery()..environment('development');
       await asset.find().then((response) {
         expect('if_icon-72-lightning_316154_(1).png',
-            response['assets'][2]['filename']);
+            response['assets'][7]['filename']);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -109,7 +109,7 @@ void main() {
     test('testcase asset fetch dimension of the asset', () async {
       final asset = stack.assetQuery()..includeDimension();
       await asset.find().then((response) {
-        expect(50, response['assets'][2]['dimension']['height']);
+        expect(315, response['assets'][2]['dimension']['height']);
       });
     });
 
@@ -119,8 +119,8 @@ void main() {
         ..relativeUrls();
       await asset.find<List<AssetModel>, AssetModel>().then((response) {
         expect(
-            '/v3/assets/blt9d12a7ff0b3c1ae4/blt9befdd164a7fb164/60213c4a1628d84d93e44444/images_(3).jpg',
-            response[7].url);
+            '/v3/assets/bltc94709340b84bdd2/bltb2291d913f97e9cb/5e9007ed89d7817e9320a769/images_(2).jpg',
+            response[8].url);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -145,7 +145,7 @@ void main() {
     });
 
     test('testcase asset include fallback', () async {
-      var language = 'en-us';
+      //var language = 'en-us';
       final asset = stack.assetQuery()..includeFallback();
       await asset.find().then((response) {
         expect(9, response['assets'].length);
@@ -155,7 +155,7 @@ void main() {
     });
 
     test('testcase asset include fallback with locale', () async {
-      var language = 'en-us';
+      //var language = 'en-us';
       final asset = stack.assetQuery()
         ..includeFallback()
         ..param('locale', 'en-us');

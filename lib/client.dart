@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:contentstack/constant.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/stack.dart';
 import 'package:http/http.dart' as http;
@@ -9,8 +10,6 @@ class HttpClient extends http.BaseClient {
   final http.Client _client;
   final Stack stack;
   final Map<String, String> stackHeaders;
-  // Request timout period 30 Seconds
-  static const timeout = 30;
 
   factory HttpClient(Map<String, String> headers,
       {http.Client client, Stack stack}) {
@@ -29,11 +28,11 @@ class HttpClient extends http.BaseClient {
   }
 
   Future<T> sendRequest<T, K>(Uri uri) async {
-    stackHeaders['Content-Type'] = 'application/json';
-    stackHeaders['X-User-Agent'] = 'contentstack-dart/0.1.1';
+    stackHeaders[CONTENT_TYPE] = CONTENT_TYPE_VALUE;
+    stackHeaders[X_USER_AGENT] = X_USER_AGENT_VALUE;
     final response = await http
         .get(uri, headers: stackHeaders)
-        .timeout(const Duration(seconds: timeout));
+        .timeout(const Duration(seconds: TIMEOUT));
     Object bodyJson;
     try {
       bodyJson = jsonDecode(response.body);
@@ -46,7 +45,8 @@ class HttpClient extends http.BaseClient {
       rethrow;
     }
     if (response.statusCode == 200) {
-      final Map bodyJson = jsonDecode(response.body);
+      // Decode response to Utf8Codec
+      final Map bodyJson = json.decode(utf8.decode(response.bodyBytes));
       if (T == EntryModel && bodyJson.containsKey('entry')) {
         return fromJson<T, K>(bodyJson['entry']);
       } else if (K == EntryModel && bodyJson.containsKey('entries')) {
@@ -61,6 +61,7 @@ class HttpClient extends http.BaseClient {
         return fromJson<T, K>(bodyJson);
       }
     } else {
+      // Response code other than 200
       return bodyJson;
     }
   }

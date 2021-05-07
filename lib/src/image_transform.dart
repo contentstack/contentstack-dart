@@ -17,6 +17,7 @@ class ImageTransformation {
   final HttpClient client;
   final Map<String, String> queryParameter = <String, String>{};
   final URLQueryParams query = URLQueryParams();
+
   ImageTransformation(this._imageUrl, this.client);
 
   /// The auto function lets you enable the functionality that automates
