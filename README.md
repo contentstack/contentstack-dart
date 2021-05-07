@@ -15,7 +15,7 @@
 ![tweet](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fcontentstack%2Fcontentstack-dart%2Ftree%2Fdevelopment)
 
 
-`Contentstack` is a headless CMS with an API-first approach.
+Contentstack is a headless CMS with an API-first approach.
 It is a CMS that developers can use to build powerful cross-platform applications
 in their favorite languages. Build your application frontend, and Contentstack will
 take care of the rest.
