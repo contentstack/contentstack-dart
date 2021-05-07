@@ -9,13 +9,12 @@ environment:
   sdk: ">=2.8.1 <3.0.0"
 
 dependencies:
-  dartdoc: any
+  dartdoc: any # dartdoc to generate HTML documentation for your Dart package
   dotenv: ^2.0.0 # loads environment variables at runtime from a .env file.
-  http: ^0.12.2
-  # http_parser: ^3.0.0
-  json_annotation: any
-  logger: ^0.9.1
-  path: ^1.7.0
+  http: ^0.12.2 # Future-based API for HTTP requests
+  json_annotation: any # create code for JSON serialization and deserialization.
+  logger: ^0.9.1 # logger which prints beautiful logs
+  path: ^1.7.0 # for manipulating paths: joining, splitting, normalizing, etc.
   super_enum: ^0.5.0
 
 

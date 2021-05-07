@@ -42,7 +42,7 @@ dependencies:
 
 ### Key Concepts for using Contentstack
 
-#### `Stack`
+#### Stack
 
 A stack is like a container that holds the content of your app.
 Learn more about [Stacks](https://www.contentstack.com/docs/developers/set-up-stack/about-stack/).
