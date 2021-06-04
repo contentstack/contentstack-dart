@@ -24,7 +24,6 @@ class Stack {
   final String _environment;
   final String _host;
   final Region region;
-  final String branch;
   final String apiVersion;
   HttpClient _client;
 
@@ -42,13 +41,15 @@ class Stack {
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// ```
   ///
-  Stack(this._apiKey, this._deliveryToken, this._environment,
-      {this.branch = '',
-      this.apiVersion = 'v3',
-      this.region = Region.us,
-      String host = 'cdn.contentstack.io',
-      BaseClient client})
-      : _host = (region == Region.us)
+  Stack(
+    this._apiKey,
+    this._deliveryToken,
+    this._environment, {
+    this.apiVersion = 'v3',
+    this.region = Region.us,
+    String host = 'cdn.contentstack.io',
+    BaseClient client,
+  }) : _host = (region == Region.us)
             ? host
             : (host == 'cdn.contentstack.io'
                 ? 'eu-cdn.contentstack.com'
@@ -71,9 +72,6 @@ class Stack {
       'access_token': _deliveryToken,
       'environment': _environment,
     };
-    if (branch != null && branch.isNotEmpty) {
-      stackHeader['branch'] = branch;
-    }
 
     _client = HttpClient(stackHeader, client: client, stack: this);
   }
