@@ -14,7 +14,6 @@
 ![license](https://img.shields.io/github/license/contentstack/contentstack-dart)
 ![tweet](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fcontentstack%2Fcontentstack-dart%2Ftree%2Fdevelopment)
 
-
 Contentstack is a headless CMS with an API-first approach.
 It is a CMS that developers can use to build powerful cross-platform applications
 in their favorite languages. Build your application frontend, and Contentstack will
@@ -33,7 +32,7 @@ You can install it from [here](https://dart.dev/get-dart).
 
 To use the Contentstack Dart SDK to your existing project, perform the `steps` given below:
 
-**Install Dart Package**
+### **Install Dart Package**
 
 ```Dart
 dependencies:
@@ -166,7 +165,7 @@ final response = imageTransformation..canvas(imageParams)..getUrl();
 
 ### The MIT License (MIT)
 
-`MIT License`
+MIT License
 
 Copyright (c) 2012 - 2021
 [`Contentstack`](https://www.contentstack.com/). All rights reserved.
