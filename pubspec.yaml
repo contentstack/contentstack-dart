@@ -15,6 +15,7 @@ dependencies:
   logger: ^0.9.1 # logger which prints beautiful logs
   path: ^1.7.0 # for manipulating paths: joining, splitting, normalizing, etc.
   super_enum: ^0.5.0
+  
 
 
 dev_dependencies:
