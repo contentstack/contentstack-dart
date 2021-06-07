@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## `v0.3.0 - Package Improvements`
+
+### __JUN-05-2021__
+
+#### v0.3.0 Package Improvements
+
+- pub dependencies version mismach fixed
+- Included UTF-8 encoding
+- Removed unused dependencies
+
+_______________________
+
 ## `v0.2.0 - Support of IncludeEmbeddedItems()`
 
 ### __APR-05-2021__

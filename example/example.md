@@ -36,7 +36,7 @@ Add this to your package's pubspec.yaml file:
 
 ```dart
 dependencies:
-  contentstack: any
+  contentstack: latest
 ```
 
 You can install packages from the command line:
@@ -60,6 +60,14 @@ To initialize the SDK, specify application context, stack’s API Key, delivery 
 import 'package:contentstack/contentstack.dart' as contentstack;
 final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
 ```
+
+## Initialize  by configuration
+
+```dart
+import 'package:contentstack/contentstack.dart' as contentstack;
+final stack = contentstack.Stack("apiKey", "deliveryToken", "environment", host: 'your_host', branch: 'development');
+```
+
 ## Basic Queries
 
 To retrieve a single entry from a content type use the code snippet given below:
