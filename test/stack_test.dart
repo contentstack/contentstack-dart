@@ -14,9 +14,16 @@ void main() {
   load();
   final apiKey = env['apiKey'];
   final host = env['host'];
+  //final branch = 'development';
   final deliveryToken = env['deliveryToken'];
   final environment = env['environment'];
-  final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
+  final Stack stack = Stack(
+    apiKey,
+    deliveryToken,
+    environment,
+    host: host,
+    //branch: 'development',
+  );
 
   group('functional testcases for stack', () {
     test('check stack credentials', () {
@@ -24,6 +31,7 @@ void main() {
       expect(stack.deliveryToken, deliveryToken);
       expect(stack.environment, environment);
       expect(stack.host, host);
+      //expect(stack.branch, branch);
     });
 
     test('Stack initialization with Host', () {

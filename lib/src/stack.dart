@@ -13,7 +13,6 @@ import 'package:http/http.dart';
 /// A Contentstack region refers to the location of the data centers
 /// where your organization's data resides
 /// * Default [Region](https://www.contentstack.com/docs/developers/contentstack-regions/about-regions/) is: US
-// Contact our support team at support@contentstack.com for more details.
 enum Region { us, eu }
 
 /// A stack is like a container that holds the content of your app.
@@ -42,12 +41,15 @@ class Stack {
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// ```
   ///
-  Stack(this._apiKey, this._deliveryToken, this._environment,
-      {this.apiVersion = 'v3',
-      this.region = Region.us,
-      String host = 'cdn.contentstack.io',
-      BaseClient client})
-      : _host = (region == Region.us)
+  Stack(
+    this._apiKey,
+    this._deliveryToken,
+    this._environment, {
+    this.apiVersion = 'v3',
+    this.region = Region.us,
+    String host = 'cdn.contentstack.io',
+    BaseClient client,
+  }) : _host = (region == Region.us)
             ? host
             : (host == 'cdn.contentstack.io'
                 ? 'eu-cdn.contentstack.com'

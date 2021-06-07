@@ -1,4 +1,3 @@
-import 'package:logger/logger.dart';
 import 'package:test/test.dart';
 
 import 'package:contentstack/contentstack.dart';
@@ -10,17 +9,25 @@ import 'package:contentstack/src/models/entrymodel.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
 
 void main() {
-  final logger = Logger(printer: PrettyPrinter());
-
-  load();
-  final apiKey = env['apiKey'];
-  final host = env['host'];
-  final deliveryToken = env['deliveryToken'];
-  final environment = env['environment'];
-  final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
-  final Query query = stack.contentType('room').entry().query();
   group('testcases for functional base queries', () {
-    test('test environment is availabe to the url', () {
+    Query query;
+    var apiKey = '', environment = '', deliveryToken = '', host = '';
+    Stack stack;
+
+    setUpAll(() async {
+      load();
+      apiKey = env['apiKey'];
+      host = env['host'];
+      deliveryToken = env['deliveryToken'];
+      environment = env['environment'];
+      stack = Stack(apiKey, deliveryToken, environment, host: host);
+    });
+
+    setUp(() async {
+      query = stack.contentType('room').entry().query();
+    });
+
+    test('test environment is available to the url', () {
       final params = query.getQueryUrl();
       expect(true, params.containsKey('environment'));
       final envKey = params['environment'];
@@ -102,7 +109,7 @@ void main() {
       expect('attendee', contains);
     });
 
-    test('test orderByDecending function parameter contains key', () async {
+    test('test orderByDescending function parameter contains key', () async {
       query.orderByDescending('attendee');
       final contains = query.getQueryUrl()['desc'];
       expect('attendee', contains);
@@ -141,14 +148,25 @@ void main() {
         ..skip(4)
         ..limit(3);
       final contains = query.getQueryUrl();
-      expect(
-          '{environment: development, skip: 4, limit: 3}', contains.toString());
+      expect(true, contains.containsKey('limit'));
+      expect(true, contains.containsKey('skip'));
     });
   });
 
   group('functional testcases for the Query class', () {
     Query query;
-    setUp(() {
+    var apiKey = '', environment = '', deliveryToken = '', host = '';
+    Stack stack;
+
+    setUpAll(() async {
+      load();
+      apiKey = env['apiKey'];
+      host = env['host'];
+      deliveryToken = env['deliveryToken'];
+      environment = env['environment'];
+      stack = Stack(apiKey, deliveryToken, environment, host: host);
+    });
+    setUp(() async {
       query = stack.contentType('faq').entry().query();
     });
 
@@ -156,16 +174,25 @@ void main() {
       query.setHeader('key', 'value');
       await query.find().then((response) {
         expect(3, response['entries'].length);
-        // ignore: unnecessary_lambdas
-      }).catchError((onError) {
-        prints(onError);
       });
     });
   });
 
   group('testcases for API queries', () {
     Query query;
-    setUp(() {
+    var apiKey = '', environment = '', deliveryToken = '', host = '';
+    Stack stack;
+
+    setUpAll(() async {
+      load();
+      apiKey = env['apiKey'];
+      host = env['host'];
+      deliveryToken = env['deliveryToken'];
+      environment = env['environment'];
+      stack = Stack(apiKey, deliveryToken, environment, host: host);
+    });
+
+    setUp(() async {
       query = stack.contentType('room').entry().query();
     });
 
@@ -217,7 +244,7 @@ void main() {
       await query.find().then((response) {
         expect(includeList.length, response['entries'].length);
       }).catchError((onError) {
-        expect('Error Occured', onError.message);
+        expect('Error Occurred', onError.message);
       });
     });
 
@@ -227,7 +254,7 @@ void main() {
       await query.find().then((response) {
         expect(26, response['entries'].length);
       }).catchError((onError) {
-        expect('Error Occured', onError.message);
+        expect('Error Occurred', onError.message);
       });
     });
 
@@ -240,7 +267,7 @@ void main() {
           expect(true, entry['attendee'] < 50);
         }
       }).catchError((onError) {
-        expect('Error Occured', onError.message);
+        expect('Error Occurred', onError.message);
       });
     });
 
@@ -253,7 +280,7 @@ void main() {
           expect(true, entry['attendee'] < 50);
         }
       }).catchError((onError) {
-        expect('Error Occured', onError.message);
+        expect('Error Occurred', onError.message);
       });
     });
 
@@ -265,7 +292,7 @@ void main() {
           expect(true, entry['attendee'] > 50);
         }
       }).catchError((onError) {
-        expect('Error Occured', onError.message);
+        expect('Error Occurred', onError.message);
       });
     });
 
@@ -277,7 +304,7 @@ void main() {
           expect(true, entry['attendee'] >= 70);
         }
       }).catchError((onError) {
-        expect('Error Occured', onError.message);
+        expect('Error Occurred', onError.message);
       });
     });
 
@@ -288,7 +315,7 @@ void main() {
         print(listOfEntry.length);
         expect(29, listOfEntry.length);
       }).catchError((onError) {
-        expect('Error Occured', onError.message);
+        expect('Error Occurred', onError.message);
       });
     });
 
@@ -298,7 +325,7 @@ void main() {
         final List listOfEntry = response['entries'];
         expect(29, listOfEntry.length);
       }).catchError((onError) {
-        expect('Error Occured', onError.message);
+        expect('Error Occurred', onError.message);
       });
     });
 
@@ -312,7 +339,7 @@ void main() {
             'Failed to fetch entries. Please try again with valid parameters.',
             response['error_message']);
       }).catchError((onError) {
-        expect('Error Occured', onError.message);
+        expect('Error Occurred', onError.message);
       });
     });
 
@@ -417,11 +444,23 @@ void main() {
 
   group('testcases for entry queryable', () {
     Query query;
-    setUp(() {
+    var apiKey = '', environment = '', deliveryToken = '', host = '';
+    Stack stack;
+
+    setUpAll(() async {
+      load();
+      apiKey = env['apiKey'];
+      host = env['host'];
+      deliveryToken = env['deliveryToken'];
+      environment = env['environment'];
+      stack = Stack(apiKey, deliveryToken, environment, host: host);
+    });
+
+    setUp(() async {
       query = stack.contentType('room').entry().query();
     });
 
-    test('query testcase locale and only base funcational test', () {
+    test('query testcase locale and only base functional test', () {
       query
         ..locale('en-us')
         ..only(['price_in_usd']);
@@ -447,7 +486,7 @@ void main() {
       expect('[field1, field2, field3, field4]', url['except[BASE][]']);
     });
 
-    test('query testcase cascase functions for entry Queryable', () {
+    test('query testcase functions for entry Queryable', () {
       const uiFieldList = ['uifield1', 'uifield2', 'uifield3'];
       query
         ..locale('en-us')
@@ -459,7 +498,6 @@ void main() {
         ..includeReferenceContentTypeUID()
         ..addParam('key', 'value');
       final result = query.getQueryUrl();
-      expect('development', result['environment']);
       expect('en-us', result['locale']);
       expect('[referenceFieldUid, uifield1, uifield2, uifield3]',
           result['include[]']);

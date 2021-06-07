@@ -9,13 +9,13 @@ void main() {
   final host = env['host'];
   final deliveryToken = env['deliveryToken'];
   final environment = env['environment'];
-  var entryUid;
+  var entryUid = '';
   final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
   final Query query = stack.contentType('faq').entry().query();
   final Entry entry = stack.contentType('faq').entry(entryUid: entryUid);
 
-  group('Entry functinal testcases', () {
-    test('test find entryUid', () async {
+  group('Entry functional testcases', () {
+    setUp(() async {
       await query.find().then((response) {
         final entries = response['entries'];
         for (final item in entries) {
@@ -103,56 +103,75 @@ void main() {
   /////////////////////////////////////////////////////////////////////////////
 
   group('Entry API testcases', () {
-    test('test find entryUid', () async {
+    var _uid = '';
+    Entry entryInstance;
+
+    // If this is called within a test group, callback
+    // will run before all tests in that group.
+    setUpAll(() async {
       await query.find().then((response) {
         final entries = response['entries'];
         for (final item in entries) {
           if (item['title'] == 'MEALS') {
-            entryUid = item['uid'];
+            _uid = item['uid'];
+            entryInstance = stack.contentType('faq').entry(entryUid: _uid);
+            continue;
           }
         }
       });
     });
 
-    test('find the entry response with locale', () async {
-      entry.locale('en-us');
-      await entry.fetch<EntryModel, Null>().then((response) {
-        expect('en-us', response.locale);
-      }).catchError((onError) {
-        prints(onError.toString());
-      });
+    //This function will be called before each test is run.
+    // callback may be asynchronous; if so, it must return a
+    setUp(() async {
+      entryInstance = stack.contentType('faq').entry(entryUid: _uid);
     });
 
+    // test('find the entry response with locale', () async {
+    //   entry.locale('en-us');
+    //   await entry.fetch<EntryModel, Null>().then((response) {
+    //     expect('en-us', response.locale);
+    //   }).catchError((onError) {
+    //     prints(onError.toString());
+    //   });
+    // });
+
     test('test entry response with version', () async {
-      entry
+      entryInstance
         ..locale('en-us')
         ..addParam('version', '1');
-      await entry.fetch<EntryModel, Null>().then((response) {
+      await entryInstance.fetch<EntryModel, Null>().then((response) {
         expect(1, response.version);
       });
     });
 
     test('find the only API call', () async {
-      entry.locale('en-us');
+      entryInstance.locale('en-us');
       const List<String> fieldUID = ['price', 'title'];
-      entry.only(fieldUID);
-      await entry.fetch<EntryModel, Null>().then((response) {
-        expect('blt3ffedc5e2cef6d8c', response.uid);
+      entryInstance.only(fieldUID);
+      await entryInstance.fetch<EntryModel, Null>().then((response) {
+        expect('blt53ca1231625bdde4', response.uid);
       });
     });
 
     test('find the except API call', () async {
-      entry.locale('en-us');
+      entryInstance.locale('en-us');
       const List<String> fieldUID = ['title'];
-      entry.except(fieldUID);
-      await entry.fetch<EntryModel, Null>().then((response) {
+      entryInstance.except(fieldUID);
+      // await entryInstance.fetch().then((response) {
+      //   // don't know what it is expecting
+      //   expect('MEALS', response.title);
+      // }).catchError((err) {
+      //   expect('Error', err.title);
+      // });
+      await entryInstance.fetch<EntryModel, Null>().then((response) {
         expect('MEALS', response.title);
       });
     });
 
     test('find the includeReference default API call', () async {
-      entry.includeReference('categories');
-      await entry.fetch().then((response) {
+      entryInstance.includeReference('categories');
+      await entryInstance.fetch().then((response) {
         expect(141, response['error_code']);
       }).catchError((onError) {
         expect('invalid url requested', onError.message);
@@ -161,9 +180,9 @@ void main() {
 
     test('find the includeReference default with list objects', () async {
       const List<String> fieldUID = ['title', 'attendee', 'created_at'];
-      entry.includeReference('categories',
+      entryInstance.includeReference('categories',
           includeReferenceField: Include.none(fieldUidList: fieldUID));
-      await entry.fetch().then((response) {
+      await entryInstance.fetch().then((response) {
         expect(141, response['error_code']);
       }).catchError((onError) {
         expect('invalid url requested', onError.message);
@@ -171,21 +190,21 @@ void main() {
     });
 
     test('find the includeReference with only API call', () async {
-      entry.locale('en-us');
+      entryInstance.locale('en-us');
       const List<String> fieldUID = ['price', 'orange', 'mango'];
-      entry.includeReference('categories',
+      entryInstance.includeReference('categories',
           includeReferenceField: Include.only(fieldUidList: fieldUID));
-      await entry.fetch().then((response) {
+      await entryInstance.fetch().then((response) {
         expect(141, response['error_code']);
       });
     });
 
     test('find the includeReference except API call', () async {
-      entry.locale('en-us');
+      entryInstance.locale('en-us');
       const List<String> fieldUID = ['price', 'orange', 'mango'];
-      entry.includeReference('categories',
+      entryInstance.includeReference('categories',
           includeReferenceField: Include.except(fieldUidList: fieldUID));
-      await entry.fetch().then((response) {
+      await entryInstance.fetch().then((response) {
         expect(
             "The requested object doesn't exist.", response['error_message']);
       }).catchError((error) {
@@ -194,38 +213,39 @@ void main() {
     });
 
     test('find the includeContentType except API call', () async {
-      entry.includeContentType();
-      await entry.fetch().then((response) {
+      entryInstance.includeContentType();
+      await entryInstance.fetch().then((response) {
         expect(true, response.containsKey('content_type'));
       });
     });
 
     test('find the includeReferenceContentTypeUID except API call', () async {
-      entry.includeReferenceContentTypeUID();
-      await entry.fetch().then((response) {
+      entryInstance.includeReferenceContentTypeUID();
+      await entryInstance.fetch().then((response) {
         final resp = response['entry']['faq_group'];
         expect(true, resp is List);
       });
     });
 
     test('test chaining few methods API call', () async {
-      entry
+      entryInstance
         ..includeContentType()
         ..includeReferenceContentTypeUID();
-      await entry.fetch().then((response) {
+      await entryInstance.fetch().then((response) {
         expect(true, response.containsKey('content_type'));
       });
     });
 
     test('includeFallback unit testcase match key', () {
-      entry.includeFallback();
-      expect(true, entry.parameter.containsKey('include_fallback'));
-      expect('true', entry.parameter['include_fallback']);
+      entryInstance.includeFallback();
+      expect(true, entryInstance.parameter.containsKey('include_fallback'));
+      expect('true', entryInstance.parameter['include_fallback']);
     });
 
     test('include_embedded_objects unit testcase', () {
-      entry.includeEmbeddedItems();
-      expect(true, entry.parameter.containsKey('include_embedded_items[]'));
+      entryInstance.includeEmbeddedItems();
+      expect(true,
+          entryInstance.parameter.containsKey('include_embedded_items[]'));
     });
   });
 }
