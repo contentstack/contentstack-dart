@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:contentstack/client.dart';
+import 'package:contentstack/constant.dart';
 import 'package:contentstack/src/base_query.dart';
 import 'package:contentstack/src/enums/include.dart' as include;
 import 'package:contentstack/src/enums/operator.dart';
@@ -68,6 +69,10 @@ class Query extends BaseQuery {
 
   Future<T> find<T, K>() async {
     getQueryUrl();
+    if (_client.stack.livePreview != null) {
+      ifLivePreviewEnable(_client);
+    }
+
     final uri = Uri.https(_client.stack.endpoint, _path, queryParameter);
     return _client.sendRequest<T, K>(uri);
   }

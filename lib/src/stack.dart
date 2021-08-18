@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
@@ -22,9 +21,10 @@ class Stack {
   final String _apiKey;
   final String _deliveryToken;
   final String _environment;
-  final String _host;
+  String _host;
   final Region region;
   final String apiVersion;
+  Map<String, dynamic> livePreview;
   HttpClient _client;
 
   ///
@@ -32,6 +32,21 @@ class Stack {
   /// environment name and Optional parameters like.
   /// Throws an [ArgumentError] if [apiKey], [deliveryToken]
   /// and [environment] is not passed.
+  /// Optional Parameters:
+  /// apiVersion: (Optional) apiVersion for the api
+  /// region: (Optional) region is type of Region i.e US and EU
+  /// host: (Optional) host is the host for the api
+  /// client: (Optional) if developer wants to set their own client instance
+  /// livePreview: (Optional) enables livePreview for entry/query
+  /// provide livePreview object like below.
+  ///
+  /// ```
+  //  final Map<String, dynamic> livePreview = {
+  //   'authorization': 'management_token',
+  //   'enable': true,
+  //   'host': 'api.contentstack.com',
+  // };
+  ///```
   /// import 'package:contentstack/contentstack.dart' as contentstack;
   /// var stack = contentstack.Stack('api_key', 'delivery_token', environment)
   ///
@@ -41,28 +56,23 @@ class Stack {
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// ```
   ///
-  Stack(
-    this._apiKey,
-    this._deliveryToken,
-    this._environment, {
-    this.apiVersion = 'v3',
-    this.region = Region.us,
-    String host = 'cdn.contentstack.io',
-    BaseClient client,
-  }) : _host = (region == Region.us)
+  Stack(this._apiKey, this._deliveryToken, this._environment,
+      {this.apiVersion = 'v3',
+      this.region = Region.us,
+      String host = 'cdn.contentstack.io',
+      BaseClient client,
+      this.livePreview})
+      : _host = (region == Region.us)
             ? host
             : (host == 'cdn.contentstack.io'
                 ? 'eu-cdn.contentstack.com'
                 : 'eu-$host') {
-    // final blank = s == null || s.trim() == '';
     if (_apiKey.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
       throw ArgumentError.notNull('APIkey');
     }
-
     if (_deliveryToken.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
       throw ArgumentError.notNull('deliveryToken');
     }
-
     if (_environment.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
       throw ArgumentError.notNull('environment');
     }
@@ -72,7 +82,6 @@ class Stack {
       'access_token': _deliveryToken,
       'environment': _environment,
     };
-
     _client = HttpClient(stackHeader, client: client, stack: this);
   }
 
@@ -125,6 +134,16 @@ class Stack {
   /// ```
   String get host => _host;
 
+  /// It returns livePreview variables
+  ///
+  /// Example
+  ///
+  /// ```dart
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// var environment = stack.livePreview;
+  /// ```
+  Map get getLivePreview => livePreview;
+
   ///
   /// This call fetches the latest version of a specific
   /// asset of a particular stack.
@@ -138,7 +157,6 @@ class Stack {
   /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// var asset = stack.asset('uid');
   /// ```
-  ///
   Asset asset(String uid) {
     return Asset(uid, _client);
   }
@@ -274,6 +292,20 @@ class Stack {
     }
   }
 
+  /// Adds host for the request
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// stack = stack..setHost('host.contentstack.io');
+  /// ```
+  void setHost(String host) {
+    if (host.isNotEmpty) {
+      _host = host;
+    }
+  }
+
   /////////////////////////////////////////////////
   //    ---------[Synchronization]----------     //
   /////////////////////////////////////////////////
@@ -360,5 +392,24 @@ class Stack {
     parameters['environment'] = _client.stackHeaders['environment'];
     final Uri uri = Uri.https(endpoint, '$apiVersion/stacks/sync', parameters);
     return _client.sendRequest<T, K>(uri);
+  }
+
+  void livePreviewQuery(Map<String, dynamic> livePreviewQuery) {
+    if (livePreview.containsKey('enable')) {
+      final bool enable = livePreview['enable'] as bool;
+      if (enable) {
+        if (livePreviewQuery.containsKey('hash') &&
+            livePreviewQuery['hash'] != null) {
+          livePreview['hash'] = livePreviewQuery['hash'];
+        } else {
+          livePreview['hash'] = 'init';
+        }
+        if (livePreviewQuery.containsKey('content_type_uid') &&
+            livePreviewQuery['content_type_uid'] != null) {
+          livePreview['content_type_uid'] =
+              livePreviewQuery['content_type_uid'];
+        }
+      }
+    }
   }
 }

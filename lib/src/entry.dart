@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:contentstack/client.dart';
+import 'package:contentstack/constant.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/entry_queryable.dart';
 
@@ -50,6 +51,10 @@ class Entry extends EntryQueryable {
   Future<T> fetch<T, K>() async {
     if (_uid == null) {
       throw Exception('Provide entry uid to fetch single entry');
+    }
+
+    if (_client.stack.livePreview != null) {
+      ifLivePreviewEnable(_client);
     }
     final uri = Uri.https(_client.stack.endpoint, '$_path/$_uid', parameter);
     return _client.sendRequest<T, K>(uri);

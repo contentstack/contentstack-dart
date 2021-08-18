@@ -7,6 +7,7 @@ import 'package:contentstack/src/stack.dart';
 import 'package:http/http.dart' as http;
 
 class HttpClient extends http.BaseClient {
+  // Child class for BaseClient
   final http.Client _client;
   final Stack stack;
   final Map<String, String> stackHeaders;
@@ -66,7 +67,7 @@ class HttpClient extends http.BaseClient {
     }
   }
 
-  /// generic objects as well as List of generic objects
+  /// Generic objects as well as List of generic objects
   /// (from a JSON list response).
   /// First, you need to have a function that checks the type  of the
   /// generic object and returns the result of the corresponding fromJson call
