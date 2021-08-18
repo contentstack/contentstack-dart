@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## `v0.4.0 - Live Preview Support Added`
+
+### __SEP-02-2021__
+
+#### v0.4.0 Live Support feature added
+
+- Live Preview support added
+
 ## `v0.3.0 - Package Improvements`
 
 ### __JUN-05-2021__
