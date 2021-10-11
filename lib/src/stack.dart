@@ -398,11 +398,11 @@ class Stack {
     if (livePreview.containsKey('enable')) {
       final bool enable = livePreview['enable'] as bool;
       if (enable) {
-        if (livePreviewQuery.containsKey('hash') &&
-            livePreviewQuery['hash'] != null) {
-          livePreview['hash'] = livePreviewQuery['hash'];
+        if (livePreviewQuery.containsKey('live_preview') &&
+            livePreviewQuery['live_preview'] != null) {
+          livePreview['live_preview'] = livePreviewQuery['live_preview'];
         } else {
-          livePreview['hash'] = 'init';
+          livePreview['live_preview'] = 'init';
         }
         if (livePreviewQuery.containsKey('content_type_uid') &&
             livePreviewQuery['content_type_uid'] != null) {
