@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:contentstack/src/enums/include.dart';
 
 /// Applies Queries on [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
@@ -142,13 +144,22 @@ class EntryQueryable {
   /// prints(response)
   /// ```
   ///
-  void includeReference(String referenceFieldUid,
-      {Include includeReferenceField}) {
+  void includeReference(referenceFieldUid, {Include includeReferenceField}) {
     if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
       final List referenceArray = [];
       if (includeReferenceField != null) {
         includeReferenceField.when(none: (fieldUid) {
-          referenceArray.add(referenceFieldUid);
+          // Check referenceFieldUid is list type
+          if (instanceof(referenceFieldUid, List)) {
+            for (var uid in referenceFieldUid) {
+              referenceArray.add(uid);
+            }
+          }
+          // Check referenceFieldUid is String type
+          else if (instanceof(referenceFieldUid, String)) {
+            referenceArray.add(referenceFieldUid);
+          }
+
           if (fieldUid.fieldUidList != null &&
               fieldUid.fieldUidList.isNotEmpty) {
             for (final item in fieldUid.fieldUidList) {
@@ -182,8 +193,19 @@ class EntryQueryable {
           parameter['except'] = referenceOnlyParam.toString();
         });
       } else {
-        //referenceArray.add(referenceFieldUid);
-        parameter['include[]'] = referenceFieldUid;
+        final List referenceList = [];
+
+        // Check referenceFieldUid is list type
+        if (instanceof(referenceFieldUid, List)) {
+          for (var uid in referenceFieldUid) {
+            referenceList.add(uid);
+          }
+        }
+        // Check referenceFieldUid is String type
+        else if (instanceof(referenceFieldUid, String)) {
+          referenceList.add(referenceFieldUid);
+        }
+        parameter['include[]'] = referenceList.toString();
       }
     }
   }
