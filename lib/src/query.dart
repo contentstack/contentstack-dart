@@ -79,9 +79,11 @@ class Query extends BaseQuery {
   void _validateLivePreview() {
     if (_client.stack.livePreview['enable']) {
       ifLivePreviewEnable(_client);
-      parameter['live_preview'] = 'init';
-      if (_client.stack.livePreview.containsKey('live_preview')) {
-        parameter['live_preview'] = _client.stack.livePreview['live_preview'];
+      if(_contentTypeUid==_client.stack.livePreview['content_type_uid']){
+        parameter['live_preview'] = 'init';
+        if (_client.stack.livePreview.containsKey('live_preview')) {
+          parameter['live_preview'] = _client.stack.livePreview['live_preview'];
+        }
       }
     }
   }
