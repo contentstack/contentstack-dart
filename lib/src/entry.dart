@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:contentstack/client.dart';
-import 'package:contentstack/constant.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/entry_queryable.dart';
+
+import '../constant.dart';
 
 /// An `Entry` is the actual piece of content created using one of
 /// the defined `contenttypes`. Learn more about Entries.
@@ -52,12 +53,19 @@ class Entry extends EntryQueryable {
     if (_uid == null) {
       throw Exception('Provide entry uid to fetch single entry');
     }
-
-    if (_client.stack.livePreview != null) {
-      ifLivePreviewEnable(_client);
-    }
+    _validateLivePreview();
     final uri = Uri.https(_client.stack.endpoint, '$_path/$_uid', parameter);
     return _client.sendRequest<T, K>(uri);
+  }
+
+  void _validateLivePreview() {
+    if (_client.stack.livePreview['enable']) {
+      ifLivePreviewEnable(_client);
+      parameter['live_preview'] = 'init';
+      if (_client.stack.livePreview.containsKey('live_preview')) {
+        parameter['live_preview'] = _client.stack.livePreview['live_preview'];
+      }
+    }
   }
 
   /// Applies query on entries

@@ -82,7 +82,21 @@ class Stack {
       'access_token': _deliveryToken,
       'environment': _environment,
     };
+
+    __validateLivePreview();
     _client = HttpClient(stackHeader, client: client, stack: this);
+  }
+
+  void __validateLivePreview() {
+    // Validate the livePreview
+    // To Enable live preview make sure authorization and host is provided
+    if (livePreview.containsKey('enable')) {
+      if (!livePreview.containsKey('authorization')) {
+        throw Exception('Missing authorization');
+      } else if (livePreview.containsKey('host')) {
+        throw Exception('Missing host');
+      }
+    }
   }
 
   /// It returns apiKey of the Stack

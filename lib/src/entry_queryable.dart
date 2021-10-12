@@ -1,4 +1,3 @@
-import 'dart:js_util';
 
 import 'package:contentstack/src/enums/include.dart';
 
@@ -144,19 +143,24 @@ class EntryQueryable {
   /// prints(response)
   /// ```
   ///
+  /// List listOfUids = ['acd', 'erf', 'ghi'];
+  /// entry.includeReference(listOfReference_uid, IncludeReference.except(fieldUidList: fieldUid));
+  /// or
+  /// entry.includeReference("reference_uid", IncludeReference.except(fieldUidList: fieldUid));
+  ///
   void includeReference(referenceFieldUid, {Include includeReferenceField}) {
     if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
       final List referenceArray = [];
       if (includeReferenceField != null) {
         includeReferenceField.when(none: (fieldUid) {
           // Check referenceFieldUid is list type
-          if (instanceof(referenceFieldUid, List)) {
+          if (referenceFieldUid.runtimeType == List) {
             for (var uid in referenceFieldUid) {
               referenceArray.add(uid);
             }
           }
           // Check referenceFieldUid is String type
-          else if (instanceof(referenceFieldUid, String)) {
+          else if (referenceFieldUid.runtimeType == String) {
             referenceArray.add(referenceFieldUid);
           }
 
@@ -196,13 +200,13 @@ class EntryQueryable {
         final List referenceList = [];
 
         // Check referenceFieldUid is list type
-        if (instanceof(referenceFieldUid, List)) {
+        if (referenceFieldUid.runtimeType == List) {
           for (var uid in referenceFieldUid) {
             referenceList.add(uid);
           }
         }
         // Check referenceFieldUid is String type
-        else if (instanceof(referenceFieldUid, String)) {
+        else if (referenceFieldUid.runtimeType == String) {
           referenceList.add(referenceFieldUid);
         }
         parameter['include[]'] = referenceList.toString();

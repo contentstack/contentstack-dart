@@ -22,21 +22,25 @@ void main() {
 
   test('test if live preview argument enable true provided', () {
     final Map<String, dynamic> livePreviewEnabled = {
+      'host': 'host.contentstack.com',
       'enable': true,
+      'authorization': 'managementToken@1234',
     };
     final stack = Stack('_apiKey123456', '_deliveryToken654321', '_env',
         livePreview: livePreviewEnabled);
-    expect(1, stack.getLivePreview.length);
+    expect(3, stack.getLivePreview.length);
     expect(true, stack.getLivePreview.containsKey('enable'));
   });
 
   test('test if live preview argument authorization provided', () {
     final Map<String, dynamic> livePreviewEnabled = {
       'authorization': 'management_token_12345',
+      'enable': true,
+      'host': 'api.contentstack.io',
     };
     final stack = Stack('_apiKey123456', '_deliveryToken654321', '_env',
         livePreview: livePreviewEnabled);
-    expect(1, stack.getLivePreview.length);
+    expect(3, stack.getLivePreview.length);
     expect(true, stack.getLivePreview.containsKey('authorization'));
     expect('management_token_12345', stack.getLivePreview['authorization']);
   });
@@ -44,10 +48,12 @@ void main() {
   test('test if live preview host provided', () {
     final Map<String, dynamic> livePreviewAuthorization = {
       'host': 'host.contentstack.com',
+      'enable': true,
+      'authorization': 'managementToken@1234',
     };
     final stack = Stack('_apiKey1234', '_deliveryToken4321', '_env',
         livePreview: livePreviewAuthorization);
-    expect(1, stack.getLivePreview.length);
+    expect(3, stack.getLivePreview.length);
     expect(true, stack.getLivePreview.containsKey('host'));
     expect('host.contentstack.com', stack.getLivePreview['host']);
   });
@@ -65,7 +71,7 @@ void main() {
       livePreview: livePreviewDict,
     )..livePreviewQuery({
         'content_type_uid': 'liveContentType',
-        'hash': 'hash_code',
+        'live_preview': 'hash_code',
       });
 
     stack
@@ -77,7 +83,7 @@ void main() {
 
     expect(5, stack.getLivePreview.length);
     expect('liveContentType', stack.getLivePreview['content_type_uid']);
-    expect('hash_code', stack.getLivePreview['hash']);
+    expect('hash_code', stack.getLivePreview['live_preview']);
     expect('auth09090783478478', stack.getLivePreview['authorization']);
   });
 
@@ -104,7 +110,7 @@ void main() {
         .onError((error, stackTrace) => print(error.toString()));
 
     expect('liveContentType', stack.getLivePreview['content_type_uid']);
-    expect('init', stack.getLivePreview['hash']);
+    expect('init', stack.getLivePreview['live_preview']);
     expect('auth09090783478478', stack.getLivePreview['authorization']);
   });
 }

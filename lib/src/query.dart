@@ -69,12 +69,20 @@ class Query extends BaseQuery {
 
   Future<T> find<T, K>() async {
     getQueryUrl();
-    if (_client.stack.livePreview != null) {
-      ifLivePreviewEnable(_client);
-    }
+    _validateLivePreview();
 
     final uri = Uri.https(_client.stack.endpoint, _path, queryParameter);
     return _client.sendRequest<T, K>(uri);
+  }
+
+  void _validateLivePreview() {
+    if (_client.stack.livePreview['enable']) {
+      ifLivePreviewEnable(_client);
+      parameter['live_preview'] = 'init';
+      if (_client.stack.livePreview.containsKey('live_preview')) {
+        parameter['live_preview'] = _client.stack.livePreview['live_preview'];
+      }
+    }
   }
 
   Map getQueryUrl() {

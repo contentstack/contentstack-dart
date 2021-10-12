@@ -7,7 +7,6 @@ import 'package:contentstack/src/stack.dart';
 import 'package:http/http.dart' as http;
 
 class HttpClient extends http.BaseClient {
-  // Child class for BaseClient
   final http.Client _client;
   final Stack stack;
   final Map<String, String> stackHeaders;
@@ -46,7 +45,6 @@ class HttpClient extends http.BaseClient {
       rethrow;
     }
     if (response.statusCode == 200) {
-      // Decode response to Utf8Codec
       final Map bodyJson = json.decode(utf8.decode(response.bodyBytes));
       if (T == EntryModel && bodyJson.containsKey('entry')) {
         return fromJson<T, K>(bodyJson['entry']);

@@ -1,9 +1,9 @@
 import 'package:contentstack/contentstack.dart' as contentstack;
+import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/asset_query.dart';
 import 'package:contentstack/src/models/assetmodel.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
 import 'package:test/test.dart';
-import 'package:contentstack/contentstack.dart';
 
 void main() {
   load();
