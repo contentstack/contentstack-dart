@@ -75,6 +75,7 @@ class Query extends BaseQuery {
     return _client.sendRequest<T, K>(uri);
   }
 
+  /// check if Live preview is enabled
   void _validateLivePreview() {
     if (_client.stack.livePreview['enable']) {
       ifLivePreviewEnable(_client);
