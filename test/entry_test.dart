@@ -1,7 +1,7 @@
-import 'package:test/test.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/enums/include.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:test/test.dart';
 
 void main() {
   load();

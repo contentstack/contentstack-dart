@@ -145,7 +145,6 @@ void main() {
     });
 
     test('testcase asset include fallback', () async {
-      //var language = 'en-us';
       final asset = stack.assetQuery()..includeFallback();
       await asset.find().then((response) {
         expect(9, response['assets'].length);
@@ -155,7 +154,6 @@ void main() {
     });
 
     test('testcase asset include fallback with locale', () async {
-      //var language = 'en-us';
       final asset = stack.assetQuery()
         ..includeFallback()
         ..param('locale', 'en-us');

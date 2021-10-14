@@ -77,12 +77,14 @@ class Query extends BaseQuery {
 
   /// check if Live preview is enabled
   void _validateLivePreview() {
-    if (_client.stack.livePreview['enable']) {
+    final preview = _client.stack.livePreview;
+    if (preview['enable']) {
       ifLivePreviewEnable(_client);
-      if(_contentTypeUid==_client.stack.livePreview['content_type_uid']){
+      if (_contentTypeUid == preview['content_type_uid']) {
         parameter['live_preview'] = 'init';
-        if (_client.stack.livePreview.containsKey('live_preview')) {
-          parameter['live_preview'] = _client.stack.livePreview['live_preview'];
+        if (preview.containsKey('live_preview') &&
+            preview['live_preview'].toString().isNotEmpty) {
+          parameter['live_preview'] = preview['live_preview'];
         }
       }
     }

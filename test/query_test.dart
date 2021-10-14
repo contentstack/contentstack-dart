@@ -1,5 +1,3 @@
-import 'package:test/test.dart';
-
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/enums/include.dart' as include;
 import 'package:contentstack/src/enums/operations.dart';
@@ -7,6 +5,7 @@ import 'package:contentstack/src/enums/operator.dart';
 import 'package:contentstack/src/enums/reference.dart';
 import 'package:contentstack/src/models/entrymodel.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:test/test.dart';
 
 void main() {
   group('testcases for functional base queries', () {

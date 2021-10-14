@@ -1,11 +1,11 @@
 import 'package:contentstack/contentstack.dart';
-import 'package:test/test.dart';
 import 'package:contentstack/src/image/filter.dart';
 import 'package:contentstack/src/image/fit.dart';
 import 'package:contentstack/src/image/format.dart';
 import 'package:contentstack/src/image/orientation.dart';
 import 'package:contentstack/src/image_transform.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:test/test.dart';
 
 void main() {
   //var logger = Logger(printer: PrettyPrinter());
@@ -33,7 +33,7 @@ void main() {
       expect('auto=webp', response.query.toString());
     });
 
-    test('formate in ImageTransformation', () {
+    test('format in ImageTransformation', () {
       final response = imageTransformation
         ..auto(format: 'pjpg')
         ..getUrl();
