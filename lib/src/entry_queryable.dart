@@ -1,4 +1,3 @@
-
 import 'package:contentstack/src/enums/include.dart';
 
 /// Applies Queries on [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
@@ -144,9 +143,11 @@ class EntryQueryable {
   /// ```
   ///
   /// List listOfUids = ['acd', 'erf', 'ghi'];
-  /// entry.includeReference(listOfReference_uid, IncludeReference.except(fieldUidList: fieldUid));
+  /// entry.includeReference(listOfReference_uid,
+  /// ncludeReference.except(fieldUidList: fieldUid));
   /// or
-  /// entry.includeReference("reference_uid", IncludeReference.except(fieldUidList: fieldUid));
+  /// entry.includeReference("reference_uid",
+  /// IncludeReference.except(fieldUidList: fieldUid));
   ///
   void includeReference(referenceFieldUid, {Include includeReferenceField}) {
     if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {

@@ -267,17 +267,6 @@ void main() {
       expect('orient=8', response.query.toString());
     });
 
-    test('overlay  overlayAlign in ImageTransformation', () {
-      final response = imageTransformation
-        ..overlay(
-            '/v3/assets/blteae40eb499811073/bltb21dacdd20d0e24c/59e0c401462a293417405f34/download',
-            overlayAlign: 'left,bottom')
-        ..getUrl();
-      const String expectedResult =
-          'overlay=%2Fv3%2Fassets%2Fblteae40eb499811073%2Fbltb21dacdd20d0e24c%2F59e0c401462a293417405f34%2Fdownload&overlay-align=left%2Cbottom';
-      expect(expectedResult, response.query.toString());
-    });
-
     test('overlay  overlayHeight in ImageTransformation', () {
       final response = imageTransformation
         ..overlay('overlayUrl', overlayHeight: 150)

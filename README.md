@@ -130,7 +130,7 @@ resize, rotate, overlay, and so on.
 
 For example, if you want to crop an image (with width as 300 and height as 400), you simply need to
 append query parameters at the end of the image URL,
-such as, https://images.contentstack.io/v3/assets/blteae40eb499811073/bltc5064f36b5855343/59e0c41ac0eddd140d5a8e3e/download?crop=300,400.
+such as, <https://images.contentstack.io/v3/assets/download?crop=300,400>.
 
 There are several more parameters that you can use for your images.
 

@@ -44,7 +44,9 @@ void main() {
     });
 
     test('test the addParams entry query', () {
-      entry..addParam('locale', 'en-us')..addParam('testKey', 'testValue123');
+      entry
+        ..addParam('locale', 'en-us')
+        ..addParam('testKey', 'testValue123');
       expect(true, entry.parameter.containsKey('testKey'));
     });
 
