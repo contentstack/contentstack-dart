@@ -57,6 +57,11 @@ void main() {
       expect('{environment: development}', params.toString());
     });
 
+    test('testcase asset environment', () async {
+      final asset = stack.asset(assetUid)..includeFallback();
+      expect(asset.assetParameter.containsKey('include_fallback'), true);
+    });
+
     test('testcase asset fetch version', () async {
       final asset = stack.asset(assetUid)..version(4);
       await asset.fetch().then((response) {
@@ -85,6 +90,11 @@ void main() {
       } catch (e) {
         expect(e.message, equals('Provide asset uid to fetch single entry'));
       }
+    });
+
+    test('include_fallback unit test', () {
+      final asset = stack.asset(assetUid)..includeFallback();
+      expect(asset.assetParameter.containsKey('include_fallback'), true);
     });
   });
 
