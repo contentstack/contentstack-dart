@@ -7,22 +7,23 @@ import 'package:logger/logger.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final logger = Logger(
-    printer: PrettyPrinter(),
-  );
+  final logger = Logger(printer: PrettyPrinter());
 
   load();
   final apiKey = env['apiKey'];
   final host = env['host'];
-  //final branch = 'development';
   final deliveryToken = env['deliveryToken'];
   final environment = env['environment'];
+  final syncToken = env['syncToken'];
+  final paginationToken = env['paginationToken'];
+  final branch = 'development';
+  logger.i('credentials loaded..');
   final Stack stack = Stack(
     apiKey,
     deliveryToken,
     environment,
     host: host,
-    //branch: 'development',
+    branch: branch,
   );
 
   group('functional testcases for stack', () {
@@ -31,7 +32,7 @@ void main() {
       expect(stack.deliveryToken, deliveryToken);
       expect(stack.environment, environment);
       expect(stack.host, host);
-      //expect(stack.branch, branch);
+      expect(stack.branch, branch);
     });
 
     test('Stack initialization with Host', () {
@@ -91,8 +92,8 @@ void main() {
 
     test('testcases setHeader', () {
       final result = stack..setHeader('header1', 'headerValue');
-      final finalResult = result..stackHeader['header1'];
-      expect(true, finalResult.stackHeader.containsKey('header1'));
+      final finalResult = result..headers['header1'];
+      expect(true, finalResult.headers.containsKey('header1'));
     });
 
     test('testcases setHeader', () {
@@ -100,22 +101,22 @@ void main() {
         ..setHeader('header1', 'headerValue1')
         ..setHeader('header2', 'headerValue2')
         ..removeHeader('header2');
-      expect(false, stack.stackHeader.containsKey('header2'));
+      expect(false, stack.headers.containsKey('header2'));
     });
   });
 
   group('Group of testcases for ContentType', () {
-    test('test contenttype urlPath', () {
+    test('test content type urlPath', () {
       final contentType = stack.contentType('application_theme');
       expect('/v3/content_types/application_theme', contentType.urlPath);
     });
 
-    test('testcases instance of the  contenttype', () {
+    test('testcases instance of the  content type', () {
       final contentType = stack.contentType('application_theme');
       expect(true, contentType is contentstack.ContentType);
     });
 
-    test('testcases contenttype fetch uid', () async {
+    test('testcases content type fetch uid', () async {
       final contentType = stack.contentType('application_theme');
       await contentType.fetch().then((response) {
         expect('application_theme', response['content_type']['uid']);
@@ -149,26 +150,21 @@ void main() {
       final response = stack.sync<SyncResult, Null>(locale: 'en-us');
       await response.then((response) {
         expect(123, response.totalCount);
-        expect(null, response.syncToken);
-        //expect('bltd0057e4d71a3c73edb67f0', response.paginationToken);
-        logger.d(response.paginationToken);
+        expect(response.syncToken, null);
       });
     });
 
     test('sync token response', () async {
-      final response =
-          stack.syncToken<SyncResult, Null>('blta2662861c53ebf7cab51e7');
+      final response = stack.syncToken<SyncResult, Null>(syncToken);
       await response.then((response) {
-        expect(34, response.totalCount);
+        expect(response.syncToken, isNotNull);
       });
     });
 
     test('pagination token response', () async {
-      final response =
-          stack.paginationToken<SyncResult, Null>('blt233312100c58dbf9a56bfa');
+      final response = stack.paginationToken<SyncResult, Null>(paginationToken);
       await response.then((response) {
-        logger.d(response.syncToken);
-        //expect('blt6f2199c246a2d93fb743f6', response.syncToken);
+        expect(response.syncToken, isNotEmpty);
       });
     });
 

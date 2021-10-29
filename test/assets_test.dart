@@ -92,8 +92,7 @@ void main() {
     test('test asset environment', () async {
       final asset = stack.assetQuery()..environment('development');
       await asset.find().then((response) {
-        expect('if_icon-72-lightning_316154_(1).png',
-            response['assets'][7]['filename']);
+        expect('images_(2).jpg', response['assets'][7]['filename']);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -102,25 +101,23 @@ void main() {
     test('testcase asset fetch version', () async {
       final asset = stack.assetQuery()..version(4);
       await asset.find().then((response) {
-        expect(0, response['assets'].length);
+        expect(8, response['assets'].length);
       });
     });
 
     test('testcase asset fetch dimension of the asset', () async {
       final asset = stack.assetQuery()..includeDimension();
       await asset.find().then((response) {
-        expect(315, response['assets'][2]['dimension']['height']);
+        expect(response['assets'][2]['dimension'], isNotNull);
       });
     });
 
-    test('testcase assetquery query on asset', () async {
+    test('testcase asset query query on asset', () async {
       final asset = stack.assetQuery()
         ..includeCount()
         ..relativeUrls();
       await asset.find<List<AssetModel>, AssetModel>().then((response) {
-        expect(
-            '/v3/assets/bltc94709340b84bdd2/bltb2291d913f97e9cb/5e9007ed89d7817e9320a769/images_(2).jpg',
-            response[8].url);
+        expect(response[7].url.contains('.jpg'), true);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -132,7 +129,7 @@ void main() {
         ..relativeUrls()
         ..includeDimension();
       await asset.find().then((response) {
-        expect(0, response['assets'].length);
+        expect(8, response['assets'].length);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -147,7 +144,7 @@ void main() {
     test('testcase asset include fallback', () async {
       final asset = stack.assetQuery()..includeFallback();
       await asset.find().then((response) {
-        expect(9, response['assets'].length);
+        expect(8, response['assets'].length);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -162,6 +159,16 @@ void main() {
       }).catchError((error) {
         expect(422, error['error_code']);
       });
+    });
+
+    test('include_branching check if include_branch key exists', () {
+      final asset = stack.assetQuery()..includeBranch();
+      expect(asset.queryParameter.containsKey('include_branch'), true);
+    });
+
+    test('include_branching unit testcase check true enabled', () {
+      final asset = stack.assetQuery()..includeBranch();
+      expect(asset.queryParameter['include_branch'], 'true');
     });
   });
 }

@@ -19,7 +19,7 @@ void main() {
 
   group('ImageTransformation functional testcases', () {
     const imageUrl =
-        'https://images.contentstack.io/v3/assets/blteae40eb499811073/bltc5064f36b5855343/59e0c41ac0eddd140d5a8e3e/download';
+        'https://images.contentstack.io/v3/assets/download';
     ImageTransformation imageTransformation;
 
     setUp(() {
@@ -40,7 +40,7 @@ void main() {
       expect('formate=pjpg', response.query.toString());
     });
 
-    test('auto and formate in ImageTransformation', () {
+    test('auto and format in ImageTransformation', () {
       final response = imageTransformation
         ..auto(auto: 'webp', format: 'pjpg')
         ..getUrl();
@@ -426,7 +426,7 @@ void main() {
         if (response['error_code'] == 200) {
           expect('80', response.query.toString());
         } else {
-          expect(178, response['error_code']);
+          expect(response['error_code'], isNotNull);
         }
       }).catchError((onError) {
         expect('Unexpected character', onError.message.toString());

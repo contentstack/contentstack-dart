@@ -559,5 +559,15 @@ void main() {
           query.queryParameter.containsKey('include_embedded_items[]');
       expect(true, isEmbeddedObj);
     });
+
+    test('include_branching check if include_branch key exists', () {
+      query.includeBranch();
+      expect(query.queryParameter.containsKey('include_branch'), true);
+    });
+
+    test('include_branching unit testcase check true enabled', () {
+      query.includeBranch();
+      expect(query.queryParameter['include_branch'], 'true');
+    });
   });
 }

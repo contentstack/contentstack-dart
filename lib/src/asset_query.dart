@@ -133,4 +133,21 @@ class AssetQuery extends BaseQuery {
   void version(int version) {
     queryParameter['version'] = version.toString();
   }
+
+
+  ///
+  /// Includes branch in the response
+  ///
+  /// ```dart
+  /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// final asset = stack.assetQuery()..includeBranch();
+  /// await asset.find().then((response) {
+  ///   print(response);
+  /// }).catchError((error) {
+  ///   print(error['error_code']);
+  /// });
+  ///
+  void includeBranch() {
+    queryParameter['include_branch'] = true.toString();
+  }
 }

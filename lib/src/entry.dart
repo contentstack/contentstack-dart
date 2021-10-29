@@ -4,10 +4,8 @@ import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/entry_queryable.dart';
 
-import '../constant.dart';
-
 /// An `Entry` is the actual piece of content created using one of
-/// the defined `contenttypes`. Learn more about Entries.
+/// the defined `content types`. Learn more about Entries.
 /// Read more for details of [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
 class Entry extends EntryQueryable {
   final HttpClient _client;
@@ -17,7 +15,7 @@ class Entry extends EntryQueryable {
 
   ///
   /// An `Entry` is the actual piece of content created using one of
-  /// the defined `contenttypes`. Learn more about Entries.
+  /// the defined `content types`. Learn more about Entries.
   /// Read more for details of [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
   Entry([this._uid, this._client, this._contentTypeUid]) {
     parameter['environment'] = _client.stackHeaders['environment'];
@@ -53,28 +51,17 @@ class Entry extends EntryQueryable {
     if (_uid == null) {
       throw Exception('Provide entry uid to fetch single entry');
     }
-    _validateLivePreview();
+    final preview = _client.stack.livePreview;
+    if (preview != null && preview.isNotEmpty) {
+      validateLivePreview(preview, _client, _contentTypeUid);
+    }
     final uri = Uri.https(_client.stack.endpoint, '$_path/$_uid', parameter);
     return _client.sendRequest<T, K>(uri);
-  }
-
-  void _validateLivePreview() {
-    final preview = _client.stack.livePreview;
-    if (preview['enable']) {
-      ifLivePreviewEnable(_client);
-      if (_contentTypeUid == preview['content_type_uid']) {
-        if (preview.containsKey('live_preview') &&
-            preview['live_preview'].toString().isNotEmpty) {
-          parameter['live_preview'] = preview['live_preview'];
-        } else {
-          parameter['live_preview'] = 'init';
-        }
-      }
-    }
   }
 
   /// Applies query on entries
   Query query() {
     return Query(_client, _contentTypeUid);
   }
+
 }

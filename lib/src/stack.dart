@@ -17,11 +17,12 @@ enum Region { us, eu }
 /// A stack is like a container that holds the content of your app.
 /// Learn more about [Stacks](https://www.contentstack.com/docs/developers/set-up-stack/about-stack/).
 class Stack {
-  Map<String, String> stackHeader = <String, String>{};
+  Map<String, String> headers = <String, String>{};
   final String _apiKey;
   final String _deliveryToken;
   final String _environment;
   String _host;
+  final String branch;
   final Region region;
   final String apiVersion;
   Map<String, dynamic> livePreview;
@@ -41,12 +42,14 @@ class Stack {
   /// provide livePreview object like below.
   ///
   /// ```
-  //  final Map<String, dynamic> livePreview = {
-  //   'authorization': 'management_token',
-  //   'enable': true,
-  //   'host': 'api.contentstack.com',
-  // };
-  ///```
+  ///  final Map<String, dynamic> livePreview = {
+  ///      'authorization': management_token,
+  ///      'enable': true,
+  ///      'host': 'live.contentstack.com',
+  ///      'include_edit_tags': true,
+  ///      'edit_tags_type': editTags,
+  ///  };
+  /// ```
   /// import 'package:contentstack/contentstack.dart' as contentstack;
   /// var stack = contentstack.Stack('api_key', 'delivery_token', environment)
   ///
@@ -56,19 +59,23 @@ class Stack {
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// ```
   ///
-  Stack(this._apiKey, this._deliveryToken, this._environment,
-      {this.apiVersion = 'v3',
-      this.region = Region.us,
-      String host = 'cdn.contentstack.io',
-      BaseClient client,
-      this.livePreview})
-      : _host = (region == Region.us)
+  Stack(
+    this._apiKey,
+    this._deliveryToken,
+    this._environment, {
+    this.apiVersion = 'v3',
+    this.region = Region.us,
+    this.branch,
+    String host = 'cdn.contentstack.io',
+    BaseClient client,
+    this.livePreview,
+  }) : _host = (region == Region.us)
             ? host
             : (host == 'cdn.contentstack.io'
                 ? 'eu-cdn.contentstack.com'
                 : 'eu-$host') {
     if (_apiKey.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
-      throw ArgumentError.notNull('APIkey');
+      throw ArgumentError.notNull('apiKey');
     }
     if (_deliveryToken.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
       throw ArgumentError.notNull('deliveryToken');
@@ -77,26 +84,19 @@ class Stack {
       throw ArgumentError.notNull('environment');
     }
 
-    stackHeader = {
+    headers = {
       'api_key': _apiKey,
       'access_token': _deliveryToken,
       'environment': _environment,
     };
 
-    __validateLivePreview();
-    _client = HttpClient(stackHeader, client: client, stack: this);
-  }
-
-  void __validateLivePreview() {
-    // Validate the livePreview
-    // To Enable live preview make sure authorization and host is provided
-    if (livePreview.containsKey('enable')) {
-      if (!livePreview.containsKey('authorization')) {
-        throw Exception('Missing authorization');
-      } else if (livePreview.containsKey('host')) {
-        throw Exception('Missing host');
-      }
+    if (branch != null && branch.isNotEmpty) {
+      headers['branch'] = branch;
     }
+    if (livePreview != null && livePreview.isNotEmpty) {
+      __validateLivePreview();
+    }
+    _client = HttpClient(headers, client: client, stack: this);
   }
 
   /// It returns apiKey of the Stack
@@ -157,6 +157,21 @@ class Stack {
   /// var environment = stack.livePreview;
   /// ```
   Map get getLivePreview => livePreview;
+
+  ///
+  /// Validates the livePreview
+  ///
+  void __validateLivePreview() {
+    if (livePreview.containsKey('enable')) {
+      if (!livePreview.containsKey('authorization') ||
+          livePreview['authorization'].toString().isEmpty) {
+        throw Exception('Authorization is required to enable live preview');
+      } else if (!livePreview.containsKey('host') ||
+          livePreview['host'].toString().isEmpty) {
+        throw Exception('Host is required to enable live preview');
+      }
+    }
+  }
 
   ///
   /// This call fetches the latest version of a specific
@@ -286,8 +301,8 @@ class Stack {
   /// ```
   void removeHeader(String headerKey) {
     if (headerKey != null) {
-      if (stackHeader.containsKey(headerKey)) {
-        stackHeader.remove(headerKey);
+      if (headers.containsKey(headerKey)) {
+        headers.remove(headerKey);
       }
     }
   }
@@ -302,7 +317,7 @@ class Stack {
   /// ```
   void setHeader(String key, String value) {
     if (key.isNotEmpty && value.isNotEmpty) {
-      stackHeader[key] = value;
+      headers[key] = value;
     }
   }
 

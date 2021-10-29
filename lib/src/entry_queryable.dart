@@ -1,3 +1,4 @@
+import 'package:contentstack/constant.dart';
 import 'package:contentstack/src/enums/include.dart';
 
 /// Applies Queries on [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
@@ -89,6 +90,19 @@ class EntryQueryable {
   ///
   void includeEmbeddedItems() {
     parameter['include_embedded_items[]'] = 'BASE';
+  }
+
+  ///
+  /// Includes branch in the reponse
+  /// [Example for Entry class]
+  /// ```
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
+  /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
+  /// entry = entry.includeBranch()
+  /// ```
+  ///
+  void includeBranch() {
+    parameter['include_branch'] = true.toString();
   }
 
   ///
@@ -269,6 +283,20 @@ class EntryQueryable {
         referenceArray.add(item);
       }
       parameter['only[BASE][]'] = referenceArray.toString();
+    }
+  }
+
+  void validateLivePreview(preview, _client, _contentTypeUid) {
+    if (preview != null && preview['enable']) {
+      ifLivePreviewEnable(_client);
+      if (_contentTypeUid == preview['content_type_uid']) {
+        if (preview.containsKey('live_preview') &&
+            preview['live_preview'].toString().isNotEmpty) {
+          parameter['live_preview'] = preview['live_preview'];
+        } else {
+          parameter['live_preview'] = 'init';
+        }
+      }
     }
   }
 }

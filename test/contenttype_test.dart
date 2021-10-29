@@ -1,10 +1,12 @@
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/contenttype_query.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:logger/logger.dart';
 import 'package:test/test.dart';
 
 void main() {
-  //final logger = Logger(printer: PrettyPrinter());
+  final logger = Logger(printer: PrettyPrinter());
+
 
   load();
   final apiKey = env['apiKey'];
@@ -13,8 +15,8 @@ void main() {
   final environment = env['environment'];
   final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
   final ContentType contentType = stack.contentType('application_theme');
-
-  group('testcase contenttype functional testing', () {
+  logger.i('credentials loaded..');
+  group('testcase content type functional testing', () {
     test('test network call for content type', () async {
       final map = {'key': 'value'};
       final response = await contentType.fetch(map);
@@ -28,7 +30,7 @@ void main() {
   });
 
   group('testcases contentTypeQuery functional', () {
-    test('test for all the contenttypes available', () async {
+    test('test for all the content types available', () async {
       final allContents = contentType.query();
       final response = await allContents.find();
       expect(11, response['content_types'].length);

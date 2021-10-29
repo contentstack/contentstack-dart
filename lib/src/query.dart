@@ -69,16 +69,17 @@ class Query extends BaseQuery {
 
   Future<T> find<T, K>() async {
     getQueryUrl();
-    _validateLivePreview();
 
+    final preview = _client.stack.livePreview;
+    if (preview != null && preview.isNotEmpty) {
+      __validateLivePreview(preview);
+    }
     final uri = Uri.https(_client.stack.endpoint, _path, queryParameter);
     return _client.sendRequest<T, K>(uri);
   }
 
-  /// check if Live preview is enabled
-  void _validateLivePreview() {
-    final preview = _client.stack.livePreview;
-    if (preview['enable']) {
+  void __validateLivePreview(preview) {
+    if (preview != null && preview['enable']) {
       ifLivePreviewEnable(_client);
       if (_contentTypeUid == preview['content_type_uid']) {
         parameter['live_preview'] = 'init';
@@ -453,5 +454,19 @@ class Query extends BaseQuery {
         };
       });
     }
+  }
+
+  /// includes branch in the response
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
+  /// final query = stack.contentType('contentTypeUid').entry().query();
+  /// query.includeBranch();
+  /// ```
+  ///
+  void includeBranch() {
+    queryParameter['include_branch'] = true.toString();
   }
 }

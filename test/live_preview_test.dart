@@ -1,22 +1,35 @@
 import 'package:contentstack/contentstack.dart';
+import 'package:dotenv/dotenv.dart';
+import 'package:logger/logger.dart';
 import 'package:super_enum/super_enum.dart';
 import 'package:test/test.dart';
 
 void main() {
-  // live preview option container
+  final logger = Logger(printer: PrettyPrinter());
+
+  load();
+  final apiKey = env['apiKey'];
+  final deliveryToken = env['deliveryToken'];
+  final environment = env['environment'];
+  final fakeManagementToken = deliveryToken;
+  const editTags = 'editTagsType';
+
   final Map<String, dynamic> livePreview = {
-    'authorization': 'management_token_12345',
+    'authorization': fakeManagementToken,
     'enable': true,
     'host': 'live.contentstack.com',
     'include_edit_tags': true,
-    'edit_tags_type': object,
+    'edit_tags_type': editTags,
   };
+
+  final Stack stack =
+      Stack(apiKey, deliveryToken, environment, livePreview: livePreview);
+  logger.i('live_preview credentials loaded..');
+
   test('test if live preview arguments are empty', () {
-    final stack = Stack('_apiKey123456', '_deliveryToken654321', '_env',
-        livePreview: livePreview);
     expect(5, stack.getLivePreview.length);
     expect(true, stack.getLivePreview.containsKey('enable'));
-    expect('management_token_12345', stack.getLivePreview['authorization']);
+    expect(fakeManagementToken, stack.getLivePreview['authorization']);
     expect('live.contentstack.com', stack.getLivePreview['host']);
   });
 
