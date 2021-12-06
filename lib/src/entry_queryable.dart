@@ -93,7 +93,7 @@ class EntryQueryable {
   }
 
   ///
-  /// Includes branch in the reponse
+  /// Includes branch in the response
   /// [Example for Entry class]
   /// ```
   /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
@@ -155,13 +155,6 @@ class EntryQueryable {
   /// response = await entry.fetch();
   /// prints(response)
   /// ```
-  ///
-  /// List listOfUids = ['acd', 'erf', 'ghi'];
-  /// entry.includeReference(listOfReference_uid,
-  /// ncludeReference.except(fieldUidList: fieldUid));
-  /// or
-  /// entry.includeReference("reference_uid",
-  /// IncludeReference.except(fieldUidList: fieldUid));
   ///
   void includeReference(referenceFieldUid, {Include includeReferenceField}) {
     if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
