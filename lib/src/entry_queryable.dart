@@ -138,7 +138,6 @@ class EntryQueryable {
   /// Example 2:
   /// Reference type only
   ///
-  ///
   /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
