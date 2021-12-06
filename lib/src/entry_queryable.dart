@@ -114,7 +114,7 @@ class EntryQueryable {
   ///
   /// If you wish to fetch the content of the entry that is included in
   /// the reference field, you need to use the include[] parameter,
-  ///  and specify the UID of the reference field as value.
+  /// and specify the UID of the reference field as value.
   /// This informs Contentstack that the request also includes
   /// fetching the entry used in the specified reference field.
   /// Add a constraint that requires a particular reference key details.
@@ -165,13 +165,11 @@ class EntryQueryable {
       final List referenceArray = [];
       if (includeReferenceField != null) {
         includeReferenceField.when(none: (fieldUid) {
-          // Check referenceFieldUid is list type
           if (referenceFieldUid.runtimeType == List) {
             for (var uid in referenceFieldUid) {
               referenceArray.add(uid);
             }
           }
-          // Check referenceFieldUid is String type
           else if (referenceFieldUid.runtimeType == String) {
             referenceArray.add(referenceFieldUid);
           }
@@ -192,7 +190,6 @@ class EntryQueryable {
             }
           }
           referenceOnlyParam[referenceFieldUid] = referenceArray;
-          //_include(referenceFieldUid);
           includeReference(referenceFieldUid);
           parameter['only'] = referenceOnlyParam.toString();
         }, except: (fieldUid) {
@@ -204,20 +201,16 @@ class EntryQueryable {
             }
           }
           referenceOnlyParam[referenceFieldUid] = referenceArray;
-          //_include(referenceFieldUid);
           includeReference(referenceFieldUid);
           parameter['except'] = referenceOnlyParam.toString();
         });
       } else {
         final List referenceList = [];
-
-        // Check referenceFieldUid is list type
         if (referenceFieldUid.runtimeType == List) {
           for (var uid in referenceFieldUid) {
             referenceList.add(uid);
           }
         }
-        // Check referenceFieldUid is String type
         else if (referenceFieldUid.runtimeType == String) {
           referenceList.add(referenceFieldUid);
         }
