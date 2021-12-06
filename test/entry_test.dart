@@ -1,15 +1,21 @@
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/enums/include.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:logger/logger.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final logger = Logger(printer: PrettyPrinter());
+
   load();
   final apiKey = env['apiKey'];
   final host = env['host'];
   final deliveryToken = env['deliveryToken'];
   final environment = env['environment'];
   var entryUid = '';
+
+  logger.i('credentials loaded..');
+
   final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
   final Query query = stack.contentType('faq').entry().query();
   final Entry entry = stack.contentType('faq').entry(entryUid: entryUid);
@@ -44,7 +50,9 @@ void main() {
     });
 
     test('test the addParams entry query', () {
-      entry..addParam('locale', 'en-us')..addParam('testKey', 'testValue123');
+      entry
+        ..addParam('locale', 'en-us')
+        ..addParam('testKey', 'testValue123');
       expect(true, entry.parameter.containsKey('testKey'));
     });
 
@@ -246,6 +254,16 @@ void main() {
       entryInstance.includeEmbeddedItems();
       expect(true,
           entryInstance.parameter.containsKey('include_embedded_items[]'));
+    });
+
+    test('include_branching check if include_branch key exists', () {
+      entryInstance.includeBranch();
+      expect(entryInstance.parameter.containsKey('include_branch'), true);
+    });
+
+    test('include_branching unit testcase check true enabled', () {
+      entryInstance.includeBranch();
+      expect(entryInstance.parameter['include_branch'], 'true');
     });
   });
 }

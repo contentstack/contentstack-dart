@@ -16,7 +16,7 @@ class Asset {
 
   /// * [_uid] assetUid:
   /// Enter the unique ID of the asset of which you wish to retrieve
-  /// the details. {Example: blt19c34e5374418484}
+  /// the details. {Example: asset_uid}
   /// ```dart
   /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final asset = stack.asset(asset_uid);

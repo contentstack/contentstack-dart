@@ -14,7 +14,7 @@
 
 #### v0.3.0 Package Improvements
 
-- pub dependencies version mismach fixed
+- pub dependencies version mismatch fixed
 - Included UTF-8 encoding
 - Removed unused dependencies
 
