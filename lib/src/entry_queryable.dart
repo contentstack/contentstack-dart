@@ -110,7 +110,8 @@ class EntryQueryable {
   /// referenceFieldUid Key who has reference to some other class object.
   /// Array of the only reference keys to be included in response.
   ///
-  /// Example 1: Reference type None
+  /// Example 1:
+  /// Reference type None
   ///
   /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
@@ -121,7 +122,8 @@ class EntryQueryable {
   /// prints(response)
   /// ```
   ///
-  /// Example 2: Reference type only
+  /// Example 2:
+  /// Reference type only
   ///
   /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
@@ -133,7 +135,8 @@ class EntryQueryable {
   /// prints(response)
   /// ```
   ///
-  /// Example 3: Reference type except
+  /// Example 3:
+  /// Reference type except
   /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
@@ -142,11 +145,6 @@ class EntryQueryable {
   /// response = await entry.fetch();
   /// prints(response)
   /// ```
-  ///
-  /// List listOfUids = ['acd', 'erf', 'ghi'];
-  /// entry.includeReference(listOfReference_uid, IncludeReference.except(fieldUidList: fieldUid));
-  /// or
-  /// entry.includeReference("reference_uid", IncludeReference.except(fieldUidList: fieldUid));
   ///
   void includeReference(referenceFieldUid, {Include includeReferenceField}) {
     if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
