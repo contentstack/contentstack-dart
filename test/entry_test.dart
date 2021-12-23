@@ -265,5 +265,14 @@ void main() {
       entryInstance.includeBranch();
       expect(entryInstance.parameter['include_branch'], 'true');
     });
+
+    test('find the includeReference with multiple strings', () async {
+      entryInstance.locale('en-us');
+      const List<String> fieldUID = ['price', 'orange', 'mango'];
+      entryInstance.includeReference(fieldUID);
+      await entryInstance.fetch().then((response) {
+        expect(141, response['error_code']);
+      });
+    });
   });
 }
