@@ -111,7 +111,7 @@ void main() {
     test('testcase asset fetch version', () async {
       final asset = stack.assetQuery()..version(4);
       await asset.find().then((response) {
-        expect(8, response['assets'].length);
+        expect(0, response['assets'].length);
       });
     });
 
@@ -139,7 +139,7 @@ void main() {
         ..relativeUrls()
         ..includeDimension();
       await asset.find().then((response) {
-        expect(8, response['assets'].length);
+        expect(0, response['assets'].length);
       }).catchError((error) {
         expect(422, error['error_code']);
       });

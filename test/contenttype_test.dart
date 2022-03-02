@@ -33,13 +33,13 @@ void main() {
     test('test for all the content types available', () async {
       final allContents = contentType.query();
       final response = await allContents.find();
-      expect(11, response['content_types'].length);
+      expect(12, response['content_types'].length);
     });
 
     test('test include_count is available', () async {
       final allContents = contentType.query()..includeCount();
       await allContents.find().then((response) {
-        expect(11, response['count']);
+        expect(12, response['count']);
       }).catchError((error) {
         expect('invalid response', error.message);
       });
@@ -49,7 +49,7 @@ void main() {
       final allContents = contentType.query()..includeGlobalField();
       await allContents
           .find(queryParams: {'include_count': 'true'}).then((response) {
-        expect(11, response['count']);
+        expect(12, response['count']);
       });
     });
   });
