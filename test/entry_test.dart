@@ -267,9 +267,10 @@ void main() {
     });
 
     test('find the includeReference with multiple strings', () async {
-      entryInstance.locale('en-us');
+      final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
+      final Entry entry = stack.contentType('faq').entry(entryUid: entryUid);
       const List<String> fieldUID = ['price', 'orange', 'mango'];
-      entryInstance.includeReference(fieldUID);
+      entry.includeReference(fieldUID);
       await entryInstance.fetch().then((response) {
         expect(141, response['error_code']);
       });

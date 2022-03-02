@@ -169,8 +169,7 @@ class EntryQueryable {
             for (var uid in referenceFieldUid) {
               referenceArray.add(uid);
             }
-          }
-          else if (referenceFieldUid.runtimeType == String) {
+          } else if (referenceFieldUid.runtimeType == String) {
             referenceArray.add(referenceFieldUid);
           }
 
@@ -206,15 +205,17 @@ class EntryQueryable {
         });
       } else {
         final List referenceList = [];
-        if (referenceFieldUid.runtimeType == List) {
+        if (referenceFieldUid is List) {
           for (var uid in referenceFieldUid) {
+            parameter['include[]'] = uid;
             referenceList.add(uid);
           }
-        }
-        else if (referenceFieldUid.runtimeType == String) {
+        } else if (referenceFieldUid.runtimeType == String) {
           referenceList.add(referenceFieldUid);
         }
         parameter['include[]'] = referenceList.toString();
+        parameter['include[]'] = referenceFieldUid.toString();
+        print('nothing');
       }
     }
   }
