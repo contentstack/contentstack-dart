@@ -210,7 +210,6 @@ void main() {
 
     test('test notContainedIn in Query', () async {
       await query.find().then((response) async {
-        final queryLength = response['entries'].length;
         final List<String> arrayValue = ['Room 13', 'Room 14', 'Room 17'];
         query.where('title', QueryOperation.excludes(value: arrayValue));
         await query.find().then((response) {
@@ -397,13 +396,10 @@ void main() {
     });
 
     test('test query skip ', () async {
-      var originalLength = 0;
-      var skipLength = 0;
       await query.find().then((onResponse) async {
-        originalLength = onResponse['entries'].length;
         query.skip(4);
         await query.find().then((response) {
-          skipLength = response['entries'].length;
+         expect(0, response['entries'].length);
         });
       });
     });

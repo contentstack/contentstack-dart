@@ -3,7 +3,7 @@ import 'package:contentstack/src/enums/include.dart';
 
 /// Applies Queries on [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
 class EntryQueryable {
-  final Map<String, String> parameter = <String, String>{};
+  Map<String, Object> parameter = <String, Object>{};
 
   ///
   /// This method adds key and value to an Entry.
@@ -204,18 +204,8 @@ class EntryQueryable {
           parameter['except'] = referenceOnlyParam.toString();
         });
       } else {
-        final List referenceList = [];
-        if (referenceFieldUid is List) {
-          for (var uid in referenceFieldUid) {
-            parameter['include[]'] = uid;
-            referenceList.add(uid);
-          }
-        } else if (referenceFieldUid.runtimeType == String) {
-          referenceList.add(referenceFieldUid);
-        }
-        parameter['include[]'] = referenceList.toString();
-        parameter['include[]'] = referenceFieldUid.toString();
-        print('nothing');
+        parameter['include[]'] = referenceFieldUid;
+        print('We are in multiple references');
       }
     }
   }

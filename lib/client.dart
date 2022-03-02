@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:contentstack/constant.dart';
 import 'package:contentstack/contentstack.dart';
-import 'package:contentstack/src/stack.dart';
 import 'package:http/http.dart' as http;
 
 class HttpClient extends http.BaseClient {

@@ -55,13 +55,15 @@ class Entry extends EntryQueryable {
     if (preview != null && preview.isNotEmpty) {
       validateLivePreview(preview, _client, _contentTypeUid);
     }
-    final uri = Uri.https(_client.stack.endpoint, '$_path/$_uid', parameter);
-    return _client.sendRequest<T, K>(uri);
+
+    final uri = Uri.https(_client.stack.endpoint, '$_path/$_uid');
+    final request =
+        Uri.parse(uri.toString()).resolveUri(Uri(queryParameters: parameter));
+    return _client.sendRequest<T, K>(request);
   }
 
   /// Applies query on entries
   Query query() {
     return Query(_client, _contentTypeUid);
   }
-
 }
