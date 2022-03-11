@@ -3,7 +3,6 @@ import 'package:contentstack/src/image/filter.dart';
 import 'package:contentstack/src/image/fit.dart';
 import 'package:contentstack/src/image/format.dart';
 import 'package:contentstack/src/image/orientation.dart';
-import 'package:contentstack/src/image_transform.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
 import 'package:test/test.dart';
 

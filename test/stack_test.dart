@@ -20,7 +20,7 @@ void main() {
     deliveryToken,
     environment,
     host: host,
-    branch: branch,
+    branch: branch
   );
 
   group('functional testcases for stack', () {
@@ -31,6 +31,7 @@ void main() {
       expect(stack.host, host);
       expect(stack.branch, branch);
     });
+
 
     test('Stack initialization with Host', () {
       final stack = contentstack.Stack('apiKey', 'accessToken', 'environment',

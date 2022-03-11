@@ -12,12 +12,15 @@ test/.test_coverage.dart/
 .test_coverage.dart
 .test_coverage.dart/
 .talismanrc
+.id
+.vscode
 
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
+.github/
 .env*
 
 # The .vscode folder contains launch configuration and tasks you configure in
@@ -82,3 +85,4 @@ coverage/
 /.idea/
 /.vscode/
 /coverage/
+/.vscode/

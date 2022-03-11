@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
-import 'package:contentstack/src/contenttype_query.dart';
 
 ///
 /// Content type lets you define the structure or blueprint

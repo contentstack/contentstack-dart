@@ -1,16 +1,24 @@
 # CHANGELOG
 
-## `v0.4.0 - Live Preview Support Added`
+## v0.5.0 - Multiple-reference issue fixed
 
-### __SEP-02-2021__
+### **MAR-16-2022**
+
+#### Multiple-Reference issue fixed
+
+#### Region support for azure-na added
+
+## v0.4.0 - Live Preview Support Added`
+
+### **SEP-02-2021**
 
 #### v0.4.0 Live Support feature added
 
 - Live Preview support added
 
-## `v0.3.0 - Package Improvements`
+## v0.3.0 - Package Improvements
 
-### __JUN-05-2021__
+### **JUN-05-2021**
 
 #### v0.3.0 Package Improvements
 
@@ -18,11 +26,11 @@
 - Included UTF-8 encoding
 - Removed unused dependencies
 
-_______________________
+---
 
 ## `v0.2.0 - Support of IncludeEmbeddedItems()`
 
-### __APR-05-2021__
+### **APR-05-2021**
 
 #### v0.2.0 New Features
 
@@ -30,11 +38,11 @@ _______________________
 
 • `Query` - IncludeEmbeddedItems method added
 
-_______________________
+---
 
 ## `v0.1.1 - Publish content fallback`
 
-### __Dec-08-2020__
+### **Dec-08-2020**
 
 #### v0.1.1 New Features
 
@@ -46,20 +54,20 @@ _______________________
 
 • `Assets` - Publish fallback method added
 
-_______________________
+---
 
 ## `v0.1.0 - Initial release`
 
-### __May-11-2020__
+### **May-11-2020**
 
 #### Initial release for the contentstack-dart-sdk for Content Delivery API
 
-_______________________
+---
 
 ## `v0.0.1 - Beta release`
 
-### __May-08-2020__
+### **May-08-2020**
 
 #### Beta release for the contentstack-dart-sdk for Content Delivery API
 
-_______________________
+---

@@ -1,7 +1,6 @@
 import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/asset_query.dart';
-import 'package:contentstack/src/models/assetmodel.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
 import 'package:test/test.dart';
 
@@ -88,7 +87,7 @@ void main() {
           expect('{height: 171, width: 294}', model.dimension.toString());
         });
       } catch (e) {
-        expect(e.message, equals('Provide asset uid to fetch single entry'));
+        expect(e.toString(), equals('Provide asset uid to fetch single entry'));
       }
     });
 
