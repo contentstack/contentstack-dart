@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:contentstack/client.dart';
+import 'package:contentstack/constant.dart';
 import 'package:contentstack/src/base_query.dart';
 import 'package:contentstack/src/enums/include.dart' as include;
 import 'package:contentstack/src/enums/operator.dart';
@@ -68,8 +69,26 @@ class Query extends BaseQuery {
 
   Future<T> find<T, K>() async {
     getQueryUrl();
+
+    final preview = _client.stack.livePreview;
+    if (preview != null && preview.isNotEmpty) {
+      __validateLivePreview(preview);
+    }
     final uri = Uri.https(_client.stack.endpoint, _path, queryParameter);
     return _client.sendRequest<T, K>(uri);
+  }
+
+  void __validateLivePreview(preview) {
+    if (preview != null && preview['enable']) {
+      ifLivePreviewEnable(_client);
+      if (_contentTypeUid == preview['content_type_uid']) {
+        parameter['live_preview'] = 'init';
+        if (preview.containsKey('live_preview') &&
+            preview['live_preview'].toString().isNotEmpty) {
+          parameter['live_preview'] = preview['live_preview'];
+        }
+      }
+    }
   }
 
   Map getQueryUrl() {
@@ -435,5 +454,19 @@ class Query extends BaseQuery {
         };
       });
     }
+  }
+
+  /// includes branch in the response
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
+  /// final query = stack.contentType('contentTypeUid').entry().query();
+  /// query.includeBranch();
+  /// ```
+  ///
+  void includeBranch() {
+    queryParameter['include_branch'] = true.toString();
   }
 }

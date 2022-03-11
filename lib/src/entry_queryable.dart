@@ -1,8 +1,9 @@
+import 'package:contentstack/constant.dart';
 import 'package:contentstack/src/enums/include.dart';
 
 /// Applies Queries on [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
 class EntryQueryable {
-  final Map<String, String> parameter = <String, String>{};
+  Map<String, Object> parameter = <String, Object>{};
 
   ///
   /// This method adds key and value to an Entry.
@@ -92,6 +93,19 @@ class EntryQueryable {
   }
 
   ///
+  /// Includes branch in the response
+  /// [Example for Entry class]
+  /// ```
+  /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
+  /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
+  /// entry = entry.includeBranch()
+  /// ```
+  ///
+  void includeBranch() {
+    parameter['include_branch'] = true.toString();
+  }
+
+  ///
   /// Include Reference:
   /// When you fetch an entry of a content type that has a reference field,
   /// by default, the content of the referred entry is not fetched.
@@ -100,7 +114,7 @@ class EntryQueryable {
   ///
   /// If you wish to fetch the content of the entry that is included in
   /// the reference field, you need to use the include[] parameter,
-  ///  and specify the UID of the reference field as value.
+  /// and specify the UID of the reference field as value.
   /// This informs Contentstack that the request also includes
   /// fetching the entry used in the specified reference field.
   /// Add a constraint that requires a particular reference key details.
@@ -109,7 +123,8 @@ class EntryQueryable {
   /// referenceFieldUid Key who has reference to some other class object.
   /// Array of the only reference keys to be included in response.
   ///
-  /// Example 1: Reference type None
+  /// Example 1:
+  /// Reference type None
   ///
   /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
@@ -120,7 +135,9 @@ class EntryQueryable {
   /// prints(response)
   /// ```
   ///
-  /// Example 2: Reference type only
+  /// Example 2:
+  /// Reference type only
+  ///
   ///
   /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
@@ -132,7 +149,8 @@ class EntryQueryable {
   /// prints(response)
   /// ```
   ///
-  /// Example 3: Reference type except
+  /// Example 3:
+  /// Reference type except
   /// ```dart
   /// final stack = contentstack.Stack("apiKey", "deliveryKey", "environment");
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
@@ -142,13 +160,19 @@ class EntryQueryable {
   /// prints(response)
   /// ```
   ///
-  void includeReference(String referenceFieldUid,
-      {Include includeReferenceField}) {
+  void includeReference(referenceFieldUid, {Include includeReferenceField}) {
     if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
       final List referenceArray = [];
       if (includeReferenceField != null) {
         includeReferenceField.when(none: (fieldUid) {
-          referenceArray.add(referenceFieldUid);
+          if (referenceFieldUid.runtimeType == List) {
+            for (var uid in referenceFieldUid) {
+              referenceArray.add(uid);
+            }
+          } else if (referenceFieldUid.runtimeType == String) {
+            referenceArray.add(referenceFieldUid);
+          }
+
           if (fieldUid.fieldUidList != null &&
               fieldUid.fieldUidList.isNotEmpty) {
             for (final item in fieldUid.fieldUidList) {
@@ -165,7 +189,6 @@ class EntryQueryable {
             }
           }
           referenceOnlyParam[referenceFieldUid] = referenceArray;
-          //_include(referenceFieldUid);
           includeReference(referenceFieldUid);
           parameter['only'] = referenceOnlyParam.toString();
         }, except: (fieldUid) {
@@ -177,13 +200,12 @@ class EntryQueryable {
             }
           }
           referenceOnlyParam[referenceFieldUid] = referenceArray;
-          //_include(referenceFieldUid);
           includeReference(referenceFieldUid);
           parameter['except'] = referenceOnlyParam.toString();
         });
       } else {
-        //referenceArray.add(referenceFieldUid);
         parameter['include[]'] = referenceFieldUid;
+        print('We are in multiple references');
       }
     }
   }
@@ -242,6 +264,20 @@ class EntryQueryable {
         referenceArray.add(item);
       }
       parameter['only[BASE][]'] = referenceArray.toString();
+    }
+  }
+
+  void validateLivePreview(preview, _client, _contentTypeUid) {
+    if (preview != null && preview['enable']) {
+      ifLivePreviewEnable(_client);
+      if (_contentTypeUid == preview['content_type_uid']) {
+        if (preview.containsKey('live_preview') &&
+            preview['live_preview'].toString().isNotEmpty) {
+          parameter['live_preview'] = preview['live_preview'];
+        } else {
+          parameter['live_preview'] = 'init';
+        }
+      }
     }
   }
 }

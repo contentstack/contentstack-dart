@@ -316,7 +316,8 @@ class ImageTransformation {
     if (!_validURL) {
       throw Exception('Invalid url requested');
     }
-    final response = await client.get(getUrl());
+    final toURI = Uri.parse(getUrl());
+    final response = await client.get(toURI);
     if (response.statusCode == 200) {
       final Map bodyJson = jsonDecode(response.body);
       if (T == AssetModel && bodyJson.containsKey('asset')) {

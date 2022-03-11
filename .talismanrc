@@ -1,0 +1,21 @@
+threshold: medium
+
+fileignoreconfig:
+  - filename: README.md
+    checksum: f58900aefc6a5eadfac9369a83ac6ea7c57070725546e0990dcb2ca37388ec10
+  - filename: test/live_preview_test.dart
+    checksum: d95c17f52fc189f5b861036327da65c143639fca8b93bccf524abbe185c9c01c
+  - filename: test/test_synchronizarion.dart
+    checksum: 576d41bb3c87f3a57b2d543e54cb89751158704e1f9f64dfb55f9d6757d9eb8a
+  - filename: test/contenttype_test.dart
+    checksum: f632be27fe7273e96f9a9059ae80f31dfad9b300568538f336211334ce800dac
+  - filename: test/assets_test.dart
+    checksum: 81b1257b972d70dbc18ad7d386e21d8a5fdb6a992cc4b4f83a92b076eea00a30
+  - filename: test/stack_test.dart
+    checksum: 59345d745d298230bf1ce6cee11c1366ea6263e7268ef3302e5670085f57d648
+  - filename: test/entry_test.dart
+    checksum: eb1f11cc01118cb1c1cff0fc7cbb3e9ecffff476109e52c681fd6e28003e1cc9
+  - filename: test/image_transform_test.dart
+    checksum: badc3af4adf9afd1f834b43102068debfa1bca17b441315716df210b23c3926f
+  - filename: test/query_test.dart
+    checksum: 6ae5ded5cd7d9399de160a099141c833b2f2907296af8e27e2da0d424f6a3454

@@ -43,7 +43,7 @@ You can install packages from the command line:
 with Flutter:
 
 ```dart
-$ flutter pub get
+flutter pub get
 ```
 
 ### Import package
