@@ -17,8 +17,7 @@ void main() {
   final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
 
   group('ImageTransformation functional testcases', () {
-    const imageUrl =
-        'https://images.contentstack.io/v3/assets/download';
+    const imageUrl = 'https://images.contentstack.io/v3/assets/download';
     ImageTransformation imageTransformation;
 
     setUp(() {

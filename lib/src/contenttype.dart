@@ -23,7 +23,6 @@ class ContentType {
     }
   }
 
-
   ///
   /// This function provide option to  get single entry as well as
   /// all the entries. [entryUid] is Optional, If [entryUid]

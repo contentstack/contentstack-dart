@@ -1,4 +1,3 @@
-
 # ![Contentstack](https://www.contentstack.com/docs/static/images/contentstack.png)
 
 ## Dart SDK for Contentstack
@@ -7,6 +6,8 @@
 ![Coverage](https://raw.githubusercontent.com/contentstack/contentstack-dart/ae680c33d9efe68938bde585f72b12cca442c7a7/coverage_badge.svg)
 ![Dart CI](https://github.com/contentstack/contentstack-dart/workflows/Dart%20CI/badge.svg)
 ![dartdoc](https://img.shields.io/badge/dartdoc-latest-<green>.svg)
+
+<!-- ![Coverage](https://raw.githubusercontent.com/contentstack/contentstack-dart/master/coverage_badge.svg?sanitize=true) -->
 
 ![issues](https://img.shields.io/github/issues/contentstack/contentstack-dart)
 ![fork](https://img.shields.io/github/forks/contentstack/contentstack-dart)
@@ -71,9 +72,9 @@ Learn how to work with [Environments](https://www.contentstack.com/docs/develope
 
 ### Contentstack Dart SDK: 5-minute Quickstart
 
-#### __Initializing your SDK__
+#### **Initializing your SDK**
 
-To initialize the SDK, specify application  API key, access token, and environment name of the stack
+To initialize the SDK, specify application API key, access token, and environment name of the stack
 as shown in the snippet given below (config is optional):
 
 ```dart

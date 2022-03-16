@@ -205,7 +205,6 @@ class EntryQueryable {
         });
       } else {
         parameter['include[]'] = referenceFieldUid;
-        print('We are in multiple references');
       }
     }
   }

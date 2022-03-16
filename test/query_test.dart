@@ -214,7 +214,7 @@ void main() {
         query.where('title', QueryOperation.excludes(value: arrayValue));
         await query.find().then((response) {
           final queryMap = response['entries'].length;
-          expect(queryMap!=null, true);
+          expect(queryMap != null, true);
         });
       });
     });
@@ -237,7 +237,7 @@ void main() {
       final includeList = ['Room 13', 'Room 18', 'Room 19'];
       query.where('title', QueryOperation.includes(value: includeList));
       await query.find().then((response) {
-        expect(response['entries']!=null, true);
+        expect(response['entries'] != null, true);
       }).catchError((onError) {
         expect('Error Occurred', onError.message);
       });
@@ -399,7 +399,7 @@ void main() {
       await query.find().then((onResponse) async {
         query.skip(4);
         await query.find().then((response) {
-         expect(0, response['entries'].length);
+          expect(0, response['entries'].length);
         });
       });
     });

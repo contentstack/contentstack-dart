@@ -3,6 +3,7 @@ import 'package:contentstack/src/sync/publishtype.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:test/test.dart';
+
 void main() {
   final logger = Logger(printer: PrettyPrinter());
 
@@ -114,6 +115,5 @@ void main() {
         expect(100, response['items'].length);
       });
     });
-
   });
 }
