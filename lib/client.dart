@@ -59,7 +59,7 @@ class HttpClient extends http.BaseClient {
         return fromJson<T, K>(bodyJson);
       }
     } else {
-      // Response code other than 200
+      // Response code other than 200 considered error
       return bodyJson;
     }
   }
