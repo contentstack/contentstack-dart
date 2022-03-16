@@ -28,7 +28,7 @@
 
 ---
 
-## `v0.2.0 - Support of IncludeEmbeddedItems()`
+## v0.2.0 - Support of IncludeEmbeddedItems()
 
 ### **APR-05-2021**
 
@@ -40,7 +40,7 @@
 
 ---
 
-## `v0.1.1 - Publish content fallback`
+## v0.1.1 - Publish content fallback
 
 ### **Dec-08-2020**
 
@@ -56,7 +56,7 @@
 
 ---
 
-## `v0.1.0 - Initial release`
+## v0.1.0 - Initial release
 
 ### **May-11-2020**
 
@@ -64,7 +64,7 @@
 
 ---
 
-## `v0.0.1 - Beta release`
+## v0.0.1 - Beta release
 
 ### **May-08-2020**
 

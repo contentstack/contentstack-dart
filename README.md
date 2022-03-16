@@ -169,7 +169,7 @@ final response = imageTransformation..canvas(imageParams)..getUrl();
 MIT License
 
 Copyright (c) 2012 - 2021
-[`Contentstack`](https://www.contentstack.com/). All rights reserved.
+[Contentstack](https://www.contentstack.com/). All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
