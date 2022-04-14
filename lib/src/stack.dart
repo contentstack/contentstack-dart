@@ -446,4 +446,45 @@ class Stack {
       }
     }
   }
+
+  ///
+  ///
+  /// [All Global Fields]
+  ///
+  /// * [Get all global fields]
+  ///   This call returns comprehensive information of all the global fields
+  /// savailable in a particular stack in your account.
+  ///
+  ///  ```
+  /// var response = stack.globalField();
+  /// ```
+
+  /// * [Single Global Field]
+  ///   Get a single global field
+  ///
+  /// This request allows you to fetch comprehensive details of a specific
+  /// global field.When executing the API call, in the 'URI Parameters' section,
+  /// provide the unique ID of your global field.
+  /// ```
+  /// var response = stack.globalField('sso');
+  /// ```
+  /// include_branch (optional)
+  /// ```
+  /// var response = stack.globalField('sso', true);
+  /// ```
+
+  Future<T> globalField<T, K>(
+      [String globalFieldUid, bool includeBranch = false]) {
+    final parameters = <String, String>{};
+    parameters['environment'] = _client.stackHeaders['environment'];
+    if (includeBranch) {
+      parameters['include_branch'] = true.toString();
+    }
+    Uri uri = Uri.https(endpoint, '$apiVersion/global_fields', parameters);
+    if (globalFieldUid != null && globalFieldUid.isNotEmpty) {
+      uri = Uri.https(
+          endpoint, '$apiVersion/global_fields/$globalFieldUid', parameters);
+    }
+    return _client.sendRequest<T, K>(uri);
+  }
 }

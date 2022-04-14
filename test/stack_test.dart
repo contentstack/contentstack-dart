@@ -152,5 +152,20 @@ void main() {
       final url = params.toUrl('cdn.contentstack.io');
       expect('cdn.contentstack.io?key1=value1', url);
     });
+
+    test('global fields without params', () {
+      var response = stack.globalField();
+      print(response);
+    });
+
+    test('Global fields with parameters', () {
+      var response = stack.globalField('sso', false);
+      print(response);
+    });
+
+    test('Global fields with parameters', () {
+      var response = stack.globalField('sso', true);
+      print(response);
+    });
   });
 }
