@@ -234,7 +234,7 @@ class Stack {
   /// Fetches all Content Types from the Stack.
   /// This call returns comprehensive information
   /// of all the content types available in a particular stack in your account.
-  /// API Reference: https://www.contentstack.com/docs/apis/content-delivery-api/#content-types
+  /// API Reference: https://www.contentstack.com/docs/developers/apis/content-delivery-api/#content-types
   /// [queryParameters] is query parameters for the content_types of type [Map]
   /// returns list of content_types
   ///
@@ -449,9 +449,9 @@ class Stack {
 
   ///
   ///
-  /// [All Global Fields]
+  /// All Global Fields
   ///
-  /// * [Get all global fields]
+  /// All global fields
   ///   This call returns comprehensive information of all the global fields
   /// savailable in a particular stack in your account.
   ///
@@ -459,8 +459,8 @@ class Stack {
   /// var response = stack.globalField();
   /// ```
 
-  /// * [Single Global Field]
-  ///   Get a single global field
+  /// Single Global Field
+  /// Get a single global field
   ///
   /// This request allows you to fetch comprehensive details of a specific
   /// global field.When executing the API call, in the 'URI Parameters' section,
