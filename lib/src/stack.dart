@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/asset_query.dart';
 import 'package:contentstack/src/sync/publishtype.dart';
+import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 /// Choosing a Region
@@ -432,19 +434,30 @@ class Stack {
     if (livePreview.containsKey('enable')) {
       final bool enable = livePreview['enable'] as bool;
       if (enable) {
-        if (livePreviewQuery.containsKey('live_preview') &&
-            livePreviewQuery['live_preview'] != null) {
-          livePreview['live_preview'] = livePreviewQuery['live_preview'];
-        } else {
-          livePreview['live_preview'] = 'init';
-        }
         if (livePreviewQuery.containsKey('content_type_uid') &&
             livePreviewQuery['content_type_uid'] != null) {
-          livePreview['content_type_uid'] =
-              livePreviewQuery['content_type_uid'];
+          var content_type_uid = livePreviewQuery['content_type_uid'];
+          var _entry_uid = livePreviewQuery['entry_uid'];
+          var _host = livePreviewQuery['host'];
+          _executeAPI(content_type_uid, _entry_uid, _host);
         }
       }
     }
+  }
+
+  Future _executeAPI(content_type_uid, entry_uid, host) async {
+    var _url =
+        "https://$host}/${this.apiVersion}/content_types/$content_type_uid/entries/$entry_uid";
+    var _headers = {
+      'authorization': headers['authorization'],
+      'api_key': headers['api_key'],
+    };
+
+    await http.get(Uri.parse(_url), headers: _headers).then((response) {
+      Map bodyJson = json.decode(utf8.decode(response.bodyBytes));
+      print(bodyJson);
+      livePreview["entry"] = bodyJson['entry'];
+    });
   }
 
   ///
