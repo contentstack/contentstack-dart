@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v0.5.1 - Added support for gcp_na region
+#### Added support for gcp_na region
+
 ## v0.5.0 - Multiple-reference issue fixed
 
 ### **MAR-16-2022**

@@ -12,7 +12,7 @@ import 'package:http/http.dart';
 /// A Contentstack region refers to the location of the data centers
 /// where your organization's data resides
 /// * Default [Region](https://www.contentstack.com/docs/developers/contentstack-regions/about-regions/) is: US
-enum Region { us, eu, azure_na }
+enum Region { us, eu, azure_na, gcp_na }
 
 /// A stack is like a container that holds the content of your app.
 /// Learn more about [Stacks](https://www.contentstack.com/docs/developers/set-up-stack/about-stack/).
@@ -79,6 +79,9 @@ class Stack {
       if (host == 'cdn.contentstack.io') {
         _host = 'azure-na.contentstack.com';
       }
+    }
+    if (region == Region.gcp_na) {
+      _host = 'gcp-na-cdn.contentstack.com';
     }
 
     if (_apiKey.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
