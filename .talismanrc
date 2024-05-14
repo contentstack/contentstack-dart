@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: pubspec.lock
+  checksum: d37af197ed50d9896ef5e9e6c4ad4961c11c2c49765e7cb4f4b69695fa562aa5
+version: ""
