@@ -81,7 +81,7 @@ class EntryQueryable {
   /// includeEmbeddedItems instance of Entry
   /// Include Embedded Objects (Entries and Assets) along with entry/entries details
   ///
-  /// [Example for Entry class]
+  /// Example:
   /// ```
   /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
@@ -93,8 +93,8 @@ class EntryQueryable {
   }
 
   ///
-  /// Includes branch in the response
-  /// [Example for Entry class]
+  /// Includes branch in the Entry response
+  /// Example:
   /// ```
   /// final stack = contentstack.Stack('apiKey','deliveryToken','environment');
   /// final entry = stack.contentType("contentTypeUid").entry("entryUid");
@@ -205,7 +205,6 @@ class EntryQueryable {
         });
       } else {
         parameter['include[]'] = referenceFieldUid;
-        print('We are in multiple references');
       }
     }
   }

@@ -56,13 +56,20 @@ class HttpClient extends http.BaseClient {
       } else if (T == SyncResult && bodyJson.containsKey('items')) {
         return fromJson<T, K>(bodyJson);
       } else {
+        if (bodyJson.containsKey('entries')) {
+          var previewResponse = stack.livePreview['entries'];
+          if (previewResponse != null) {
+            return fromJson<T, K>(mergeLivePreview(bodyJson, previewResponse));
+          }
+        }
         return fromJson<T, K>(bodyJson);
       }
     } else {
-      // Response code other than 200
       return bodyJson;
     }
   }
+
+  mergeLivePreview(Map bodyJson, Map previewResponse) {}
 
   /// Generic objects as well as List of generic objects
   /// (from a JSON list response).

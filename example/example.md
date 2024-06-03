@@ -1,4 +1,3 @@
-
 # Contentstack Examples
 
 ## Developer's Guide
@@ -50,7 +49,10 @@ flutter pub get
 
 Now in your dart or flutter code, you can use
 
+    ```
+
     import 'package:contentstack/contentstack.dart' as contentstack;
+    ```
 
 ### Initialize SDK
 
@@ -61,7 +63,7 @@ import 'package:contentstack/contentstack.dart' as contentstack;
 final stack = contentstack.Stack("apiKey", "deliveryToken", "environment");
 ```
 
-## Initialize  by configuration
+## Initialize by configuration
 
 ```dart
 import 'package:contentstack/contentstack.dart' as contentstack;
@@ -169,3 +171,4 @@ await assetQuery.find<List<AssetModel>, Null>().then((response) {
   }).catchError((error) {
     print(error.message.toString());
   });
+```

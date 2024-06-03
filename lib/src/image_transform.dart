@@ -120,34 +120,34 @@ class ImageTransformation {
   /// the canvas area or offset the canvas on its X and Y axis.
   ///
   /// [canvasValue] could be in the type of string,
-  /// It could be in the format of dimension: [700,800]
-  /// ratio: 2:3 , sub-region: [700,800,x0.50,y0.60],
-  /// or offset :[ 700,800,offset-x0.65,offset-y0.80]
+  /// It could be in the format of dimension: '700','800'
+  /// ratio: 2:3 , sub-region: '700','800','x0.50','y0.60',
+  /// or offset : '700','800','offset-x0.65','offset-y0.80'
   /// For more details, Read documentation:
   /// https://www.contentstack.com/docs/developers/apis/image-delivery-api/#canvas
   ///
   /// Example:  Canvas by width & Height:
   ///
   /// ```dart
-  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response =  imageTransformation.canvas('700,800');
+  /// final response =  imageTransformation.canvas('700','800');
   /// ```
   ///
   /// Example:  Canvas by ratio:
   ///
   /// ```dart
-  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
-  /// final imageTransformation = stack.imageTransform(imageUrl);
+  /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
+  /// final imageTransformation = stack.imageTransform('imageUrl');
   /// final response =  imageTransformation.canvas('2:3');
   /// ```
   ///
   /// Example:  Canvas  Sub-region:
   ///
   /// ```dart
-  /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
+  /// final stack = contentstack.Stack('apiKey', 'deliveryToken', 'environment');
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response =  imageTransformation.canvas('700,800,x0.50,y0.60');
+  /// final response =  imageTransformation.canvas('700','800','x0.50','y0.60');
   /// ```
   ///
   /// Example:  Canvas and offset:
@@ -155,8 +155,7 @@ class ImageTransformation {
   /// ```dart
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// final imageTransformation = stack.imageTransform(imageUrl);
-  /// final response =  imageTransformation.
-  ///                   canvas('700,800,offset-x0.65,offset-y0.80');
+  /// final response =  imageTransformation.canvas('700','800','offset-x0.65','offset-y0.80');
   /// ```
   ///
   void canvas(String canvasValue) {

@@ -6,7 +6,6 @@ import 'package:test/test.dart';
 void main() {
   final logger = Logger(printer: PrettyPrinter());
 
-
   load();
   final apiKey = env['apiKey'];
   final host = env['host'];

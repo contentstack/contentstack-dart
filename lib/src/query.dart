@@ -137,9 +137,9 @@ class Query extends BaseQuery {
   /// includeEmbeddedItems instance of Query
   /// Include Embedded Objects (Entries and Assets) along with entry/entries details
   ///
-  /// [Example for Entry class]
+  /// Example:
   /// ```
-  /// final stack = contentstack.Stack('apiKey, 'deliveryKey, 'environment);
+  /// final stack = contentstack.Stack('apiKey', 'deliveryKey', 'environment');
   /// final query = stack.contentType('contentTypeUid').entry().query();
   /// query = query.includeEmbeddedItems()
   /// ```

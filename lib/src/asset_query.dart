@@ -134,7 +134,6 @@ class AssetQuery extends BaseQuery {
     queryParameter['version'] = version.toString();
   }
 
-
   ///
   /// Includes branch in the response
   ///

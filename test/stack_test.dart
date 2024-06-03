@@ -15,13 +15,8 @@ void main() {
   final environment = env['environment'];
   final branch = 'development';
   logger.i('credentials loaded..');
-  final Stack stack = Stack(
-    apiKey,
-    deliveryToken,
-    environment,
-    host: host,
-    branch: branch
-  );
+  final Stack stack =
+      Stack(apiKey, deliveryToken, environment, host: host, branch: branch);
 
   group('functional testcases for stack', () {
     test('check stack credentials', () {
@@ -31,7 +26,6 @@ void main() {
       expect(stack.host, host);
       expect(stack.branch, branch);
     });
-
 
     test('Stack initialization with Host', () {
       final stack = contentstack.Stack('apiKey', 'accessToken', 'environment',
@@ -117,7 +111,7 @@ void main() {
     test('testcases content type fetch uid', () async {
       final contentType = stack.contentType('application_theme');
       await contentType.fetch().then((response) {
-        expect(response['error_code']!=null, true);
+        expect(response['error_code'] != null, true);
       });
     });
 
@@ -138,11 +132,10 @@ void main() {
       await contentType.fetch(params).then((response) {
         expect(15, response['content_type']['schema'].length);
       }).catchError((error) {
-        expect(error!=null, true);
+        expect(error != null, true);
       });
     });
   });
-
 
   group('testcase for URLQueryParams', () {
     test('test query_params', () {
@@ -158,6 +151,21 @@ void main() {
         ..remove('key');
       final url = params.toUrl('cdn.contentstack.io');
       expect('cdn.contentstack.io?key1=value1', url);
+    });
+
+    test('global fields without params', () {
+      var response = stack.globalField();
+      print(response);
+    });
+
+    test('Global fields with parameters', () {
+      var response = stack.globalField('sso', false);
+      print(response);
+    });
+
+    test('Global fields with parameters', () {
+      var response = stack.globalField('sso', true);
+      print(response);
     });
   });
 }

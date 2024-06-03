@@ -1,16 +1,18 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:contentstack/client.dart';
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/asset_query.dart';
 import 'package:contentstack/src/sync/publishtype.dart';
+import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 /// Choosing a Region
 /// A Contentstack region refers to the location of the data centers
 /// where your organization's data resides
 /// * Default [Region](https://www.contentstack.com/docs/developers/contentstack-regions/about-regions/) is: US
-enum Region { us, eu, azure_na }
+enum Region { us, eu, azure_na, gcp_na }
 
 /// A stack is like a container that holds the content of your app.
 /// Learn more about [Stacks](https://www.contentstack.com/docs/developers/set-up-stack/about-stack/).
@@ -77,6 +79,9 @@ class Stack {
       if (host == 'cdn.contentstack.io') {
         _host = 'azure-na.contentstack.com';
       }
+    }
+    if (region == Region.gcp_na) {
+      _host = 'gcp-na-cdn.contentstack.com';
     }
 
     if (_apiKey.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
@@ -234,7 +239,7 @@ class Stack {
   /// Fetches all Content Types from the Stack.
   /// This call returns comprehensive information
   /// of all the content types available in a particular stack in your account.
-  /// API Reference: https://www.contentstack.com/docs/apis/content-delivery-api/#content-types
+  /// API Reference: https://www.contentstack.com/docs/developers/apis/content-delivery-api/#content-types
   /// [queryParameters] is query parameters for the content_types of type [Map]
   /// returns list of content_types
   ///
@@ -432,18 +437,70 @@ class Stack {
     if (livePreview.containsKey('enable')) {
       final bool enable = livePreview['enable'] as bool;
       if (enable) {
-        if (livePreviewQuery.containsKey('live_preview') &&
-            livePreviewQuery['live_preview'] != null) {
-          livePreview['live_preview'] = livePreviewQuery['live_preview'];
-        } else {
-          livePreview['live_preview'] = 'init';
-        }
         if (livePreviewQuery.containsKey('content_type_uid') &&
             livePreviewQuery['content_type_uid'] != null) {
-          livePreview['content_type_uid'] =
-              livePreviewQuery['content_type_uid'];
+          var content_type_uid = livePreviewQuery['content_type_uid'];
+          var _entry_uid = livePreviewQuery['entry_uid'];
+          var _host = livePreviewQuery['host'];
+          _executeAPI(content_type_uid, _entry_uid, _host);
         }
       }
     }
+  }
+
+  Future _executeAPI(content_type_uid, entry_uid, host) async {
+    var _url =
+        "https://$host}/${this.apiVersion}/content_types/$content_type_uid/entries/$entry_uid";
+    var _headers = {
+      'authorization': headers['authorization'],
+      'api_key': headers['api_key'],
+    };
+
+    await http.get(Uri.parse(_url), headers: _headers).then((response) {
+      Map bodyJson = json.decode(utf8.decode(response.bodyBytes));
+      print(bodyJson);
+      livePreview["entry"] = bodyJson['entry'];
+    });
+  }
+
+  ///
+  ///
+  /// All Global Fields
+  ///
+  /// All global fields
+  ///   This call returns comprehensive information of all the global fields
+  /// savailable in a particular stack in your account.
+  ///
+  ///  ```
+  /// var response = stack.globalField();
+  /// ```
+
+  /// Single Global Field
+  /// Get a single global field
+  ///
+  /// This request allows you to fetch comprehensive details of a specific
+  /// global field.When executing the API call, in the 'URI Parameters' section,
+  /// provide the unique ID of your global field.
+  /// ```
+  /// var response = stack.globalField('sso');
+  /// ```
+  /// include_branch (optional)
+  /// ```
+  /// var response = stack.globalField('sso', true);
+  /// ```
+
+  Future<T> globalField<T, K>(
+      [String globalFieldUid, bool includeBranch = false]) {
+    final parameters = <String, String>{};
+    parameters['environment'] = _client.stackHeaders['environment'];
+    if (includeBranch) {
+      parameters['include_branch'] = true.toString();
+    }
+    Uri uri = Uri.https(endpoint, '$apiVersion/global_fields', parameters);
+    if (globalFieldUid != null && globalFieldUid.isNotEmpty) {
+      uri = Uri.https(
+          endpoint, '$apiVersion/global_fields/$globalFieldUid', parameters);
+    }
+    return _client.sendRequest<T, K>(uri);
   }
 }
