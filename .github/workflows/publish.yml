@@ -9,6 +9,8 @@ on:
 # Publish using the reusable workflow from dart-lang.
 jobs:
   publish:
+    permissions:
+      id-token: write # Required for authentication using OIDC
     name: 'Publish to pub.dev'
     environment: 'pub.dev'
     runs-on: ubuntu-latest
