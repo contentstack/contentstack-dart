@@ -611,15 +611,20 @@ class ImageTransformation {
       query.append('height', height.toString());
     }
     if (filter != null) {
-      filter.when(nearest: (filterType) {
-        query.append('resize-filter', 'nearest');
-      }, bilinear: (filterType) {
-        query.append('resize-filter', 'bilinear');
-      }, bicubic: (filterType) {
-        query.append('resize-filter', 'bicubic');
-      }, lanczos: (filterType) {
-        query.append('resize-filter', 'lanczos3');
-      });
+      switch(filter) {
+        case Filter.Nearest: 
+          query.append('resize-filter', 'nearest');
+          break;
+        case Filter.Bilinear: 
+          query.append('resize-filter', 'bilinear');
+          break;
+        case Filter.Bicubic: 
+          query.append('resize-filter', 'bicubic');
+          break;
+        case Filter.Lanczos: 
+          query.append('resize-filter', 'lanczos3');
+          break;
+      }
     }
   }
 

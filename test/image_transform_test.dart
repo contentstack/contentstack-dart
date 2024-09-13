@@ -359,7 +359,7 @@ void main() {
 
     test('resize-filter  type nearest in ImageTransformation', () {
       final response = imageTransformation
-        ..resizeFilter(width: 20, height: 40, filter: Filter.nearest())
+        ..resizeFilter(width: 20, height: 40, filter: Filter.Nearest)
         ..getUrl();
       expect('width=20&height=40&resize-filter=nearest',
           response.query.toString());
@@ -367,7 +367,7 @@ void main() {
 
     test('resize-filter  type Filter.bicubic in ImageTransformation', () {
       final response = imageTransformation
-        ..resizeFilter(width: 20, height: 40, filter: Filter.bicubic())
+        ..resizeFilter(width: 20, height: 40, filter: Filter.Bicubic)
         ..getUrl();
       expect('width=20&height=40&resize-filter=bicubic',
           response.query.toString());
@@ -375,7 +375,7 @@ void main() {
 
     test('resize-filter type Filter.bilinear  in ImageTransformation', () {
       final response = imageTransformation
-        ..resizeFilter(width: 20, height: 40, filter: Filter.bilinear())
+        ..resizeFilter(width: 20, height: 40, filter: Filter.Bilinear)
         ..getUrl();
       expect('width=20&height=40&resize-filter=bilinear',
           response.query.toString());
@@ -383,7 +383,7 @@ void main() {
 
     test('resize-filter  type lanczos in ImageTransformation', () {
       final response = imageTransformation
-        ..resizeFilter(width: 20, height: 40, filter: Filter.lanczos())
+        ..resizeFilter(width: 20, height: 40, filter: Filter.Lanczos)
         ..getUrl();
       expect('width=20&height=40&resize-filter=lanczos3',
           response.query.toString());
