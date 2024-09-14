@@ -203,21 +203,30 @@ class ImageTransformation {
   /// final response = await imageTransformation.convert(Format.pjpg).fetch();
   /// ```
   void convert(Format format) {
-    format.when(gif: (formatResult) {
-      query.append('format', 'gif');
-    }, png: (formatResult) {
-      query.append('format', 'png');
-    }, jpg: (formatResult) {
-      query.append('format', 'jpg');
-    }, pjpg: (formatResult) {
-      query.append('format', 'pjpg');
-    }, webp: (formatResult) {
-      query.append('format', 'webp');
-    }, webplossy: (formatResult) {
-      query.append('format', 'webply');
-    }, webplossless: (formatResult) {
-      query.append('format', 'webpll');
-    });
+
+    switch(format) {
+      case Format.Gif:
+        query.append('format', 'gif');
+        break;
+      case Format.Png:
+        query.append('format', 'png');
+        break;
+      case Format.Jpg:
+        query.append('format', 'jpg');
+        break;
+      case Format.Pjpg:
+        query.append('format', 'pjpg');
+        break;
+      case Format.Webp:
+        query.append('format', 'webp');
+        break;
+      case Format.Webplossy:
+        query.append('format', 'webply');
+        break;
+      case Format.Webplossless:
+        query.append('format', 'webpll');
+        break;
+    }
   }
 
   void crop(String cropValue) {
@@ -358,11 +367,15 @@ class ImageTransformation {
     }
     if (fit != null) {
       //enum Fit { bounds, crop }
-      fit.when(bounds: (value) {
-        query.append('fit', 'bounds');
-      }, crop: (value) {
-        query.append('fit', 'crop');
-      });
+
+      switch(fit) {
+        case Fit.Bounds:
+          query.append('fit', 'bounds');
+          break;
+        case Fit.Crop:
+          query.append('fit', 'crop');
+          break;
+      }
     }
   }
 
@@ -417,23 +430,32 @@ class ImageTransformation {
     //  horizontallyAndRotate90DegreesRight = '7';
     //  rotate90DegreesLeft = '8';
     if (orient != null) {
-      orient.when(toDefault: (orientation) {
-        query.append('orient', 1);
-      }, horizontally: (orientation) {
-        query.append('orient', 2);
-      }, horizontallyAndVertically: (orientation) {
-        query.append('orient', 3);
-      }, vertically: (orientation) {
-        query.append('orient', 4);
-      }, horizontallyAndRotate90DegreeLeft: (orientation) {
-        query.append('orient', 5);
-      }, degrees90TowardsRight: (orientation) {
-        query.append('orient', 6);
-      }, horizontallyAndRotate90DegreesRight: (orientation) {
-        query.append('orient', 7);
-      }, rotate90DegreesLeft: (orientation) {
-        query.append('orient', 8);
-      });
+      switch(orient) {
+        case Orientation.ToDefault:
+          query.append('orient', 1);
+          break;
+        case Orientation.Horizontally:
+          query.append('orient', 2);
+          break;
+        case Orientation.HorizontallyAndVertically:
+          query.append('orient', 3);
+          break;
+        case Orientation.Vertically:
+          query.append('orient', 4);
+          break;
+        case Orientation.HorizontallyAndRotate90DegreeLeft:
+          query.append('orient', 5);
+          break;
+        case Orientation.Degrees90TowardsRight:
+          query.append('orient', 6);
+          break;
+        case Orientation.HorizontallyAndRotate90DegreesRight:
+          query.append('orient', 7);
+          break;
+        case Orientation.Rotate90DegreesLeft:
+          query.append('orient', 8);
+          break;
+      }
     }
   }
 
