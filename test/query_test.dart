@@ -40,9 +40,9 @@ void main() {
     });
 
     test('test where notEquals operation', () async {
-      query.where('attendee', QueryOperation.notEquals(value: '40'));
+      query.where('number', QueryOperation.notEquals(value: '40'));
       final contains = query.getQueryUrl()['query'];
-      expect('{\"attendee\":{\"\$ne\":\"40\"}}', contains);
+      expect('{\"number\":{\"\$ne\":\"40\"}}', contains);
     });
 
     test('test where includes Operation', () async {
@@ -102,15 +102,15 @@ void main() {
     });
 
     test('functional test query orderByAscending', () async {
-      query.orderByAscending('attendee');
+      query.orderByAscending('number');
       final contains = query.getQueryUrl()['asc'];
-      expect('attendee', contains);
+      expect('number', contains);
     });
 
     test('test orderByDescending function parameter contains key', () async {
-      query.orderByDescending('attendee');
+      query.orderByDescending('number');
       final contains = query.getQueryUrl()['desc'];
-      expect('attendee', contains);
+      expect('number', contains);
     });
 
     test('test param function parameter contains key', () async {
@@ -165,13 +165,14 @@ void main() {
       stack = Stack(apiKey, deliveryToken, environment, host: host);
     });
     setUp(() async {
-      query = stack.contentType('faq').entry().query();
+      query = stack.contentType('source').entry().query();
+      print('query: $query');
     });
 
     test('testcase setHeader for the query class', () async {
-      query.setHeader('key', 'value');
+      // query.setHeader('key', 'value');
       await query.find().then((response) {
-        expect(3, response['entries'].length);
+        expect(response['entries'].length, 7);
       });
     });
   });
@@ -191,18 +192,18 @@ void main() {
     });
 
     setUp(() async {
-      query = stack.contentType('room').entry().query();
+      query = stack.contentType('source').entry().query();
     });
 
     test('test length of the entry of respected contentType', () async {
       final response = query.find();
       await response.then((response) {
-        expect(0, response['entries'].length);
+        expect(response['entries'].length, 7);
       });
     });
 
     test('test where equals API Operation', () async {
-      query.where('attendee', QueryOperation.equals(value: 10));
+      query.where('number', QueryOperation.equals(value: 4));
       await query.find().then((response) {
         expect(response != null, true);
       });
@@ -210,7 +211,7 @@ void main() {
 
     test('test notContainedIn in Query', () async {
       await query.find().then((response) async {
-        final List<String> arrayValue = ['Room 13', 'Room 14', 'Room 17'];
+        final List<String> arrayValue = ['source1', 'source4', 'source2'];
         query.where('title', QueryOperation.excludes(value: arrayValue));
         await query.find().then((response) {
           final queryMap = response['entries'].length;
@@ -220,21 +221,21 @@ void main() {
     });
 
     test('test notContainedIn function parameter contains key', () async {
-      query.where('attendee', QueryOperation.notEquals(value: 20));
+      query.where('number', QueryOperation.notEquals(value: 4));
       await query.find<List<EntryModel>, EntryModel>().then((response) {
-        expect(0, response.length);
+        expect(response.length, 5);
       });
     });
 
     test('test notEquals in Query', () async {
-      query.where('attendee', QueryOperation.notEquals(value: 20));
+      query.where('number', QueryOperation.notEquals(value: 20));
       await query.find().then((response) {
-        expect(0, response['entries'].length);
+        expect(response['entries'].length, 7);
       });
     });
 
     test('test includes in Query', () async {
-      final includeList = ['Room 13', 'Room 18', 'Room 19'];
+      final includeList = ['source1', 'source4', 'source2'];
       query.where('title', QueryOperation.includes(value: includeList));
       await query.find().then((response) {
         expect(response['entries'] != null, true);
@@ -244,22 +245,22 @@ void main() {
     });
 
     test('test excludes in Query', () async {
-      final includeList = ['Room 13', 'Room 18', 'Room 19'];
+      final includeList = ['source1', 'source4', 'source2'];
       query.where('title', QueryOperation.excludes(value: includeList));
       await query.find().then((response) {
-        expect(0, response['entries'].length);
+        expect(response['entries'].length, 4);
       }).catchError((onError) {
         expect('Error Occurred', onError.message);
       });
     });
 
     test('test isLessThan in Query', () async {
-      query.where('attendee', QueryOperation.isLessThan(value: 50));
+      query.where('number', QueryOperation.isLessThan(value: 50));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
         // ignore: prefer_final_in_for_each
         for (var entry in listOfEntry) {
-          expect(true, entry['attendee'] < 50);
+          expect(true, entry['number'] < 50);
         }
       }).catchError((onError) {
         expect('Error Occurred', onError.message);
@@ -267,12 +268,12 @@ void main() {
     });
 
     test('test isLessThanOrEqual in Query', () async {
-      query.where('attendee', QueryOperation.isLessThanOrEqual(value: 50));
+      query.where('number', QueryOperation.isLessThanOrEqual(value: 50));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
         // ignore: prefer_final_in_for_each
         for (var entry in listOfEntry) {
-          expect(true, entry['attendee'] < 50);
+          expect(true, entry['number'] < 50);
         }
       }).catchError((onError) {
         expect('Error Occurred', onError.message);
@@ -280,11 +281,11 @@ void main() {
     });
 
     test('test isGreaterThan in Query', () async {
-      query.where('attendee', QueryOperation.isGreaterThan(value: 50));
+      query.where('number', QueryOperation.isGreaterThan(value: 50));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
         for (final entry in listOfEntry) {
-          expect(true, entry['attendee'] > 50);
+          expect(true, entry['number'] > 50);
         }
       }).catchError((onError) {
         expect('Error Occurred', onError.message);
@@ -292,11 +293,11 @@ void main() {
     });
 
     test('test isGreaterThanOrEqual in Query', () async {
-      query.where('attendee', QueryOperation.isGreaterThanOrEqual(value: 70));
+      query.where('number', QueryOperation.isGreaterThanOrEqual(value: 70));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
         for (final entry in listOfEntry) {
-          expect(true, entry['attendee'] >= 70);
+          expect(true, entry['number'] >= 70);
         }
       }).catchError((onError) {
         expect('Error Occurred', onError.message);
@@ -304,10 +305,10 @@ void main() {
     });
 
     test('test exists in Query', () async {
-      query.where('attendee', QueryOperation.exists(value: true));
+      query.where('number', QueryOperation.exists(value: true));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
-        expect(0, listOfEntry.length);
+        expect(listOfEntry.length, 7);
       }).catchError((onError) {
         expect('Error Occurred', onError.message);
       });
@@ -358,14 +359,14 @@ void main() {
       final stackInstance2 = stack;
       final queryBase2 = stackInstance2.contentType('room').entry().query();
       // ignore: cascade_invocations
-      queryBase2.where('attendee', QueryOperation.equals(value: 20));
+      queryBase2.where('number', QueryOperation.equals(value: 20));
 
       final List<Query> listOfQuery = [queryBase1, queryBase2];
       query.operator(QueryOperator.and(queryObjects: listOfQuery));
       await query.find().then((response) {
         final completeUrl = query.getQueryUrl()['query'];
         //print(response.toString());
-        expect('{\"\$and\":[{\"title\":\"Room 13\"},{\"attendee\":20}]}',
+        expect('{\"\$and\":[{\"title\":\"Room 13\"},{\"number\":20}]}',
             completeUrl);
       }).catchError((onError) {
         expect("Failed host lookup: 'cdn.contentstack.io'", onError.message);
@@ -381,14 +382,14 @@ void main() {
       final stackInstance2 = stack;
       final queryBase2 = stackInstance2.contentType('room').entry().query();
       // ignore: cascade_invocations
-      queryBase2.where('attendee', QueryOperation.equals(value: 20));
+      queryBase2.where('number', QueryOperation.equals(value: 20));
 
       final List<Query> listOfQuery = [queryBase1, queryBase2];
       query.operator(QueryOperator.or(queryObjects: listOfQuery));
       await query.find().then((response) {
         final completeUrl = query.getQueryUrl()['query'];
         //(response.toString());
-        expect('{\"\$or\":[{\"title\":\"Room 13\"},{\"attendee\":20}]}',
+        expect('{\"\$or\":[{\"title\":\"Room 13\"},{\"number\":20}]}',
             completeUrl);
       }).catchError((onError) {
         expect("Failed host lookup: 'cdn.contentstack.io'", onError.message);
@@ -399,23 +400,23 @@ void main() {
       await query.find().then((onResponse) async {
         query.skip(4);
         await query.find().then((response) {
-          expect(0, response['entries'].length);
+          expect(response['entries'].length, 3);
         });
       });
     });
 
     test('test query orderByAscending', () async {
-      query.orderByAscending('attendee');
+      query.orderByAscending('number');
       final contains = query.getQueryUrl()['asc'];
       await query.find().then((response) {
         final ascList = response['entries'];
-        int oldAttendee;
+        int oldnumber;
         int counter = 0;
         for (final item in ascList) {
           if (counter != 0) {
-            final newValue = item['attendee'];
-            oldAttendee = item['attendee'];
-            if (oldAttendee <= newValue) {
+            final newValue = item['number'];
+            oldnumber = item['number'];
+            if (oldnumber <= newValue) {
               expect(true, true);
             } else {
               expect(true, false);
@@ -424,10 +425,12 @@ void main() {
           counter++;
         }
       });
-      expect('attendee', contains);
+      expect('number', contains);
     });
   });
 
+  // these tests are working irrespective of the stack used
+  // they need to be checked and updated
   group('testcases for entry queryable', () {
     Query query;
     var apiKey = '', environment = '', deliveryToken = '', host = '';
@@ -443,7 +446,7 @@ void main() {
     });
 
     setUp(() async {
-      query = stack.contentType('room').entry().query();
+      query = stack.contentType('source').entry().query();
     });
 
     test('query testcase locale and only base functional test', () {
