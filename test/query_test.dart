@@ -166,7 +166,6 @@ void main() {
     });
     setUp(() async {
       query = stack.contentType('source').entry().query();
-      print('query: $query');
     });
 
     test('testcase setHeader for the query class', () async {

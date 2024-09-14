@@ -54,49 +54,49 @@ void main() {
 
     test('convert to gif in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.gif())
+        ..convert(Format.Gif)
         ..getUrl();
       expect('format=gif', response.query.toString());
     });
 
     test('convert to png in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.png())
+        ..convert(Format.Png)
         ..getUrl();
       expect('format=png', response.query.toString());
     });
 
     test('convert to jpeg in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.pjpg())
+        ..convert(Format.Pjpg)
         ..getUrl();
       expect('format=pjpg', response.query.toString());
     });
 
     test('convert to jpeg in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.jpg())
+        ..convert(Format.Jpg)
         ..getUrl();
       expect('format=jpg', response.query.toString());
     });
 
     test('convert to jpeg in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.webp())
+        ..convert(Format.Webp)
         ..getUrl();
       expect('format=webp', response.query.toString());
     });
 
     test('convert to jpeg in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.webplossy())
+        ..convert(Format.Webplossy)
         ..getUrl();
       expect('format=webply', response.query.toString());
     });
 
     test('convert to jpeg in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.webplossless())
+        ..convert(Format.Webplossless)
         ..getUrl();
       expect('format=webpll', response.query.toString());
     });
@@ -166,14 +166,14 @@ void main() {
 
     test('Fit To Bound  in ImageTransformation', () {
       final response = imageTransformation
-        ..fit(0.50, 0.50, Fit.bounds())
+        ..fit(0.50, 0.50, Fit.Bounds)
         ..getUrl();
       expect('width=0.5&height=0.5&fit=bounds', response.query.toString());
     });
 
     test('Fit By Cropping  in ImageTransformation', () {
       final response = imageTransformation
-        ..fit(0.50, 0.50, Fit.crop())
+        ..fit(0.50, 0.50, Fit.Crop)
         ..getUrl();
       expect('width=0.5&height=0.5&fit=crop', response.query.toString());
     });
@@ -208,14 +208,14 @@ void main() {
 
     test('orientation vertical in ImageTransformation check params', () {
       final response = imageTransformation
-        ..orientation(Orientation.vertically())
+        ..orientation(Orientation.Vertically)
         ..getUrl();
       expect('orient=4', response.query.toString());
     });
 
     test('orientation horizontal in ImageTransformation check params', () {
       final response = imageTransformation
-        ..orientation(Orientation.horizontally())
+        ..orientation(Orientation.Horizontally)
         ..getUrl();
       expect('orient=2', response.query.toString());
     });
@@ -224,35 +224,35 @@ void main() {
         'orientation degrees90TowardsRight in ImageTransformation check params',
         () {
       final response = imageTransformation
-        ..orientation(Orientation.degrees90TowardsRight())
+        ..orientation(Orientation.Degrees90TowardsRight)
         ..getUrl();
       expect('orient=6', response.query.toString());
     });
 
     test('orientation horizontallyAndRotate90DegreeLeft', () {
       final response = imageTransformation
-        ..orientation(Orientation.horizontallyAndRotate90DegreeLeft())
+        ..orientation(Orientation.HorizontallyAndRotate90DegreeLeft)
         ..getUrl();
       expect('orient=5', response.query.toString());
     });
 
     test('orientation horizontallyAndRotate90DegreesRight', () {
       final response = imageTransformation
-        ..orientation(Orientation.horizontallyAndRotate90DegreesRight())
+        ..orientation(Orientation.HorizontallyAndRotate90DegreesRight)
         ..getUrl();
       expect('orient=7', response.query.toString());
     });
 
     test('orientation horizontallyAndVertically', () {
       final response = imageTransformation
-        ..orientation(Orientation.horizontallyAndVertically())
+        ..orientation(Orientation.HorizontallyAndVertically)
         ..getUrl();
       expect('orient=3', response.query.toString());
     });
 
     test('orientation toDefault in ImageTransformation check params', () {
       final response = imageTransformation
-        ..orientation(Orientation.toDefault())
+        ..orientation(Orientation.ToDefault)
         ..getUrl();
       expect('orient=1', response.query.toString());
     });
@@ -260,7 +260,7 @@ void main() {
     test('orientation rotate90DegreesLeft in ImageTransformation check params',
         () {
       final response = imageTransformation
-        ..orientation(Orientation.rotate90DegreesLeft())
+        ..orientation(Orientation.Rotate90DegreesLeft)
         ..getUrl();
       expect('orient=8', response.query.toString());
     });
@@ -419,7 +419,7 @@ void main() {
     });
 
     test('canvas by Offset in ImageTransformation API Request', () async {
-      imageTransformation.fit(200, 100, Fit.crop());
+      imageTransformation..fit(200, 100, Fit.Crop);
       await imageTransformation.fetch().then((response) {
         if (response['error_code'] == 200) {
           expect('80', response.query.toString());
