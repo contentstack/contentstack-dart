@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'include.dart';
+part of 'include_type.dart';
 
 // **************************************************************************
 // SuperEnumGenerator

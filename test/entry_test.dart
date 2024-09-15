@@ -1,5 +1,5 @@
 import 'package:contentstack/contentstack.dart';
-import 'package:contentstack/src/enums/include.dart';
+import 'package:contentstack/src/enums/include_type.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
 import 'package:logger/logger.dart';
 import 'package:test/test.dart';

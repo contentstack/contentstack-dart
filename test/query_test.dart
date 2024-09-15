@@ -1,5 +1,6 @@
 import 'package:contentstack/contentstack.dart';
-import 'package:contentstack/src/enums/include.dart' as include;
+import 'package:contentstack/src/enums/include.dart';
+import 'package:contentstack/src/enums/include_type.dart';
 import 'package:contentstack/src/enums/operations.dart';
 import 'package:contentstack/src/enums/operator.dart';
 import 'package:contentstack/src/enums/reference.dart';
@@ -481,7 +482,7 @@ void main() {
         ..except(['field1', 'field2', 'field3', 'field4'])
         ..includeReference('referenceFieldUid',
             includeReferenceField:
-                include.Include.none(fieldUidList: uiFieldList))
+                IncludeClass(IncludeType.None, uiFieldList))
         ..includeContentType()
         ..includeReferenceContentTypeUID()
         ..addParam('key', 'value');
@@ -501,7 +502,7 @@ void main() {
         ..locale('en-us')
         ..includeReference('referenceFieldUid',
             includeReferenceField:
-                include.Include.only(fieldUidList: uiFieldList));
+                IncludeClass(IncludeType.Only, uiFieldList));
       final result = query.getQueryUrl();
       expect('referenceFieldUid', result['include[]']);
       expect('{referenceFieldUid: [demo1, demo2, demo3]}', result['only']);
@@ -513,7 +514,7 @@ void main() {
         ..locale('en-us')
         ..includeReference('referenceFieldUid',
             includeReferenceField:
-                include.Include.except(fieldUidList: uiFieldList));
+                IncludeClass(IncludeType.Except, uiFieldList));
       final result = query.getQueryUrl();
       expect('referenceFieldUid', result['include[]']);
       expect('{referenceFieldUid: [demo1, demo2, demo3]}', result['except']);
