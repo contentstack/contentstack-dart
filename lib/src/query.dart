@@ -7,7 +7,9 @@ import 'package:contentstack/src/base_query.dart';
 import 'package:contentstack/src/enums/include.dart';
 import 'package:contentstack/src/enums/include_type.dart';
 import 'package:contentstack/src/enums/operator.dart';
+import 'package:contentstack/src/enums/operator_type.dart';
 import 'package:contentstack/src/enums/reference.dart';
+import 'package:contentstack/src/enums/reference_type.dart';
 
 /// Contentstack provides certain queries that you
 /// can use to fetch filtered results.
@@ -363,27 +365,30 @@ class Query extends BaseQuery {
   /// ```
   ///
   void operator(QueryOperator operator) {
-    operator.when(and: (and) {
-      final List<Query> queryList =
-          and.queryObjects; //and.queryObjects is list of Query Objects
-      if (queryList.isNotEmpty) {
-        final emptyList = [];
-        for (final item in queryList) {
-          emptyList.add(item.parameter);
+    switch(operator.operatorType) {
+      case QueryOperatorType.And:
+        final List<Query> queryList =
+          operator.queryObjects; //and.queryObjects is list of Query Objects
+        if (queryList.isNotEmpty) {
+          final emptyList = [];
+          for (final item in queryList) {
+            emptyList.add(item.parameter);
+          }
+          parameter['\$and'] = emptyList;
         }
-        parameter['\$and'] = emptyList;
-      }
-    }, or: (or) {
-      final List<Query> queryList =
-          or.queryObjects; //and.queryObjects is list of Query Objects
-      if (queryList.isNotEmpty) {
-        final emptyList = [];
-        for (final item in queryList) {
-          emptyList.add(item.parameter);
+        break;
+      case QueryOperatorType.Or:
+        final List<Query> queryList =
+          operator.queryObjects; //and.queryObjects is list of Query Objects
+        if (queryList.isNotEmpty) {
+          final emptyList = [];
+          for (final item in queryList) {
+            emptyList.add(item.parameter);
+          }
+          parameter['\$or'] = emptyList;
         }
-        parameter['\$or'] = emptyList;
-      }
-    });
+        break;
+    }
   }
 
   ///
@@ -452,13 +457,16 @@ class Query extends BaseQuery {
   ///
   void whereReference(String referenceUid, QueryReference reference) {
     if (referenceUid != null && referenceUid.isNotEmpty) {
-      reference.when(include: (queryInstance) {
-        parameter[referenceUid] = {'\$in_query': queryInstance.query.parameter};
-      }, notInclude: (queryInstance) {
-        parameter[referenceUid] = {
-          '\$nin_query': queryInstance.query.parameter
-        };
-      });
+      switch(reference.referenceType) {
+        case QueryReferenceType.Include:
+          parameter[referenceUid] = {'\$in_query': reference.query.parameter};
+          break;
+        case QueryReferenceType.NotInclude:
+          parameter[referenceUid] = {
+            '\$nin_query': reference.query.parameter
+          };
+          break;
+      }
     }
   }
 

@@ -4,7 +4,9 @@ import 'package:contentstack/src/enums/include_type.dart';
 import 'package:contentstack/src/enums/operations.dart';
 import 'package:contentstack/src/enums/operations_type.dart';
 import 'package:contentstack/src/enums/operator.dart';
+import 'package:contentstack/src/enums/operator_type.dart';
 import 'package:contentstack/src/enums/reference.dart';
+import 'package:contentstack/src/enums/reference_type.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
 import 'package:test/test.dart';
 
@@ -329,7 +331,7 @@ void main() {
       final queryBase = stack.contentType('room').entry().query();
       // ignore: cascade_invocations
       queryBase.where('title', QueryOperation(QueryOperationType.Equals, 'Room 14'));
-      query.whereReference('brand', QueryReference.include(query: queryBase));
+      query.whereReference('brand', QueryReference(QueryReferenceType.Include, queryBase));
       await query.find().then((response) {
         expect(
             'Failed to fetch entries. Please try again with valid parameters.',
@@ -344,7 +346,7 @@ void main() {
       // ignore: cascade_invocations
       queryBase.where('title', QueryOperation(QueryOperationType.Equals, 'Room 14'));
       query.whereReference(
-          'fieldUid', QueryReference.notInclude(query: queryBase));
+          'fieldUid', QueryReference(QueryReferenceType.NotInclude, queryBase));
       await query.find().then((response) {
         expect(
             'Failed to fetch entries. Please try again with valid parameters.',
@@ -363,7 +365,7 @@ void main() {
       queryBase2.where('number', QueryOperation(QueryOperationType.Equals, 20));
 
       final List<Query> listOfQuery = [queryBase1, queryBase2];
-      query.operator(QueryOperator.and(queryObjects: listOfQuery));
+      query.operator(QueryOperator(QueryOperatorType.And, listOfQuery));
       await query.find().then((response) {
         final completeUrl = query.getQueryUrl()['query'];
         //print(response.toString());
@@ -386,7 +388,7 @@ void main() {
       queryBase2.where('number', QueryOperation(QueryOperationType.Equals, 20));
 
       final List<Query> listOfQuery = [queryBase1, queryBase2];
-      query.operator(QueryOperator.or(queryObjects: listOfQuery));
+      query.operator(QueryOperator(QueryOperatorType.Or, listOfQuery));
       await query.find().then((response) {
         final completeUrl = query.getQueryUrl()['query'];
         //(response.toString());
