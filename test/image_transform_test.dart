@@ -10,15 +10,15 @@ void main() {
   //var logger = Logger(printer: PrettyPrinter());
 
   load();
-  final apiKey = env['apiKey'];
+  final apiKey = env['apiKey']!;
   final host = env['host'];
-  final deliveryToken = env['deliveryToken'];
-  final environment = env['environment'];
+  final deliveryToken = env['deliveryToken']!;
+  final environment = env['environment']!;
   final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
 
   group('ImageTransformation functional testcases', () {
     const imageUrl = 'https://images.contentstack.io/v3/assets/download';
-    ImageTransformation imageTransformation;
+    late ImageTransformation imageTransformation;
 
     setUp(() {
       imageTransformation = stack.imageTransform(imageUrl);

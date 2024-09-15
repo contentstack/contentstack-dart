@@ -9,11 +9,11 @@ void main() {
   final logger = Logger(printer: PrettyPrinter());
 
   load();
-  final apiKey = env['apiKey'];
+  final apiKey = env['apiKey']!;
   final host = env['host'];
-  final deliveryToken = env['deliveryToken'];
-  final environment = env['environment'];
-  var entryUid = '';
+  final deliveryToken = env['deliveryToken']!;
+  final environment = env['environment']!;
+  String? entryUid = '';
 
   logger.i('credentials loaded..');
 
@@ -112,8 +112,8 @@ void main() {
   /////////////////////////////////////////////////////////////////////////////
 
   group('Entry API testcases', () {
-    var _uid = '';
-    Entry entryInstance;
+    String? _uid = '';
+    late Entry entryInstance;
 
     // If this is called within a test group, callback
     // will run before all tests in that group.
@@ -150,7 +150,7 @@ void main() {
         ..locale('en-us')
         ..addParam('version', '1');
       await entryInstance.fetch<EntryModel, Null>().then((response) {
-        expect(1, response.version);
+        expect(1, response!.version);
       });
     });
 
@@ -159,7 +159,7 @@ void main() {
       const List<String> fieldUID = ['price', 'title'];
       entryInstance.only(fieldUID);
       await entryInstance.fetch<EntryModel, Null>().then((response) {
-        expect(response.uid != null, true);
+        expect(response!.uid != null, true);
       });
     });
 
@@ -174,7 +174,7 @@ void main() {
       //   expect('Error', err.title);
       // });
       await entryInstance.fetch<EntryModel, Null>().then((response) {
-        expect('MEALS', response.title);
+        expect('MEALS', response!.title);
       });
     });
 

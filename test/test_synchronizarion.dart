@@ -8,10 +8,10 @@ void main() {
   final logger = Logger(printer: PrettyPrinter());
 
   load();
-  final apiKey = env['apiKey'];
+  final apiKey = env['apiKey']!;
   final host = env['host'];
-  final deliveryToken = env['deliveryToken'];
-  final environment = env['environment'];
+  final deliveryToken = env['deliveryToken']!;
+  final environment = env['environment']!;
   final syncToken = env['syncToken'];
   final paginationToken = env['paginationToken'];
   final branch = 'development';
@@ -27,7 +27,7 @@ void main() {
     test('sync initialisation response', () async {
       final response = stack.sync<SyncResult, Null>(locale: 'en-us');
       await response.then((response) {
-        expect(123, response.totalCount);
+        expect(123, response!.totalCount);
         expect(response.syncToken, null);
       });
     });
@@ -35,14 +35,14 @@ void main() {
     test('sync token response', () async {
       final response = stack.syncToken<SyncResult, Null>(syncToken);
       await response.then((response) {
-        expect(response.syncToken, isNotNull);
+        expect(response!.syncToken, isNotNull);
       });
     });
 
     test('pagination token response', () async {
       final response = stack.paginationToken<SyncResult, Null>(paginationToken);
       await response.then((response) {
-        expect(response.syncToken, isNotEmpty);
+        expect(response!.syncToken, isNotEmpty);
       });
     });
 
@@ -52,7 +52,7 @@ void main() {
           locale: 'en-us',
           publishType: PublishType.AssetPublished);
       await response.then((response) {
-        expect(100, response.limit);
+        expect(100, response!.limit);
       });
     });
 

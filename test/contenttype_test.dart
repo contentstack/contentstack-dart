@@ -7,10 +7,10 @@ void main() {
   final logger = Logger(printer: PrettyPrinter());
 
   load();
-  final apiKey = env['apiKey'];
+  final apiKey = env['apiKey']!;
   final host = env['host'];
-  final deliveryToken = env['deliveryToken'];
-  final environment = env['environment'];
+  final deliveryToken = env['deliveryToken']!;
+  final environment = env['environment']!;
   final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
   final ContentType contentType = stack.contentType('application_theme');
   logger.i('credentials loaded..');

@@ -9,10 +9,10 @@ void main() {
   final logger = Logger(printer: PrettyPrinter());
 
   load();
-  final apiKey = env['apiKey'];
+  final apiKey = env['apiKey']!;
   final host = env['host'];
-  final deliveryToken = env['deliveryToken'];
-  final environment = env['environment'];
+  final deliveryToken = env['deliveryToken']!;
+  final environment = env['environment']!;
   final branch = 'development';
   logger.i('credentials loaded..');
   final Stack stack =

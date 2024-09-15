@@ -17,16 +17,16 @@ enum Region { us, eu, azure_na, gcp_na }
 /// A stack is like a container that holds the content of your app.
 /// Learn more about [Stacks](https://www.contentstack.com/docs/developers/set-up-stack/about-stack/).
 class Stack {
-  Map<String, String> headers = <String, String>{};
+  Map<String, String?> headers = <String, String?>{};
   final String _apiKey;
   final String _deliveryToken;
   final String _environment;
-  String _host;
-  final String branch;
+  String? _host;
+  final String? branch;
   final Region region;
   final String apiVersion;
-  Map<String, dynamic> livePreview;
-  HttpClient _client;
+  Map<String, dynamic>? livePreview;
+  HttpClient? _client;
 
   ///
   /// Create a new Stack instance with stack's apikey, token,
@@ -66,8 +66,8 @@ class Stack {
     this.apiVersion = 'v3',
     this.region = Region.us,
     this.branch,
-    String host = 'cdn.contentstack.io',
-    BaseClient client,
+    String? host = 'cdn.contentstack.io',
+    BaseClient? client,
     this.livePreview,
   }) : _host = (region == Region.us)
             ? host
@@ -100,10 +100,10 @@ class Stack {
       'environment': _environment,
     };
 
-    if (branch != null && branch.isNotEmpty) {
+    if (branch != null && branch!.isNotEmpty) {
       headers['branch'] = branch;
     }
-    if (livePreview != null && livePreview.isNotEmpty) {
+    if (livePreview != null && livePreview!.isNotEmpty) {
       __validateLivePreview();
     }
     _client = HttpClient(headers, client: client, stack: this);
@@ -136,7 +136,7 @@ class Stack {
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// var environment = stack.environment;
   /// ```
-  String get endpoint => host;
+  String? get endpoint => host;
 
   /// It returns delivery token of the Environment
   ///
@@ -156,7 +156,7 @@ class Stack {
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// var environment = stack.environment;
   /// ```
-  String get host => _host;
+  String? get host => _host;
 
   /// It returns livePreview variables
   ///
@@ -166,18 +166,18 @@ class Stack {
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// var environment = stack.livePreview;
   /// ```
-  Map get getLivePreview => livePreview;
+  Map? get getLivePreview => livePreview;
 
   ///
   /// Validates the livePreview
   ///
   void __validateLivePreview() {
-    if (livePreview.containsKey('enable')) {
-      if (!livePreview.containsKey('authorization') ||
-          livePreview['authorization'].toString().isEmpty) {
+    if (livePreview!.containsKey('enable')) {
+      if (!livePreview!.containsKey('authorization') ||
+          livePreview!['authorization'].toString().isEmpty) {
         throw Exception('Authorization is required to enable live preview');
-      } else if (!livePreview.containsKey('host') ||
-          livePreview['host'].toString().isEmpty) {
+      } else if (!livePreview!.containsKey('host') ||
+          livePreview!['host'].toString().isEmpty) {
         throw Exception('Host is required to enable live preview');
       }
     }
@@ -196,8 +196,8 @@ class Stack {
   /// var stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// var asset = stack.asset('uid');
   /// ```
-  Asset asset(String uid) {
-    return Asset(uid, _client);
+  Asset asset(String? uid) {
+    return Asset(uid, _client!);
   }
 
   ///
@@ -215,7 +215,7 @@ class Stack {
   /// ```
   ///
   AssetQuery assetQuery() {
-    return AssetQuery(_client);
+    return AssetQuery(_client!);
   }
 
   ///
@@ -231,8 +231,8 @@ class Stack {
   /// var contentType = stack.contentType('content_type_id');
   /// ```
   ///
-  ContentType contentType([String contentTypeId]) {
-    return ContentType(contentTypeId, _client);
+  ContentType contentType([String? contentTypeId]) {
+    return ContentType(contentTypeId, _client!);
   }
 
   ///
@@ -250,9 +250,9 @@ class Stack {
   /// response = stack.getContentTypes(queryParameters);
   /// ```
   ///
-  Future<T> getContentTypes<T, K>(Map queryParameters) {
-    final Uri uri = Uri.https(endpoint, '$apiVersion/content_types');
-    return _client.sendRequest<T, K>(uri);
+  Future<T?> getContentTypes<T, K>(Map queryParameters) {
+    final Uri uri = Uri.https(endpoint!, '$apiVersion/content_types');
+    return _client!.sendRequest<T, K>(uri);
   }
 
   ///
@@ -291,7 +291,7 @@ class Stack {
   /// this token can be used to restart the sync
   /// process from where it was interrupted.
   ///
-  Future<T> paginationToken<T, K>(String paginationToken) {
+  Future<T?> paginationToken<T, K>(String? paginationToken) {
     final parameters = <String, String>{};
     if (paginationToken != null && paginationToken.isNotEmpty) {
       parameters['pagination_token'] = paginationToken;
@@ -325,8 +325,8 @@ class Stack {
   /// final stack = contentstack.Stack(apiKey, deliveryToken, environment);
   /// stack = stack..setHeader('headerKey', 'headervalue');
   /// ```
-  void setHeader(String key, String value) {
-    if (key.isNotEmpty && value.isNotEmpty) {
+  void setHeader(String key, String? value) {
+    if (key.isNotEmpty && value!.isNotEmpty) {
       headers[key] = value;
     }
   }
@@ -372,11 +372,11 @@ class Stack {
   ///
   /// Returns: List Of [SyncResult]
   ///
-  Future<T> sync<T, K>(
-      {String contentTypeUid,
-      String fromDate,
-      String locale,
-      PublishType publishType}) async {
+  Future<T?> sync<T, K>(
+      {String? contentTypeUid,
+      String? fromDate,
+      String? locale,
+      PublishType? publishType}) async {
     final parameter = <String, String>{};
     parameter['init'] = 'true';
     if (contentTypeUid != null && contentTypeUid.isNotEmpty) {
@@ -424,26 +424,26 @@ class Stack {
   /// and the details of the content that was deleted or updated.
   ///
   ///
-  Future<T> syncToken<T, K>(String syncToken) {
-    final parameters = <String, String>{};
+  Future<T?> syncToken<T, K>(String? syncToken) {
+    final parameters = <String, String?>{};
     if (syncToken != null && syncToken.isNotEmpty) {
       parameters['sync_token'] = syncToken;
     }
 
-    parameters['environment'] = _client.stackHeaders['environment'];
-    final Uri uri = Uri.https(endpoint, '$apiVersion/stacks/sync', parameters);
-    return _client.sendRequest<T, K>(uri);
+    parameters['environment'] = _client!.stackHeaders['environment'];
+    final Uri uri = Uri.https(endpoint!, '$apiVersion/stacks/sync', parameters);
+    return _client!.sendRequest<T, K>(uri);
   }
 
-  Future<T> _syncRequest<T, K>(parameters) async {
-    parameters['environment'] = _client.stackHeaders['environment'];
-    final Uri uri = Uri.https(endpoint, '$apiVersion/stacks/sync', parameters);
-    return _client.sendRequest<T, K>(uri);
+  Future<T?> _syncRequest<T, K>(parameters) async {
+    parameters['environment'] = _client!.stackHeaders['environment'];
+    final Uri uri = Uri.https(endpoint!, '$apiVersion/stacks/sync', parameters);
+    return _client!.sendRequest<T, K>(uri);
   }
 
   void livePreviewQuery(Map<String, dynamic> livePreviewQuery) {
-    if (livePreview.containsKey('enable')) {
-      final bool enable = livePreview['enable'] as bool;
+    if (livePreview!.containsKey('enable')) {
+      final bool enable = livePreview!['enable'] as bool;
       if (enable) {
         if (livePreviewQuery.containsKey('content_type_uid') &&
             livePreviewQuery['content_type_uid'] != null) {
@@ -460,14 +460,14 @@ class Stack {
     var _url =
         "https://$host}/${this.apiVersion}/content_types/$content_type_uid/entries/$entry_uid";
     var _headers = {
-      'authorization': headers['authorization'],
-      'api_key': headers['api_key'],
+      'authorization': headers['authorization']!,
+      'api_key': headers['api_key']!,
     };
 
     await http.get(Uri.parse(_url), headers: _headers).then((response) {
       Map bodyJson = json.decode(utf8.decode(response.bodyBytes));
       print(bodyJson);
-      livePreview["entry"] = bodyJson['entry'];
+      livePreview!["entry"] = bodyJson['entry'];
     });
   }
 
@@ -497,18 +497,18 @@ class Stack {
   /// var response = stack.globalField('sso', true);
   /// ```
 
-  Future<T> globalField<T, K>(
-      [String globalFieldUid, bool includeBranch = false]) {
-    final parameters = <String, String>{};
-    parameters['environment'] = _client.stackHeaders['environment'];
+  Future<T?> globalField<T, K>(
+      [String? globalFieldUid, bool includeBranch = false]) {
+    final parameters = <String, String?>{};
+    parameters['environment'] = _client!.stackHeaders['environment'];
     if (includeBranch) {
       parameters['include_branch'] = true.toString();
     }
-    Uri uri = Uri.https(endpoint, '$apiVersion/global_fields', parameters);
+    Uri uri = Uri.https(endpoint!, '$apiVersion/global_fields', parameters);
     if (globalFieldUid != null && globalFieldUid.isNotEmpty) {
       uri = Uri.https(
-          endpoint, '$apiVersion/global_fields/$globalFieldUid', parameters);
+          endpoint!, '$apiVersion/global_fields/$globalFieldUid', parameters);
     }
-    return _client.sendRequest<T, K>(uri);
+    return _client!.sendRequest<T, K>(uri);
   }
 }

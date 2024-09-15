@@ -11,15 +11,15 @@ import 'package:contentstack/contentstack.dart';
 /// * Read more about [ContentTypes](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#content-types).
 ///
 class ContentType {
-  final String _contentTypeUid;
+  final String? _contentTypeUid;
   final HttpClient _client;
-  String urlPath;
-  final Map<String, String> _queryParameter = <String, String>{};
+  String? urlPath;
+  final Map<String, String?> _queryParameter = <String, String?>{};
 
   ContentType([this._contentTypeUid, this._client]) {
     _queryParameter['environment'] = _client.stackHeaders['environment'];
-    if (_contentTypeUid != null && _contentTypeUid.isNotEmpty) {
-      urlPath = '/${_client.stack.apiVersion}/content_types/$_contentTypeUid';
+    if (_contentTypeUid != null && _contentTypeUid!.isNotEmpty) {
+      urlPath = '/${_client.stack!.apiVersion}/content_types/$_contentTypeUid';
     }
   }
 
@@ -45,7 +45,7 @@ class ContentType {
   ///
   /// ```
   ///
-  Entry entry({String entryUid}) {
+  Entry entry({String? entryUid}) {
     return Entry(entryUid, _client, _contentTypeUid);
   }
 
@@ -65,14 +65,14 @@ class ContentType {
   /// print(response);
   /// ```
   ///
-  Future<T> fetch<T, K>([Map<String, dynamic> queryParams]) {
+  Future<T?> fetch<T, K>([Map<String, dynamic>? queryParams]) {
     if (urlPath == null) {
       throw Exception('content_type_uid is missing');
     }
     if (queryParams != null && queryParams.isNotEmpty) {
-      _queryParameter.addAll(queryParams);
+      _queryParameter.addAll(queryParams as Map<String, String?>);
     }
-    final uri = Uri.https(_client.stack.endpoint, urlPath, _queryParameter);
+    final uri = Uri.https(_client.stack!.endpoint!, urlPath!, _queryParameter);
     return _client.sendRequest<T, K>(uri);
   }
 

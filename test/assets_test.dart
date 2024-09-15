@@ -7,10 +7,10 @@ import 'dart:convert';
 
 void main() {
   load();
-  final apiKey = env['apiKey'];
+  final apiKey = env['apiKey']!;
   final host = env['host'];
-  final deliveryToken = env['deliveryToken'];
-  final environment = env['environment'];
+  final deliveryToken = env['deliveryToken']!;
+  final environment = env['environment']!;
   final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
 
   group('testcases for asset the functional implementation', () {
@@ -47,7 +47,7 @@ void main() {
     test('testcase asset title', () async {
       final asset = stack.asset(assetUid)..environment('development');
       await asset.fetch<AssetModel, void>().then((response) {
-        expect('image2', response.title);
+        expect('image2', response!.title);
       });
     });
 
@@ -127,7 +127,7 @@ void main() {
         ..includeCount()
         ..relativeUrls();
       await asset.find<List<AssetModel>, AssetModel>().then((response) {
-        expect(response[4].url.contains('.jpg'), true);
+        expect(response![4].url!.contains('.jpg'), true);
       }).catchError((error) {
         expect(422, error['error_code']);
       });

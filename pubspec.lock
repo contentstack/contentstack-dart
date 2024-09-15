@@ -241,14 +241,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
-  equatable:
-    dependency: transitive
-    description:
-      name: equatable
-      sha256: "8007a033720c056066dd1dc20bc2934cac91e271f0408c578aa26c7731618a03"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.6"
   file:
     dependency: "direct main"
     description:
@@ -585,14 +577,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  super_enum:
-    dependency: "direct main"
-    description:
-      name: super_enum
-      sha256: "4ef073e108450589a813ba92ebd24a391cb74e0e12dcb54e72181d8896b58794"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.5.0"
   term_glyph:
     dependency: transitive
     description:

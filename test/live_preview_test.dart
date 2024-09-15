@@ -1,16 +1,15 @@
 import 'package:contentstack/contentstack.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:logger/logger.dart';
-import 'package:super_enum/super_enum.dart';
 import 'package:test/test.dart';
 
 void main() {
   final logger = Logger(printer: PrettyPrinter());
 
   load();
-  final apiKey = env['apiKey'];
-  final deliveryToken = env['deliveryToken'];
-  final environment = env['environment'];
+  final apiKey = env['apiKey']!;
+  final deliveryToken = env['deliveryToken']!;
+  final environment = env['environment']!;
   final fakeManagementToken = deliveryToken;
   const editTags = 'editTagsType';
 
@@ -27,10 +26,10 @@ void main() {
   logger.i('live_preview credentials loaded..');
 
   test('test if live preview arguments are empty', () {
-    expect(5, stack.getLivePreview.length);
-    expect(true, stack.getLivePreview.containsKey('enable'));
-    expect(fakeManagementToken, stack.getLivePreview['authorization']);
-    expect('live.contentstack.com', stack.getLivePreview['host']);
+    expect(5, stack.getLivePreview!.length);
+    expect(true, stack.getLivePreview!.containsKey('enable'));
+    expect(fakeManagementToken, stack.getLivePreview!['authorization']);
+    expect('live.contentstack.com', stack.getLivePreview!['host']);
   });
 
   test('test if live preview argument enable true provided', () {
@@ -41,8 +40,8 @@ void main() {
     };
     final stack = Stack('_apiKey123456', '_deliveryToken654321', '_env',
         livePreview: livePreviewEnabled);
-    expect(3, stack.getLivePreview.length);
-    expect(true, stack.getLivePreview.containsKey('enable'));
+    expect(3, stack.getLivePreview!.length);
+    expect(true, stack.getLivePreview!.containsKey('enable'));
   });
 
   test('test if live preview argument authorization provided', () {
@@ -53,9 +52,9 @@ void main() {
     };
     final stack = Stack('_apiKey123456', '_deliveryToken654321', '_env',
         livePreview: livePreviewEnabled);
-    expect(3, stack.getLivePreview.length);
-    expect(true, stack.getLivePreview.containsKey('authorization'));
-    expect('management_token_12345', stack.getLivePreview['authorization']);
+    expect(3, stack.getLivePreview!.length);
+    expect(true, stack.getLivePreview!.containsKey('authorization'));
+    expect('management_token_12345', stack.getLivePreview!['authorization']);
   });
 
   test('test if live preview host provided', () {
@@ -66,9 +65,9 @@ void main() {
     };
     final stack = Stack('_apiKey1234', '_deliveryToken4321', '_env',
         livePreview: livePreviewAuthorization);
-    expect(3, stack.getLivePreview.length);
-    expect(true, stack.getLivePreview.containsKey('host'));
-    expect('host.contentstack.com', stack.getLivePreview['host']);
+    expect(3, stack.getLivePreview!.length);
+    expect(true, stack.getLivePreview!.containsKey('host'));
+    expect('host.contentstack.com', stack.getLivePreview!['host']);
   });
 
   test('test if live preview entry complete call', () {
@@ -92,12 +91,12 @@ void main() {
         .entry(entryUid: 'bold_entry_uid')
         .fetch()
         .then(print)
-        .onError((error, stackTrace) => print(error.toString()));
+        .onError((dynamic error, stackTrace) => print(error.toString()));
 
-    expect(5, stack.getLivePreview.length);
-    expect('liveContentType', stack.getLivePreview['content_type_uid']);
-    expect('hash_code', stack.getLivePreview['live_preview']);
-    expect('auth09090783478478', stack.getLivePreview['authorization']);
+    expect(5, stack.getLivePreview!.length);
+    expect('liveContentType', stack.getLivePreview!['content_type_uid']);
+    expect('hash_code', stack.getLivePreview!['live_preview']);
+    expect('auth09090783478478', stack.getLivePreview!['authorization']);
   });
 
   test('test if live preview entry call check when hash is not provided', () {
@@ -120,10 +119,10 @@ void main() {
         .entry(entryUid: 'bold_entry_uid')
         .fetch()
         .then(print)
-        .onError((error, stackTrace) => print(error.toString()));
+        .onError((dynamic error, stackTrace) => print(error.toString()));
 
-    expect('liveContentType', stack.getLivePreview['content_type_uid']);
-    expect('init', stack.getLivePreview['live_preview']);
-    expect('auth09090783478478', stack.getLivePreview['authorization']);
+    expect('liveContentType', stack.getLivePreview!['content_type_uid']);
+    expect('init', stack.getLivePreview!['live_preview']);
+    expect('auth09090783478478', stack.getLivePreview!['authorization']);
   });
 }
