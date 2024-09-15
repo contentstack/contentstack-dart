@@ -2,6 +2,7 @@ import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/enums/include.dart';
 import 'package:contentstack/src/enums/include_type.dart';
 import 'package:contentstack/src/enums/operations.dart';
+import 'package:contentstack/src/enums/operations_type.dart';
 import 'package:contentstack/src/enums/operator.dart';
 import 'package:contentstack/src/enums/reference.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
@@ -34,64 +35,64 @@ void main() {
     });
 
     test('test where equals Operation', () async {
-      query.where('uid', QueryOperation.equals(value: 'theFakeUid'));
+      query.where('uid', QueryOperation(QueryOperationType.Equals, 'theFakeUid'));
       final contains = query.getQueryUrl().toString();
       expect(
           '{environment: development, query: {"uid":"theFakeUid"}}', contains);
     });
 
     test('test where notEquals operation', () async {
-      query.where('number', QueryOperation.notEquals(value: '40'));
+      query.where('number', QueryOperation(QueryOperationType.NotEquals, '40'));
       final contains = query.getQueryUrl()['query'];
       expect('{\"number\":{\"\$ne\":\"40\"}}', contains);
     });
 
     test('test where includes Operation', () async {
       const includeList = ['abc', 'def', 'sample'];
-      query.where('uid', QueryOperation.includes(value: includeList));
+      query.where('uid', QueryOperation(QueryOperationType.Includes, includeList));
       final contains = query.getQueryUrl()['query'];
       expect('{\"uid\":{\"\$in\":[\"abc\",\"def\",\"sample\"]}}', contains);
     });
 
     test('test where excludes Operation', () async {
       const includeList = ['abc', 'def', 'sample'];
-      query.where('uid', QueryOperation.excludes(value: includeList));
+      query.where('uid', QueryOperation(QueryOperationType.Excludes, includeList));
       final contains = query.getQueryUrl()['query'];
       expect('{\"uid\":{\"\$nin\":[\"abc\",\"def\",\"sample\"]}}', contains);
     });
 
     test('test where exists Operation', () async {
-      query.where('uid', QueryOperation.exists(value: true));
+      query.where('uid', QueryOperation(QueryOperationType.Exists, true));
       final contains = query.getQueryUrl()['query'];
       expect('{\"uid\":{\"\$exists\":true}}', contains);
     });
 
     test('test where isGreaterThan Operation', () async {
-      query.where('uid', QueryOperation.isGreaterThan(value: 'price'));
+      query.where('uid', QueryOperation(QueryOperationType.IsGreaterThan ,'price'));
       final contains = query.getQueryUrl()['query'];
       expect('{\"uid\":{\"\$gt\":\"price\"}}', contains);
     });
 
     test('test where isGreaterThanOrEqual Operation', () async {
-      query.where('uid', QueryOperation.isGreaterThanOrEqual(value: 'price'));
+      query.where('uid', QueryOperation(QueryOperationType.IsGreaterThanOrEqual ,'price'));
       final contains = query.getQueryUrl()['query'];
       expect('{\"uid\":{\"\$gte\":\"price\"}}', contains);
     });
 
     test('test where isLessThan Operation', () async {
-      query.where('uid', QueryOperation.isLessThan(value: 'price'));
+      query.where('uid', QueryOperation(QueryOperationType.IsLessThan, 'price'));
       final contains = query.getQueryUrl()['query'];
       expect('{\"uid\":{\"\$lt\":\"price\"}}', contains);
     });
 
     test('test where isLessThanOrEqual Operation', () async {
-      query.where('uid', QueryOperation.isLessThanOrEqual(value: 'price'));
+      query.where('uid', QueryOperation(QueryOperationType.IsLessThanOrEqual, 'price'));
       final contains = query.getQueryUrl()['query'];
       expect('{\"uid\":{\"\$lte\":\"price\"}}', contains);
     });
 
     test('test where matches Operation', () async {
-      query.where('uid', QueryOperation.matches(regex: 'price'));
+      query.where('uid', QueryOperation(QueryOperationType.Matches, 'price'));
       final contains = query.getQueryUrl()['query'];
       expect('{\"uid\":{\"\$regex\":\"price\"}}', contains);
     });
@@ -203,7 +204,7 @@ void main() {
     });
 
     test('test where equals API Operation', () async {
-      query.where('number', QueryOperation.equals(value: 4));
+      query.where('number', QueryOperation(QueryOperationType.Equals, 4));
       await query.find().then((response) {
         expect(response != null, true);
       });
@@ -212,7 +213,7 @@ void main() {
     test('test notContainedIn in Query', () async {
       await query.find().then((response) async {
         final List<String> arrayValue = ['source1', 'source4', 'source2'];
-        query.where('title', QueryOperation.excludes(value: arrayValue));
+        query.where('title', QueryOperation(QueryOperationType.Excludes, arrayValue));
         await query.find().then((response) {
           final queryMap = response['entries'].length;
           expect(queryMap != null, true);
@@ -221,14 +222,14 @@ void main() {
     });
 
     test('test notContainedIn function parameter contains key', () async {
-      query.where('number', QueryOperation.notEquals(value: 4));
+      query.where('number', QueryOperation(QueryOperationType.NotEquals, 4));
       await query.find<List<EntryModel>, EntryModel>().then((response) {
         expect(response.length, 5);
       });
     });
 
     test('test notEquals in Query', () async {
-      query.where('number', QueryOperation.notEquals(value: 20));
+      query.where('number', QueryOperation(QueryOperationType.NotEquals, 20));
       await query.find().then((response) {
         expect(response['entries'].length, 7);
       });
@@ -236,7 +237,7 @@ void main() {
 
     test('test includes in Query', () async {
       final includeList = ['source1', 'source4', 'source2'];
-      query.where('title', QueryOperation.includes(value: includeList));
+      query.where('title', QueryOperation(QueryOperationType.Includes, includeList));
       await query.find().then((response) {
         expect(response['entries'] != null, true);
       }).catchError((onError) {
@@ -246,7 +247,7 @@ void main() {
 
     test('test excludes in Query', () async {
       final includeList = ['source1', 'source4', 'source2'];
-      query.where('title', QueryOperation.excludes(value: includeList));
+      query.where('title', QueryOperation(QueryOperationType.Excludes, includeList));
       await query.find().then((response) {
         expect(response['entries'].length, 4);
       }).catchError((onError) {
@@ -255,7 +256,7 @@ void main() {
     });
 
     test('test isLessThan in Query', () async {
-      query.where('number', QueryOperation.isLessThan(value: 50));
+      query.where('number', QueryOperation(QueryOperationType.IsLessThan, 50));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
         // ignore: prefer_final_in_for_each
@@ -268,7 +269,7 @@ void main() {
     });
 
     test('test isLessThanOrEqual in Query', () async {
-      query.where('number', QueryOperation.isLessThanOrEqual(value: 50));
+      query.where('number', QueryOperation(QueryOperationType.IsLessThanOrEqual, 50));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
         // ignore: prefer_final_in_for_each
@@ -281,7 +282,7 @@ void main() {
     });
 
     test('test isGreaterThan in Query', () async {
-      query.where('number', QueryOperation.isGreaterThan(value: 50));
+      query.where('number', QueryOperation(QueryOperationType.IsGreaterThan, 50));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
         for (final entry in listOfEntry) {
@@ -293,7 +294,7 @@ void main() {
     });
 
     test('test isGreaterThanOrEqual in Query', () async {
-      query.where('number', QueryOperation.isGreaterThanOrEqual(value: 70));
+      query.where('number', QueryOperation(QueryOperationType.IsGreaterThanOrEqual, 70));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
         for (final entry in listOfEntry) {
@@ -305,7 +306,7 @@ void main() {
     });
 
     test('test exists in Query', () async {
-      query.where('number', QueryOperation.exists(value: true));
+      query.where('number', QueryOperation(QueryOperationType.Exists, true));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
         expect(listOfEntry.length, 7);
@@ -315,7 +316,7 @@ void main() {
     });
 
     test('test matches in Query', () async {
-      query.where('title', QueryOperation.matches(regex: 'Room'));
+      query.where('title', QueryOperation(QueryOperationType.Matches, 'Room'));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
         expect(0, listOfEntry.length);
@@ -327,7 +328,7 @@ void main() {
     test('test whereReference in Query', () async {
       final queryBase = stack.contentType('room').entry().query();
       // ignore: cascade_invocations
-      queryBase.where('title', QueryOperation.equals(value: 'Room 14'));
+      queryBase.where('title', QueryOperation(QueryOperationType.Equals, 'Room 14'));
       query.whereReference('brand', QueryReference.include(query: queryBase));
       await query.find().then((response) {
         expect(
@@ -341,7 +342,7 @@ void main() {
     test('test whereReference NinQuery', () async {
       final queryBase = stack.contentType('room').entry().query();
       // ignore: cascade_invocations
-      queryBase.where('title', QueryOperation.equals(value: 'Room 14'));
+      queryBase.where('title', QueryOperation(QueryOperationType.Equals, 'Room 14'));
       query.whereReference(
           'fieldUid', QueryReference.notInclude(query: queryBase));
       await query.find().then((response) {
@@ -354,12 +355,12 @@ void main() {
     test('test operator And in Query', () async {
       final queryBase1 = stack.contentType('room').entry().query();
       // ignore: cascade_invocations
-      queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
+      queryBase1.where('title', QueryOperation(QueryOperationType.Equals, 'Room 13'));
 
       final stackInstance2 = stack;
       final queryBase2 = stackInstance2.contentType('room').entry().query();
       // ignore: cascade_invocations
-      queryBase2.where('number', QueryOperation.equals(value: 20));
+      queryBase2.where('number', QueryOperation(QueryOperationType.Equals, 20));
 
       final List<Query> listOfQuery = [queryBase1, queryBase2];
       query.operator(QueryOperator.and(queryObjects: listOfQuery));
@@ -377,12 +378,12 @@ void main() {
       final stackInstance1 = stack;
       final queryBase1 = stackInstance1.contentType('room').entry().query();
       // ignore: cascade_invocations
-      queryBase1.where('title', QueryOperation.equals(value: 'Room 13'));
+      queryBase1.where('title', QueryOperation(QueryOperationType.Equals, 'Room 13'));
 
       final stackInstance2 = stack;
       final queryBase2 = stackInstance2.contentType('room').entry().query();
       // ignore: cascade_invocations
-      queryBase2.where('number', QueryOperation.equals(value: 20));
+      queryBase2.where('number', QueryOperation(QueryOperationType.Equals, 20));
 
       final List<Query> listOfQuery = [queryBase1, queryBase2];
       query.operator(QueryOperator.or(queryObjects: listOfQuery));
