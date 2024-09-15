@@ -1,4 +1,5 @@
 import 'package:contentstack/contentstack.dart';
+import 'package:contentstack/src/enums/include.dart';
 import 'package:contentstack/src/enums/include_type.dart';
 import 'package:dotenv/dotenv.dart' show load, env;
 import 'package:logger/logger.dart';
@@ -82,7 +83,7 @@ void main() {
     test('test includeReference includeType only', () {
       const List<String> fieldUid = ['title', 'orange', 'mango'];
       entry.includeReference('category',
-          includeReferenceField: Include.only(fieldUidList: fieldUid));
+          includeReferenceField: IncludeClass(IncludeType.Only, fieldUid));
       expect(true, entry.parameter.containsKey('include[]'));
       expect(true, entry.parameter.containsKey('only'));
     });
@@ -90,7 +91,7 @@ void main() {
     test('test includeReference includeType except', () {
       const List<String> fieldUid = ['title', 'orange', 'mango'];
       entry.includeReference('category',
-          includeReferenceField: Include.except(fieldUidList: fieldUid));
+          includeReferenceField: IncludeClass(IncludeType.Except, fieldUid));
       expect(true, entry.parameter.containsKey('include[]'));
       expect(true, entry.parameter.containsKey('except'));
     });
@@ -189,7 +190,7 @@ void main() {
     test('find the includeReference default with list objects', () async {
       const List<String> fieldUID = ['title', 'attendee', 'created_at'];
       entryInstance.includeReference('categories',
-          includeReferenceField: Include.none(fieldUidList: fieldUID));
+          includeReferenceField: IncludeClass(IncludeType.None, fieldUID));
       await entryInstance.fetch().then((response) {
         expect(141, response['error_code']);
       }).catchError((onError) {
@@ -201,7 +202,7 @@ void main() {
       entryInstance.locale('en-us');
       const List<String> fieldUID = ['price', 'orange', 'mango'];
       entryInstance.includeReference('categories',
-          includeReferenceField: Include.only(fieldUidList: fieldUID));
+          includeReferenceField: IncludeClass(IncludeType.Only, fieldUID));
       await entryInstance.fetch().then((response) {
         expect(141, response['error_code']);
       });
@@ -211,7 +212,7 @@ void main() {
       entryInstance.locale('en-us');
       const List<String> fieldUID = ['price', 'orange', 'mango'];
       entryInstance.includeReference('categories',
-          includeReferenceField: Include.except(fieldUidList: fieldUID));
+          includeReferenceField: IncludeClass(IncludeType.Except, fieldUID));
       await entryInstance.fetch().then((response) {
         expect(
             "The requested object doesn't exist.", response['error_message']);
