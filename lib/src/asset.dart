@@ -8,7 +8,7 @@ import 'package:contentstack/client.dart';
 /// Learn more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-a-single-asset)
 ///
 class Asset {
-  final HttpClient _client;
+  final HttpClient? _client;
   final String? _uid;
   String? _urlPath;
 
@@ -27,8 +27,8 @@ class Asset {
   /// });
   ///
   Asset(this._uid, [this._client]) {
-    assetParameter['environment'] = _client.stackHeaders['environment'];
-    _urlPath = '/${_client.stack!.apiVersion}/assets';
+    assetParameter['environment'] = _client!.stackHeaders!['environment'];
+    _urlPath = '/${_client!.stack!.apiVersion}/assets';
   }
 
   ///
@@ -62,8 +62,8 @@ class Asset {
       throw Exception('Provide asset uid to fetch single entry');
     }
     final uri =
-        Uri.https(_client.stack!.endpoint!, '$_urlPath/$_uid', assetParameter);
-    return _client.sendRequest<T, K>(uri);
+        Uri.https(_client!.stack!.endpoint!, '$_urlPath/$_uid', assetParameter);
+    return _client!.sendRequest<T, K>(uri);
   }
 
   ///

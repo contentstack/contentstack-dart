@@ -16,14 +16,14 @@ import 'package:contentstack/src/enums/reference_type.dart';
 /// You can use queries for Entries and Assets API requests.
 /// Learn more about [Query](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#queries)
 class Query extends BaseQuery {
-  final HttpClient _client;
+  final HttpClient? _client;
   final String? _contentTypeUid;
   late String _path;
 
   Query([this._client, this._contentTypeUid]) {
-    queryParameter['environment'] = _client.stackHeaders['environment'];
+    queryParameter['environment'] = _client!.stackHeaders!['environment'];
     _path =
-        '/${_client.stack!.apiVersion}/content_types/$_contentTypeUid/entries';
+        '/${_client!.stack!.apiVersion}/content_types/$_contentTypeUid/entries';
   }
 
   ///
@@ -73,17 +73,17 @@ class Query extends BaseQuery {
   Future<T?> find<T, K>() async {
     getQueryUrl();
 
-    final preview = _client.stack!.livePreview;
+    final preview = _client!.stack!.livePreview;
     if (preview != null && preview.isNotEmpty) {
       __validateLivePreview(preview);
     }
-    final uri = Uri.https(_client.stack!.endpoint!, _path, queryParameter);
-    return _client.sendRequest<T, K>(uri);
+    final uri = Uri.https(_client!.stack!.endpoint!, _path, queryParameter);
+    return _client!.sendRequest<T, K>(uri);
   }
 
   void __validateLivePreview(preview) {
     if (preview != null && preview['enable']) {
-      ifLivePreviewEnable(_client);
+      ifLivePreviewEnable(_client!);
       if (_contentTypeUid == preview['content_type_uid']) {
         parameter['live_preview'] = 'init';
         if (preview.containsKey('live_preview') &&
@@ -404,8 +404,8 @@ class Query extends BaseQuery {
   /// ```
   ///
   void removeHeader(String key) {
-    if (_client.stackHeaders.containsKey(key)) {
-      _client.stackHeaders.remove(key);
+    if (_client!.stackHeaders!.containsKey(key)) {
+      _client!.stackHeaders!.remove(key);
     }
   }
 
@@ -425,7 +425,7 @@ class Query extends BaseQuery {
   ///
   void setHeader(String key, String value) {
     if (key.isNotEmpty && value.isNotEmpty) {
-      _client.stackHeaders[key] = value;
+      _client!.stackHeaders![key] = value;
     }
   }
 

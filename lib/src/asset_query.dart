@@ -8,12 +8,12 @@ import 'package:contentstack/src/base_query.dart';
 /// You can also specify the environment of which you wish to get the assets.
 /// Learn more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#all-assets)
 class AssetQuery extends BaseQuery {
-  final HttpClient _client;
+  final HttpClient? _client;
   late String _urlPath;
 
   AssetQuery([this._client]) {
-    queryParameter['environment'] = _client.stackHeaders['environment'];
-    _urlPath = '/${_client.stack!.apiVersion}/assets';
+    queryParameter['environment'] = _client!.stackHeaders!['environment'];
+    _urlPath = '/${_client!.stack!.apiVersion}/assets';
   }
 
   ///
@@ -43,8 +43,8 @@ class AssetQuery extends BaseQuery {
   ///   print(error['error_code']);
   /// });
   Future<T?> find<T, K>() async {
-    final uri = Uri.https(_client.stack!.endpoint!, _urlPath, queryParameter);
-    return _client.sendRequest<T, K>(uri);
+    final uri = Uri.https(_client!.stack!.endpoint!, _urlPath, queryParameter);
+    return _client!.sendRequest<T, K>(uri);
   }
 
   ///

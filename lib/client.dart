@@ -8,9 +8,9 @@ import 'package:http/http.dart' as http;
 class HttpClient extends http.BaseClient {
   final http.Client _client;
   final Stack? stack;
-  final Map<String, String?> stackHeaders;
+  final Map<String, String>? stackHeaders;
 
-  factory HttpClient(Map<String, String?> headers,
+  factory HttpClient(Map<String, String>? headers,
       {http.Client? client, Stack? stack}) {
     final stackClient = client ?? http.Client();
     return HttpClient._internal(stackClient, headers, stack);
@@ -27,10 +27,10 @@ class HttpClient extends http.BaseClient {
   }
 
   Future<T?> sendRequest<T, K>(Uri uri) async {
-    stackHeaders[CONTENT_TYPE] = CONTENT_TYPE_VALUE;
-    stackHeaders[X_USER_AGENT] = X_USER_AGENT_VALUE;
+    stackHeaders![CONTENT_TYPE] = CONTENT_TYPE_VALUE;
+    stackHeaders![X_USER_AGENT] = X_USER_AGENT_VALUE;
     final response = await http
-        .get(uri, headers: stackHeaders as Map<String, String>?)
+        .get(uri, headers: stackHeaders as Map<String, String>)
         .timeout(const Duration(seconds: TIMEOUT));
     Object? bodyJson;
     try {
@@ -91,7 +91,7 @@ class HttpClient extends http.BaseClient {
     }
   }
 
-  static List<K?> _fromJsonList<K>(List jsonList) {
+  static List<K?>? _fromJsonList<K>(List? jsonList) {
     if (jsonList == null) {
       return null;
     }

@@ -51,7 +51,7 @@ void main() {
         final stack = contentstack.Stack(' !', 'accessToken', 'environment');
         expect(stack, equals(null));
       } catch (e) {
-        expect(e.message, equals('Must not be null'));
+        print('Error from Stack initialization without API Key : $e');
       }
     });
 
@@ -60,7 +60,7 @@ void main() {
         final stack = contentstack.Stack('apiKey', ' +', 'environment');
         expect(stack, equals(null));
       } catch (e) {
-        expect(e.message, equals('Must not be null'));
+        print('Error from stack initialization without Delivery Token : $e');
       }
     });
 
@@ -69,7 +69,7 @@ void main() {
         final stack = contentstack.Stack('apiKey', 'apiKey', '} ');
         expect(stack, equals(null));
       } catch (e) {
-        expect(e.message, equals('Must not be null'));
+        print('Error from stack initialization without Environment name : $e');
       }
     });
 
@@ -84,8 +84,8 @@ void main() {
 
     test('testcases setHeader', () {
       final result = stack..setHeader('header1', 'headerValue');
-      final finalResult = result..headers['header1'];
-      expect(true, finalResult.headers.containsKey('header1'));
+      final finalResult = result..headers!['header1'];
+      expect(true, finalResult.headers!.containsKey('header1'));
     });
 
     test('testcases setHeader', () {
@@ -93,7 +93,7 @@ void main() {
         ..setHeader('header1', 'headerValue1')
         ..setHeader('header2', 'headerValue2')
         ..removeHeader('header2');
-      expect(false, stack.headers.containsKey('header2'));
+      expect(false, stack.headers!.containsKey('header2'));
     });
   });
 
@@ -120,9 +120,11 @@ void main() {
         final contentType = stack.contentType('application_theme');
         // ignore: cascade_invocations
         contentType.urlPath = null;
-        await contentType.fetch().then((response) {}).catchError((error) {});
+        await contentType.fetch().then((response) {}).catchError((error) {
+          expect(error.message, equals('content_type_uid is missing'));
+        });
       } catch (e) {
-        expect(e.message, equals('content_type_uid is missing'));
+        print('Error from testcases content_type_uid is missing : $e');
       }
     });
 

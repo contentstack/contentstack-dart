@@ -17,7 +17,7 @@ enum Region { us, eu, azure_na, gcp_na }
 /// A stack is like a container that holds the content of your app.
 /// Learn more about [Stacks](https://www.contentstack.com/docs/developers/set-up-stack/about-stack/).
 class Stack {
-  Map<String, String?> headers = <String, String?>{};
+  Map<String, String>? headers = <String, String>{};
   final String _apiKey;
   final String _deliveryToken;
   final String _environment;
@@ -101,7 +101,7 @@ class Stack {
     };
 
     if (branch != null && branch!.isNotEmpty) {
-      headers['branch'] = branch;
+      headers?['branch'] = branch!;
     }
     if (livePreview != null && livePreview!.isNotEmpty) {
       __validateLivePreview();
@@ -310,11 +310,11 @@ class Stack {
   /// stack = stack..removeHeader('headerKey');
   /// ```
   void removeHeader(String headerKey) {
-    if (headerKey != null) {
-      if (headers.containsKey(headerKey)) {
-        headers.remove(headerKey);
-      }
+    // if (headerKey != null) {
+    if (headers!.containsKey(headerKey)) {
+      headers!.remove(headerKey);
     }
+    // }
   }
 
   /// Adds headers for the request
@@ -327,7 +327,7 @@ class Stack {
   /// ```
   void setHeader(String key, String? value) {
     if (key.isNotEmpty && value!.isNotEmpty) {
-      headers[key] = value;
+      headers![key] = value;
     }
   }
 
@@ -430,13 +430,13 @@ class Stack {
       parameters['sync_token'] = syncToken;
     }
 
-    parameters['environment'] = _client!.stackHeaders['environment'];
+    parameters['environment'] = _client!.stackHeaders!['environment'];
     final Uri uri = Uri.https(endpoint!, '$apiVersion/stacks/sync', parameters);
     return _client!.sendRequest<T, K>(uri);
   }
 
   Future<T?> _syncRequest<T, K>(parameters) async {
-    parameters['environment'] = _client!.stackHeaders['environment'];
+    parameters['environment'] = _client!.stackHeaders!['environment'];
     final Uri uri = Uri.https(endpoint!, '$apiVersion/stacks/sync', parameters);
     return _client!.sendRequest<T, K>(uri);
   }
@@ -460,8 +460,8 @@ class Stack {
     var _url =
         "https://$host}/${this.apiVersion}/content_types/$content_type_uid/entries/$entry_uid";
     var _headers = {
-      'authorization': headers['authorization']!,
-      'api_key': headers['api_key']!,
+      'authorization': headers!['authorization']!,
+      'api_key': headers!['api_key']!,
     };
 
     await http.get(Uri.parse(_url), headers: _headers).then((response) {
@@ -500,7 +500,7 @@ class Stack {
   Future<T?> globalField<T, K>(
       [String? globalFieldUid, bool includeBranch = false]) {
     final parameters = <String, String?>{};
-    parameters['environment'] = _client!.stackHeaders['environment'];
+    parameters['environment'] = _client!.stackHeaders!['environment'];
     if (includeBranch) {
       parameters['include_branch'] = true.toString();
     }

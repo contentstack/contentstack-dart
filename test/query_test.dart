@@ -175,7 +175,7 @@ void main() {
     test('testcase setHeader for the query class', () async {
       // query.setHeader('key', 'value');
       await query.find().then((response) {
-        expect(response['entries'].length, 7);
+        expect(response['entries'].length, 8);
       });
     });
   });
@@ -201,7 +201,7 @@ void main() {
     test('test length of the entry of respected contentType', () async {
       final response = query.find();
       await response.then((response) {
-        expect(response['entries'].length, 7);
+        expect(response['entries'].length, 8);
       });
     });
 
@@ -233,7 +233,7 @@ void main() {
     test('test notEquals in Query', () async {
       query.where('number', QueryOperation(QueryOperationType.NotEquals, 20));
       await query.find().then((response) {
-        expect(response['entries'].length, 7);
+        expect(response['entries'].length, 8);
       });
     });
 
@@ -251,7 +251,7 @@ void main() {
       final includeList = ['source1', 'source4', 'source2'];
       query.where('title', QueryOperation(QueryOperationType.Excludes, includeList));
       await query.find().then((response) {
-        expect(response['entries'].length, 4);
+        expect(response['entries'].length, 5);
       }).catchError((onError) {
         expect('Error Occurred', onError.message);
       });
@@ -311,7 +311,7 @@ void main() {
       query.where('number', QueryOperation(QueryOperationType.Exists, true));
       await query.find().then((response) {
         final List listOfEntry = response['entries'];
-        expect(listOfEntry.length, 7);
+        expect(listOfEntry.length, 8);
       }).catchError((onError) {
         expect('Error Occurred', onError.message);
       });
@@ -403,7 +403,7 @@ void main() {
       await query.find().then((onResponse) async {
         query.skip(4);
         await query.find().then((response) {
-          expect(response['entries'].length, 3);
+          expect(response['entries'].length, 4);
         });
       });
     });

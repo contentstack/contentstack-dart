@@ -12,14 +12,14 @@ import 'package:contentstack/contentstack.dart';
 ///
 class ContentType {
   final String? _contentTypeUid;
-  final HttpClient _client;
+  final HttpClient? _client;
   String? urlPath;
   final Map<String, String?> _queryParameter = <String, String?>{};
 
   ContentType([this._contentTypeUid, this._client]) {
-    _queryParameter['environment'] = _client.stackHeaders['environment'];
+    _queryParameter['environment'] = _client!.stackHeaders!['environment'];
     if (_contentTypeUid != null && _contentTypeUid!.isNotEmpty) {
-      urlPath = '/${_client.stack!.apiVersion}/content_types/$_contentTypeUid';
+      urlPath = '/${_client!.stack!.apiVersion}/content_types/$_contentTypeUid';
     }
   }
 
@@ -72,8 +72,8 @@ class ContentType {
     if (queryParams != null && queryParams.isNotEmpty) {
       _queryParameter.addAll(queryParams as Map<String, String?>);
     }
-    final uri = Uri.https(_client.stack!.endpoint!, urlPath!, _queryParameter);
-    return _client.sendRequest<T, K>(uri);
+    final uri = Uri.https(_client!.stack!.endpoint!, urlPath!, _queryParameter);
+    return _client!.sendRequest<T, K>(uri);
   }
 
   ///
@@ -90,6 +90,6 @@ class ContentType {
   /// ```
   ///
   ContentTypeQuery query() {
-    return ContentTypeQuery(_client);
+    return ContentTypeQuery(_client!);
   }
 }
