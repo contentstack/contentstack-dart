@@ -4,9 +4,12 @@ import 'dart:convert';
 import 'package:contentstack/client.dart';
 import 'package:contentstack/constant.dart';
 import 'package:contentstack/src/base_query.dart';
-import 'package:contentstack/src/enums/include.dart' as include;
+import 'package:contentstack/src/enums/include.dart';
+import 'package:contentstack/src/enums/include_type.dart';
 import 'package:contentstack/src/enums/operator.dart';
+import 'package:contentstack/src/enums/operator_type.dart';
 import 'package:contentstack/src/enums/reference.dart';
+import 'package:contentstack/src/enums/reference_type.dart';
 
 /// Contentstack provides certain queries that you
 /// can use to fetch filtered results.
@@ -198,44 +201,49 @@ class Query extends BaseQuery {
   /// ```
   ///
   void includeReference(String referenceFieldUid,
-      {include.Include includeReferenceField}) {
+      {IncludeClass includeReferenceField}) {
     if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
       final List referenceArray = [];
       if (includeReferenceField != null) {
-        includeReferenceField.when(none: (fieldUid) {
-          referenceArray.add(referenceFieldUid);
-          if (fieldUid.fieldUidList != null &&
-              fieldUid.fieldUidList.isNotEmpty) {
-            for (final item in fieldUid.fieldUidList) {
-              referenceArray.add(item);
+
+        switch(includeReferenceField.includeType) {
+          case IncludeType.None:
+            referenceArray.add(referenceFieldUid);
+            if (includeReferenceField.fieldUidList != null &&
+                includeReferenceField.fieldUidList.isNotEmpty) {
+              for (final item in includeReferenceField.fieldUidList) {
+                referenceArray.add(item);
+              }
             }
-          }
-          queryParameter['include[]'] = referenceArray.toString();
-        }, only: (fieldUid) {
-          final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
-          if (fieldUid.fieldUidList != null &&
-              fieldUid.fieldUidList.isNotEmpty) {
-            for (final item in fieldUid.fieldUidList) {
-              referenceArray.add(item);
+            queryParameter['include[]'] = referenceArray.toString();
+            break;
+          case IncludeType.Only:
+            final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
+            if (includeReferenceField.fieldUidList != null &&
+                includeReferenceField.fieldUidList.isNotEmpty) {
+              for (final item in includeReferenceField.fieldUidList) {
+                referenceArray.add(item);
+              }
             }
-          }
-          referenceOnlyParam[referenceFieldUid] = referenceArray;
-          //_include(referenceFieldUid);
-          includeReference(referenceFieldUid);
-          queryParameter['only'] = referenceOnlyParam.toString();
-        }, except: (fieldUid) {
-          final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
-          if (fieldUid.fieldUidList != null &&
-              fieldUid.fieldUidList.isNotEmpty) {
-            for (final item in fieldUid.fieldUidList) {
-              referenceArray.add(item);
+            referenceOnlyParam[referenceFieldUid] = referenceArray;
+            //_include(referenceFieldUid);
+            includeReference(referenceFieldUid);
+            queryParameter['only'] = referenceOnlyParam.toString();
+            break;
+          case IncludeType.Except:
+            final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
+            if (includeReferenceField.fieldUidList != null &&
+                includeReferenceField.fieldUidList.isNotEmpty) {
+              for (final item in includeReferenceField.fieldUidList) {
+                referenceArray.add(item);
+              }
             }
-          }
-          referenceOnlyParam[referenceFieldUid] = referenceArray;
-          //_include(referenceFieldUid);
-          includeReference(referenceFieldUid);
-          queryParameter['except'] = referenceOnlyParam.toString();
-        });
+            referenceOnlyParam[referenceFieldUid] = referenceArray;
+            //_include(referenceFieldUid);
+            includeReference(referenceFieldUid);
+            queryParameter['except'] = referenceOnlyParam.toString();
+            break;
+        }
       } else {
         queryParameter['include[]'] = referenceFieldUid;
       }
@@ -357,27 +365,30 @@ class Query extends BaseQuery {
   /// ```
   ///
   void operator(QueryOperator operator) {
-    operator.when(and: (and) {
-      final List<Query> queryList =
-          and.queryObjects; //and.queryObjects is list of Query Objects
-      if (queryList.isNotEmpty) {
-        final emptyList = [];
-        for (final item in queryList) {
-          emptyList.add(item.parameter);
+    switch(operator.operatorType) {
+      case QueryOperatorType.And:
+        final List<Query> queryList =
+          operator.queryObjects; //and.queryObjects is list of Query Objects
+        if (queryList.isNotEmpty) {
+          final emptyList = [];
+          for (final item in queryList) {
+            emptyList.add(item.parameter);
+          }
+          parameter['\$and'] = emptyList;
         }
-        parameter['\$and'] = emptyList;
-      }
-    }, or: (or) {
-      final List<Query> queryList =
-          or.queryObjects; //and.queryObjects is list of Query Objects
-      if (queryList.isNotEmpty) {
-        final emptyList = [];
-        for (final item in queryList) {
-          emptyList.add(item.parameter);
+        break;
+      case QueryOperatorType.Or:
+        final List<Query> queryList =
+          operator.queryObjects; //and.queryObjects is list of Query Objects
+        if (queryList.isNotEmpty) {
+          final emptyList = [];
+          for (final item in queryList) {
+            emptyList.add(item.parameter);
+          }
+          parameter['\$or'] = emptyList;
         }
-        parameter['\$or'] = emptyList;
-      }
-    });
+        break;
+    }
   }
 
   ///
@@ -446,13 +457,16 @@ class Query extends BaseQuery {
   ///
   void whereReference(String referenceUid, QueryReference reference) {
     if (referenceUid != null && referenceUid.isNotEmpty) {
-      reference.when(include: (queryInstance) {
-        parameter[referenceUid] = {'\$in_query': queryInstance.query.parameter};
-      }, notInclude: (queryInstance) {
-        parameter[referenceUid] = {
-          '\$nin_query': queryInstance.query.parameter
-        };
-      });
+      switch(reference.referenceType) {
+        case QueryReferenceType.Include:
+          parameter[referenceUid] = {'\$in_query': reference.query.parameter};
+          break;
+        case QueryReferenceType.NotInclude:
+          parameter[referenceUid] = {
+            '\$nin_query': reference.query.parameter
+          };
+          break;
+      }
     }
   }
 

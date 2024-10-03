@@ -1,0 +1,4 @@
+enum QueryOperatorType {
+  And,
+  Or
+}

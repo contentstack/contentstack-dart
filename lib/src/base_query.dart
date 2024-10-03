@@ -1,4 +1,5 @@
 import 'package:contentstack/src/enums/operations.dart';
+import 'package:contentstack/src/enums/operations_type.dart';
 
 ///
 /// This is base Query class that contains common
@@ -156,27 +157,38 @@ class BaseQuery {
 
   void where(String fieldUid, QueryOperation queryOperation) {
     if (fieldUid != null && fieldUid.isNotEmpty) {
-      queryOperation.when(equals: (operation) {
-        parameter[fieldUid] = operation.value;
-      }, notEquals: (operation) {
-        parameter[fieldUid] = {'\$ne': operation.value};
-      }, includes: (operation) {
-        parameter[fieldUid] = {'\$in': operation.value};
-      }, excludes: (operation) {
-        parameter[fieldUid] = {'\$nin': operation.value};
-      }, isLessThan: (operation) {
-        parameter[fieldUid] = {'\$lt': operation.value};
-      }, isLessThanOrEqual: (operation) {
-        parameter[fieldUid] = {'\$lte': operation.value};
-      }, isGreaterThan: (operation) {
-        parameter[fieldUid] = {'\$gt': operation.value};
-      }, isGreaterThanOrEqual: (operation) {
-        parameter[fieldUid] = {'\$gte': operation.value};
-      }, exists: (operation) {
-        parameter[fieldUid] = {'\$exists': operation.value};
-      }, matches: (operation) {
-        parameter[fieldUid] = {'\$regex': operation.regex};
-      });
+      switch(queryOperation.operationType) {
+        case QueryOperationType.Equals:
+          parameter[fieldUid] = queryOperation.value;
+          break;
+        case QueryOperationType.NotEquals:
+          parameter[fieldUid] = {'\$ne': queryOperation.value};
+          break;
+        case QueryOperationType.Includes:
+          parameter[fieldUid] = {'\$in': queryOperation.value};
+          break;
+        case QueryOperationType.Excludes:
+          parameter[fieldUid] = {'\$nin': queryOperation.value};
+          break;
+        case QueryOperationType.IsLessThan:
+          parameter[fieldUid] = {'\$lt': queryOperation.value};
+          break;
+        case QueryOperationType.IsLessThanOrEqual:
+          parameter[fieldUid] = {'\$lte': queryOperation.value};
+          break;
+        case QueryOperationType.IsGreaterThan:
+          parameter[fieldUid] = {'\$gt': queryOperation.value};
+          break;
+        case QueryOperationType.IsGreaterThanOrEqual:
+          parameter[fieldUid] = {'\$gte': queryOperation.value};
+          break;
+        case QueryOperationType.Exists:
+          parameter[fieldUid] = {'\$exists': queryOperation.value};
+          break;
+        case QueryOperationType.Matches:
+          parameter[fieldUid] = {'\$regex': queryOperation.value};
+          break;
+      }
     }
   }
 }

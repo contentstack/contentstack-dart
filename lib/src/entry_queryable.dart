@@ -1,5 +1,6 @@
 import 'package:contentstack/constant.dart';
 import 'package:contentstack/src/enums/include.dart';
+import 'package:contentstack/src/enums/include_type.dart';
 
 /// Applies Queries on [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
 class EntryQueryable {
@@ -160,49 +161,53 @@ class EntryQueryable {
   /// prints(response)
   /// ```
   ///
-  void includeReference(referenceFieldUid, {Include includeReferenceField}) {
+  void includeReference(referenceFieldUid, {IncludeClass includeReferenceField}) {
     if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
       final List referenceArray = [];
       if (includeReferenceField != null) {
-        includeReferenceField.when(none: (fieldUid) {
-          if (referenceFieldUid.runtimeType == List) {
-            for (var uid in referenceFieldUid) {
-              referenceArray.add(uid);
+        switch(includeReferenceField.includeType) {
+          case IncludeType.None:
+            if (referenceFieldUid.runtimeType == List) {
+              for (var uid in referenceFieldUid) {
+                referenceArray.add(uid);
+              }
+            } else if (referenceFieldUid.runtimeType == String) {
+              referenceArray.add(referenceFieldUid);
             }
-          } else if (referenceFieldUid.runtimeType == String) {
-            referenceArray.add(referenceFieldUid);
-          }
 
-          if (fieldUid.fieldUidList != null &&
-              fieldUid.fieldUidList.isNotEmpty) {
-            for (final item in fieldUid.fieldUidList) {
-              referenceArray.add(item);
+            if (includeReferenceField.fieldUidList != null &&
+                includeReferenceField.fieldUidList.isNotEmpty) {
+              for (final item in includeReferenceField.fieldUidList) {
+                referenceArray.add(item);
+              }
             }
-          }
-          parameter['include[]'] = referenceArray.toString();
-        }, only: (fieldUid) {
-          final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
-          if (fieldUid.fieldUidList != null &&
-              fieldUid.fieldUidList.isNotEmpty) {
-            for (final item in fieldUid.fieldUidList) {
-              referenceArray.add(item);
+            parameter['include[]'] = referenceArray.toString();
+            break;
+          case IncludeType.Only:
+            final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
+            if (includeReferenceField.fieldUidList != null &&
+                includeReferenceField.fieldUidList.isNotEmpty) {
+              for (final item in includeReferenceField.fieldUidList) {
+                referenceArray.add(item);
+              }
             }
-          }
-          referenceOnlyParam[referenceFieldUid] = referenceArray;
-          includeReference(referenceFieldUid);
-          parameter['only'] = referenceOnlyParam.toString();
-        }, except: (fieldUid) {
-          final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
-          if (fieldUid.fieldUidList != null &&
-              fieldUid.fieldUidList.isNotEmpty) {
-            for (final item in fieldUid.fieldUidList) {
-              referenceArray.add(item);
+            referenceOnlyParam[referenceFieldUid] = referenceArray;
+            includeReference(referenceFieldUid);
+            parameter['only'] = referenceOnlyParam.toString();
+            break;
+          case IncludeType.Except:
+            final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
+            if (includeReferenceField.fieldUidList != null &&
+                includeReferenceField.fieldUidList.isNotEmpty) {
+              for (final item in includeReferenceField.fieldUidList) {
+                referenceArray.add(item);
+              }
             }
-          }
-          referenceOnlyParam[referenceFieldUid] = referenceArray;
-          includeReference(referenceFieldUid);
-          parameter['except'] = referenceOnlyParam.toString();
-        });
+            referenceOnlyParam[referenceFieldUid] = referenceArray;
+            includeReference(referenceFieldUid);
+            parameter['except'] = referenceOnlyParam.toString();
+            break;
+        }
       } else {
         parameter['include[]'] = referenceFieldUid;
       }

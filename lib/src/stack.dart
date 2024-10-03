@@ -389,21 +389,29 @@ class Stack {
       parameter['locale'] = locale;
     }
     if (publishType != null) {
-      publishType.when(assetPublished: (result) {
-        parameter['publish_type'] = 'asset_published';
-      }, entryPublished: (result) {
-        parameter['publish_type'] = 'entry_published';
-      }, assetUnpublished: (result) {
-        parameter['publish_type'] = 'asset_unpublished';
-      }, assetDeleted: (result) {
-        parameter['publish_type'] = 'asset_deleted';
-      }, entryUnpublished: (result) {
-        parameter['publish_type'] = 'entry_unpublished';
-      }, entryDeleted: (result) {
-        parameter['publish_type'] = 'entry_deleted';
-      }, contentTypeDeleted: (result) {
-        parameter['publish_type'] = 'content_type_deleted';
-      });
+      switch(publishType) {
+        case PublishType.AssetPublished:
+          parameter['publish_type'] = 'asset_published';
+          break;
+        case PublishType.EntryPublished:
+          parameter['publish_type'] = 'entry_published';
+          break;
+        case PublishType.AssetUnpublished:
+          parameter['publish_type'] = 'asset_unpublished';
+          break;
+        case PublishType.AssetDeleted:
+          parameter['publish_type'] = 'asset_deleted';
+          break;
+        case PublishType.EntryUnpublished:
+          parameter['publish_type'] = 'entry_unpublished';
+          break;
+        case PublishType.EntryDeleted:
+          parameter['publish_type'] = 'entry_deleted';
+          break;
+        case PublishType.ContentTypeDeleted:
+          parameter['publish_type'] = 'content_type_deleted';
+          break;
+      }
     }
 
     return _syncRequest<T, K>(parameter);
