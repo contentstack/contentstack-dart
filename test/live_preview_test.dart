@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 void main() {
   final logger = Logger(printer: PrettyPrinter());
 
-  load();
+  var env = DotEnv(includePlatformEnvironment: true)..load();
   final apiKey = env['apiKey']!;
   final deliveryToken = env['deliveryToken']!;
   final environment = env['environment']!;

@@ -3,13 +3,13 @@ import 'package:contentstack/src/image/filter.dart';
 import 'package:contentstack/src/image/fit.dart';
 import 'package:contentstack/src/image/format.dart';
 import 'package:contentstack/src/image/orientation.dart';
-import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:dotenv/dotenv.dart';
 import 'package:test/test.dart';
 
 void main() {
   //var logger = Logger(printer: PrettyPrinter());
 
-  load();
+  var env = DotEnv(includePlatformEnvironment: true)..load();
   final apiKey = env['apiKey']!;
   final host = env['host'];
   final deliveryToken = env['deliveryToken']!;

@@ -1,14 +1,14 @@
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/src/query_params.dart';
-import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:dotenv/dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:test/test.dart';
 
 void main() {
   final logger = Logger(printer: PrettyPrinter());
 
-  load();
+  var env = DotEnv(includePlatformEnvironment: true)..load();
   final apiKey = env['apiKey']!;
   final host = env['host'];
   final deliveryToken = env['deliveryToken']!;

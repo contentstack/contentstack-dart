@@ -7,7 +7,7 @@ import 'package:contentstack/src/enums/operator.dart';
 import 'package:contentstack/src/enums/operator_type.dart';
 import 'package:contentstack/src/enums/reference.dart';
 import 'package:contentstack/src/enums/reference_type.dart';
-import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:dotenv/dotenv.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -17,7 +17,7 @@ void main() {
     late Stack stack;
 
     setUpAll(() async {
-      load();
+      var env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];
@@ -161,7 +161,7 @@ void main() {
     late Stack stack;
 
     setUpAll(() async {
-      load();
+      var env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];
@@ -186,7 +186,7 @@ void main() {
     late Stack stack;
 
     setUpAll(() async {
-      load();
+      var env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];
@@ -441,7 +441,7 @@ void main() {
     late Stack stack;
 
     setUpAll(() async {
-      load();
+      var env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];

@@ -1,35 +1,40 @@
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/enums/include.dart';
 import 'package:contentstack/src/enums/include_type.dart';
-import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:dotenv/dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:test/test.dart';
 
 void main() {
   final logger = Logger(printer: PrettyPrinter());
 
-  load();
+  var env = DotEnv(includePlatformEnvironment: true)..load();
   final apiKey = env['apiKey']!;
   final host = env['host'];
   final deliveryToken = env['deliveryToken']!;
   final environment = env['environment']!;
+  final contentType = env['contentType']!;
   String? entryUid = '';
 
   logger.i('credentials loaded..');
 
   final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
-  final Query query = stack.contentType('faq').entry().query();
-  final Entry entry = stack.contentType('faq').entry(entryUid: entryUid);
+  final Query query = stack.contentType(contentType).entry().query();
+  final Entry entry = stack.contentType(contentType).entry(entryUid: entryUid);
 
   group('Entry functional testcases', () {
     setUp(() async {
       await query.find().then((response) {
         final entries = response['entries'];
-        for (final item in entries) {
-          if (item['title'] == 'MEALS') {
-            entryUid = item['uid'];
-            continue;
+        if(entries != null) {
+          for (final item in entries) {
+            if (item['title'] == 'MEALS') {
+              entryUid = item['uid'];
+              continue;
+            }
           }
+        } else {
+          logger.i('No entries found');
         }
       });
     });
