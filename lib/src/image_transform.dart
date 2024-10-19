@@ -14,7 +14,7 @@ import 'package:contentstack/src/query_params.dart';
 ///Learn more about [ImageTransformation](https://www.contentstack.com/docs/developers/apis/image-delivery-api/)
 class ImageTransformation {
   final String _imageUrl;
-  final HttpClient client;
+  final HttpClient? client;
   final Map<String, String> queryParameter = <String, String>{};
   final URLQueryParams query = URLQueryParams();
 
@@ -38,7 +38,7 @@ class ImageTransformation {
   /// await imageTransformation.auto(auto: 'webp', format: 'pjpg').fetch();
   /// ```
   ///
-  void auto({String auto, String format}) {
+  void auto({String? auto, String? format}) {
     if (auto != null) {
       query.append('auto', auto);
     }
@@ -277,7 +277,7 @@ class ImageTransformation {
   /// final response = await imageTransformation.cropBy(150, 100).fetch();
   /// log.fine(response);
   /// ```
-  void cropBy(int width, int height, {String region, String offset}) {
+  void cropBy(int width, int height, {String? region, String? offset}) {
     /// checks if cropRatio is not null then takes height, width and
     /// cropRatio as prams else it takes crop params and comas
     /// separated width & height
@@ -319,16 +319,16 @@ class ImageTransformation {
   }
 
   ///Makes API Request of respective function.
-  Future<T> fetch<T, K>() async {
+  Future<T?> fetch<T, K>() async {
     final bool _validURL = Uri.parse(_imageUrl).isAbsolute;
     if (!_validURL) {
       throw Exception('Invalid url requested');
     }
     final toURI = Uri.parse(getUrl());
-    final response = await client.get(toURI);
+    final response = await client!.get(toURI);
     if (response.statusCode == 200) {
-      final Map bodyJson = jsonDecode(response.body);
-      if (T == AssetModel && bodyJson.containsKey('asset')) {
+      final Map? bodyJson = jsonDecode(response.body);
+      if (T == AssetModel && bodyJson!.containsKey('asset')) {
         return AssetModel.fromJson(bodyJson['asset']) as T;
       } else {
         return json.decode(response.body);
@@ -483,10 +483,10 @@ class ImageTransformation {
   /// ```
   ///
   void overlay(String overlayUrl,
-      {String overlayAlign,
-      String overlayRepeat,
-      int overlayWidth,
-      int overlayHeight}) {
+      {String? overlayAlign,
+      String? overlayRepeat,
+      int? overlayWidth,
+      int? overlayHeight}) {
     query.append('overlay', overlayUrl);
 
     if (overlayAlign != null) {
@@ -593,7 +593,7 @@ class ImageTransformation {
   /// final response =
   ///       await imageTransformation.resize(width:100,disable:true).fetch();
   /// ```
-  void resize({int width, int height, bool disable}) {
+  void resize({int? width, int? height, bool? disable}) {
     if (width != null) {
       //queryParameter['width'] = width.toString();
       query.append('width', width.toString());
@@ -625,7 +625,7 @@ class ImageTransformation {
   ///       resizeFilter(width: 20, height: 40, filter: Filter.bilinear);
   /// ```
   ///
-  void resizeFilter({int width, int height, Filter filter}) {
+  void resizeFilter({int? width, int? height, Filter? filter}) {
     if (width != null) {
       query.append('width', width.toString());
     }
@@ -707,7 +707,7 @@ class ImageTransformation {
   /// final imageTransformation = stack.imageTransform(imageUrl);
   /// final response = await imageTransformation.trim(25).fetch();
   /// ```
-  void trim([int top, int right, int bottom, int left]) {
+  void trim([int? top, int? right, int? bottom, int? left]) {
     final trimLRBL = [];
     if (top != null) {
       trimLRBL.add(top);

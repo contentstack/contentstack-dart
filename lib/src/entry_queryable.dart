@@ -4,7 +4,7 @@ import 'package:contentstack/src/enums/include_type.dart';
 
 /// Applies Queries on [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
 class EntryQueryable {
-  Map<String, Object> parameter = <String, Object>{};
+  Map<String, Object?> parameter = <String, Object?>{};
 
   ///
   /// This method adds key and value to an Entry.
@@ -161,7 +161,7 @@ class EntryQueryable {
   /// prints(response)
   /// ```
   ///
-  void includeReference(referenceFieldUid, {IncludeClass includeReferenceField}) {
+  void includeReference(referenceFieldUid, {IncludeClass? includeReferenceField}) {
     if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
       final List referenceArray = [];
       if (includeReferenceField != null) {

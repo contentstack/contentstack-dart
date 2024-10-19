@@ -8,18 +8,18 @@ part of 'entrymodel.dart';
 
 EntryModel _$EntryModelFromJson(Map<String, dynamic> json) {
   return EntryModel(
-    json['locale'] as String,
-    json['title'] as String,
-    json['url'] as String,
-    json['description'] as String,
-    json['categories'] as List,
-    json['tags'] as List,
-    json['uid'] as String,
-    json['created_by'] as String,
-    json['updated_by'] as String,
-    json['created_at'] as String,
-    json['updated_at'] as String,
-    json['_version'] as int,
+    json['locale'] as String?,
+    json['title'] as String?,
+    json['url'] as String?,
+    json['description'] as String?,
+    json['categories'] as List?,
+    json['tags'] as List?,
+    json['uid'] as String?,
+    json['created_by'] as String?,
+    json['updated_by'] as String?,
+    json['created_at'] as String?,
+    json['updated_at'] as String?,
+    json['_version'] as int?,
   );
 }
 
