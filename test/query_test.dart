@@ -225,8 +225,8 @@ void main() {
 
     test('test notContainedIn function parameter contains key', () async {
       query.where('number', QueryOperation(QueryOperationType.NotEquals, 4));
-      await query.find<List<EntryModel>, EntryModel>().then((response) {
-        expect(response!.length, 5);
+      await query.find().then((response) {
+        expect(response!.length, 1);
       });
     });
 

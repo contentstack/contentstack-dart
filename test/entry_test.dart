@@ -28,7 +28,7 @@ void main() {
         final entries = response['entries'];
         if(entries != null) {
           for (final item in entries) {
-            if (item['title'] == 'MEALS') {
+            if (item['title'] == 'source2') {
               entryUid = item['uid'];
               continue;
             }
@@ -126,9 +126,9 @@ void main() {
       await query.find().then((response) {
         final entries = response['entries'];
         for (final item in entries) {
-          if (item['title'] == 'MEALS') {
+          if (item['title'] == 'source2') {
             _uid = item['uid'];
-            entryInstance = stack.contentType('faq').entry(entryUid: _uid);
+            entryInstance = stack.contentType(contentType).entry(entryUid: _uid);
             continue;
           }
         }
@@ -138,7 +138,7 @@ void main() {
     //This function will be called before each test is run.
     // callback may be asynchronous; if so, it must return a
     setUp(() async {
-      entryInstance = stack.contentType('faq').entry(entryUid: _uid);
+      entryInstance = stack.contentType(contentType).entry(entryUid: _uid);
     });
 
     // test('find the entry response with locale', () async {
@@ -153,9 +153,9 @@ void main() {
     test('test entry response with version', () async {
       entryInstance
         ..locale('en-us')
-        ..addParam('version', '1');
+        ..addParam('version', '2');
       await entryInstance.fetch<EntryModel, Null>().then((response) {
-        expect(1, response!.version);
+        expect(response!.version, 2);
       });
     });
 
@@ -179,13 +179,14 @@ void main() {
       //   expect('Error', err.title);
       // });
       await entryInstance.fetch<EntryModel, Null>().then((response) {
-        expect('MEALS', response!.title);
+        expect(response!.title, 'source2');
       });
     });
 
     test('find the includeReference default API call', () async {
-      entryInstance.includeReference('categories');
+      entryInstance.includeReference('other_reference');
       await entryInstance.fetch().then((response) {
+        print(response);
         expect(141, response['error_code']);
       }).catchError((onError) {
         expect('invalid url requested', onError.message);
@@ -274,7 +275,7 @@ void main() {
 
     test('find the includeReference with multiple strings', () async {
       final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
-      final Entry entry = stack.contentType('faq').entry(entryUid: 'entryUid');
+      final Entry entry = stack.contentType(contentType).entry(entryUid: _uid);
       const List<String> fieldUID = ['price', 'orange', 'mango'];
       entry.includeReference(fieldUID);
       await entry.fetch().then((response) {

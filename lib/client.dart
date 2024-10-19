@@ -65,7 +65,7 @@ class HttpClient extends http.BaseClient {
         return fromJson<T, K>(bodyJson);
       }
     } else {
-      return bodyJson as FutureOr<T?>;
+      return fromJson<T, K>(bodyJson) as FutureOr<T?>;
     }
   }
 

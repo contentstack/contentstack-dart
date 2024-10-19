@@ -126,9 +126,10 @@ void main() {
       final asset = stack.assetQuery()
         ..includeCount()
         ..relativeUrls();
-      await asset.find<List<AssetModel>, AssetModel>().then((response) {
-        expect(response![4].url!.contains('.jpg'), true);
+      await asset.find().then((response) {
+        expect(response!['assets']![4]['url']!.contains('.jpg'), true);
       }).catchError((error) {
+        print(error);
         expect(422, error['error_code']);
       });
     });
