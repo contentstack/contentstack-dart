@@ -21,10 +21,10 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: cdecf5f45a132ba5671845ec126269a17a69979c0f385852ad4a7d8639016441
+      sha256: "49b1fad315e57ab0bbc15bcbb874e83116a1d78f77ebd500a4af6c9407d6b28e"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.2"
+    version: "3.3.8"
   args:
     dependency: transitive
     description:
@@ -441,6 +441,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.1"
+  pointycastle:
+    dependency: transitive
+    description:
+      name: pointycastle
+      sha256: "7c1e5f0d23c9016c5bbd8b1473d0d3fb3fc851b876046039509e18e0c7485f2c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.7.3"
   pool:
     dependency: transitive
     description:
