@@ -3,22 +3,22 @@ import 'package:contentstack/src/image/filter.dart';
 import 'package:contentstack/src/image/fit.dart';
 import 'package:contentstack/src/image/format.dart';
 import 'package:contentstack/src/image/orientation.dart';
-import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:dotenv/dotenv.dart';
 import 'package:test/test.dart';
 
 void main() {
   //var logger = Logger(printer: PrettyPrinter());
 
-  load();
-  final apiKey = env['apiKey'];
+  var env = DotEnv(includePlatformEnvironment: true)..load();
+  final apiKey = env['apiKey']!;
   final host = env['host'];
-  final deliveryToken = env['deliveryToken'];
-  final environment = env['environment'];
+  final deliveryToken = env['deliveryToken']!;
+  final environment = env['environment']!;
   final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
 
   group('ImageTransformation functional testcases', () {
     const imageUrl = 'https://images.contentstack.io/v3/assets/download';
-    ImageTransformation imageTransformation;
+    late ImageTransformation imageTransformation;
 
     setUp(() {
       imageTransformation = stack.imageTransform(imageUrl);

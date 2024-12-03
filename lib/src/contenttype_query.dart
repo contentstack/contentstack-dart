@@ -7,12 +7,12 @@ import 'package:contentstack/src/base_query.dart';
 /// available in a particular stack in your account.
 /// [ContentType](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#all-content-types).
 class ContentTypeQuery extends BaseQuery {
-  final HttpClient _client;
-  String _urlPath;
+  final HttpClient? _client;
+  late String _urlPath;
 
   ContentTypeQuery([this._client]) {
-    queryParameter['environment'] = _client.stackHeaders['environment'];
-    _urlPath = '/${_client.stack.apiVersion}/content_types';
+    queryParameter['environment'] = _client!.stackHeaders!['environment'];
+    _urlPath = '/${_client!.stack!.apiVersion}/content_types';
   }
 
   /// This call returns comprehensive information of all the content types
@@ -27,12 +27,12 @@ class ContentTypeQuery extends BaseQuery {
   /// print(response);
   /// ```
   ///
-  Future<T> find<T, K>({Map<String, String> queryParams}) async {
+  Future<T?> find<T, K>({Map<String, String>? queryParams}) async {
     if (queryParams != null && queryParams.isNotEmpty) {
       queryParameter.addAll(queryParams);
     }
-    final uri = Uri.https(_client.stack.endpoint, _urlPath, queryParameter);
-    return _client.sendRequest<T, K>(uri);
+    final uri = Uri.https(_client!.stack!.endpoint!, _urlPath, queryParameter);
+    return _client!.sendRequest<T, K>(uri);
   }
 
   ///

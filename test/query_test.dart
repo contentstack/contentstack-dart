@@ -7,22 +7,22 @@ import 'package:contentstack/src/enums/operator.dart';
 import 'package:contentstack/src/enums/operator_type.dart';
 import 'package:contentstack/src/enums/reference.dart';
 import 'package:contentstack/src/enums/reference_type.dart';
-import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:dotenv/dotenv.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('testcases for functional base queries', () {
-    Query query;
-    var apiKey = '', environment = '', deliveryToken = '', host = '';
-    Stack stack;
+    late Query query;
+    String? apiKey = '', environment = '', deliveryToken = '', host = '';
+    late Stack stack;
 
     setUpAll(() async {
-      load();
+      var env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];
       environment = env['environment'];
-      stack = Stack(apiKey, deliveryToken, environment, host: host);
+      stack = Stack(apiKey!, deliveryToken!, environment!, host: host);
     });
 
     setUp(() async {
@@ -156,20 +156,20 @@ void main() {
   });
 
   group('functional testcases for the Query class', () {
-    Query query;
-    var apiKey = '', environment = '', deliveryToken = '', host = '';
-    Stack stack;
+    late Query query;
+    String? apiKey = '', environment = '', deliveryToken = '', host = '';
+    late Stack stack;
 
     setUpAll(() async {
-      load();
+      var env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];
       environment = env['environment'];
-      stack = Stack(apiKey, deliveryToken, environment, host: host);
+      stack = Stack(apiKey!, deliveryToken!, environment!, host: host);
     });
     setUp(() async {
-      query = stack.contentType('source').entry().query();
+      query = stack.contentType('product').entry().query();
     });
 
     test('testcase setHeader for the query class', () async {
@@ -181,21 +181,21 @@ void main() {
   });
 
   group('testcases for API queries', () {
-    Query query;
-    var apiKey = '', environment = '', deliveryToken = '', host = '';
-    Stack stack;
+    late Query query;
+    String? apiKey = '', environment = '', deliveryToken = '', host = '';
+    late Stack stack;
 
     setUpAll(() async {
-      load();
+      var env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];
       environment = env['environment'];
-      stack = Stack(apiKey, deliveryToken, environment, host: host);
+      stack = Stack(apiKey!, deliveryToken!, environment!, host: host);
     });
 
     setUp(() async {
-      query = stack.contentType('source').entry().query();
+      query = stack.contentType('product').entry().query();
     });
 
     test('test length of the entry of respected contentType', () async {
@@ -225,8 +225,8 @@ void main() {
 
     test('test notContainedIn function parameter contains key', () async {
       query.where('number', QueryOperation(QueryOperationType.NotEquals, 4));
-      await query.find<List<EntryModel>, EntryModel>().then((response) {
-        expect(response.length, 5);
+      await query.find().then((response) {
+        expect(response!.length, 5);
       });
     });
 
@@ -413,13 +413,13 @@ void main() {
       final contains = query.getQueryUrl()['asc'];
       await query.find().then((response) {
         final ascList = response['entries'];
-        int oldnumber;
+        int? oldnumber;
         int counter = 0;
         for (final item in ascList) {
           if (counter != 0) {
             final newValue = item['number'];
             oldnumber = item['number'];
-            if (oldnumber <= newValue) {
+            if (oldnumber! <= newValue) {
               expect(true, true);
             } else {
               expect(true, false);
@@ -435,17 +435,17 @@ void main() {
   // these tests are working irrespective of the stack used
   // they need to be checked and updated
   group('testcases for entry queryable', () {
-    Query query;
-    var apiKey = '', environment = '', deliveryToken = '', host = '';
-    Stack stack;
+    late Query query;
+    String? apiKey = '', environment = '', deliveryToken = '', host = '';
+    late Stack stack;
 
     setUpAll(() async {
-      load();
+      var env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];
       environment = env['environment'];
-      stack = Stack(apiKey, deliveryToken, environment, host: host);
+      stack = Stack(apiKey!, deliveryToken!, environment!, host: host);
     });
 
     setUp(() async {
