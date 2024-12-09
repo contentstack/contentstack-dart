@@ -28,7 +28,7 @@ void main() {
         final entries = response['entries'];
        if(entries != null) {
            for (final item in entries) {
-             if (item['title'] == 'product1') {
+             if (item['title'] == 'source1') {
                entryUid = item['uid'];
                continue;
              }
@@ -126,7 +126,7 @@ void main() {
       await query.find().then((response) {
         final entries = response['entries'];
         for (final item in entries) {
-          if (item['title'] == 'product1') {
+          if (item['title'] == 'source1') {
             _uid = item['uid'];
             entryInstance = stack.contentType(contentType).entry(entryUid: _uid);
             continue;
@@ -153,9 +153,9 @@ void main() {
     test('test entry response with version', () async {
       entryInstance
         ..locale('en-us')
-        ..addParam('version', '2');
+        ..addParam('version', '5');
       await entryInstance.fetch<EntryModel, Null>().then((response) {
-        expect(response!.version,2);
+        expect(response!.version,5);
       });
     });
 
@@ -179,14 +179,14 @@ void main() {
       //   expect('Error', err.title);
       // });
       await entryInstance.fetch<EntryModel, Null>().then((response) {
-        expect(response!.title, 'product1' );
+        expect(response!.title, 'source1' );
       });
     });
 
     test('find the includeReference default API call', () async {
-      entryInstance.includeReference('other_reference');
+      entryInstance.includeReference('reference');
       await entryInstance.fetch().then((response) {
-        expect(141, response['error_code']);
+        expect(response['error_code'],141);
       }).catchError((onError) {
         expect('invalid url requested', onError.message);
       });
@@ -194,10 +194,10 @@ void main() {
 
     test('find the includeReference default with list objects', () async {
       const List<String> fieldUID = ['title', 'attendee', 'created_at'];
-      entryInstance.includeReference('categories',
+      entryInstance.includeReference('reference',
           includeReferenceField: IncludeClass(IncludeType.None, fieldUID));
       await entryInstance.fetch().then((response) {
-        expect(141, response['error_code']);
+        expect( response['error_code'],141);
       }).catchError((onError) {
         expect('invalid url requested', onError.message);
       });
@@ -206,21 +206,20 @@ void main() {
     test('find the includeReference with only API call', () async {
       entryInstance.locale('en-us');
       const List<String> fieldUID = ['price', 'orange', 'mango'];
-      entryInstance.includeReference('categories',
+      entryInstance.includeReference('reference',
           includeReferenceField: IncludeClass(IncludeType.Only, fieldUID));
       await entryInstance.fetch().then((response) {
-        expect(141, response['error_code']);
+        expect( response['error_code'],141);
       });
     });
 
     test('find the includeReference except API call', () async {
       entryInstance.locale('en-us');
       const List<String> fieldUID = ['price', 'orange', 'mango'];
-      entryInstance.includeReference('categories',
+      entryInstance.includeReference('reference',
           includeReferenceField: IncludeClass(IncludeType.Except, fieldUID));
       await entryInstance.fetch().then((response) {
-        expect(
-            "The requested object doesn't exist.", response['error_message']);
+        expect(response['error_message'],"The requested object doesn't exist.");
       }).catchError((error) {
         expect('Invalid reponse.', error.message);
       });
@@ -236,7 +235,7 @@ void main() {
     test('find the includeReferenceContentTypeUID except API call', () async {
       entryInstance.includeReferenceContentTypeUID();
       await entryInstance.fetch().then((response) {
-        final resp = response['entry']['faq_group'];
+        final resp = response['entry']['reference'];
         expect(true, resp is List);
       });
     });

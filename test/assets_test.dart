@@ -21,7 +21,7 @@ void main() {
         prints('response $response');
         final List assets = response['assets'];
         for (final item in assets) {
-          if (item['title'] == 'image2') {
+          if (item['title'] == 'IMG20230824114247.jpg') {
             assetUid = item['uid'];
             prints(assetUid);
           }
@@ -35,7 +35,7 @@ void main() {
         prints('response $response');
         final List assets = response['assets'];
         for (final item in assets) {
-          if (item['title'] == 'image2') {
+          if (item['title'] == 'IMG20230824114247.jpg') {
             assetUid = item['uid'];
             prints(assetUid);
           }

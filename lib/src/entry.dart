@@ -18,7 +18,7 @@ class Entry extends EntryQueryable {
   /// the defined `content types`. Learn more about Entries.
   /// Read more for details of [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
   Entry([this._uid, this._client, this._contentTypeUid]) {
-    parameter['environment'] = _client!.stackHeaders!['environment']!;
+    parameter['environment'] = _client!.stackHeaders!['environment'];
     if (_contentTypeUid != null && _contentTypeUid!.isNotEmpty) {
       _path =
           '/${_client!.stack!.apiVersion}/content_types/$_contentTypeUid/entries';

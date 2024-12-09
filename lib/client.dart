@@ -57,7 +57,7 @@ class HttpClient extends http.BaseClient {
         return fromJson<T, K>(bodyJson);
       } else {
         if (bodyJson!.containsKey('entries')) {
-          var previewResponse = stack!.livePreview!.entries;
+          var previewResponse = stack!.livePreview?.entries;
           if (previewResponse != null) {
             return fromJson<T, K>(mergeLivePreview(bodyJson, Map.fromEntries(previewResponse)));
           }

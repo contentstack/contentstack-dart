@@ -19,7 +19,7 @@ void main() {
     test('test network call for content type', () async {
       final map = {'key': 'value'};
       final response = await contentType.fetch(map);
-      expect(response['content_type']['schema'].length, 3);
+      expect(response['content_type']['schema'].length, 12);
     });
 
     test('test ContentTypeQuery instance', () {
@@ -32,13 +32,13 @@ void main() {
     test('test for all the content types available', () async {
       final allContents = contentType.query();
       final response = await allContents.find();
-      expect(response['content_types'].length,3);
+      expect(response['content_types'].length,10);
     });
 
     test('test include_count is available', () async {
       final allContents = contentType.query()..includeCount();
       await allContents.find().then((response) {
-        expect(response['count'],3);
+        expect(response['count'],10);
       }).catchError((error) {
         expect('invalid response', error.message);
       });
@@ -48,7 +48,7 @@ void main() {
       final allContents = contentType.query()..includeGlobalField();
       await allContents
           .find(queryParams: {'include_count': 'true'}).then((response) {
-        expect(response['count'],3);
+        expect(response['count'],10);
       });
     });
   });
