@@ -3,22 +3,22 @@ import 'package:contentstack/src/image/filter.dart';
 import 'package:contentstack/src/image/fit.dart';
 import 'package:contentstack/src/image/format.dart';
 import 'package:contentstack/src/image/orientation.dart';
-import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:dotenv/dotenv.dart';
 import 'package:test/test.dart';
 
 void main() {
   //var logger = Logger(printer: PrettyPrinter());
 
-  load();
-  final apiKey = env['apiKey'];
+  var env = DotEnv(includePlatformEnvironment: true)..load();
+  final apiKey = env['apiKey']!;
   final host = env['host'];
-  final deliveryToken = env['deliveryToken'];
-  final environment = env['environment'];
+  final deliveryToken = env['deliveryToken']!;
+  final environment = env['environment']!;
   final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
 
   group('ImageTransformation functional testcases', () {
     const imageUrl = 'https://images.contentstack.io/v3/assets/download';
-    ImageTransformation imageTransformation;
+    late ImageTransformation imageTransformation;
 
     setUp(() {
       imageTransformation = stack.imageTransform(imageUrl);
@@ -54,49 +54,49 @@ void main() {
 
     test('convert to gif in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.gif())
+        ..convert(Format.Gif)
         ..getUrl();
       expect('format=gif', response.query.toString());
     });
 
     test('convert to png in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.png())
+        ..convert(Format.Png)
         ..getUrl();
       expect('format=png', response.query.toString());
     });
 
     test('convert to jpeg in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.pjpg())
+        ..convert(Format.Pjpg)
         ..getUrl();
       expect('format=pjpg', response.query.toString());
     });
 
     test('convert to jpeg in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.jpg())
+        ..convert(Format.Jpg)
         ..getUrl();
       expect('format=jpg', response.query.toString());
     });
 
     test('convert to jpeg in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.webp())
+        ..convert(Format.Webp)
         ..getUrl();
       expect('format=webp', response.query.toString());
     });
 
     test('convert to jpeg in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.webplossy())
+        ..convert(Format.Webplossy)
         ..getUrl();
       expect('format=webply', response.query.toString());
     });
 
     test('convert to jpeg in ImageTransformation', () {
       final response = imageTransformation
-        ..convert(Format.webplossless())
+        ..convert(Format.Webplossless)
         ..getUrl();
       expect('format=webpll', response.query.toString());
     });
@@ -166,14 +166,14 @@ void main() {
 
     test('Fit To Bound  in ImageTransformation', () {
       final response = imageTransformation
-        ..fit(0.50, 0.50, Fit.bounds())
+        ..fit(0.50, 0.50, Fit.Bounds)
         ..getUrl();
       expect('width=0.5&height=0.5&fit=bounds', response.query.toString());
     });
 
     test('Fit By Cropping  in ImageTransformation', () {
       final response = imageTransformation
-        ..fit(0.50, 0.50, Fit.crop())
+        ..fit(0.50, 0.50, Fit.Crop)
         ..getUrl();
       expect('width=0.5&height=0.5&fit=crop', response.query.toString());
     });
@@ -208,14 +208,14 @@ void main() {
 
     test('orientation vertical in ImageTransformation check params', () {
       final response = imageTransformation
-        ..orientation(Orientation.vertically())
+        ..orientation(Orientation.Vertically)
         ..getUrl();
       expect('orient=4', response.query.toString());
     });
 
     test('orientation horizontal in ImageTransformation check params', () {
       final response = imageTransformation
-        ..orientation(Orientation.horizontally())
+        ..orientation(Orientation.Horizontally)
         ..getUrl();
       expect('orient=2', response.query.toString());
     });
@@ -224,35 +224,35 @@ void main() {
         'orientation degrees90TowardsRight in ImageTransformation check params',
         () {
       final response = imageTransformation
-        ..orientation(Orientation.degrees90TowardsRight())
+        ..orientation(Orientation.Degrees90TowardsRight)
         ..getUrl();
       expect('orient=6', response.query.toString());
     });
 
     test('orientation horizontallyAndRotate90DegreeLeft', () {
       final response = imageTransformation
-        ..orientation(Orientation.horizontallyAndRotate90DegreeLeft())
+        ..orientation(Orientation.HorizontallyAndRotate90DegreeLeft)
         ..getUrl();
       expect('orient=5', response.query.toString());
     });
 
     test('orientation horizontallyAndRotate90DegreesRight', () {
       final response = imageTransformation
-        ..orientation(Orientation.horizontallyAndRotate90DegreesRight())
+        ..orientation(Orientation.HorizontallyAndRotate90DegreesRight)
         ..getUrl();
       expect('orient=7', response.query.toString());
     });
 
     test('orientation horizontallyAndVertically', () {
       final response = imageTransformation
-        ..orientation(Orientation.horizontallyAndVertically())
+        ..orientation(Orientation.HorizontallyAndVertically)
         ..getUrl();
       expect('orient=3', response.query.toString());
     });
 
     test('orientation toDefault in ImageTransformation check params', () {
       final response = imageTransformation
-        ..orientation(Orientation.toDefault())
+        ..orientation(Orientation.ToDefault)
         ..getUrl();
       expect('orient=1', response.query.toString());
     });
@@ -260,7 +260,7 @@ void main() {
     test('orientation rotate90DegreesLeft in ImageTransformation check params',
         () {
       final response = imageTransformation
-        ..orientation(Orientation.rotate90DegreesLeft())
+        ..orientation(Orientation.Rotate90DegreesLeft)
         ..getUrl();
       expect('orient=8', response.query.toString());
     });
@@ -359,7 +359,7 @@ void main() {
 
     test('resize-filter  type nearest in ImageTransformation', () {
       final response = imageTransformation
-        ..resizeFilter(width: 20, height: 40, filter: Filter.nearest())
+        ..resizeFilter(width: 20, height: 40, filter: Filter.Nearest)
         ..getUrl();
       expect('width=20&height=40&resize-filter=nearest',
           response.query.toString());
@@ -367,7 +367,7 @@ void main() {
 
     test('resize-filter  type Filter.bicubic in ImageTransformation', () {
       final response = imageTransformation
-        ..resizeFilter(width: 20, height: 40, filter: Filter.bicubic())
+        ..resizeFilter(width: 20, height: 40, filter: Filter.Bicubic)
         ..getUrl();
       expect('width=20&height=40&resize-filter=bicubic',
           response.query.toString());
@@ -375,7 +375,7 @@ void main() {
 
     test('resize-filter type Filter.bilinear  in ImageTransformation', () {
       final response = imageTransformation
-        ..resizeFilter(width: 20, height: 40, filter: Filter.bilinear())
+        ..resizeFilter(width: 20, height: 40, filter: Filter.Bilinear)
         ..getUrl();
       expect('width=20&height=40&resize-filter=bilinear',
           response.query.toString());
@@ -383,7 +383,7 @@ void main() {
 
     test('resize-filter  type lanczos in ImageTransformation', () {
       final response = imageTransformation
-        ..resizeFilter(width: 20, height: 40, filter: Filter.lanczos())
+        ..resizeFilter(width: 20, height: 40, filter: Filter.Lanczos)
         ..getUrl();
       expect('width=20&height=40&resize-filter=lanczos3',
           response.query.toString());
@@ -419,7 +419,7 @@ void main() {
     });
 
     test('canvas by Offset in ImageTransformation API Request', () async {
-      imageTransformation.fit(200, 100, Fit.crop());
+      imageTransformation..fit(200, 100, Fit.Crop);
       await imageTransformation.fetch().then((response) {
         if (response['error_code'] == 200) {
           expect('80', response.query.toString());

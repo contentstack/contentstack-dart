@@ -8,12 +8,12 @@ part of 'syncresult.dart';
 
 SyncResult _$SyncResultFromJson(Map<String, dynamic> json) {
   return SyncResult(
-    json['items'] as List,
-    json['skip'] as int,
-    json['limit'] as int,
-    json['total_count'] as int,
-    json['sync_token'] as String,
-    json['pagination_token'] as String,
+    json['items'] as List?,
+    json['skip'] as int?,
+    json['limit'] as int?,
+    json['total_count'] as int?,
+    json['sync_token'] as String?,
+    json['pagination_token'] as String?,
   );
 }
 
@@ -29,10 +29,10 @@ Map<String, dynamic> _$SyncResultToJson(SyncResult instance) =>
 
 Items _$ItemsFromJson(Map<String, dynamic> json) {
   return Items(
-    json['type'] as String,
-    json['eventAt'] as String,
-    json['contentTypeUid'] as String,
-    json['data'] as List,
+    json['type'] as String?,
+    json['eventAt'] as String?,
+    json['contentTypeUid'] as String?,
+    json['data'] as List?,
   );
 }
 
@@ -45,9 +45,9 @@ Map<String, dynamic> _$ItemsToJson(Items instance) => <String, dynamic>{
 
 Data _$DataFromJson(Map<String, dynamic> json) {
   return Data(
-    json['uid'] as String,
-    json['locale'] as String,
-    json['title'] as String,
+    json['uid'] as String?,
+    json['locale'] as String?,
+    json['title'] as String?,
   );
 }
 

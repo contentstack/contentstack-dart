@@ -1,26 +1,31 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:async';
 import 'dart:convert';
 
 import 'package:contentstack/client.dart';
 import 'package:contentstack/constant.dart';
 import 'package:contentstack/src/base_query.dart';
-import 'package:contentstack/src/enums/include.dart' as include;
+import 'package:contentstack/src/enums/include.dart';
+import 'package:contentstack/src/enums/include_type.dart';
 import 'package:contentstack/src/enums/operator.dart';
+import 'package:contentstack/src/enums/operator_type.dart';
 import 'package:contentstack/src/enums/reference.dart';
+import 'package:contentstack/src/enums/reference_type.dart';
 
 /// Contentstack provides certain queries that you
 /// can use to fetch filtered results.
 /// You can use queries for Entries and Assets API requests.
 /// Learn more about [Query](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#queries)
 class Query extends BaseQuery {
-  final HttpClient _client;
-  final String _contentTypeUid;
-  String _path;
+  final HttpClient? _client;
+  final String? _contentTypeUid;
+  late String _path;
 
   Query([this._client, this._contentTypeUid]) {
-    queryParameter['environment'] = _client.stackHeaders['environment'];
+    queryParameter['environment'] = _client!.stackHeaders!['environment'];
     _path =
-        '/${_client.stack.apiVersion}/content_types/$_contentTypeUid/entries';
+        '/${_client!.stack!.apiVersion}/content_types/$_contentTypeUid/entries';
   }
 
   ///
@@ -67,20 +72,20 @@ class Query extends BaseQuery {
     }
   }
 
-  Future<T> find<T, K>() async {
+  Future<T?> find<T, K>() async {
     getQueryUrl();
 
-    final preview = _client.stack.livePreview;
+    final preview = _client!.stack!.livePreview;
     if (preview != null && preview.isNotEmpty) {
       __validateLivePreview(preview);
     }
-    final uri = Uri.https(_client.stack.endpoint, _path, queryParameter);
-    return _client.sendRequest<T, K>(uri);
+    final uri = Uri.https(_client!.stack!.endpoint!, _path, queryParameter);
+    return _client!.sendRequest<T, K>(uri);
   }
 
   void __validateLivePreview(preview) {
     if (preview != null && preview['enable']) {
-      ifLivePreviewEnable(_client);
+      ifLivePreviewEnable(_client!);
       if (_contentTypeUid == preview['content_type_uid']) {
         parameter['live_preview'] = 'init';
         if (preview.containsKey('live_preview') &&
@@ -198,44 +203,49 @@ class Query extends BaseQuery {
   /// ```
   ///
   void includeReference(String referenceFieldUid,
-      {include.Include includeReferenceField}) {
+      {IncludeClass? includeReferenceField}) {
     if (referenceFieldUid != null && referenceFieldUid.isNotEmpty) {
       final List referenceArray = [];
       if (includeReferenceField != null) {
-        includeReferenceField.when(none: (fieldUid) {
-          referenceArray.add(referenceFieldUid);
-          if (fieldUid.fieldUidList != null &&
-              fieldUid.fieldUidList.isNotEmpty) {
-            for (final item in fieldUid.fieldUidList) {
-              referenceArray.add(item);
+
+        switch(includeReferenceField.includeType) {
+          case IncludeType.None:
+            referenceArray.add(referenceFieldUid);
+            if (includeReferenceField.fieldUidList != null &&
+                includeReferenceField.fieldUidList.isNotEmpty) {
+              for (final item in includeReferenceField.fieldUidList) {
+                referenceArray.add(item);
+              }
             }
-          }
-          queryParameter['include[]'] = referenceArray.toString();
-        }, only: (fieldUid) {
-          final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
-          if (fieldUid.fieldUidList != null &&
-              fieldUid.fieldUidList.isNotEmpty) {
-            for (final item in fieldUid.fieldUidList) {
-              referenceArray.add(item);
+            queryParameter['include[]'] = referenceArray.toString();
+            break;
+          case IncludeType.Only:
+            final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
+            if (includeReferenceField.fieldUidList != null &&
+                includeReferenceField.fieldUidList.isNotEmpty) {
+              for (final item in includeReferenceField.fieldUidList) {
+                referenceArray.add(item);
+              }
             }
-          }
-          referenceOnlyParam[referenceFieldUid] = referenceArray;
-          //_include(referenceFieldUid);
-          includeReference(referenceFieldUid);
-          queryParameter['only'] = referenceOnlyParam.toString();
-        }, except: (fieldUid) {
-          final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
-          if (fieldUid.fieldUidList != null &&
-              fieldUid.fieldUidList.isNotEmpty) {
-            for (final item in fieldUid.fieldUidList) {
-              referenceArray.add(item);
+            referenceOnlyParam[referenceFieldUid] = referenceArray;
+            //_include(referenceFieldUid);
+            includeReference(referenceFieldUid);
+            queryParameter['only'] = referenceOnlyParam.toString();
+            break;
+          case IncludeType.Except:
+            final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
+            if (includeReferenceField.fieldUidList != null &&
+                includeReferenceField.fieldUidList.isNotEmpty) {
+              for (final item in includeReferenceField.fieldUidList) {
+                referenceArray.add(item);
+              }
             }
-          }
-          referenceOnlyParam[referenceFieldUid] = referenceArray;
-          //_include(referenceFieldUid);
-          includeReference(referenceFieldUid);
-          queryParameter['except'] = referenceOnlyParam.toString();
-        });
+            referenceOnlyParam[referenceFieldUid] = referenceArray;
+            //_include(referenceFieldUid);
+            includeReference(referenceFieldUid);
+            queryParameter['except'] = referenceOnlyParam.toString();
+            break;
+        }
       } else {
         queryParameter['include[]'] = referenceFieldUid;
       }
@@ -357,27 +367,30 @@ class Query extends BaseQuery {
   /// ```
   ///
   void operator(QueryOperator operator) {
-    operator.when(and: (and) {
-      final List<Query> queryList =
-          and.queryObjects; //and.queryObjects is list of Query Objects
-      if (queryList.isNotEmpty) {
-        final emptyList = [];
-        for (final item in queryList) {
-          emptyList.add(item.parameter);
+    switch(operator.operatorType) {
+      case QueryOperatorType.And:
+        final List<Query> queryList =
+          operator.queryObjects; //and.queryObjects is list of Query Objects
+        if (queryList.isNotEmpty) {
+          final emptyList = [];
+          for (final item in queryList) {
+            emptyList.add(item.parameter);
+          }
+          parameter['\$and'] = emptyList;
         }
-        parameter['\$and'] = emptyList;
-      }
-    }, or: (or) {
-      final List<Query> queryList =
-          or.queryObjects; //and.queryObjects is list of Query Objects
-      if (queryList.isNotEmpty) {
-        final emptyList = [];
-        for (final item in queryList) {
-          emptyList.add(item.parameter);
+        break;
+      case QueryOperatorType.Or:
+        final List<Query> queryList =
+          operator.queryObjects; //and.queryObjects is list of Query Objects
+        if (queryList.isNotEmpty) {
+          final emptyList = [];
+          for (final item in queryList) {
+            emptyList.add(item.parameter);
+          }
+          parameter['\$or'] = emptyList;
         }
-        parameter['\$or'] = emptyList;
-      }
-    });
+        break;
+    }
   }
 
   ///
@@ -393,8 +406,8 @@ class Query extends BaseQuery {
   /// ```
   ///
   void removeHeader(String key) {
-    if (_client.stackHeaders.containsKey(key)) {
-      _client.stackHeaders.remove(key);
+    if (_client!.stackHeaders!.containsKey(key)) {
+      _client!.stackHeaders!.remove(key);
     }
   }
 
@@ -414,7 +427,7 @@ class Query extends BaseQuery {
   ///
   void setHeader(String key, String value) {
     if (key.isNotEmpty && value.isNotEmpty) {
-      _client.stackHeaders[key] = value;
+      _client!.stackHeaders![key] = value;
     }
   }
 
@@ -446,13 +459,16 @@ class Query extends BaseQuery {
   ///
   void whereReference(String referenceUid, QueryReference reference) {
     if (referenceUid != null && referenceUid.isNotEmpty) {
-      reference.when(include: (queryInstance) {
-        parameter[referenceUid] = {'\$in_query': queryInstance.query.parameter};
-      }, notInclude: (queryInstance) {
-        parameter[referenceUid] = {
-          '\$nin_query': queryInstance.query.parameter
-        };
-      });
+      switch(reference.referenceType) {
+        case QueryReferenceType.Include:
+          parameter[referenceUid] = {'\$in_query': reference.query.parameter};
+          break;
+        case QueryReferenceType.NotInclude:
+          parameter[referenceUid] = {
+            '\$nin_query': reference.query.parameter
+          };
+          break;
+      }
     }
   }
 

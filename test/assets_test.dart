@@ -1,26 +1,27 @@
 import 'package:contentstack/contentstack.dart' as contentstack;
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/asset_query.dart';
-import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:dotenv/dotenv.dart';
 import 'package:test/test.dart';
+import 'dart:convert';
 
 void main() {
-  load();
-  final apiKey = env['apiKey'];
+  var env = DotEnv(includePlatformEnvironment: true)..load();
+  final apiKey = env['apiKey']!;
   final host = env['host'];
-  final deliveryToken = env['deliveryToken'];
-  final environment = env['environment'];
+  final deliveryToken = env['deliveryToken']!;
+  final environment = env['environment']!;
   final Stack stack = Stack(apiKey, deliveryToken, environment, host: host);
 
   group('testcases for asset the functional implementation', () {
-    var assetUid = '';
+    var assetUid = env['assetUid'];
     setUp(() async {
       final AssetQuery assetQuery = stack.assetQuery();
       await assetQuery.find().then((response) {
         prints('response $response');
         final List assets = response['assets'];
         for (final item in assets) {
-          if (item['title'] == 'images_(2).jpg') {
+          if (item['title'] == 'IMG20230824114247.jpg') {
             assetUid = item['uid'];
             prints(assetUid);
           }
@@ -34,7 +35,7 @@ void main() {
         prints('response $response');
         final List assets = response['assets'];
         for (final item in assets) {
-          if (item['title'] == 'images_(2).jpg') {
+          if (item['title'] == 'IMG20230824114247.jpg') {
             assetUid = item['uid'];
             prints(assetUid);
           }
@@ -46,7 +47,7 @@ void main() {
     test('testcase asset title', () async {
       final asset = stack.asset(assetUid)..environment('development');
       await asset.fetch<AssetModel, void>().then((response) {
-        expect('images_(2).jpg', response.title);
+        expect('image2', response!.title);
       });
     });
 
@@ -62,9 +63,9 @@ void main() {
     });
 
     test('testcase asset fetch version', () async {
-      final asset = stack.asset(assetUid)..version(4);
+      final asset = stack.asset(assetUid)..version(1);
       await asset.fetch().then((response) {
-        expect('images_(2).jpg', response['asset']['filename']);
+        expect('image2.jpg', response['asset']['filename']);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -84,7 +85,7 @@ void main() {
         final asset = stack.asset(assetUid)..includeDimension();
         await asset.fetch().then((response) {
           final model = contentstack.AssetModel.fromJson(response['asset']);
-          expect('{height: 171, width: 294}', model.dimension.toString());
+          expect(model.dimension.toString(), '{height: 225, width: 225}');
         });
       } catch (e) {
         expect(e.toString(), equals('Provide asset uid to fetch single entry'));
@@ -101,7 +102,7 @@ void main() {
     test('test asset environment', () async {
       final asset = stack.assetQuery()..environment('development');
       await asset.find().then((response) {
-        expect('images_(2).jpg', response['assets'][7]['filename']);
+        expect('image2.jpg', response['assets'][4]['filename']);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -125,9 +126,10 @@ void main() {
       final asset = stack.assetQuery()
         ..includeCount()
         ..relativeUrls();
-      await asset.find<List<AssetModel>, AssetModel>().then((response) {
-        expect(response[7].url.contains('.jpg'), true);
+      await asset.find().then((response) {
+        expect(response!['assets']![4]['url']!.contains('.jpg'), true);
       }).catchError((error) {
+        print(error);
         expect(422, error['error_code']);
       });
     });
@@ -153,7 +155,7 @@ void main() {
     test('testcase asset include fallback', () async {
       final asset = stack.assetQuery()..includeFallback();
       await asset.find().then((response) {
-        expect(8, response['assets'].length);
+        expect(5, response['assets'].length);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
@@ -164,7 +166,7 @@ void main() {
         ..includeFallback()
         ..param('locale', 'en-us');
       await asset.find().then((response) {
-        expect(8, response['assets'].length);
+        expect(5, response['assets'].length);
       }).catchError((error) {
         expect(422, error['error_code']);
       });
