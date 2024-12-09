@@ -1,6 +1,6 @@
 name: contentstack
 description: Contentstack is a headless CMS with an API-first approach that puts content at the centre.
-version: 0.5.1
+version: 1.0.0
 homepage: https://www.contentstack.com
 documentation: https://www.contentstack.com/docs/developers/apis/content-delivery-api
 
@@ -14,7 +14,6 @@ dependencies:
   json_annotation: ^4.4.0 # create code for JSON serialization and deserialization.
   logger: ^2.4.0 # logger which prints beautiful logs
   path: ^1.8.0 # for manipulating paths: joining, splitting, normalizing, etc.
-  # super_enum: ^0.5.0
   dotenv: ^4.2.0 # loads environment variables at runtime from a .env file.
   file: ^7.0.0
 
@@ -25,9 +24,4 @@ dev_dependencies:
   build_web_compilers: ^4.0.11
   json_serializable: ^6.1.5
   test: ^1.20.1
-
-# dependency_overrides:
-#   frontend_server_client: ^4.0.0
-#   test_core: ^0.6.7
-#   pool: ^1.5.1
 
