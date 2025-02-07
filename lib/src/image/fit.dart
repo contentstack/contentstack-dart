@@ -1,11 +1,5 @@
-import 'package:super_enum/super_enum.dart';
-part 'fit.g.dart';
-
-@superEnum
-enum _Fit {
+enum Fit {
 //nearest, bilinear, bicubic, lanczos
-  @object
   Bounds,
-  @object
-  Crop,
+  Crop
 }
