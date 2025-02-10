@@ -7,11 +7,11 @@ import 'package:http/http.dart' as http;
 
 class HttpClient extends http.BaseClient {
   final http.Client _client;
-  final Stack stack;
-  final Map<String, String> stackHeaders;
+  final Stack? stack;
+  final Map<String, String>? stackHeaders;
 
-  factory HttpClient(Map<String, String> headers,
-      {http.Client client, Stack stack}) {
+  factory HttpClient(Map<String, String>? headers,
+      {http.Client? client, Stack? stack}) {
     final stackClient = client ?? http.Client();
     return HttpClient._internal(stackClient, headers, stack);
   }
@@ -26,13 +26,13 @@ class HttpClient extends http.BaseClient {
     return _client.send(request);
   }
 
-  Future<T> sendRequest<T, K>(Uri uri) async {
-    stackHeaders[CONTENT_TYPE] = CONTENT_TYPE_VALUE;
-    stackHeaders[X_USER_AGENT] = X_USER_AGENT_VALUE;
+  Future<T?> sendRequest<T, K>(Uri uri) async {
+    stackHeaders![CONTENT_TYPE] = CONTENT_TYPE_VALUE;
+    stackHeaders![X_USER_AGENT] = X_USER_AGENT_VALUE;
     final response = await http
-        .get(uri, headers: stackHeaders)
+        .get(uri, headers: stackHeaders as Map<String, String>)
         .timeout(const Duration(seconds: TIMEOUT));
-    Object bodyJson;
+    Object? bodyJson;
     try {
       bodyJson = jsonDecode(response.body);
     } on FormatException {
@@ -44,32 +44,32 @@ class HttpClient extends http.BaseClient {
       rethrow;
     }
     if (response.statusCode == 200) {
-      final Map bodyJson = json.decode(utf8.decode(response.bodyBytes));
-      if (T == EntryModel && bodyJson.containsKey('entry')) {
+      final Map? bodyJson = json.decode(utf8.decode(response.bodyBytes));
+      if (T == EntryModel && bodyJson!.containsKey('entry')) {
         return fromJson<T, K>(bodyJson['entry']);
-      } else if (K == EntryModel && bodyJson.containsKey('entries')) {
+      } else if (K == EntryModel && bodyJson!.containsKey('entries')) {
         return fromJson<T, K>(bodyJson['entries']);
-      } else if (T == AssetModel && bodyJson.containsKey('asset')) {
+      } else if (T == AssetModel && bodyJson!.containsKey('asset')) {
         return fromJson<T, K>(bodyJson['asset']);
-      } else if (K == AssetModel && bodyJson.containsKey('assets')) {
+      } else if (K == AssetModel && bodyJson!.containsKey('assets')) {
         return fromJson<T, K>(bodyJson['assets']);
-      } else if (T == SyncResult && bodyJson.containsKey('items')) {
+      } else if (T == SyncResult && bodyJson!.containsKey('items')) {
         return fromJson<T, K>(bodyJson);
       } else {
-        if (bodyJson.containsKey('entries')) {
-          var previewResponse = stack.livePreview['entries'];
+        if (bodyJson!.containsKey('entries')) {
+          var previewResponse = stack!.livePreview?.entries;
           if (previewResponse != null) {
-            return fromJson<T, K>(mergeLivePreview(bodyJson, previewResponse));
+            return fromJson<T, K>(mergeLivePreview(bodyJson, Map.fromEntries(previewResponse)));
           }
         }
         return fromJson<T, K>(bodyJson);
       }
     } else {
-      return bodyJson;
+      return fromJson<T, K>(bodyJson) as FutureOr<T?>;
     }
   }
 
-  mergeLivePreview(Map bodyJson, Map previewResponse) {}
+  mergeLivePreview(Map? bodyJson, Map previewResponse) {}
 
   /// Generic objects as well as List of generic objects
   /// (from a JSON list response).
@@ -77,9 +77,9 @@ class HttpClient extends http.BaseClient {
   /// generic object and returns the result of the corresponding fromJson call
   /// code taken from:
   /// https://stackoverflow.com/questions/56271651/how-to-pass-a-generic-type-as-a-parameter-to-a-future-in-flutter
-  static T fromJson<T, K>(dynamic json) {
+  static T? fromJson<T, K>(dynamic json) {
     if (json is Iterable) {
-      return _fromJsonList<K>(json) as T;
+      return _fromJsonList<K>(json as List<dynamic>) as T;
     } else if (T == AssetModel) {
       return AssetModel.fromJson(json) as T;
     } else if (T == EntryModel) {
@@ -91,14 +91,14 @@ class HttpClient extends http.BaseClient {
     }
   }
 
-  static List<K> _fromJsonList<K>(List jsonList) {
+  static List<K?>? _fromJsonList<K>(List? jsonList) {
     if (jsonList == null) {
       return null;
     }
 
-    final output = <K>[];
+    final output = <K?>[];
     // ignore: prefer_final_in_for_each
-    for (Map<String, dynamic> json in jsonList) {
+    for (Map<String, dynamic> json in jsonList as Iterable<Map<String, dynamic>>) {
       output.add(fromJson(json));
     }
     return output;

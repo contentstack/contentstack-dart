@@ -8,11 +8,11 @@ import 'package:contentstack/client.dart';
 /// Learn more about [Assets](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#get-a-single-asset)
 ///
 class Asset {
-  final HttpClient _client;
-  final String _uid;
-  String _urlPath;
+  final HttpClient? _client;
+  final String? _uid;
+  String? _urlPath;
 
-  final Map<String, String> assetParameter = <String, String>{};
+  final Map<String, String?> assetParameter = <String, String?>{};
 
   /// * [_uid] assetUid:
   /// Enter the unique ID of the asset of which you wish to retrieve
@@ -27,8 +27,8 @@ class Asset {
   /// });
   ///
   Asset(this._uid, [this._client]) {
-    assetParameter['environment'] = _client.stackHeaders['environment'];
-    _urlPath = '/${_client.stack.apiVersion}/assets';
+    assetParameter['environment'] = _client!.stackHeaders!['environment'];
+    _urlPath = '/${_client!.stack!.apiVersion}/assets';
   }
 
   ///
@@ -57,13 +57,13 @@ class Asset {
   /// }).catchError((error) {
   ///   print(error['error_code']);
   /// });
-  Future<T> fetch<T, K>() {
-    if (_uid == null || _uid.isEmpty) {
+  Future<T?> fetch<T, K>() {
+    if (_uid == null || _uid!.isEmpty) {
       throw Exception('Provide asset uid to fetch single entry');
     }
     final uri =
-        Uri.https(_client.stack.endpoint, '$_urlPath/$_uid', assetParameter);
-    return _client.sendRequest<T, K>(uri);
+        Uri.https(_client!.stack!.endpoint!, '$_urlPath/$_uid', assetParameter);
+    return _client!.sendRequest<T, K>(uri);
   }
 
   ///
