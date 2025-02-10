@@ -1,6 +1,6 @@
 # CHANGELOG
 
-### **DEC-11-2024**
+### **FEB-17-2025**
 
 #### v1.0.0 - v3 migration null support added
 #### Removed super_enum lib
