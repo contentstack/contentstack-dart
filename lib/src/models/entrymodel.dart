@@ -5,23 +5,23 @@ part 'entrymodel.g.dart';
 /// EntryModel refers to the generic class for entry result
 @JsonSerializable(createFactory: true)
 class EntryModel {
-  String locale;
-  String title;
-  String url;
-  String description;
-  List categories;
-  List tags;
-  String uid;
+  String? locale;
+  String? title;
+  String? url;
+  String? description;
+  List? categories;
+  List? tags;
+  String? uid;
   @JsonKey(name: 'created_by')
-  String createdBy;
+  String? createdBy;
   @JsonKey(name: 'updated_by')
-  String updatedBy;
+  String? updatedBy;
   @JsonKey(name: 'created_at')
-  String createdAt;
+  String? createdAt;
   @JsonKey(name: 'updated_at')
-  String updatedAt;
+  String? updatedAt;
   @JsonKey(name: '_version')
-  int version;
+  int? version;
   EntryModel(
       this.locale,
       this.title,

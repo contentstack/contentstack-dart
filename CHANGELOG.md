@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### **FEB-17-2025**
+
+#### v1.0.0 - v3 migration null support added
+#### Removed super_enum lib
+
 ## v0.5.1 - Added support for gcp_na region
 #### Added support for gcp_na region
 

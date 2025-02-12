@@ -4,28 +4,28 @@ part 'assetmodel.g.dart';
 /// AssetModel refers to the generic class for asset result
 @JsonSerializable(createFactory: true)
 class AssetModel {
-  String uid;
+  String? uid;
   @JsonKey(name: 'created_at')
-  String createdAt;
+  String? createdAt;
   @JsonKey(name: 'updated_at')
-  String updatedAt;
+  String? updatedAt;
   @JsonKey(name: 'created_by')
-  String createdBy;
+  String? createdBy;
   @JsonKey(name: 'updated_by')
-  String updatedBy;
+  String? updatedBy;
   @JsonKey(name: 'content_type')
-  String contentType;
+  String? contentType;
   @JsonKey(name: 'file_size')
-  String fileSize;
-  List tags;
-  String filename;
-  String url;
+  String? fileSize;
+  List? tags;
+  String? filename;
+  String? url;
   @JsonKey(name: '_version')
-  int version;
-  String title;
-  Map<dynamic, dynamic> dimension;
+  int? version;
+  String? title;
+  Map<dynamic, dynamic>? dimension;
   @JsonKey(name: 'publish_details')
-  Map publishDetails;
+  Map? publishDetails;
   AssetModel(
       this.uid,
       this.createdAt,
