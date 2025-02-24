@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -57,7 +59,7 @@ class HttpClient extends http.BaseClient {
         return fromJson<T, K>(bodyJson);
       } else {
         if (bodyJson!.containsKey('entries')) {
-          var previewResponse = stack!.livePreview?.entries;
+          final previewResponse = stack!.livePreview?.entries;
           if (previewResponse != null) {
             return fromJson<T, K>(mergeLivePreview(bodyJson, Map.fromEntries(previewResponse)));
           }
@@ -69,6 +71,7 @@ class HttpClient extends http.BaseClient {
     }
   }
 
+  // ignore: always_declare_return_types
   mergeLivePreview(Map? bodyJson, Map previewResponse) {}
 
   /// Generic objects as well as List of generic objects

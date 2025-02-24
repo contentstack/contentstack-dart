@@ -6,7 +6,7 @@ documentation: https://www.contentstack.com/docs/developers/apis/content-deliver
 
 environment:
   # sdk: ">=2.17.6 <3.0.0"
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.12.0 <4.0.0"
 
 dependencies:
   dartdoc: ^8.1.0 # dartdoc to generate HTML documentation for your Dart package

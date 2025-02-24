@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:contentstack/constant.dart';
 import 'package:contentstack/src/enums/include.dart';
 import 'package:contentstack/src/enums/include_type.dart';
@@ -20,7 +22,7 @@ class EntryQueryable {
   /// entry.addParam(key, value);
   /// ```
   void addParam(String key, String value) {
-    if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
+    if (key.isNotEmpty && value.isNotEmpty) {
       parameter[key] = value.toString();
     }
   }
@@ -40,7 +42,7 @@ class EntryQueryable {
   /// ```
   ///
   void except(List<String> fieldUid) {
-    if (fieldUid != null && fieldUid.isNotEmpty) {
+    if (fieldUid.isNotEmpty) {
       final List referenceArray = [];
       for (final item in fieldUid) {
         referenceArray.add(item);
@@ -175,8 +177,7 @@ class EntryQueryable {
               referenceArray.add(referenceFieldUid);
             }
 
-            if (includeReferenceField.fieldUidList != null &&
-                includeReferenceField.fieldUidList.isNotEmpty) {
+            if (includeReferenceField.fieldUidList.isNotEmpty) {
               for (final item in includeReferenceField.fieldUidList) {
                 referenceArray.add(item);
               }
@@ -185,8 +186,7 @@ class EntryQueryable {
             break;
           case IncludeType.Only:
             final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
-            if (includeReferenceField.fieldUidList != null &&
-                includeReferenceField.fieldUidList.isNotEmpty) {
+            if (includeReferenceField.fieldUidList.isNotEmpty) {
               for (final item in includeReferenceField.fieldUidList) {
                 referenceArray.add(item);
               }
@@ -197,8 +197,7 @@ class EntryQueryable {
             break;
           case IncludeType.Except:
             final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
-            if (includeReferenceField.fieldUidList != null &&
-                includeReferenceField.fieldUidList.isNotEmpty) {
+            if (includeReferenceField.fieldUidList.isNotEmpty) {
               for (final item in includeReferenceField.fieldUidList) {
                 referenceArray.add(item);
               }
@@ -262,7 +261,7 @@ class EntryQueryable {
   /// ```
   ///
   void only(List<String> fieldUid) {
-    if (fieldUid != null && fieldUid.isNotEmpty) {
+    if (fieldUid.isNotEmpty) {
       final List referenceArray = [];
       for (final item in fieldUid) {
         referenceArray.add(item);

@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:contentstack/contentstack.dart';
 import 'package:contentstack/src/enums/include.dart';
 import 'package:contentstack/src/enums/include_type.dart';
@@ -17,7 +19,7 @@ void main() {
     late Stack stack;
 
     setUpAll(() async {
-      var env = DotEnv(includePlatformEnvironment: true)..load();
+      final env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];
@@ -161,7 +163,7 @@ void main() {
     late Stack stack;
 
     setUpAll(() async {
-      var env = DotEnv(includePlatformEnvironment: true)..load();
+      final env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];
@@ -186,7 +188,7 @@ void main() {
     late Stack stack;
 
     setUpAll(() async {
-      var env = DotEnv(includePlatformEnvironment: true)..load();
+      final env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];
@@ -440,7 +442,7 @@ void main() {
     late Stack stack;
 
     setUpAll(() async {
-      var env = DotEnv(includePlatformEnvironment: true)..load();
+      final env = DotEnv(includePlatformEnvironment: true)..load();
       apiKey = env['apiKey'];
       host = env['host'];
       deliveryToken = env['deliveryToken'];
