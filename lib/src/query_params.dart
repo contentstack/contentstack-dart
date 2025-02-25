@@ -27,7 +27,7 @@ class URLQueryParams {
 
   String toUrl(String urls) {
     String updatedUrl;
-    if (urls != null && urls.isNotEmpty && urls.endsWith('/')) {
+    if (urls.isNotEmpty && urls.endsWith('/')) {
       updatedUrl = urls.substring(0, urls.length - 1);
     } else {
       updatedUrl = urls;

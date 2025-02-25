@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -84,13 +86,13 @@ class Stack {
       _host = 'gcp-na-cdn.contentstack.com';
     }
 
-    if (_apiKey.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
+    if (_apiKey.replaceAll(RegExp('\\W'), '').isEmpty) {
       throw ArgumentError.notNull('apiKey');
     }
-    if (_deliveryToken.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
+    if (_deliveryToken.replaceAll(RegExp('\\W'), '').isEmpty) {
       throw ArgumentError.notNull('deliveryToken');
     }
-    if (_environment.replaceAll(RegExp('\\W'), '').isEmpty ?? true) {
+    if (_environment.replaceAll(RegExp('\\W'), '').isEmpty) {
       throw ArgumentError.notNull('environment');
     }
 
@@ -310,10 +312,8 @@ class Stack {
   /// stack = stack..removeHeader('headerKey');
   /// ```
   void removeHeader(String headerKey) {
-    if (headerKey != null) {
-      if (headers!.containsKey(headerKey)) {
-        headers!.remove(headerKey);
-      }
+    if (headers!.containsKey(headerKey)) {
+      headers!.remove(headerKey);
     }
   }
 
@@ -447,9 +447,9 @@ class Stack {
       if (enable) {
         if (livePreviewQuery.containsKey('content_type_uid') &&
             livePreviewQuery['content_type_uid'] != null) {
-          var content_type_uid = livePreviewQuery['content_type_uid'];
-          var _entry_uid = livePreviewQuery['entry_uid'];
-          var _host = livePreviewQuery['host'];
+          final content_type_uid = livePreviewQuery['content_type_uid'];
+          final _entry_uid = livePreviewQuery['entry_uid'];
+          final _host = livePreviewQuery['host'];
           _executeAPI(content_type_uid, _entry_uid, _host);
         }
       }
@@ -457,17 +457,18 @@ class Stack {
   }
 
   Future _executeAPI(content_type_uid, entry_uid, host) async {
-    var _url =
-        "https://$host}/${this.apiVersion}/content_types/$content_type_uid/entries/$entry_uid";
-    var _headers = {
+    final _url =
+        'https://$host}/$apiVersion/content_types/$content_type_uid/entries/$entry_uid';
+    final _headers = {
       'authorization': headers!['authorization']!,
       'api_key': headers!['api_key']!,
     };
 
+  print('Request URL: $_url');
     await http.get(Uri.parse(_url), headers: _headers).then((response) {
-      Map bodyJson = json.decode(utf8.decode(response.bodyBytes));
+      final Map bodyJson = json.decode(utf8.decode(response.bodyBytes));
       print(bodyJson);
-      livePreview!["entry"] = bodyJson['entry'];
+      livePreview!['entry'] = bodyJson['entry'];
     });
   }
 

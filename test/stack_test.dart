@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 void main() {
   final logger = Logger(printer: PrettyPrinter());
 
-  var env = DotEnv(includePlatformEnvironment: true)..load();
+  final env = DotEnv(includePlatformEnvironment: true)..load();
   final apiKey = env['apiKey']!;
   final host = env['host'];
   final deliveryToken = env['deliveryToken']!;
@@ -105,6 +105,7 @@ void main() {
 
     test('testcases instance of the  content type', () {
       final contentType = stack.contentType('application_theme');
+      // ignore: unnecessary_type_check
       expect(true, contentType is contentstack.ContentType);
     });
 
@@ -156,17 +157,17 @@ void main() {
     });
 
     test('global fields without params', () {
-      var response = stack.globalField();
+      final response = stack.globalField();
       print(response);
     });
 
     test('Global fields with parameters', () {
-      var response = stack.globalField('sso', false);
+      final response = stack.globalField('sso', false);
       print(response);
     });
 
     test('Global fields with parameters', () {
-      var response = stack.globalField('sso', true);
+      final response = stack.globalField('sso', true);
       print(response);
     });
   });
