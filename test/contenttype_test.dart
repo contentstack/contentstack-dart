@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 void main() {
   final logger = Logger(printer: PrettyPrinter());
 
-  var env = DotEnv(includePlatformEnvironment: true)..load();
+  final env = DotEnv(includePlatformEnvironment: true)..load();
   final apiKey = env['apiKey']!;
   final host = env['host'];
   final deliveryToken = env['deliveryToken']!;
@@ -24,6 +24,7 @@ void main() {
 
     test('test ContentTypeQuery instance', () {
       final checkInstance = contentType.query();
+      // ignore: unnecessary_type_check
       expect(true, checkInstance is ContentTypeQuery);
     });
   });

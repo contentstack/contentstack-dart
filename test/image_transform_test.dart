@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 void main() {
   //var logger = Logger(printer: PrettyPrinter());
 
-  var env = DotEnv(includePlatformEnvironment: true)..load();
+  final env = DotEnv(includePlatformEnvironment: true)..load();
   final apiKey = env['apiKey']!;
   final host = env['host'];
   final deliveryToken = env['deliveryToken']!;
@@ -419,7 +419,7 @@ void main() {
     });
 
     test('canvas by Offset in ImageTransformation API Request', () async {
-      imageTransformation..fit(200, 100, Fit.Crop);
+      imageTransformation.fit(200, 100, Fit.Crop);
       await imageTransformation.fetch().then((response) {
         if (response['error_code'] == 200) {
           expect('80', response.query.toString());
