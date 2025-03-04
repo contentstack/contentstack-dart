@@ -1,3 +1,6 @@
+
+// ignore_for_file: lines_longer_than_80_chars, cascade_invocations
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -282,13 +285,9 @@ class ImageTransformation {
     /// cropRatio as prams else it takes crop params and comas
     /// separated width & height
     final cropLRBL = [];
-    if (width != null) {
-      cropLRBL.add(width);
-    }
-    if (height != null) {
+    cropLRBL.add(width);
       cropLRBL.add(height);
-    }
-    if (region != null) {
+      if (region != null) {
       cropLRBL.add(region);
     }
     if (offset != null) {
@@ -359,25 +358,19 @@ class ImageTransformation {
   ///
 
   void fit(double width, double height, Fit fit) {
-    if (width != null) {
-      query.append('width', width.toString());
-    }
-    if (height != null) {
+    query.append('width', width.toString());
       query.append('height', height.toString());
-    }
-    if (fit != null) {
       //enum Fit { bounds, crop }
 
-      switch(fit) {
-        case Fit.Bounds:
-          query.append('fit', 'bounds');
-          break;
-        case Fit.Crop:
-          query.append('fit', 'crop');
-          break;
-      }
+    switch(fit) {
+      case Fit.Bounds:
+        query.append('fit', 'bounds');
+        break;
+      case Fit.Crop:
+        query.append('fit', 'crop');
+        break;
     }
-  }
+    }
 
   /// The frame parameter fetches the first frame from an animated GIF
   /// (Graphics Interchange Format) file that comprises
@@ -429,35 +422,33 @@ class ImageTransformation {
     //  degrees90TowardsRight = '6';
     //  horizontallyAndRotate90DegreesRight = '7';
     //  rotate90DegreesLeft = '8';
-    if (orient != null) {
-      switch(orient) {
-        case Orientation.ToDefault:
-          query.append('orient', 1);
-          break;
-        case Orientation.Horizontally:
-          query.append('orient', 2);
-          break;
-        case Orientation.HorizontallyAndVertically:
-          query.append('orient', 3);
-          break;
-        case Orientation.Vertically:
-          query.append('orient', 4);
-          break;
-        case Orientation.HorizontallyAndRotate90DegreeLeft:
-          query.append('orient', 5);
-          break;
-        case Orientation.Degrees90TowardsRight:
-          query.append('orient', 6);
-          break;
-        case Orientation.HorizontallyAndRotate90DegreesRight:
-          query.append('orient', 7);
-          break;
-        case Orientation.Rotate90DegreesLeft:
-          query.append('orient', 8);
-          break;
-      }
+    switch(orient) {
+      case Orientation.ToDefault:
+        query.append('orient', 1);
+        break;
+      case Orientation.Horizontally:
+        query.append('orient', 2);
+        break;
+      case Orientation.HorizontallyAndVertically:
+        query.append('orient', 3);
+        break;
+      case Orientation.Vertically:
+        query.append('orient', 4);
+        break;
+      case Orientation.HorizontallyAndRotate90DegreeLeft:
+        query.append('orient', 5);
+        break;
+      case Orientation.Degrees90TowardsRight:
+        query.append('orient', 6);
+        break;
+      case Orientation.HorizontallyAndRotate90DegreesRight:
+        query.append('orient', 7);
+        break;
+      case Orientation.Rotate90DegreesLeft:
+        query.append('orient', 8);
+        break;
     }
-  }
+    }
 
   /// The overlay parameter allows you to put one image on top of another.
   /// You need to specify the relative URL of the image as

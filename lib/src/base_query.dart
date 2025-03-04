@@ -21,7 +21,7 @@ class BaseQuery {
   /// ```
   ///
   void addParams(Map parameters) {
-    if (parameters != null && parameters.isNotEmpty) {
+    if (parameters.isNotEmpty) {
       parameters.forEach((key, value) {
         queryParameter[key] = value;
       });
@@ -40,7 +40,7 @@ class BaseQuery {
   /// ```
   ///
   void addQuery(Map parameters) {
-    if (parameters != null && parameters.isNotEmpty) {
+    if (parameters.isNotEmpty) {
       parameters.forEach((key, value) {
         parameter[key] = value;
       });
@@ -113,7 +113,7 @@ class BaseQuery {
   /// ```
   ///
   void param(String key, String value) {
-    if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
+    if (key.isNotEmpty && value.isNotEmpty) {
       queryParameter[key] = value.toString();
     }
   }
@@ -131,7 +131,7 @@ class BaseQuery {
   /// ```
   ///
   void query(String key, String value) {
-    if (key != null && value != null && key.isNotEmpty && value.isNotEmpty) {
+    if (key.isNotEmpty && value.isNotEmpty) {
       parameter[key] = value.toString();
     }
   }
@@ -156,7 +156,7 @@ class BaseQuery {
   }
 
   void where(String fieldUid, QueryOperation queryOperation) {
-    if (fieldUid != null && fieldUid.isNotEmpty) {
+    if (fieldUid.isNotEmpty) {
       switch(queryOperation.operationType) {
         case QueryOperationType.Equals:
           parameter[fieldUid] = queryOperation.value;
