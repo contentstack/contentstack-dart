@@ -394,6 +394,7 @@ void main() {
       await query.find().then((response) {
         final completeUrl = query.getQueryUrl()['query'];
         //(response.toString());
+        print(completeUrl.toString());
         expect('{\"\$or\":[{\"title\":\"Room 13\"},{\"number\":20}]}',
             completeUrl);
       }).catchError((onError) {
