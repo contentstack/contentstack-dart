@@ -15,3 +15,5 @@ export 'src/models/entrymodel.dart';
 export 'src/models/syncresult.dart';
 export 'src/query.dart';
 export 'src/stack.dart';
+export 'src/enums/include.dart';
+export 'src/enums/include_type.dart';
