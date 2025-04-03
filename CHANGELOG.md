@@ -1,8 +1,9 @@
 # CHANGELOG
 
-### **APR-01-2025**
+### **APR-14-2025**
 
 #### v1.0.1 - SRE fixes
+#### workflow fix
 
 ### **FEB-17-2025**
 
