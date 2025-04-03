@@ -143,7 +143,7 @@ void main() {
   group('testcase for URLQueryParams', () {
     test('test query_params', () {
       final params = URLQueryParams()..append('key', 'value');
-      final url = params.toUrl('cdn.contentstack.io/');
+      final url = params.toUrl('cdn.contentstack.io');
       expect('cdn.contentstack.io?key=value', url);
     });
 
