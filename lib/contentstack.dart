@@ -8,6 +8,8 @@ export 'src/asset.dart';
 export 'src/contenttype.dart';
 export 'src/contenttype_query.dart';
 export 'src/entry.dart';
+export 'src/enums/include.dart';
+export 'src/enums/include_type.dart';
 export 'src/error/error.dart';
 export 'src/image_transform.dart';
 export 'src/models/assetmodel.dart';

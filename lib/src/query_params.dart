@@ -5,7 +5,8 @@ class URLQueryParams {
   // Appends a parameter to the query with received key.
   void append(String key, dynamic value) {
     if (value != null && value.toString().isNotEmpty) {
-      _values[key] = Uri.encodeQueryComponent(value.toString());
+      final sanitizedValue = _sanitizeInput(value.toString());
+      _values[key] = Uri.encodeQueryComponent(sanitizedValue);
     }
   }
 
@@ -18,20 +19,22 @@ class URLQueryParams {
   // * param1=value1&param2=value2
   @override
   String toString() {
-    String response = '';
-    _values.forEach((key, value) {
-      response += '$key=$value&';
-    });
-    return response.substring(0, response.isEmpty ? 0 : response.length - 1);
+    return _values.entries
+        .map((entry) => '${Uri.encodeQueryComponent(entry.key)}=${entry.value}')
+        .join('&');
   }
 
-  String toUrl(String urls) {
-    String updatedUrl;
-    if (urls.isNotEmpty && urls.endsWith('/')) {
-      updatedUrl = urls.substring(0, urls.length - 1);
-    } else {
-      updatedUrl = urls;
-    }
-    return '$updatedUrl?${toString()}';
+  String toUrl(String url) {
+    if (url.isEmpty) throw ArgumentError('URL cannot be empty');
+
+    final Uri parsedUri = Uri.parse(url);
+    final String normalizedUrl = parsedUri.normalizePath().toString();
+
+    return Uri.parse('$normalizedUrl?${toString()}').toString();
+  }
+
+  String _sanitizeInput(String input) {
+    final pattern = RegExp(r'[<>\"\;(){}]');
+    return input.replaceAll(pattern, '');
   }
 }

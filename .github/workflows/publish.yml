@@ -5,9 +5,7 @@ on:
   push:
     tags:
     - 'v[0-9]+.[0-9]+.[0-9]+' # tag pattern on pub.dev: 'v{{version}'
-  release:
-    types: [ created ]
-
+  workflow_dispatch: # Allow manual trigger
 # Publish using custom workflow
 jobs:
   publish:

@@ -1,4 +1,4 @@
-// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: lines_longer_than_80_chars, unnecessary_lambdas
 
 import 'package:contentstack/constant.dart';
 import 'package:contentstack/src/enums/include.dart';
@@ -7,6 +7,11 @@ import 'package:contentstack/src/enums/include_type.dart';
 /// Applies Queries on [Entry](https://www.contentstack.com/docs/developers/apis/content-delivery-api/#entries)
 class EntryQueryable {
   Map<String, Object?> parameter = <String, Object?>{};
+
+  //sanitize
+  String sanitizeInput(String input) {
+  return input.replaceAll(RegExp(r'[^a-zA-Z0-9-_.]'), '');
+}
 
   ///
   /// This method adds key and value to an Entry.
@@ -43,10 +48,7 @@ class EntryQueryable {
   ///
   void except(List<String> fieldUid) {
     if (fieldUid.isNotEmpty) {
-      final List referenceArray = [];
-      for (final item in fieldUid) {
-        referenceArray.add(item);
-      }
+      final List<String> referenceArray = fieldUid.map((item) => sanitizeInput(item)).toList();
       parameter['except[BASE][]'] = referenceArray.toString();
     }
   }
@@ -171,15 +173,15 @@ class EntryQueryable {
           case IncludeType.None:
             if (referenceFieldUid.runtimeType == List) {
               for (var uid in referenceFieldUid) {
-                referenceArray.add(uid);
+                referenceArray.add(sanitizeInput(uid));
               }
             } else if (referenceFieldUid.runtimeType == String) {
-              referenceArray.add(referenceFieldUid);
+              referenceArray.add(sanitizeInput(referenceFieldUid));
             }
 
             if (includeReferenceField.fieldUidList.isNotEmpty) {
               for (final item in includeReferenceField.fieldUidList) {
-                referenceArray.add(item);
+                referenceArray.add(sanitizeInput(item));
               }
             }
             parameter['include[]'] = referenceArray.toString();
@@ -188,7 +190,7 @@ class EntryQueryable {
             final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
             if (includeReferenceField.fieldUidList.isNotEmpty) {
               for (final item in includeReferenceField.fieldUidList) {
-                referenceArray.add(item);
+                referenceArray.add(sanitizeInput(item));
               }
             }
             referenceOnlyParam[referenceFieldUid] = referenceArray;
@@ -199,7 +201,7 @@ class EntryQueryable {
             final Map<String, dynamic> referenceOnlyParam = <String, dynamic>{};
             if (includeReferenceField.fieldUidList.isNotEmpty) {
               for (final item in includeReferenceField.fieldUidList) {
-                referenceArray.add(item);
+                referenceArray.add(sanitizeInput(item));
               }
             }
             referenceOnlyParam[referenceFieldUid] = referenceArray;
@@ -262,10 +264,7 @@ class EntryQueryable {
   ///
   void only(List<String> fieldUid) {
     if (fieldUid.isNotEmpty) {
-      final List referenceArray = [];
-      for (final item in fieldUid) {
-        referenceArray.add(item);
-      }
+      final List<String> referenceArray = fieldUid.map((item) => sanitizeInput(item)).toList();
       parameter['only[BASE][]'] = referenceArray.toString();
     }
   }

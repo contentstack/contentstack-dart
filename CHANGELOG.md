@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### **APR-14-2025**
+
+#### v1.0.1 - SRE fixes
+#### workflow fix
+
 ### **FEB-17-2025**
 
 #### v1.0.0 - v3 migration null support added
