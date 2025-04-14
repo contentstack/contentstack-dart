@@ -156,8 +156,8 @@ class BaseQuery {
   }
 
   void where(String fieldUid, QueryOperation queryOperation) {
-    if (fieldUid.isNotEmpty) {
-      switch(queryOperation.operationType) {
+   if(_isValidFieldUid(fieldUid)) {
+      switch (queryOperation.operationType) {
         case QueryOperationType.Equals:
           parameter[fieldUid] = queryOperation.value;
           break;
@@ -191,4 +191,10 @@ class BaseQuery {
       }
     }
   }
+
+  bool _isValidFieldUid(String fieldUid) {
+    final validFieldUidPattern = RegExp(r'^[a-zA-Z0-9-_.]+$');
+    return validFieldUidPattern.hasMatch(fieldUid);
+  }
+
 }
