@@ -5,14 +5,14 @@ on:
   push:
     tags:
     - 'v[0-9]+.[0-9]+.[0-9]+' # tag pattern on pub.dev: 'v{{version}'
-  release:
-    types: [ created ]
-
+  workflow_dispatch: # Allow manual trigger
 # Publish using custom workflow
 jobs:
   publish:
     permissions:
-      id-token: write # Required for authentication using OIDC
+      id-token: write  # Required for OIDC authentication
+    name: 'Publish to pub.dev'
+    environment: 'pub.dev'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
