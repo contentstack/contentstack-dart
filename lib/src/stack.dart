@@ -465,7 +465,6 @@ class Stack {
     };
     await http.get(Uri.parse(_url), headers: _headers).then((response) {
       final Map bodyJson = json.decode(utf8.decode(response.bodyBytes));
-      print(bodyJson);
       livePreview!['entry'] = bodyJson['entry'];
     });
   }

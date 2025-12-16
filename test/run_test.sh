@@ -1,5 +1,5 @@
-dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '\.g\.dart$'
-
+# dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '\.g\.dart$'
+#!/bin/bash
 
 ## Run Dart tests and output them at directory `./coverage`:
 dart run test --coverage=./coverage

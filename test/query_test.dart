@@ -419,13 +419,19 @@ void main() {
         for (final item in ascList) {
           if (counter != 0) {
             final newValue = item['number'];
-            oldnumber = item['number'];
-            if (oldnumber! <= newValue) {
+            // Skip entries with null number values
+            if (newValue == null || oldnumber == null) {
+              oldnumber = newValue;
+              counter++;
+              continue;
+            }
+            if (oldnumber <= newValue) {
               expect(true, true);
             } else {
               expect(true, false);
             }
           }
+          oldnumber = item['number'];
           counter++;
         }
       });
