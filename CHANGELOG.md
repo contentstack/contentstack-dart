@@ -2,7 +2,7 @@
 
 ### **JAN-12-2026**
 
-#### v1.0.2 - Snyk fixes
+#### v1.0.2 - Improved Error messages
 
 ### **APR-14-2025**
 
