@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### **JAN-12-2026**
+
+#### v1.0.2 - Snyk fixes
+
 ### **APR-14-2025**
 
 #### v1.0.1 - SRE fixes
