@@ -25,7 +25,7 @@ class URLQueryParams {
   }
 
   String toUrl(String url) {
-    if (url.isEmpty) throw ArgumentError('URL cannot be empty');
+    if (url.isEmpty) throw ArgumentError('URL is required. Provide a valid URL and try again.');
 
     final Uri parsedUri = Uri.parse(url);
     final String normalizedUrl = parsedUri.normalizePath().toString();
