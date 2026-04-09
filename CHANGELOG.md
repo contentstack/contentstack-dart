@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### **APR-09-2026**
+
+#### Documentation
+
+- Add deprecation notice and migration guidance to the Content Delivery API. See [DEPRECATION.md](DEPRECATION.md).
+
 ### **JAN-12-2026**
 
 #### v1.0.2 - Improved Error messages
