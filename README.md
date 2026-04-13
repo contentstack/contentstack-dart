@@ -1,5 +1,11 @@
 # ![Contentstack](https://www.contentstack.com/docs/static/images/contentstack.png)
 
+## Important: Dart SDK and pub.dev
+
+**We are deprecating** the **Contentstack** Dart SDK on pub.dev as the supported path for **new** development. **New Dart or Flutter projects should use the [Content Delivery API](https://www.contentstack.com/docs/developers/apis/content-delivery-api/)** directly with the HTTP client of your choice.
+
+**Already using this SDK?** You can keep shipping with your current dependencies and migrate when it makes sense for your app. More detail: **[DEPRECATION.md](DEPRECATION.md)**.
+
 ## Dart SDK for Contentstack
 
 ![version](https://img.shields.io/github/v/release/contentstack/contentstack-dart)
