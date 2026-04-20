@@ -1,6 +1,6 @@
 name: contentstack
 description: Contentstack is a headless CMS with an API-first approach that puts content at the centre.
-version: 1.0.2
+version: 1.0.3
 homepage: https://www.contentstack.com
 documentation: https://www.contentstack.com/docs/developers/apis/content-delivery-api
 
@@ -24,4 +24,3 @@ dev_dependencies:
   build_web_compilers: ^4.0.11
   json_serializable: ^6.9.0
   test: ^1.20.1
-
